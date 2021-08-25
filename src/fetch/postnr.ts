@@ -18,9 +18,8 @@ type TpsPostnrSokResponse = {
 const fetchTpsPostnrSok = async (
     postnr: string
 ): Promise<TpsPostnrSokResponse | ErrorResponse> => {
-    return await fetchJson(`${apiUrl}?postnr=${postnr}`, {
-        soketype: 'L',
-        postnr: postnr,
+    return await fetchJson(apiUrl, {
+        postnr,
     });
 };
 
