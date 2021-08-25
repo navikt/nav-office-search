@@ -9,7 +9,6 @@ RUN npm ci
 
 # Copying build folders
 COPY .next /app/.next/
-COPY public /app/public/
 
 # Copy necesarry files
 COPY next.config.js /app/
