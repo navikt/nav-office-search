@@ -1,0 +1,14 @@
+.searchForm {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.searchField input {
+    height: 3rem;
+}
+
+.searchButton {
+    height: 3rem;
+    align-self: flex-end;
+    margin-left: 0.5rem;
+}
