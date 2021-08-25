@@ -14,7 +14,7 @@ export const SearchForm = () => {
             })}`
         )
             .then((res) => res.json())
-            .then((json) => console.log(json));
+            .then((json) => console.log('response:', json));
     };
 
     return (

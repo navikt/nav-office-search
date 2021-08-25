@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { responseFromPostnrSearch } from '../../fetch/postnr';
 
 type SearchParams = {
     postnr?: string;
@@ -14,7 +15,9 @@ const searchHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             .json({ message: 'No valid parameters provided' });
     }
 
-    console.log('searching');
+    if (postnr) {
+        return responseFromPostnrSearch(postnr, res);
+    }
 
     return res.status(200);
 };
