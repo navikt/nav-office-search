@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3005",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3005",
     "start-clean": "rm -fr .next && npm run build && npm start",
     "lint": "next lint",
     "deploy": "npx run-func trigger-workflow.js triggerWorkflow",
