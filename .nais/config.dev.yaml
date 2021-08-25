@@ -17,9 +17,7 @@ spec:
     path: /person/finnkontor/api/internal/isReady
     initialDelay: 10
   ingresses:
-  {{#each ingresses as |url|}}
-    - {{url}}
-  {{/each}}
+    - https://finnkontor.dev.nav.no/person/finnkontor
   replicas:
     min: 1
     max: 1

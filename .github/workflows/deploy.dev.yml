@@ -51,8 +51,6 @@ jobs:
         run: |
           cat > .nais/vars.yaml <<EOF
           namespace: personbruker
-          ingresses:
-            - https://www.dev.nav.no/person/finnkontor
           image: $IMAGE_REGISTRY/$IMAGE_NAME
           version: $IMAGE_VERSION
           EOF
