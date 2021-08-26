@@ -13,10 +13,9 @@ export const fetchToken = async () => {
             client_id: process.env.AZURE_APP_CLIENT_ID,
             client_secret: process.env.AZURE_APP_CLIENT_SECRET,
             scope: `api://${process.env.API_CLIENT_ID}/.default`,
-        }),
+        }).replace('?', ''),
     });
 
-    fetch('asdf', {});
     if (response.ok) {
         return await response.json();
     }
