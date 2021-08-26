@@ -19,11 +19,10 @@ export const fetchToken = async () => {
         ),
     });
 
-    if (response.ok) {
-        return await response.json();
+    if (!response.access_token) {
+        console.error('Bad response from token service', response);
+        throw new Error('Failed to fetch token!');
     }
 
-    console.error('Bad response from token service', response);
-
-    throw new Error('Failed to fetch token!');
+    return response.access_token;
 };
