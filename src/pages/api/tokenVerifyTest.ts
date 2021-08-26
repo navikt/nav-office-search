@@ -1,39 +1,43 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchAccessToken } from '../../fetch/auth';
-import jwt, { JwtHeader, SigningKeyCallback } from 'jsonwebtoken';
-import jwks, { SigningKey } from 'jwks-rsa';
+import jwt, {
+    JwtHeader,
+    SigningKeyCallback,
+    VerifyCallback,
+} from 'jsonwebtoken';
+import jwks from 'jwks-rsa';
 
 const oneHourInMs = 60 * 60 * 1000;
 
 const jwksClient = jwks({
     jwksUri: process.env.AZURE_OPENID_CONFIG_JWKS_URI as string,
-    cacheMaxAge: oneHourInMs,
+    cache: false,
+    // cacheMaxAge: oneHourInMs,
 });
 
-const getKey = (header: JwtHeader, callback: SigningKeyCallback) => {
-    jwksClient.getSigningKey(
-        header.kid,
-        () => (err: Error | null, key: SigningKey) => {
-            callback(null, key.getPublicKey());
-        }
-    );
+const getSigningKey = async (
+    header: JwtHeader,
+    callback: SigningKeyCallback
+) => {
+    const key = await jwksClient.getSigningKey(header.kid);
+    callback(undefined, key.getPublicKey());
 };
 
 const decodeBase64 = (str: string) => Buffer.from(str, 'base64').toString();
 
-export const validateAccessToken = async (accessToken: string) => {
-    try {
-        jwt.verify(accessToken, getKey, {
+export const validateAccessToken = (
+    accessToken: string,
+    callback: VerifyCallback
+) => {
+    jwt.verify(
+        accessToken,
+        getSigningKey,
+        {
             algorithms: ['RS256', 'RS384', 'RS512'],
             audience: 'fac85085-57c2-4e97-9ad2-d7553a9fa84d',
-            complete: true,
-        });
-    } catch (e) {
-        console.error(`Failed to verify access token - ${e}`);
-        return false;
-    }
-
-    return true;
+        },
+        callback
+    );
 };
 
 const verifyTest = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -43,13 +47,15 @@ const verifyTest = async (req: NextApiRequest, res: NextApiResponse) => {
     const token = await fetchAccessToken();
 
     if (token) {
-        const response = await validateAccessToken(token);
+        validateAccessToken(token, (err, decoded) => {
+            if (err) {
+                console.error(err);
+                res.status(400).json({ message: 'Could not validate token' });
+            }
 
-        if (!response) {
-            res.status(400).json({ message: 'Could not validate token' });
-        }
-
-        return res.status(200).json(response);
+            console.log(decoded);
+            return res.status(200).json(decoded);
+        });
     }
 
     return res.status(400).json({ message: 'Could not fetch token' });
