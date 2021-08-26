@@ -8,12 +8,15 @@ export const fetchToken = async () => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: objectToQueryString({
-            grant_type: 'client_credentials',
-            client_id: process.env.AZURE_APP_CLIENT_ID,
-            client_secret: process.env.AZURE_APP_CLIENT_SECRET,
-            scope: `api://${process.env.API_CLIENT_ID}/.default`,
-        }).replace('?', ''),
+        body: objectToQueryString(
+            {
+                grant_type: 'client_credentials',
+                client_id: process.env.AZURE_APP_CLIENT_ID,
+                client_secret: process.env.AZURE_APP_CLIENT_SECRET,
+                scope: `api://${process.env.API_CLIENT_ID}/.default`,
+            },
+            ''
+        ),
     });
 
     if (response.ok) {
