@@ -23,7 +23,6 @@ const fetchToken = async () => {
         }
     );
 
-    fetch('asdf', {});
     if (response.ok) {
         return await response.json();
     }
