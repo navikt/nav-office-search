@@ -24,7 +24,7 @@ spec:
   azure:
     application:
       enabled: true
-      tenant: trydgeetaten.no
+      tenant: trygdeetaten.no
   accessPolicy:
     outbound:
       external:
