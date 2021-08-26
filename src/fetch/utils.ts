@@ -1,4 +1,4 @@
-import fetch, { HeadersInit } from 'node-fetch';
+import fetch from 'node-fetch';
 
 export type ErrorResponse = {
     error: true;
@@ -32,14 +32,12 @@ export const objectToQueryString = (params?: object) =>
 export const fetchJson = async (
     apiUrl: string,
     params?: object,
-    headers?: HeadersInit
+    options?: object
 ) => {
     const url = `${apiUrl}${params ? objectToQueryString(params) : ''}`;
 
     try {
-        const res = await fetch(url, {
-            headers: headers,
-        });
+        const res = await fetch(url, options);
 
         const isJson = res.headers
             ?.get('content-type')
