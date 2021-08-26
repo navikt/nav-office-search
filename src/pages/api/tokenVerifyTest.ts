@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchAccessToken } from '../../fetch/auth';
-import jwt from 'jsonwebtoken';
-import jwks from 'jwks-rsa';
+import jwt, { JwtHeader, SigningKeyCallback } from 'jsonwebtoken';
+import jwks, { SigningKey } from 'jwks-rsa';
 
 const oneHourInMs = 60 * 60 * 1000;
 
@@ -10,48 +10,30 @@ const jwksClient = jwks({
     cacheMaxAge: oneHourInMs,
 });
 
-const verifySigningKey = async (kid: string) => {
-    const key = await jwksClient.getSigningKey(kid);
-    return !!key.getPublicKey();
+const getKey = (header: JwtHeader, callback: SigningKeyCallback) => {
+    jwksClient.getSigningKey(
+        header.kid,
+        () => (err: Error | null, key: SigningKey) => {
+            callback(null, key.getPublicKey());
+        }
+    );
 };
 
 const decodeBase64 = (str: string) => Buffer.from(str, 'base64').toString();
 
 export const validateAccessToken = async (accessToken: string) => {
     try {
-        const decodedToken = jwt.verify(
-            accessToken,
-            process.env.AZURE_APP_CLIENT_SECRET as string,
-            {
-                algorithms: ['RS256', 'RS384', 'RS512'],
-                audience: 'fac85085-57c2-4e97-9ad2-d7553a9fa84d',
-                complete: true,
-            }
-        );
-
-        console.log('token:', decodedToken);
-
-        if (typeof decodedToken !== 'object') {
-            return false;
-        }
-
-        const kid = decodedToken.header.kid;
-
-        if (!kid) {
-            console.error('kid header was not provided');
-            return false;
-        }
-
-        if (!(await verifySigningKey(kid))) {
-            console.error('No matching signing key found');
-            return false;
-        }
-
-        return decodedToken;
+        jwt.verify(accessToken, getKey, {
+            algorithms: ['RS256', 'RS384', 'RS512'],
+            audience: 'fac85085-57c2-4e97-9ad2-d7553a9fa84d',
+            complete: true,
+        });
     } catch (e) {
         console.error(`Failed to verify access token - ${e}`);
         return false;
     }
+
+    return true;
 };
 
 const verifyTest = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -61,7 +43,7 @@ const verifyTest = async (req: NextApiRequest, res: NextApiResponse) => {
     const token = await fetchAccessToken();
 
     if (token) {
-        const response = validateAccessToken(token);
+        const response = await validateAccessToken(token);
 
         if (!response) {
             res.status(400).json({ message: 'Could not validate token' });
