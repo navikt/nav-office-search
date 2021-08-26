@@ -18,6 +18,8 @@
     "amplitude-js": "^8.5.0",
     "html-react-parser": "^1.2.8",
     "jsdom": "^16.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.4",
     "next": "^11.1.0",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@octokit/core": "^3.5.1",
+    "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^16.7.1",
     "@types/node-fetch": "^2.5.12",
     "@types/react": "^17.0.16",
