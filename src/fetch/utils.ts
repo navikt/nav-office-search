@@ -6,7 +6,7 @@ export type ErrorResponse = {
     message: string;
 };
 
-const errorResponse = (
+export const errorResponse = (
     code: number,
     message: string,
     url: string

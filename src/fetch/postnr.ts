@@ -1,5 +1,6 @@
-import { ErrorResponse, fetchJson } from './utils';
+import { errorResponse, ErrorResponse, fetchJson } from './utils';
 import { NextApiResponse } from 'next';
+import { fetchAccessToken } from './auth';
 
 const apiUrl = process.env.API_URL as string;
 
@@ -18,9 +19,21 @@ type TpsPostnrSokResponse = {
 const fetchTpsPostnrSok = async (
     postnr: string
 ): Promise<TpsPostnrSokResponse | ErrorResponse> => {
-    return await fetchJson(apiUrl, {
-        postnr,
-    });
+    const accessToken = await fetchAccessToken();
+    if (!accessToken) {
+        console.error('Failed to fetch access token');
+        return errorResponse(401, 'Failed to fetch access token', '');
+    }
+
+    const tokenBase64 = new Buffer(accessToken).toString('base64');
+
+    return await fetchJson(
+        apiUrl,
+        {
+            postnr,
+        },
+        { headers: { Authorization: `Bearer ${tokenBase64}` } }
+    );
 };
 
 const isPostbox = (postnr: string) => {

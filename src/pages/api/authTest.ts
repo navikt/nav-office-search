@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { fetchToken } from '../../fetch/auth';
+import { fetchAccessToken } from '../../fetch/auth';
 
 const authTest = async (req: NextApiRequest, res: NextApiResponse) => {
-    const tokenData = await fetchToken();
+    const tokenData = await fetchAccessToken();
 
     return res.status(200).json(tokenData);
 };
