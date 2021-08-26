@@ -53,7 +53,12 @@ export const fetchJson = async (
             return errorResponse(500, 'Did not receive a JSON-response', url);
         }
 
-        const errorMsg = (await res.json()).message || res.statusText;
+        const errorJson = await res.json();
+
+        console.error('Error fetching json:', errorJson);
+
+        const errorMsg =
+            errorJson.message || errorJson.error_description || res.statusText;
 
         return errorResponse(res.status, errorMsg, url);
     } catch (e) {
