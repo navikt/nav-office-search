@@ -21,6 +21,10 @@ spec:
   replicas:
     min: 2
     max: 4
+  azure:
+    application:
+      enabled: true
+      tenant: trydgeetaten.no
   accessPolicy:
     outbound:
       external:
