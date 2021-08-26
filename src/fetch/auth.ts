@@ -2,7 +2,7 @@ import { fetchJson, objectToQueryString } from './utils';
 
 const tokenUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`;
 
-const fetchToken = async () => {
+export const fetchToken = async () => {
     const response = await fetchJson(tokenUrl, undefined, {
         method: 'POST',
         headers: {
@@ -25,5 +25,3 @@ const fetchToken = async () => {
 
     throw new Error('Failed to fetch token!');
 };
-
-export const authPlaceholder = () => null;
