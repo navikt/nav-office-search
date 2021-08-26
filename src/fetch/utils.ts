@@ -30,14 +30,14 @@ export const objectToQueryString = (params?: object) =>
         : '';
 
 export const fetchJson = async (
-    apiUrl: string,
+    url: string,
     params?: object,
     options?: object
 ) => {
-    const url = `${apiUrl}${params ? objectToQueryString(params) : ''}`;
+    const urlWithQuery = `${url}${params ? objectToQueryString(params) : ''}`;
 
     try {
-        const res = await fetch(url, options);
+        const res = await fetch(urlWithQuery, options);
 
         const isJson = res.headers
             ?.get('content-type')
@@ -48,7 +48,11 @@ export const fetchJson = async (
         }
 
         if (res.ok) {
-            return errorResponse(500, 'Did not receive a JSON-response', url);
+            return errorResponse(
+                500,
+                'Did not receive a JSON-response',
+                urlWithQuery
+            );
         }
 
         const errorJson = await res.json();
@@ -58,8 +62,8 @@ export const fetchJson = async (
         const errorMsg =
             errorJson.message || errorJson.error_description || res.statusText;
 
-        return errorResponse(res.status, errorMsg, url);
+        return errorResponse(res.status, errorMsg, urlWithQuery);
     } catch (e) {
-        return errorResponse(500, e.toString(), url);
+        return errorResponse(500, e.toString(), urlWithQuery);
     }
 };
