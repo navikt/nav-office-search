@@ -14,6 +14,9 @@ COPY .next /app/.next/
 COPY next.config.js /app/
 COPY .env  /app/
 
+# Copy raw data
+COPY rawdata /usr/src/app/rawdata/
+
 # Start app
 EXPOSE 3005
 CMD ["npm", "run", "start"]
