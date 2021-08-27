@@ -15,7 +15,7 @@ COPY next.config.js /app/
 COPY .env  /app/
 
 # Copy raw data
-COPY rawdata /usr/src/app/rawdata/
+COPY rawdata /app/rawdata/
 
 # Start app
 EXPOSE 3005
