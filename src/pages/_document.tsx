@@ -1,7 +1,13 @@
 import React from 'react';
-import Document, { DocumentContext, Head, Html, Main, NextScript, } from 'next/document';
-import { getDecoratorComponents } from '../utils/decorator';
-import { Components } from "@navikt/nav-dekoratoren-moduler/ssr";
+import Document, {
+    DocumentContext,
+    Head,
+    Html,
+    Main,
+    NextScript,
+} from 'next/document';
+import { getDecoratorComponents } from '../decorator';
+import { Components } from '@navikt/nav-dekoratoren-moduler/ssr';
 
 type DocumentProps = {
     Decorator: Components;
@@ -28,11 +34,11 @@ class MyDocument extends Document<DocumentProps> {
                     <Decorator.Styles />
                 </Head>
                 <body>
-                <Decorator.Header />
-                <Main />
-                <Decorator.Footer />
-                <Decorator.Scripts />
-                <NextScript />
+                    <Decorator.Header />
+                    <Main />
+                    <Decorator.Footer />
+                    <Decorator.Scripts />
+                    <NextScript />
                 </body>
             </Html>
         );
