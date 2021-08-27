@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { responseFromPostnrSearch } from '../../fetch/postnr';
+import { responseFromPostnrSearch } from '../../fetch/search-postnr';
 
 type Params = {
     postnr?: string;

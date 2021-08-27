@@ -28,3 +28,16 @@ export const normalizeString = (str: string) =>
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
         .replace(replaceSpecialCharPattern, replaceSpecialCharFunc);
+
+export const removeDuplicates = <Type>(
+    array: Type[],
+    isEqualPredicate?: (a: any, b: any) => boolean
+): Type[] =>
+    isEqualPredicate
+        ? array.filter((aItem, aIndex) => {
+              const bIndex = array.findIndex((bItem) =>
+                  isEqualPredicate(aItem, bItem)
+              );
+              return aIndex === bIndex;
+          })
+        : [...new Set(array)];

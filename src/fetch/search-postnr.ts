@@ -1,4 +1,4 @@
-import { errorResponse, ErrorResponse, fetchJson } from './utils';
+import { errorResponse, ErrorResponse, fetchJson } from './fetch-utils';
 import { NextApiResponse } from 'next';
 import { getAuthorizationHeader } from './auth';
 import {

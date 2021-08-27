@@ -1,4 +1,4 @@
-import { fetchJson, objectToQueryString } from './utils';
+import { fetchJson, objectToQueryString } from './fetch-utils';
 import { encodeBase64 } from '../utils';
 
 const tokenUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`;

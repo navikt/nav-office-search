@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import style from './SearchForm.module.css';
 import { Button, TextField } from '@navikt/ds-react';
-import { objectToQueryString } from '../../fetch/utils';
+import { objectToQueryString } from '../../fetch/fetch-utils';
 
 const apiUrl = `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/search`;
 
