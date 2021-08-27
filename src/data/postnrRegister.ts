@@ -47,7 +47,7 @@ const postnrRegisterCache = new Cache({
 
 postnrRegisterCache.on('expired', (key) => {
     if (key === postnrRegisterCacheKey) {
-        refreshPostnrRegister();
+        loadPostnrRegister();
     }
 });
 
@@ -70,7 +70,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
     });
 };
 
-const refreshPostnrRegister = async () => {
+const loadPostnrRegister = async () => {
     const postnrRegisterData = await fetchPostnrRegister();
 
     if (postnrRegisterData) {
@@ -119,3 +119,5 @@ const fetchPostnrRegister = async (): Promise<string | null> => {
 
 export const getPostnrRegister = (): PostnrData[] =>
     postnrRegisterCache.get(postnrRegisterCacheKey) as PostnrData[];
+
+loadPostnrRegister();
