@@ -8,15 +8,6 @@ type TokenResponse = {
     access_token: string;
 };
 
-type ErrorResponse = {
-    error: string;
-    error_description: string;
-    error_codes: number[];
-    timestamp: string;
-    trace_id: string;
-    correlation_id: string;
-};
-
 export const fetchAccessToken = async (): Promise<TokenResponse | null> => {
     const response = await fetchJson(tokenUrl, undefined, {
         method: 'POST',
