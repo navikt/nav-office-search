@@ -1,6 +1,7 @@
 import { errorResponse, ErrorResponse, fetchJson } from './utils';
 import { NextApiResponse } from 'next';
 import { fetchAccessToken } from './auth';
+import { encodeBase64 } from '../utils/base64';
 
 const apiUrl = process.env.API_URL as string;
 
@@ -25,7 +26,7 @@ const fetchTpsPostnrSok = async (
         return errorResponse(401, 'Failed to fetch access token', '');
     }
 
-    const tokenBase64 = new Buffer(accessToken).toString('base64');
+    const tokenBase64 = encodeBase64(accessToken.access_token);
 
     return await fetchJson(
         apiUrl,
