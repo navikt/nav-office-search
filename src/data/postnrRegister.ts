@@ -1,6 +1,7 @@
 import Cache from 'node-cache';
 import fs from 'fs';
 import { normalizeString } from '../utils';
+import { kommunenrToBydelerMap } from './bydeler';
 
 type Bydel = {
     bydelsnr: string;
@@ -57,7 +58,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
     return itemsRaw.map((itemRaw) => {
         const item = itemRaw.split('\t') as PostnrRegisterItem;
         const [postnr, poststed, kommunenr, _, kategori] = item;
-        // const bydeler = kommunenrToBydelerMap[kommunenr];
+        const bydeler = kommunenrToBydelerMap[kommunenr];
 
         return {
             poststedNormalized: normalizeString(poststed),
@@ -65,7 +66,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
             poststed,
             kommunenr,
             kategori,
-            // ...(bydeler && { bydeler }),
+            ...(bydeler && { bydeler }),
         };
     });
 };

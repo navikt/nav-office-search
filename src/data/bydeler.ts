@@ -10,9 +10,9 @@ export type Bydel = {
 
 type BydelerMap = { [kommunenr: string]: Bydel[] };
 
-const bydelerData: Bydel[] = [];
+export const bydelerData: Bydel[] = [];
 
-const kommunenrToBydelerMap: BydelerMap = {};
+export const kommunenrToBydelerMap: BydelerMap = {};
 
 export const getBydelerData = (): Bydel[] => bydelerData;
 
