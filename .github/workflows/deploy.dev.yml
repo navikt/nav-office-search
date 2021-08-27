@@ -24,7 +24,7 @@ jobs:
           ENV=dev
           APP_ORIGIN=https://finnkontor.dev.nav.no
           APP_BASEPATH=/person/finnkontor
-          API_URL=https://nav-office-search-api.dev-fss-pub.nais.io/api
+          API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
           API_CLIENT_ID=3399e573-0d83-4581-8db9-7b66c8f5f775
           DECORATOR_FALLBACK_URL=https://dekoratoren.dev.nav.no
           EOF

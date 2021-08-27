@@ -1,4 +1,5 @@
 import { fetchJson, objectToQueryString } from './utils';
+import { encodeBase64 } from '../utils';
 
 const tokenUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`;
 
@@ -8,7 +9,7 @@ type TokenResponse = {
     access_token: string;
 };
 
-export const fetchAccessToken = async (): Promise<TokenResponse | null> => {
+const fetchAccessToken = async (): Promise<TokenResponse | null> => {
     const response = await fetchJson(tokenUrl, undefined, {
         method: 'POST',
         headers: {
@@ -31,4 +32,15 @@ export const fetchAccessToken = async (): Promise<TokenResponse | null> => {
     }
 
     return response;
+};
+
+export const getAuthorizationHeader = async () => {
+    const accessToken = await fetchAccessToken();
+    if (!accessToken) {
+        return null;
+    }
+
+    const tokenBase64 = encodeBase64(accessToken.access_token);
+
+    return `Bearer ${tokenBase64}`;
 };

@@ -8,12 +8,11 @@ export type ErrorResponse = {
 
 export const errorResponse = (
     code: number,
-    message: string,
-    url: string
+    message: string
 ): ErrorResponse => ({
     error: true,
     statusCode: code,
-    message: `Error ${code} fetching JSON from ${url} - ${message}`,
+    message: `Error code ${code} - ${message}`,
 });
 
 export const objectToQueryString = (params?: object, firstChar = '?') =>
@@ -50,8 +49,7 @@ export const fetchJson = async (
         if (res.ok) {
             return errorResponse(
                 500,
-                'Did not receive a JSON-response',
-                urlWithQuery
+                `Did not receive a JSON-response from ${urlWithQuery}`
             );
         }
 
@@ -62,8 +60,8 @@ export const fetchJson = async (
         const errorMsg =
             errorJson.message || errorJson.error_description || res.statusText;
 
-        return errorResponse(res.status, errorMsg, urlWithQuery);
+        return errorResponse(res.status, errorMsg);
     } catch (e) {
-        return errorResponse(500, e.toString(), urlWithQuery);
+        return errorResponse(500, e.toString());
     }
 };

@@ -1,14 +1,13 @@
 import { errorResponse, ErrorResponse, fetchJson } from './utils';
 import { NextApiResponse } from 'next';
-import { fetchAccessToken } from './auth';
-import { encodeBase64 } from '../utils';
+import { getAuthorizationHeader } from './auth';
 import {
     getPostnrRegister,
     PostnrData,
     PostnrKategori,
 } from '../data/postnrRegister';
 
-const apiUrl = process.env.API_URL as string;
+const apiUrl = `${process.env.API_ORIGIN}/postnr`;
 
 export type SearchHit = {
     kontorNavn: string;
@@ -26,25 +25,19 @@ type ApiResponse = {
 const fetchTpsPostnrSok = async (
     postnr: string
 ): Promise<ApiResponse | ErrorResponse> => {
-    const accessToken = await fetchAccessToken();
-    if (!accessToken) {
-        console.error('Failed to fetch access token');
-        return errorResponse(401, 'Failed to fetch access token', '');
+    const authorizationHeader = await getAuthorizationHeader();
+
+    if (!authorizationHeader) {
+        return errorResponse(500, 'Failed to get authorization header');
     }
 
-    const tokenBase64 = encodeBase64(accessToken.access_token);
-
-    return await fetchJson(
-        apiUrl,
-        {
-            postnr,
-        },
-        { headers: { Authorization: `Bearer ${tokenBase64}` } }
-    );
+    return await fetchJson(`${apiUrl}/${postnr}`, undefined, {
+        headers: { Authorization: authorizationHeader },
+    });
 };
 
 const postboksResponse = (postnrData: PostnrData) => {
-    return [];
+    return [postnrData.kommunenr];
 };
 
 export const responseFromPostnrSearch = async (
