@@ -58,5 +58,5 @@ export const responseFromPostnrSearch = async (
         return res.status(apiRes.statusCode).send(apiRes.message);
     }
 
-    return res.status(200).send(apiRes.hits || []);
+    return res.status(200).send(apiRes || []);
 };
