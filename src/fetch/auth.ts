@@ -17,7 +17,7 @@ type ErrorResponse = {
     correlation_id: string;
 };
 
-export const fetchAccessToken = async (): Promise<string | null> => {
+export const fetchAccessToken = async (): Promise<TokenResponse | null> => {
     const response = await fetchJson(tokenUrl, undefined, {
         method: 'POST',
         headers: {
@@ -39,5 +39,5 @@ export const fetchAccessToken = async (): Promise<string | null> => {
         return null;
     }
 
-    return response.access_token;
+    return response;
 };
