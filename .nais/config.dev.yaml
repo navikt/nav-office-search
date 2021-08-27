@@ -29,10 +29,10 @@ spec:
     outbound:
       external:
         - host: dekoratoren.dev.nav.no
-        - host: nav-office-search-api.dev.intern.nav.no
+        - host: nav-office-search-api.dev-fss-pub.nais.io
   resources:
     limits:
-      cpu: '3'
-      memory: 1500Mi
+      cpu: '2'
+      memory: 1000Mi
     requests:
-      memory: 1500Mi
+      memory: 1000Mi
