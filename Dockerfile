@@ -10,7 +10,7 @@ RUN npm ci
 # Copying build folders
 COPY .next /app/.next/
 
-# Copy necesarry files
+# Copy necessary files
 COPY next.config.js /app/
 COPY .env  /app/
 

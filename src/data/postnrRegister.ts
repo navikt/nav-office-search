@@ -70,7 +70,24 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
     });
 };
 
-const loadPostnrRegister = async () => {
+const fetchPostnrRegister = async (): Promise<string | null> => {
+    try {
+        return await fetch(bringPostnrRegisterUrl).then((res) => {
+            if (res.ok) {
+                return res.text();
+            }
+
+            throw new Error(
+                `Error fetching postnr register: ${res.status} - ${res.statusText}`
+            );
+        });
+    } catch (e) {
+        console.error(`Error fetching postnr register: ${e}`);
+        return null;
+    }
+};
+
+export const loadPostnrRegister = async () => {
     const postnrRegisterData = await fetchPostnrRegister();
 
     if (postnrRegisterData) {
@@ -100,23 +117,6 @@ const loadPostnrRegister = async () => {
                 600
             );
         }
-    }
-};
-
-const fetchPostnrRegister = async (): Promise<string | null> => {
-    try {
-        return await fetch(bringPostnrRegisterUrl).then((res) => {
-            if (res.ok) {
-                return res.text();
-            }
-
-            throw new Error(
-                `Error fetching postnr register: ${res.status} - ${res.statusText}`
-            );
-        });
-    } catch (e) {
-        console.error(`Error fetching postnr register: ${e}`);
-        return null;
     }
 };
 
