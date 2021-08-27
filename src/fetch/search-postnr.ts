@@ -48,6 +48,8 @@ export const responseFromPostnrSearch = async (
         (item) => item.postnr === postnr
     );
 
+    console.log(postnrData);
+
     if (!postnrData) {
         return res.status(200).send([]);
     }

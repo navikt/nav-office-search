@@ -56,8 +56,8 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
     const itemsRaw = rawText.split('\n');
 
     return itemsRaw.map((itemRaw) => {
-        const item = itemRaw.split('\t') as PostnrRegisterItem;
-        const [postnr, poststed, kommunenr, _, kategori] = item;
+        const item = itemRaw.trim().split('\t') as PostnrRegisterItem;
+        const [postnr, poststed, kommunenr, , kategori] = item;
         const bydeler = kommunenrToBydelerMap[kommunenr];
 
         return {
