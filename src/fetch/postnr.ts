@@ -44,7 +44,7 @@ export const responseFromPostnrSearch = async (
     postnr: string,
     res: NextApiResponse
 ) => {
-    const postnrData = getPostnrRegister().find(
+    const postnrData = (await getPostnrRegister()).find(
         (item) => item.postnr === postnr
     );
 

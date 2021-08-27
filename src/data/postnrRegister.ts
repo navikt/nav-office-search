@@ -75,7 +75,10 @@ const loadPostnrRegister = async () => {
 
     if (postnrRegisterData) {
         console.log('Refreshed postnr register');
-        postnrRegisterCache.set(postnrRegisterCacheKey, postnrRegisterData);
+        postnrRegisterCache.set(
+            postnrRegisterCacheKey,
+            transformPostnrRegisterData(postnrRegisterData)
+        );
     } else {
         if (postnrRegisterCache.has(postnrRegisterCacheKey)) {
             console.error(
@@ -117,7 +120,10 @@ const fetchPostnrRegister = async (): Promise<string | null> => {
     }
 };
 
-export const getPostnrRegister = (): PostnrData[] =>
-    postnrRegisterCache.get(postnrRegisterCacheKey) as PostnrData[];
+export const getPostnrRegister = async (): Promise<PostnrData[]> => {
+    if (!postnrRegisterCache.has(postnrRegisterCacheKey)) {
+        await loadPostnrRegister();
+    }
 
-loadPostnrRegister();
+    return postnrRegisterCache.get(postnrRegisterCacheKey) as PostnrData[];
+};
