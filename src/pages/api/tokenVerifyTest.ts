@@ -34,7 +34,7 @@ export const validateAccessToken = (
         getSigningKey,
         {
             algorithms: ['RS256', 'RS384', 'RS512'],
-            audience: 'fac85085-57c2-4e97-9ad2-d7553a9fa84d',
+            audience: process.env.API_CLIENT_ID,
         },
         callback
     );
@@ -56,9 +56,9 @@ const verifyTest = async (req: NextApiRequest, res: NextApiResponse) => {
             console.log(decoded);
             return res.status(200).json(decoded);
         });
+    } else {
+        return res.status(400).json({ message: 'Could not fetch token' });
     }
-
-    return res.status(400).json({ message: 'Could not fetch token' });
 };
 
 export default verifyTest;
