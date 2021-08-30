@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { responseFromPostnrSearch } from '../../../fetch/search-postnr';
+import { responseFromPostnrSearch } from '../../../fetch/server/search-postnr';
 
 const postnrSearchHandler = async (
     req: NextApiRequest,

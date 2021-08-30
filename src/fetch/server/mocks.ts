@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import { getPostnrRegister } from '../data/postnrRegister';
+import { getPostnrRegister } from '../../data/postnrRegister';
 import { PostnrApiResponse } from './search-postnr';
 
 const azureAdTokenApi = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`;

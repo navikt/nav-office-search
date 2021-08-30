@@ -1,32 +1,56 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import style from './SearchForm.module.css';
 import { Button, TextField } from '@navikt/ds-react';
-import { objectToQueryString } from '../../fetch/fetch-utils';
+import { ResultDropdown } from './ResultDropdown/ResultDropdown';
+import { fetchPostnrResult } from '../../fetch/client/search-postnr';
+import { SearchHitProps } from '../../types/searchHitProps';
+import { LocaleString } from '../../localization/LocaleString';
 
-const apiUrl = `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/search`;
+const isPostnrFormat = (postnr: string) => {
+    return postnr && /\d{4}/.test(postnr);
+};
 
 export const SearchForm = () => {
+    const [searchHits, setSearchHits] = useState<SearchHitProps[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
+
     const onChange = () => {
-        fetch(
-            `${apiUrl}${objectToQueryString({
-                postnr: inputRef.current?.value,
-            })}`
-        )
-            .then((res) => res.json())
-            .then((json) => console.log('response:', json));
+        const input = inputRef.current?.value;
+
+        if (!input) {
+            return;
+        }
+
+        if (isPostnrFormat(input)) {
+            fetchPostnrResult(input).then((hits) => {
+                console.log('response:', hits);
+                setSearchHits(hits);
+            });
+            return;
+        }
     };
 
     return (
         <div className={style.searchForm}>
-            <TextField
-                label={'Søk etter NAV-kontor:'}
-                id={'search-input'}
-                className={style.searchField}
-                ref={inputRef}
-                onChange={onChange}
-            />
-            <Button className={style.searchButton}>{'Søk'}</Button>
+            <div className={style.searchInput}>
+                <TextField
+                    label={<LocaleString id={'inputLabel'} />}
+                    id={'search-input'}
+                    className={style.searchField}
+                    ref={inputRef}
+                    onChange={onChange}
+                />
+                <Button className={style.searchButton}>
+                    <LocaleString id={'inputSubmit'} />
+                </Button>
+            </div>
+            {searchHits.length > 0 && (
+                <div className={style.searchResults}>
+                    {searchHits.map((hit) => (
+                        <div>{hit.hitString}</div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

@@ -1,5 +1,10 @@
 .searchForm {
     display: flex;
+    flex-direction: column;
+}
+
+.searchInput {
+    display: flex;
     justify-content: flex-end;
 }
 
@@ -11,4 +16,10 @@
     height: 3rem;
     align-self: flex-end;
     margin-left: 0.5rem;
+}
+
+.searchResults {
+    margin-top: 0.5rem;
+
+    border: 2px solid var(--navds-color-deepblue-90);
 }

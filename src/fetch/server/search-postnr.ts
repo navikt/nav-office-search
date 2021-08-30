@@ -5,20 +5,14 @@ import {
     getPostnrRegister,
     PostnrData,
     PostnrKategori,
-} from '../data/postnrRegister';
+} from '../../data/postnrRegister';
+import { SearchHitProps } from '../../types/searchHitProps';
 
 const apiUrl = `${process.env.API_ORIGIN}/postnr`;
 
-export type SearchHit = {
-    kontorNavn: string;
-    enhetNr: string;
-    status: string;
-    hitString: string;
-};
-
 export type PostnrApiResponse = {
     error?: undefined;
-    hits: SearchHit[];
+    hits: SearchHitProps[];
 };
 
 const fetchTpsPostnrSok = async (

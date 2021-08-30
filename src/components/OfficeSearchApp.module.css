@@ -1,7 +1,19 @@
 .appContainer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     max-width: 1440px;
     padding: 3rem;
     margin: 0 auto;
+}
+
+.title {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px var(--navds-color-gray-40) solid;
+}
+
+.ingress {
+    text-align: center;
+    margin-bottom: 2rem;
 }
