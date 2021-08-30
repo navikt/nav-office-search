@@ -1,5 +1,5 @@
-import { errorResponse, ErrorResponse, fetchJson } from './fetch-utils';
 import { NextApiResponse } from 'next';
+import { errorResponse, ErrorResponse, fetchJson } from './fetch-utils';
 import { getAuthorizationHeader } from './auth';
 import {
     getPostnrRegister,
@@ -16,15 +16,14 @@ export type SearchHit = {
     hitString: string;
 };
 
-type ApiResponse = {
-    error: undefined;
-    isPostboks: boolean;
+export type PostnrApiResponse = {
+    error?: undefined;
     hits: SearchHit[];
 };
 
 const fetchTpsPostnrSok = async (
     postnr: string
-): Promise<ApiResponse | ErrorResponse> => {
+): Promise<PostnrApiResponse | ErrorResponse> => {
     const authorizationHeader = await getAuthorizationHeader();
 
     if (!authorizationHeader) {

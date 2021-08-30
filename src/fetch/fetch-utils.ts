@@ -1,4 +1,7 @@
-import fetch from 'node-fetch';
+import nodeFetch from 'node-fetch';
+import { mockFetch } from './mocks';
+
+const fetch = process.env.ENV === 'localhost' ? mockFetch : nodeFetch;
 
 export type ErrorResponse = {
     error: true;
