@@ -1,6 +1,8 @@
 .searchForm {
     display: flex;
     flex-direction: column;
+    width: 480px;
+    max-width: 100%;
 }
 
 .searchInput {

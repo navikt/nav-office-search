@@ -25,7 +25,11 @@ const postboksResponse = async (
 
     for (const id of geoIds) {
         const officeInfo = await fetchOfficeInfoByGeoId(id);
-        if (officeInfo && !officeInfo.error) {
+        if (
+            officeInfo &&
+            !officeInfo.error &&
+            !hits.some((hit) => hit.enhetNr === officeInfo.enhetNr)
+        ) {
             hits.push(officeInfo);
         }
     }
