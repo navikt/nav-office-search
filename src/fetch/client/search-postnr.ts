@@ -1,4 +1,4 @@
-import { SearchHitProps } from '../../types/searchHitProps';
+import { SearchHitProps } from '../../types/searchResult';
 
 const apiUrl = `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/postnr`;
 

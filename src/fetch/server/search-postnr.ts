@@ -6,7 +6,7 @@ import {
     PostnrData,
     PostnrKategori,
 } from '../../data/postnrRegister';
-import { SearchHitProps } from '../../types/searchHitProps';
+import { SearchHitProps } from '../../types/searchResult';
 
 const apiUrl = `${process.env.API_ORIGIN}/postnr`;
 

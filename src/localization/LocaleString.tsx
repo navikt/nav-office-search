@@ -18,10 +18,6 @@ export const LocaleString = ({ id }: Props) => {
     const language = 'nb';
 
     return (
-        <>
-            {localeModules[language][id] ||
-                `[Feil: fant ikke tekst for id $
-            {id}]`}
-        </>
+        <>{localeModules[language][id] || `[Feil: mangler tekst for ${id}]`}</>
     );
 };

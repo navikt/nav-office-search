@@ -1,17 +1,17 @@
 import React, { useRef, useState } from 'react';
 import style from './SearchForm.module.css';
 import { Button, TextField } from '@navikt/ds-react';
-import { ResultDropdown } from './ResultDropdown/ResultDropdown';
 import { fetchPostnrResult } from '../../fetch/client/search-postnr';
-import { SearchHitProps } from '../../types/searchHitProps';
+import { SearchHitProps, SearchResultProps } from '../../types/searchResult';
 import { LocaleString } from '../../localization/LocaleString';
+import { SearchResult } from '../SearchResult/SearchResult';
 
 const isPostnrFormat = (postnr: string) => {
     return postnr && /\d{4}/.test(postnr);
 };
 
 export const SearchForm = () => {
-    const [searchHits, setSearchHits] = useState<SearchHitProps[]>([]);
+    const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onChange = () => {
@@ -24,7 +24,13 @@ export const SearchForm = () => {
         if (isPostnrFormat(input)) {
             fetchPostnrResult(input).then((hits) => {
                 console.log('response:', hits);
-                setSearchHits(hits);
+                setSearchResult({
+                    type: 'postnr',
+                    postnr: input,
+                    poststed: 'test',
+                    postnrType: 's',
+                    hits,
+                });
             });
             return;
         }
@@ -44,11 +50,9 @@ export const SearchForm = () => {
                     <LocaleString id={'inputSubmit'} />
                 </Button>
             </div>
-            {searchHits.length > 0 && (
-                <div className={style.searchResults}>
-                    {searchHits.map((hit) => (
-                        <div>{hit.hitString}</div>
-                    ))}
+            {searchResult && (
+                <div className={style.searchResult}>
+                    <SearchResult searchResult={searchResult} />
                 </div>
             )}
         </div>
