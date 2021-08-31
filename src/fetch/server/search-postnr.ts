@@ -6,7 +6,8 @@ import {
     PostnrData,
     PostnrKategori,
 } from '../../data/postnrRegister';
-import { SearchHitProps } from '../../types/searchResult';
+import { PostnrSearchResult, SearchHitProps } from '../../types/searchResult';
+import { fetchOfficeInfoByGeoIds } from './office-info';
 
 const apiUrl = `${process.env.API_ORIGIN}/postnr`;
 
@@ -29,8 +30,37 @@ const fetchTpsPostnrSok = async (
     });
 };
 
-const postboksResponse = (postnrData: PostnrData) => {
-    return [postnrData.kommunenr];
+const postboksResponse = async (
+    postnrData: PostnrData
+): Promise<PostnrSearchResult> => {
+    const geoIds = postnrData.bydeler?.map((bydel) => bydel.bydelsnr) || [
+        postnrData.kommunenr,
+    ];
+
+    console.log(postnrData);
+
+    const hits = await fetchOfficeInfoByGeoIds(geoIds);
+
+    return {
+        hits: hits || [],
+        postnr: postnrData.postnr,
+        poststed: postnrData.poststed,
+        kategori: postnrData.kategori,
+        type: 'postnr',
+    };
+};
+
+const adresseResponse = (
+    postnrData: PostnrData,
+    apiResponse: PostnrApiResponse
+): PostnrSearchResult => {
+    return {
+        hits: apiResponse.hits,
+        postnr: postnrData.postnr,
+        poststed: postnrData.poststed,
+        kategori: postnrData.kategori,
+        type: 'postnr',
+    };
 };
 
 export const responseFromPostnrSearch = async (
@@ -40,8 +70,6 @@ export const responseFromPostnrSearch = async (
     const postnrData = (await getPostnrRegister()).find(
         (item) => item.postnr === postnr
     );
-
-    console.log(postnrData);
 
     if (!postnrData) {
         return res.status(200).send([]);
@@ -61,5 +89,5 @@ export const responseFromPostnrSearch = async (
         return res.status(apiRes.statusCode).send(apiRes.message);
     }
 
-    return res.status(200).send(apiRes);
+    return res.status(200).send(adresseResponse(postnrData, apiRes));
 };

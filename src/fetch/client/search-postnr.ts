@@ -1,8 +1,8 @@
-import { SearchHitProps } from '../../types/searchResult';
+import { PostnrSearchResult } from '../../types/searchResult';
 
 const apiUrl = `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/postnr`;
 
-export const fetchPostnrResult = (postnr: string): Promise<SearchHitProps[]> =>
-    fetch(`${apiUrl}/${postnr}`)
-        .then((res) => res.json())
-        .then((json) => json.hits);
+export const fetchPostnrResult = (
+    postnr: string
+): Promise<PostnrSearchResult> =>
+    fetch(`${apiUrl}/${postnr}`).then((res) => res.json());

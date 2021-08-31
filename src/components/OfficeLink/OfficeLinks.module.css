@@ -1,0 +1,18 @@
+.link {
+    display: flex;
+    padding: 0.5rem 0;
+    text-decoration: none;
+}
+
+.chevron {
+    margin-right: 0.5rem;
+    transition: transform 0.25s ease-out;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.link:hover > .chevron {
+    transform: translateX(0.4rem);
+}

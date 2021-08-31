@@ -5,12 +5,12 @@ export type SearchHitProps = {
     hitString: string;
 };
 
-export type PostnrResult = {
+export type PostnrSearchResult = {
     type: 'postnr';
     hits: SearchHitProps[];
     postnr: string;
     poststed: string;
-    postnrType: string;
+    kategori: string;
 };
 
 export type NameSearchResult = {
@@ -19,4 +19,4 @@ export type NameSearchResult = {
     input: string;
 };
 
-export type SearchResultProps = PostnrResult | NameSearchResult;
+export type SearchResultProps = PostnrSearchResult | NameSearchResult;

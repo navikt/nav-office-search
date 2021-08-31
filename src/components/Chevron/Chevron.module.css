@@ -1,0 +1,25 @@
+.chevron {
+    position: relative;
+    width: 10px;
+    height: 10px;
+}
+
+.left {
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    top: 1.5px;
+    background-color: var(--navds-color-text-link);
+    transform-origin: right;
+    transform: rotate(-45deg);
+}
+
+.right {
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    top: 1.5px;
+    background-color: var(--navds-color-text-link);
+    transform-origin: right;
+    transform: rotate(45deg);
+}

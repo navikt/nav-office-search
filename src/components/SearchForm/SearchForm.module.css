@@ -19,7 +19,9 @@
 }
 
 .searchResult {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
 
-    border: 2px solid var(--navds-color-deepblue-90);
+    border-radius: var(--navds-border-radius);
+    background-color: var(--navds-color-gray-10);
 }

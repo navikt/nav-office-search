@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import style from './SearchForm.module.css';
 import { Button, TextField } from '@navikt/ds-react';
 import { fetchPostnrResult } from '../../fetch/client/search-postnr';
-import { SearchHitProps, SearchResultProps } from '../../types/searchResult';
+import { SearchResultProps } from '../../types/searchResult';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
+import style from './SearchForm.module.css';
 
 const isPostnrFormat = (postnr: string) => {
     return postnr && /\d{4}/.test(postnr);
@@ -22,15 +22,9 @@ export const SearchForm = () => {
         }
 
         if (isPostnrFormat(input)) {
-            fetchPostnrResult(input).then((hits) => {
-                console.log('response:', hits);
-                setSearchResult({
-                    type: 'postnr',
-                    postnr: input,
-                    poststed: 'test',
-                    postnrType: 's',
-                    hits,
-                });
+            fetchPostnrResult(input).then((result) => {
+                console.log('response:', result);
+                setSearchResult(result);
             });
             return;
         }
