@@ -25,13 +25,14 @@ export const SearchResultPostnr = ({ result }: Props) => {
                             {`${numHits} kontorer dekker `}
                             {postnrOgPoststed}
                             {
-                                'Du kan skrive inn et gatenavn for å filtrere søket (coming soon!)'
+                                '. Du kan skrive inn et gatenavn for å filtrere søket (coming soon!)'
                             }
                         </div>
                     ) : (
                         <div className={style.header}>
                             {`NAV-kontor for `}
                             {postnrOgPoststed}
+                            {':'}
                         </div>
                     )}
                     {hits.map((hit) => (

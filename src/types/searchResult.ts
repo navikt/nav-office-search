@@ -14,12 +14,14 @@ export type PostnrSearchResult = {
     postnr: string;
     poststed: string;
     kategori: PostnrKategori;
+    error?: undefined;
 };
 
 export type NameSearchResult = {
     type: 'name';
     hits: SearchHitProps[];
     input: string;
+    error?: undefined;
 };
 
 export type SearchResultProps = PostnrSearchResult | NameSearchResult;

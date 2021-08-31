@@ -7,28 +7,35 @@ import { SearchResult } from '../SearchResult/SearchResult';
 import style from './SearchForm.module.css';
 
 const isPostnrFormat = (postnr: string) => {
-    return postnr && /\d{4}/.test(postnr);
+    return postnr && /^\d{4}$/.test(postnr);
 };
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const onChange = () => {
+    const runSearch = () => {
         const input = inputRef.current?.value;
 
         if (!input) {
+            setErrorMsg('');
             return;
         }
 
         if (isPostnrFormat(input)) {
             setIsLoading(true);
+            setErrorMsg('');
             fetchPostnrResult(input)
                 .then((result) => {
                     console.log('response:', result);
-                    setSearchResult(result);
-                    setIsLoading(false);
+                    if (result.error) {
+                        setSearchResult(undefined);
+                        setErrorMsg(result.message);
+                    } else {
+                        setSearchResult(result);
+                    }
                 })
                 .catch((e) => {
                     console.error(e);
@@ -38,6 +45,15 @@ export const SearchForm = () => {
                 });
             return;
         }
+
+        if (!isNaN(Number(input)) || input.length < 2) {
+            setErrorMsg(
+                'Skriv inn minst to bokstaver eller et postnummer (fire siffer)'
+            );
+            return;
+        }
+
+        setErrorMsg('');
     };
 
     return (
@@ -48,7 +64,7 @@ export const SearchForm = () => {
                     id={'search-input'}
                     className={style.searchField}
                     ref={inputRef}
-                    onChange={onChange}
+                    onChange={runSearch}
                 />
                 {isLoading && (
                     <span className={style.loader}>
@@ -62,10 +78,11 @@ export const SearchForm = () => {
                         />
                     </span>
                 )}
-                <Button className={style.searchButton}>
+                <Button className={style.searchButton} onClick={runSearch}>
                     <LocaleString id={'inputSubmit'} />
                 </Button>
             </div>
+            {errorMsg && <div className={style.error}>{errorMsg}</div>}
             {searchResult && (
                 <div className={style.searchResult}>
                     <SearchResult searchResult={searchResult} />

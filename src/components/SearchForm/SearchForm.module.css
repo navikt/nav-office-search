@@ -42,3 +42,11 @@
 .loaderText {
     margin-right: 0.5rem;
 }
+
+.error {
+    margin-top: 0.05rem;
+    padding: 0.5rem;
+
+    border-radius: var(--navds-border-radius);
+    color: var(--navds-color-text-error);
+}

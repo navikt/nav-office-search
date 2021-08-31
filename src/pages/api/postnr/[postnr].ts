@@ -13,6 +13,7 @@ import {
     fetchTpsAdresseSok,
     PostnrApiResponse,
 } from '../../../fetch/server/postnr';
+import { errorResponse } from '../../../fetch/server/fetch-utils';
 
 const postboksResponse = async (
     postnrData: PostnrData
@@ -73,7 +74,7 @@ const postnrSearchHandler = async (
     );
 
     if (!postnrData) {
-        return res.status(404).send({ message: 'Invalid postnr' });
+        return res.status(404).send(errorResponse(404, 'Invalid postnr'));
     }
 
     if (
