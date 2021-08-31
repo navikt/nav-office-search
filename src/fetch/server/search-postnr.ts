@@ -7,7 +7,7 @@ import {
     PostnrKategori,
 } from '../../data/postnrRegister';
 import { PostnrSearchResult, SearchHitProps } from '../../types/searchResult';
-import { fetchOfficeInfoByGeoIds } from './office-info';
+import { fetchOfficeInfoByGeoId } from './office-info';
 
 const apiUrl = `${process.env.API_ORIGIN}/postnr`;
 
@@ -37,12 +37,17 @@ const postboksResponse = async (
         postnrData.kommunenr,
     ];
 
-    console.log(postnrData);
+    const hits = [];
 
-    const hits = await fetchOfficeInfoByGeoIds(geoIds);
+    for (const id in geoIds) {
+        const officeInfo = await fetchOfficeInfoByGeoId(id);
+        if (officeInfo) {
+            hits.push(officeInfo);
+        }
+    }
 
     return {
-        hits: hits || [],
+        hits,
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,

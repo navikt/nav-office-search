@@ -3,18 +3,24 @@ import { errorResponse, fetchJson } from './fetch-utils';
 
 const apiUrl = `${process.env.API_ORIGIN}/geoid`;
 
-export const fetchOfficeInfoByGeoIds = async (ids: string[]) => {
+export const fetchOfficeInfoByGeoId = async (id: string) => {
     const authorizationHeader = await getAuthorizationHeader();
 
     if (!authorizationHeader) {
         return errorResponse(500, 'Failed to get authorization header');
     }
 
-    return await fetchJson(
+    const response = await fetchJson(
         apiUrl,
-        { ids },
+        { id },
         {
             headers: { Authorization: authorizationHeader },
         }
     );
+
+    if (response.error) {
+        return null;
+    }
+
+    return response;
 };
