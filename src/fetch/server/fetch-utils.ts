@@ -31,11 +31,11 @@ export const objectToQueryString = (params?: object, firstChar = '?') =>
           )
         : '';
 
-export const fetchJson = async (
+export const fetchJson = async <T = any>(
     url: string,
     params?: object,
     options?: object
-) => {
+): Promise<T | ErrorResponse> => {
     const urlWithQuery = `${url}${params ? objectToQueryString(params) : ''}`;
 
     try {

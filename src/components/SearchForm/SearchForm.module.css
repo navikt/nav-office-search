@@ -6,6 +6,7 @@
 .searchInput {
     display: flex;
     justify-content: flex-end;
+    position: relative;
 }
 
 .searchField input {
@@ -24,4 +25,18 @@
 
     border-radius: var(--navds-border-radius);
     background-color: var(--navds-color-gray-10);
+}
+
+.loader {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 4.5rem;
+    bottom: 0.5rem;
+
+    color: var(--navds-color-gray-60);
+}
+
+.loaderText {
+    margin-right: 0.5rem;
 }

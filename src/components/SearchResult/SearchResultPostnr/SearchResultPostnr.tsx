@@ -12,14 +12,28 @@ type Props = {
 export const SearchResultPostnr = ({ result }: Props) => {
     const { postnr, poststed, kategori, hits } = result;
 
+    const numHits = hits.length;
+
+    const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;
+
     return (
         <div className={style.container}>
-            {hits.length > 0 ? (
+            {numHits > 0 ? (
                 <>
-                    <div className={style.header}>
-                        {`NAV-kontor for `}
-                        <strong>{`${postnr} ${poststed}:`}</strong>
-                    </div>
+                    {numHits > 1 ? (
+                        <div>
+                            {`${numHits} kontorer dekker `}
+                            {postnrOgPoststed}
+                            {
+                                'Du kan skrive inn et gatenavn for å filtrere søket (coming soon!)'
+                            }
+                        </div>
+                    ) : (
+                        <div className={style.header}>
+                            {`NAV-kontor for `}
+                            {postnrOgPoststed}
+                        </div>
+                    )}
                     {hits.map((hit) => (
                         <OfficeLink
                             href={getUrl()}
@@ -31,7 +45,7 @@ export const SearchResultPostnr = ({ result }: Props) => {
             ) : (
                 <div className={style.header}>
                     {`Ingen NAV-kontor funnet for `}
-                    <strong>{`${postnr} ${poststed}`}</strong>
+                    {postnrOgPoststed}
                 </div>
             )}
         </div>

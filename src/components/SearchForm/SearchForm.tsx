@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, TextField } from '@navikt/ds-react';
+import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { fetchPostnrResult } from '../../fetch/client/search-postnr';
 import { SearchResultProps } from '../../types/searchResult';
 import { LocaleString } from '../../localization/LocaleString';
@@ -12,6 +12,7 @@ const isPostnrFormat = (postnr: string) => {
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
+    const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const onChange = () => {
@@ -22,10 +23,19 @@ export const SearchForm = () => {
         }
 
         if (isPostnrFormat(input)) {
-            fetchPostnrResult(input).then((result) => {
-                console.log('response:', result);
-                setSearchResult(result);
-            });
+            setIsLoading(true);
+            fetchPostnrResult(input)
+                .then((result) => {
+                    console.log('response:', result);
+                    setSearchResult(result);
+                    setIsLoading(false);
+                })
+                .catch((e) => {
+                    console.error(e);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
             return;
         }
     };
@@ -40,6 +50,18 @@ export const SearchForm = () => {
                     ref={inputRef}
                     onChange={onChange}
                 />
+                {isLoading && (
+                    <span className={style.loader}>
+                        <BodyShort className={style.loaderText}>
+                            {'Søker...'}
+                        </BodyShort>
+                        <Loader
+                            size={'l'}
+                            variant={'interaction'}
+                            title={'Søker...'}
+                        />
+                    </span>
+                )}
                 <Button className={style.searchButton}>
                     <LocaleString id={'inputSubmit'} />
                 </Button>

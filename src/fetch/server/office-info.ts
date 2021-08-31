@@ -1,22 +1,19 @@
 import { getAuthorizationHeader } from './auth';
-import { errorResponse, fetchJson } from './fetch-utils';
+import { ErrorResponse, errorResponse, fetchJson } from './fetch-utils';
+import { SearchHitProps } from '../../types/searchResult';
 
 const apiUrl = `${process.env.API_ORIGIN}/geoid`;
 
-export const fetchOfficeInfoByGeoId = async (id: string) => {
+export const fetchOfficeInfoByGeoId = async (
+    id: string
+): Promise<SearchHitProps | ErrorResponse> => {
     const authorizationHeader = await getAuthorizationHeader();
 
     if (!authorizationHeader) {
         return errorResponse(500, 'Failed to get authorization header');
     }
 
-    const response = await fetchJson(`${apiUrl}/${id}`, undefined, {
+    return await fetchJson<SearchHitProps>(`${apiUrl}/${id}`, undefined, {
         headers: { Authorization: authorizationHeader },
     });
-
-    if (response.error) {
-        return null;
-    }
-
-    return response;
 };

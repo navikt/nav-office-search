@@ -1,8 +1,11 @@
+import { PostnrKategori } from '../data/postnrRegister';
+
 export type SearchHitProps = {
     kontorNavn: string;
     enhetNr: string;
     status: string;
-    hitString: string;
+    hitString?: string;
+    error?: undefined;
 };
 
 export type PostnrSearchResult = {
@@ -10,7 +13,7 @@ export type PostnrSearchResult = {
     hits: SearchHitProps[];
     postnr: string;
     poststed: string;
-    kategori: string;
+    kategori: PostnrKategori;
 };
 
 export type NameSearchResult = {
