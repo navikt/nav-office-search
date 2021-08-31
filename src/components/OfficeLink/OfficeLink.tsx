@@ -1,7 +1,7 @@
 import React from 'react';
 import { BodyShort, Link } from '@navikt/ds-react';
 import { Chevron } from '../Chevron/Chevron';
-import style from './OfficeLinks.module.css';
+import style from './OfficeLink.module.css';
 
 type Props = {
     name: string;

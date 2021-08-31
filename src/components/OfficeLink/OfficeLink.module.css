@@ -14,5 +14,5 @@
 }
 
 .link:hover > .chevron {
-    transform: translateX(0.4rem);
+    transform: translateX(0.3rem);
 }

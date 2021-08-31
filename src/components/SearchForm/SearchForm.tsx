@@ -39,6 +39,7 @@ export const SearchForm = () => {
                 })
                 .catch((e) => {
                     console.error(e);
+                    setErrorMsg(e);
                 })
                 .finally(() => {
                     setIsLoading(false);

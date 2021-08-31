@@ -19,9 +19,11 @@ export const fetchTpsAdresseSok = async (
         return errorResponse(500, 'Failed to get authorization header');
     }
 
-    const routeParams = `${postnr}${adresse ? `/${adresse}` : ''}`;
-
-    return await fetchJson(`${apiUrl}/${routeParams}`, undefined, {
-        headers: { Authorization: authorizationHeader },
-    });
+    return await fetchJson(
+        apiUrl,
+        { postnr, adresse },
+        {
+            headers: { Authorization: authorizationHeader },
+        }
+    );
 };

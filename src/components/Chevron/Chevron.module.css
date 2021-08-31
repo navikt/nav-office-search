@@ -8,7 +8,7 @@
     position: absolute;
     width: 10px;
     height: 2px;
-    top: 1.5px;
+    top: 2px;
     background-color: var(--navds-color-text-link);
     transform-origin: right;
     transform: rotate(-45deg);
@@ -18,7 +18,7 @@
     position: absolute;
     width: 10px;
     height: 2px;
-    top: 1.5px;
+    top: 2px;
     background-color: var(--navds-color-text-link);
     transform-origin: right;
     transform: rotate(45deg);
