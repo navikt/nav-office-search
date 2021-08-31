@@ -39,7 +39,7 @@ const postboksResponse = async (
 
     const hits = [];
 
-    for (const id in geoIds) {
+    for (const id of geoIds) {
         const officeInfo = await fetchOfficeInfoByGeoId(id);
         if (officeInfo) {
             hits.push(officeInfo);
