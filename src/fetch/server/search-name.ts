@@ -2,7 +2,7 @@ import { Response } from 'express';
 import { getPostnrRegister, PostnrData } from '../../data/postnrRegister';
 import { Bydel, getBydelerData } from '../../data/bydeler';
 import { normalizeString, removeDuplicates } from '../../utils';
-import { SearchHitProps } from './search-postnr';
+import { SearchHitProps } from '../../types/searchResult';
 
 type FetchOfficeInfoProps = {
     geografiskNr: string;
@@ -31,8 +31,8 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
 const generateResponseData = async (
     poststeder: PostnrData[],
     bydeler: Bydel[]
-): Promise<SearchHit[]> => {
-    const responseData: SearchHit[] = [];
+): Promise<SearchHitProps[]> => {
+    const responseData: SearchHitProps[] = [];
     const fetchProps: FetchOfficeInfoProps[] = [];
 
     for (const poststed of poststeder) {
