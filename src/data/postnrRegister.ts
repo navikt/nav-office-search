@@ -37,6 +37,7 @@ type PostnrRegisterItem = [
 const bringPostnrRegisterUrl =
     'https://www.bring.no/postnummerregister-ansi.txt';
 const localFallbackPath = './rawdata/postnummerregister-ansi.txt';
+const charEncodeFormat = 'windows-1252';
 
 const oneDayInSeconds = 3600 * 24;
 
@@ -73,15 +74,17 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
 
 const fetchPostnrRegister = async (): Promise<string | null> => {
     try {
-        return await fetch(bringPostnrRegisterUrl).then((res) => {
-            if (res.ok) {
-                return res.text();
-            }
+        return await fetch(bringPostnrRegisterUrl)
+            .then((res) => {
+                if (res.ok) {
+                    return res.arrayBuffer();
+                }
 
-            throw new Error(
-                `Error fetching postnr register: ${res.status} - ${res.statusText}`
-            );
-        });
+                throw new Error(
+                    `Error fetching postnr register: ${res.status} - ${res.statusText}`
+                );
+            })
+            .then((buffer) => new TextDecoder(charEncodeFormat).decode(buffer));
     } catch (e) {
         console.error(`Error fetching postnr register: ${e}`);
         return null;
