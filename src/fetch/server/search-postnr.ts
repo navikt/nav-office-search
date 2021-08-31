@@ -79,7 +79,7 @@ export const responseFromPostnrSearch = async (
         postnrData.kategori === PostnrKategori.Postbokser ||
         postnrData.kategori === PostnrKategori.Servicepostnummer
     ) {
-        return res.status(200).send(postboksResponse(postnrData));
+        return res.status(200).send(await postboksResponse(postnrData));
     }
 
     const apiRes = await fetchTpsPostnrSok(postnr);
