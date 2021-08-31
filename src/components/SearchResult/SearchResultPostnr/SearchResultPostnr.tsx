@@ -12,6 +12,10 @@ type Props = {
 export const SearchResultPostnr = ({ result }: Props) => {
     const { postnr, poststed, kategori, hits } = result;
 
+    if (!hits) {
+        return <div>{'Error in search results'}</div>;
+    }
+
     const numHits = hits.length;
 
     const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;

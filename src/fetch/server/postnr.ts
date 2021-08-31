@@ -4,7 +4,7 @@ import { getAuthorizationHeader } from './auth';
 
 const apiUrl = `${process.env.API_ORIGIN}/postnr`;
 
-export type PostnrApiResponse = {
+export type AdresseSokResponse = {
     error?: undefined;
     hits: SearchHitProps[];
 };
@@ -12,7 +12,7 @@ export type PostnrApiResponse = {
 export const fetchTpsAdresseSok = async (
     postnr: string,
     adresse?: string
-): Promise<PostnrApiResponse | ErrorResponse> => {
+): Promise<AdresseSokResponse | ErrorResponse> => {
     const authorizationHeader = await getAuthorizationHeader();
 
     if (!authorizationHeader) {
@@ -21,7 +21,7 @@ export const fetchTpsAdresseSok = async (
 
     return await fetchJson(
         apiUrl,
-        { postnr, adresse },
+        { postnr, ...(adresse && { adresse }) },
         {
             headers: { Authorization: authorizationHeader },
         }

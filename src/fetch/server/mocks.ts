@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
 import { getPostnrRegister } from '../../data/postnrRegister';
-import { PostnrApiResponse } from './postnr';
+import { AdresseSokResponse } from './postnr';
 
 const azureAdTokenApi = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`;
 const postnrApi = `${process.env.API_ORIGIN}/postnr`;
@@ -14,7 +14,7 @@ export const mockFetch = fetchMock
     })
     .mock(
         `begin:${postnrApi}`,
-        async (url): Promise<PostnrApiResponse> => {
+        async (url): Promise<AdresseSokResponse> => {
             const postnr = new URL(url).searchParams.get('postnr');
             const postnrData = (await getPostnrRegister()).find(
                 (item) => item.postnr === postnr

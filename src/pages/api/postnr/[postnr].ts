@@ -11,7 +11,7 @@ import {
 import { fetchOfficeInfoByGeoId } from '../../../fetch/server/office-info';
 import {
     fetchTpsAdresseSok,
-    PostnrApiResponse,
+    AdresseSokResponse,
 } from '../../../fetch/server/postnr';
 import { errorResponse } from '../../../fetch/server/fetch-utils';
 
@@ -46,7 +46,7 @@ const postboksResponse = async (
 
 const adresseResponse = (
     postnrData: PostnrData,
-    apiResponse: PostnrApiResponse
+    apiResponse: AdresseSokResponse
 ): PostnrSearchResult => {
     return {
         hits: apiResponse.hits,
