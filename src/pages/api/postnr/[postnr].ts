@@ -90,8 +90,7 @@ const postnrSearchHandler = async (
     );
 
     if (adresseSokRes.error) {
-        console.error(adresseSokRes.message);
-        return res.status(adresseSokRes.statusCode).send(adresseSokRes.message);
+        return res.status(adresseSokRes.statusCode).send(adresseSokRes);
     }
 
     return res.status(200).send(adresseResponse(postnrData, adresseSokRes));
