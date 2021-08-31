@@ -10,13 +10,9 @@ export const fetchOfficeInfoByGeoId = async (id: string) => {
         return errorResponse(500, 'Failed to get authorization header');
     }
 
-    const response = await fetchJson(
-        apiUrl,
-        { id },
-        {
-            headers: { Authorization: authorizationHeader },
-        }
-    );
+    const response = await fetchJson(`${apiUrl}/${id}`, undefined, {
+        headers: { Authorization: authorizationHeader },
+    });
 
     if (response.error) {
         return null;
