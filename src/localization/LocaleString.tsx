@@ -14,10 +14,9 @@ type Props = {
     id: LocaleStringId;
 };
 
-export const LocaleString = ({ id }: Props) => {
-    const language = 'nb';
+export const localeString = (id: LocaleStringId, locale: Locale = 'nb') =>
+    localeModules[locale][id] || `[Feil: mangler tekst for ${id}]`;
 
-    return (
-        <>{localeModules[language][id] || `[Feil: mangler tekst for ${id}]`}</>
-    );
+export const LocaleString = ({ id }: Props) => {
+    return <>{localeString(id)}</>;
 };
