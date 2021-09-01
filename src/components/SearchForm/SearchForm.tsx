@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
-import { fetchPostnrResult } from '../../fetch/client/search-postnr';
-import { SearchResultProps } from '../../types/searchResult';
-import { LocaleString } from '../../localization/LocaleString';
+import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import style from './SearchForm.module.css';
+import { SearchResultProps } from '../../types/searchResult';
+import { fetchSearchResult } from '../../fetch/client/search';
 
 const isPostnrFormat = (postnr: string) => {
     return postnr && /^\d{4}$/.test(postnr);
@@ -13,48 +13,42 @@ const isPostnrFormat = (postnr: string) => {
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState<LocaleStringId | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const runSearch = () => {
         const input = inputRef.current?.value;
 
         if (!input) {
-            setErrorMsg('');
+            setErrorMsg(null);
             return;
         }
 
-        if (isPostnrFormat(input)) {
-            setIsLoading(true);
-            setErrorMsg('');
-            fetchPostnrResult(input)
-                .then((result) => {
-                    console.log('response:', result);
-                    if (result.error) {
-                        setSearchResult(undefined);
-                        setErrorMsg(result.message);
-                    } else {
-                        setSearchResult(result);
-                    }
-                })
-                .catch((e) => {
-                    console.error(e);
-                    setErrorMsg(e);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
+        if (Number(input) && !isPostnrFormat(input)) {
+            setErrorMsg('errorInvalidPostnr');
             return;
         }
 
-        if (!isNaN(Number(input)) || input.length < 2) {
-            setErrorMsg(
-                'Skriv inn minst to bokstaver eller et postnummer (fire siffer)'
-            );
-            return;
-        }
+        setIsLoading(true);
+        setErrorMsg(null);
 
-        setErrorMsg('');
+        fetchSearchResult(input)
+            .then((result) => {
+                console.log('response:', result);
+                if (result.type === 'error') {
+                    setSearchResult(undefined);
+                    setErrorMsg(result.messageId);
+                } else {
+                    setSearchResult(result);
+                }
+            })
+            .catch((e) => {
+                console.error(e);
+                setErrorMsg(e);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     return (
@@ -83,7 +77,11 @@ export const SearchForm = () => {
                     <LocaleString id={'inputSubmit'} />
                 </Button>
             </div>
-            {errorMsg && <div className={style.error}>{errorMsg}</div>}
+            {errorMsg && (
+                <div className={style.error}>
+                    <LocaleString id={errorMsg} />
+                </div>
+            )}
             {searchResult && (
                 <div className={style.searchResult}>
                     <SearchResult searchResult={searchResult} />

@@ -1,11 +1,11 @@
 import React from 'react';
-import { NameSearchResult } from '../../../types/searchResult';
+import { SearchResultNameProps } from '../../../types/searchResult';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 
 const getUrl = () => 'https://www.nav.no';
 
 type Props = {
-    result: NameSearchResult;
+    result: SearchResultNameProps;
 };
 
 export const SearchResultName = ({ result }: Props) => {

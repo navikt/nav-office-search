@@ -1,23 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getPostnrRegister } from '../data/postnrRegister';
+import { AdresseSokResponse, fetchTpsAdresseSok } from '../fetch/server/postnr';
 import {
-    getPostnrRegister,
-    PostnrData,
-    PostnrKategori,
-} from '../../../data/postnrRegister';
-import {
-    PostnrSearchResult,
     SearchHitProps,
-} from '../../../types/searchResult';
-import { fetchOfficeInfoByGeoId } from '../../../fetch/server/office-info';
-import {
-    fetchTpsAdresseSok,
-    AdresseSokResponse,
-} from '../../../fetch/server/postnr';
-import { errorResponse } from '../../../fetch/server/fetch-utils';
+    SearchResultErrorProps,
+    SearchResultPostnrProps,
+} from '../types/searchResult';
+import { fetchOfficeInfoByGeoId } from '../fetch/server/office-info';
+import { apiErrorResponse } from './utils';
+import { PostnrData, PostnrKategori } from '../types/postnr';
 
 const postboksResponse = async (
     postnrData: PostnrData
-): Promise<PostnrSearchResult> => {
+): Promise<SearchResultPostnrProps> => {
     const geoIds = postnrData.bydeler?.map((bydel) => bydel.bydelsnr) || [
         postnrData.kommunenr,
     ];
@@ -47,7 +42,7 @@ const postboksResponse = async (
 const adresseResponse = (
     postnrData: PostnrData,
     apiResponse: AdresseSokResponse
-): PostnrSearchResult => {
+): SearchResultPostnrProps => {
     return {
         hits: apiResponse.hits,
         postnr: postnrData.postnr,
@@ -57,24 +52,23 @@ const adresseResponse = (
     };
 };
 
-const postnrSearchHandler = async (
-    req: NextApiRequest,
-    res: NextApiResponse
-) => {
-    const { postnr, adresse } = req.query;
+type Query = {
+    query: string;
+    adresse?: string;
+};
 
-    if (typeof postnr !== 'string') {
-        return res
-            .status(400)
-            .json({ message: 'postnr parameter missing or invalid' });
-    }
+export const postnrSearchHandler = async (
+    req: NextApiRequest,
+    res: NextApiResponse<SearchResultPostnrProps | SearchResultErrorProps>
+) => {
+    const { query: postnr, adresse } = req.query as Query;
 
     const postnrData = (await getPostnrRegister()).find(
         (item) => item.postnr === postnr
     );
 
     if (!postnrData) {
-        return res.status(404).send(errorResponse(404, 'Invalid postnr'));
+        return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));
     }
 
     if (
@@ -84,16 +78,13 @@ const postnrSearchHandler = async (
         return res.status(200).send(await postboksResponse(postnrData));
     }
 
-    const adresseSokRes = await fetchTpsAdresseSok(
-        postnr,
-        typeof adresse === 'string' ? adresse : undefined
-    );
+    const adresseSokRes = await fetchTpsAdresseSok(postnr, adresse);
 
     if (adresseSokRes.error) {
-        return res.status(adresseSokRes.statusCode).send(adresseSokRes);
+        return res
+            .status(adresseSokRes.statusCode)
+            .send(apiErrorResponse('errorServerError'));
     }
 
     return res.status(200).send(adresseResponse(postnrData, adresseSokRes));
 };
-
-export default postnrSearchHandler;

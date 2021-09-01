@@ -1,4 +1,5 @@
-import { PostnrKategori } from '../data/postnrRegister';
+import { LocaleStringId } from '../localization/LocaleString';
+import { PostnrKategori } from './postnr';
 
 export type SearchHitProps = {
     kontorNavn: string;
@@ -8,7 +9,7 @@ export type SearchHitProps = {
     error?: undefined;
 };
 
-export type PostnrSearchResult = {
+export type SearchResultPostnrProps = {
     type: 'postnr';
     hits: SearchHitProps[];
     postnr: string;
@@ -17,11 +18,19 @@ export type PostnrSearchResult = {
     error?: undefined;
 };
 
-export type NameSearchResult = {
+export type SearchResultNameProps = {
     type: 'name';
     hits: SearchHitProps[];
     input: string;
     error?: undefined;
 };
 
-export type SearchResultProps = PostnrSearchResult | NameSearchResult;
+export type SearchResultErrorProps = {
+    type: 'error';
+    messageId: LocaleStringId;
+};
+
+export type SearchResultProps =
+    | SearchResultPostnrProps
+    | SearchResultNameProps
+    | SearchResultErrorProps;

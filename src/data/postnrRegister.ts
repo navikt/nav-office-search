@@ -2,29 +2,7 @@ import Cache from 'node-cache';
 import fs from 'fs';
 import { normalizeString } from '../utils';
 import { kommunenrToBydelerMap } from './bydeler';
-
-type Bydel = {
-    bydelsnr: string;
-    navn: string;
-    navnNormalized: string;
-};
-
-export enum PostnrKategori {
-    GateadresserOgPostbokser = 'B',
-    Felles = 'F',
-    Gateadresser = 'G',
-    Postbokser = 'P',
-    Servicepostnummer = 'S',
-}
-
-export type PostnrData = {
-    postnr: string;
-    poststedNormalized: string;
-    poststed: string;
-    kommunenr: string;
-    kategori: PostnrKategori;
-    bydeler?: Bydel[];
-};
+import { PostnrData, PostnrKategori } from '../types/postnr';
 
 type PostnrRegisterItem = [
     postnr: string,

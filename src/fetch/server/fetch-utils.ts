@@ -1,5 +1,6 @@
 import nodeFetch from 'node-fetch';
 import { mockFetch } from './mocks';
+import { objectToQueryString } from '../../utils/fetch';
 
 const fetch = process.env.ENV === 'localhost' ? mockFetch : nodeFetch;
 
@@ -17,19 +18,6 @@ export const errorResponse = (
     statusCode: code,
     message: `Error code ${code} - ${message}`,
 });
-
-export const objectToQueryString = (params?: object, firstChar = '?') =>
-    params
-        ? Object.entries(params).reduce(
-              (acc, [k, v], i) =>
-                  v !== undefined
-                      ? `${acc}${i ? '&' : firstChar}${k}=${encodeURIComponent(
-                            typeof v === 'object' ? JSON.stringify(v) : v
-                        )}`
-                      : acc,
-              ''
-          )
-        : '';
 
 export const fetchJson = async <T = any>(
     url: string,

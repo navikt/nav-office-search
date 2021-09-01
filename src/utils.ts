@@ -41,3 +41,7 @@ export const removeDuplicates = <Type>(
               return aIndex === bIndex;
           })
         : [...new Set(array)];
+
+export const isPostnrFormat = (postnr: string) => {
+    return postnr && /^\d{4}$/.test(postnr);
+};

@@ -2,7 +2,7 @@ import React from 'react';
 import { localeNb } from './nb-default';
 
 type LocaleModule = typeof localeNb;
-type LocaleStringId = keyof LocaleModule;
+export type LocaleStringId = keyof LocaleModule;
 
 type Locale = 'nb';
 

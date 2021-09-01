@@ -6,4 +6,8 @@ export const localeNb = {
         'Da kan du søke opp NAV-kontor ved hjelp av postnummer eller sted/by.',
     inputLabel: 'Skriv inn et postnummer eller stedsnavn:',
     inputSubmit: 'Søk',
+    errorMissingQuery: 'Mangler søke-streng',
+    errorInvalidQuery: 'Feil i søke-streng',
+    errorInvalidPostnr: 'Postnummeret er ikke gyldig',
+    errorServerError: 'Server-feil',
 };

@@ -1,12 +1,7 @@
 import fs from 'fs';
 import csv from 'csv-parser';
 import { normalizeString } from '../utils';
-
-export type Bydel = {
-    bydelsnr: string;
-    navn: string;
-    navnNormalized: string;
-};
+import { Bydel } from '../types/bydel';
 
 type BydelerMap = { [kommunenr: string]: Bydel[] };
 

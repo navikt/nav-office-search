@@ -1,12 +1,12 @@
 import React from 'react';
-import { PostnrSearchResult } from '../../../types/searchResult';
+import { SearchResultPostnrProps } from '../../../types/searchResult';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import style from './SearchResultPostnr.module.css';
 
 const getUrl = () => 'https://www.nav.no';
 
 type Props = {
-    result: PostnrSearchResult;
+    result: SearchResultPostnrProps;
 };
 
 export const SearchResultPostnr = ({ result }: Props) => {
