@@ -1,8 +1,10 @@
 import { Response } from 'express';
-import { getPostnrRegister, PostnrData } from '../../data/postnrRegister';
-import { Bydel, getBydelerData } from '../../data/bydeler';
+import { getPostnrRegister } from '../../data/postnrRegister';
+import { getBydelerData } from '../../data/bydeler';
 import { normalizeString, removeDuplicates } from '../../utils';
 import { SearchHitProps } from '../../types/searchResult';
+import { PostnrData } from '../../types/postnr';
+import { Bydel } from '../../types/bydel';
 
 type FetchOfficeInfoProps = {
     geografiskNr: string;
