@@ -35,6 +35,8 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
     );
 };
 
+const sortNamesearch = (a: SearchHitProps, b: SearchHitProps) => {};
+
 const generateSearchHits = async (
     poststeder: PostnrData[],
     bydeler: Bydel[]
@@ -79,7 +81,7 @@ const generateSearchHits = async (
         }
     }
 
-    return removeDuplicates(hits);
+    return removeDuplicates(hits).sort();
 };
 
 export const responseFromNameSearch = async (

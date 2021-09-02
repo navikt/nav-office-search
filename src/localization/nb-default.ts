@@ -10,4 +10,5 @@ export const localeNb = {
     errorInvalidQuery: 'Feil i søke-streng',
     errorInvalidPostnr: 'Postnummeret finnes ikke',
     errorServerError: 'Server-feil',
+    nameResultHeader: 'Søkeresultat for ',
 };

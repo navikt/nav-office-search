@@ -53,8 +53,12 @@ export const fetchMock = fetchMockLib
                 return fetchErrorResponse(500, 'Missing id-parameter');
             }
 
+            const postnrData = (await getPostnrRegister()).find(
+                (item) => item.kommunenr === id
+            );
+
             return {
-                kontorNavn: `NAV Mock kontor ${id}`,
+                kontorNavn: `NAV ${postnrData?.kommune || 'Mock-kontor'}`,
                 enhetNr: id,
                 status: 'Aktiv',
                 adressenavn: `Eksempelgata`,
