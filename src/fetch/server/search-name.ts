@@ -1,10 +1,15 @@
-import { Response } from 'express';
 import { getPostnrRegister } from '../../data/postnrRegister';
 import { getBydelerData } from '../../data/bydeler';
 import { normalizeString, removeDuplicates } from '../../utils';
-import { SearchHitProps } from '../../types/searchResult';
+import {
+    SearchHitProps,
+    SearchResultErrorProps,
+    SearchResultNameProps,
+} from '../../types/searchResult';
 import { PostnrData } from '../../types/postnr';
 import { Bydel } from '../../types/bydel';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { fetchOfficeInfoByGeoId } from './office-info';
 
 type FetchOfficeInfoProps = {
     geografiskNr: string;
@@ -30,11 +35,11 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
     );
 };
 
-const generateResponseData = async (
+const generateSearchHits = async (
     poststeder: PostnrData[],
     bydeler: Bydel[]
 ): Promise<SearchHitProps[]> => {
-    const responseData: SearchHitProps[] = [];
+    const hits: SearchHitProps[] = [];
     const fetchProps: FetchOfficeInfoProps[] = [];
 
     for (const poststed of poststeder) {
@@ -67,30 +72,37 @@ const generateResponseData = async (
     );
 
     for (const props of fetchPropsUnique) {
-        // const officeInfo = await fetchOfficeInfoAndTransformResult(props);
-        //
-        // if (officeInfo) {
-        //     responseData.push(officeInfo);
-        // }
+        const officeInfo = await fetchOfficeInfoByGeoId(props.geografiskNr);
+
+        if (officeInfo && !officeInfo.error) {
+            hits.push(officeInfo);
+        }
     }
 
-    return removeDuplicates(responseData);
+    return removeDuplicates(hits);
 };
 
 export const responseFromNameSearch = async (
-    res: Response,
-    searchTerm: string
+    req: NextApiRequest,
+    res: NextApiResponse<SearchResultNameProps | SearchResultErrorProps>
 ) => {
-    const normalizedTerm = normalizeString(searchTerm);
+    const query = req.query.query as string;
 
-    const poststederHits = await findPoststeder(normalizedTerm);
+    const normalizedQuery = normalizeString(query);
 
-    const bydelerHits = findBydeler(normalizedTerm);
+    console.log(query, normalizedQuery);
 
-    const responseData = await generateResponseData(
-        poststederHits,
-        bydelerHits
-    );
+    const poststederHits = await findPoststeder(normalizedQuery);
 
-    return res.status(200).send(responseData);
+    console.log('poststeder:', poststederHits);
+
+    const bydelerHits = findBydeler(normalizedQuery);
+
+    console.log('bydeler:', bydelerHits);
+
+    const searchHits = await generateSearchHits(poststederHits, bydelerHits);
+
+    return res
+        .status(200)
+        .send({ hits: searchHits, type: 'name', input: query });
 };

@@ -61,15 +61,11 @@ const homeResponse = (
     };
 };
 
-type Query = {
-    query: string;
-};
-
 export const postnrSearchHandler = async (
     req: NextApiRequest,
     res: NextApiResponse<SearchResultPostnrProps | SearchResultErrorProps>
 ) => {
-    const { query } = req.query as Query;
+    const query = req.query.query as string;
 
     const [postnr, ...adresseSegments] = query?.split(' ');
 

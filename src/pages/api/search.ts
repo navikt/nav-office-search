@@ -3,6 +3,7 @@ import { isPostnrQuery } from '../../utils';
 import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr';
 import { apiErrorResponse } from '../../api/utils';
+import { responseFromNameSearch } from '../../fetch/server/search-name';
 
 const searchHandler = async (
     req: NextApiRequest,
@@ -19,7 +20,7 @@ const searchHandler = async (
             return postnrSearchHandler(req, res);
         }
 
-        return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
+        return responseFromNameSearch(req, res);
     } catch (e) {
         console.error(`Search api error: ${e}`);
         return res.status(500).send(apiErrorResponse('errorServerError'));
