@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getPostnrRegister } from '../data/postnrRegister';
-import { AdresseSokResponse, fetchTpsAdresseSok } from '../fetch/server/postnr';
+import { fetchTpsAdresseSok } from '../fetch/server/postnr';
 import {
     SearchHitProps,
     SearchResultErrorProps,
@@ -47,12 +47,12 @@ const specialResponse = async (
 // Response-data for postnr used for home adresses
 const homeResponse = (
     postnrData: PostnrData,
-    apiResponse: AdresseSokResponse,
+    hits: SearchHitProps[],
     adresse: string
 ): SearchResultPostnrProps => {
     return {
         type: 'postnr',
-        hits: apiResponse.hits?.sort(sortByOfficeName) || [],
+        hits,
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
@@ -96,12 +96,20 @@ export const postnrSearchHandler = async (
         console.error(
             `Error fetching postnr from query ${query} - ${adresseSokRes.statusCode} ${adresseSokRes.message}`
         );
-        return res
-            .status(adresseSokRes.statusCode)
-            .send(apiErrorResponse('errorServerError'));
+        if (adresseSokRes.statusCode >= 500) {
+            return res
+                .status(adresseSokRes.statusCode)
+                .send(apiErrorResponse('errorServerError'));
+        }
     }
 
     return res
         .status(200)
-        .send(homeResponse(postnrData, adresseSokRes, adresse));
+        .send(
+            homeResponse(
+                postnrData,
+                adresseSokRes.error ? [] : adresseSokRes.hits,
+                adresse
+            )
+        );
 };
