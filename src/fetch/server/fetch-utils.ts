@@ -1,19 +1,19 @@
 import nodeFetch from 'node-fetch';
-import { mockFetch } from './mocks';
+import { fetchMock } from './fetch-mock';
 import { objectToQueryString } from '../../utils/fetch';
 
-const fetch = process.env.ENV === 'localhost' ? mockFetch : nodeFetch;
+const fetch = process.env.ENV === 'localhost' ? fetchMock : nodeFetch;
 
-export type ErrorResponse = {
+export type FetchErrorResponse = {
     error: true;
     statusCode: number;
     message: string;
 };
 
-export const errorResponse = (
+export const fetchErrorResponse = (
     code: number,
     message: string
-): ErrorResponse => ({
+): FetchErrorResponse => ({
     error: true,
     statusCode: code,
     message: `Error code ${code} - ${message}`,
@@ -23,7 +23,7 @@ export const fetchJson = async <T = any>(
     url: string,
     params?: object,
     options?: object
-): Promise<T | ErrorResponse> => {
+): Promise<T | FetchErrorResponse> => {
     const urlWithQuery = `${url}${params ? objectToQueryString(params) : ''}`;
 
     try {
@@ -38,7 +38,7 @@ export const fetchJson = async <T = any>(
         }
 
         if (res.ok) {
-            return errorResponse(
+            return fetchErrorResponse(
                 500,
                 `Did not receive a JSON-response from ${urlWithQuery}`
             );
@@ -51,8 +51,8 @@ export const fetchJson = async <T = any>(
         const errorMsg =
             errorJson.message || errorJson.error_description || res.statusText;
 
-        return errorResponse(res.status, errorMsg);
+        return fetchErrorResponse(res.status, errorMsg);
     } catch (e) {
-        return errorResponse(500, e.toString());
+        return fetchErrorResponse(500, e.toString());
     }
 };

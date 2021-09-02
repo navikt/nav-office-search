@@ -1,5 +1,9 @@
 import { SearchHitProps } from '../../types/searchResult';
-import { errorResponse, ErrorResponse, fetchJson } from './fetch-utils';
+import {
+    fetchErrorResponse,
+    FetchErrorResponse,
+    fetchJson,
+} from './fetch-utils';
 import { getAuthorizationHeader } from './auth';
 
 const apiUrl = `${process.env.API_ORIGIN}/postnr`;
@@ -12,11 +16,11 @@ export type AdresseSokResponse = {
 export const fetchTpsAdresseSok = async (
     postnr: string,
     adresse?: string
-): Promise<AdresseSokResponse | ErrorResponse> => {
+): Promise<AdresseSokResponse | FetchErrorResponse> => {
     const authorizationHeader = await getAuthorizationHeader();
 
     if (!authorizationHeader) {
-        return errorResponse(500, 'Failed to get authorization header');
+        return fetchErrorResponse(500, 'Failed to get authorization header');
     }
 
     return await fetchJson(
