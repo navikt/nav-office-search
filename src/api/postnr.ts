@@ -10,6 +10,9 @@ import { fetchOfficeInfoByGeoId } from '../fetch/server/office-info';
 import { apiErrorResponse } from './utils';
 import { PostnrData, PostnrKategori } from '../types/postnr';
 
+const sortByOfficeName = (a: SearchHitProps, b: SearchHitProps) =>
+    a.kontorNavn > b.kontorNavn ? 1 : -1;
+
 // Response-data for postnr used for po-boxes or other special purposes
 const specialResponse = async (
     postnrData: PostnrData
@@ -33,7 +36,7 @@ const specialResponse = async (
 
     return {
         type: 'postnr',
-        hits,
+        hits: hits.sort(sortByOfficeName),
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
@@ -49,7 +52,7 @@ const homeResponse = (
 ): SearchResultPostnrProps => {
     return {
         type: 'postnr',
-        hits: apiResponse.hits,
+        hits: apiResponse.hits.sort(sortByOfficeName),
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
