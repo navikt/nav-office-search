@@ -5,8 +5,7 @@ import {
     fetchJson,
 } from './fetch-utils';
 import { SearchHitProps } from '../../types/searchResult';
-
-const apiUrl = `${process.env.API_ORIGIN}/geoid`;
+import { urls } from '../../urls';
 
 export const fetchOfficeInfoByGeoId = async (
     id: string
@@ -17,7 +16,11 @@ export const fetchOfficeInfoByGeoId = async (
         return fetchErrorResponse(500, 'Failed to get authorization header');
     }
 
-    return await fetchJson<SearchHitProps>(`${apiUrl}/${id}`, undefined, {
-        headers: { Authorization: authorizationHeader },
-    });
+    return await fetchJson<SearchHitProps>(
+        urls.officeInfoApi,
+        { id },
+        {
+            headers: { Authorization: authorizationHeader },
+        }
+    );
 };

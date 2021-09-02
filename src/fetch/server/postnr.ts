@@ -5,8 +5,7 @@ import {
     fetchJson,
 } from './fetch-utils';
 import { getAuthorizationHeader } from './auth';
-
-const apiUrl = `${process.env.API_ORIGIN}/postnr`;
+import { urls } from '../../urls';
 
 export type AdresseSokResponse = {
     error?: undefined;
@@ -24,7 +23,7 @@ export const fetchTpsAdresseSok = async (
     }
 
     return await fetchJson(
-        apiUrl,
+        urls.postnrApi,
         { postnr, ...(adresse && { adresse }) },
         {
             headers: { Authorization: authorizationHeader },
