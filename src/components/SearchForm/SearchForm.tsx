@@ -6,10 +6,6 @@ import style from './SearchForm.module.css';
 import { SearchResultProps } from '../../types/searchResult';
 import { fetchSearchResult } from '../../fetch/client/search';
 
-const isPostnrFormat = (postnr: string) => {
-    return postnr && /^\d{4}$/.test(postnr);
-};
-
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const [errorMsg, setErrorMsg] = useState<LocaleStringId | null>();
@@ -24,21 +20,16 @@ export const SearchForm = () => {
             return;
         }
 
-        const [postnr, ...adresse] = input.split(' ');
-
-        if (isPostnrFormat(postnr) && adresse) {
-            runSearch(postnr, adresse.join(' ').trim());
-            return;
-        }
+        // TODO: handle certain input errors to prevent unnecessary api-calls
 
         runSearch(input);
     };
 
-    const runSearch = (input: string, adresse?: string) => {
+    const runSearch = (input: string) => {
         setIsLoading(true);
         setErrorMsg(null);
 
-        fetchSearchResult(input, adresse)
+        fetchSearchResult(input)
             .then((result) => {
                 console.log('response:', result);
                 if (result.type === 'error') {

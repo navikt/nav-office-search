@@ -54,14 +54,15 @@ const adresseResponse = (
 
 type Query = {
     query: string;
-    adresse?: string;
 };
 
 export const postnrSearchHandler = async (
     req: NextApiRequest,
     res: NextApiResponse<SearchResultPostnrProps | SearchResultErrorProps>
 ) => {
-    const { query: postnr, adresse } = req.query as Query;
+    const { query } = req.query as Query;
+
+    const [postnr, ...adresseSegments] = query?.split(' ');
 
     const postnrData = (await getPostnrRegister()).find(
         (item) => item.postnr === postnr
@@ -77,6 +78,8 @@ export const postnrSearchHandler = async (
     ) {
         return res.status(200).send(await postboksResponse(postnrData));
     }
+
+    const adresse = adresseSegments?.join(' ').trim();
 
     const adresseSokRes = await fetchTpsAdresseSok(postnr, adresse);
     console.log(postnr, adresse);

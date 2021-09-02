@@ -42,6 +42,8 @@ export const removeDuplicates = <Type>(
           })
         : [...new Set(array)];
 
-export const isPostnrFormat = (postnr: string) => {
+export const isPostnrQuery = (query: string) => {
+    const [postnr] = query?.split(' ');
+
     return postnr && /^\d{4}$/.test(postnr);
 };

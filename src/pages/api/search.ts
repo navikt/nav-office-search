@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isPostnrFormat } from '../../utils';
+import { isPostnrQuery } from '../../utils';
 import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr';
 import { apiErrorResponse } from '../../api/utils';
@@ -15,7 +15,7 @@ const searchHandler = async (
             return res.status(400).send(apiErrorResponse('errorMissingQuery'));
         }
 
-        if (isPostnrFormat(query)) {
+        if (isPostnrQuery(query)) {
             return postnrSearchHandler(req, res);
         }
 

@@ -28,9 +28,7 @@ export const SearchResultPostnr = ({ result }: Props) => {
                         <div>
                             {`${numHits} kontorer dekker `}
                             {postnrOgPoststed}
-                            {
-                                '. Du kan skrive inn et gatenavn for å filtrere søket (coming soon!)'
-                            }
+                            {`. Du kan legge til et gatenavn for å filtrere søket, f.eks. ${postnr} Eksempelgata`}
                         </div>
                     ) : (
                         <div className={style.header}>
