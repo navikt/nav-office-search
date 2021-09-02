@@ -27,7 +27,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         return (
             <>
                 {`${postnr} er et postnummer for postbokser i `}
-                <strong>${kommune}</strong>
+                <strong>{kommune}</strong>
                 {` kommune. Kommunens NAV-kontor:`}
             </>
         );
@@ -37,7 +37,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         return (
             <>
                 {`${postnr} er et servicepostnummer i `}
-                <strong>${kommune}</strong>
+                <strong>{kommune}</strong>
                 {` kommune. Kommunens NAV-kontor:`}
             </>
         );
