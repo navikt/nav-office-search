@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const localeString = (id: LocaleStringId, locale: Locale = 'nb') =>
-    localeModules[locale][id] || `[Feil: mangler tekst for ${id}]`;
+    localeModules[locale][id] || `${id}`;
 
 export const LocaleString = ({ id }: Props) => {
     return <>{localeString(id)}</>;

@@ -36,7 +36,7 @@ export const fetchMock = fetchMockLib
             return {
                 hits: Array.from({ length: numOfficesToReturn }).map(
                     (_, i) => ({
-                        kontorNavn: `NAV Mock kontor ${i + 1}`,
+                        kontorNavn: `NAV ${postnrData.kommune} Mock ${i + 1}`,
                         enhetNr: i.toString(),
                         status: 'Aktiv',
                         adressenavn: `Eksempelgata`,

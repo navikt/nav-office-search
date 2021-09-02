@@ -29,7 +29,8 @@ export type SearchResultNameProps = {
 
 export type SearchResultErrorProps = {
     type: 'error';
-    messageId: LocaleStringId;
+    aborted?: boolean;
+    messageId?: LocaleStringId;
 };
 
 export type SearchResultProps =

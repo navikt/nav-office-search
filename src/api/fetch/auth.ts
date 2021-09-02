@@ -1,7 +1,7 @@
 import { fetchJson } from './fetch-json';
 import { encodeBase64 } from '../../utils';
-import { objectToQueryString } from '../../fetch';
 import { urls } from '../../urls';
+import { objectToQueryString } from '../utils';
 
 type TokenResponse = {
     token_type: 'Bearer';

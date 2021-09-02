@@ -3,7 +3,7 @@ import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
-import { fetchSearchClient } from '../../fetch';
+import { fetchSearchClient } from '../../clientFetch';
 import style from './SearchForm.module.css';
 
 export const SearchForm = () => {
@@ -29,23 +29,20 @@ export const SearchForm = () => {
         setIsLoading(true);
         setErrorMsg(null);
 
-        fetchSearchClient(input)
-            .then((result) => {
-                console.log('response:', result);
-                if (result.type === 'error') {
-                    setSearchResult(undefined);
-                    setErrorMsg(result.messageId);
-                } else {
-                    setSearchResult(result);
+        fetchSearchClient(input).then((result) => {
+            console.log('response:', result);
+            if (result.type === 'error') {
+                if (result.aborted) {
+                    return;
                 }
-            })
-            .catch((e) => {
-                console.error(e);
-                setErrorMsg(e);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+                setSearchResult(undefined);
+                setErrorMsg(result.messageId);
+            } else {
+                setSearchResult(result);
+            }
+
+            setIsLoading(false);
+        });
     };
 
     return (
