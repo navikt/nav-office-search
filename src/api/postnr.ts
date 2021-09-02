@@ -31,24 +31,26 @@ const postboksResponse = async (
     }
 
     return {
+        type: 'postnr',
         hits,
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
-        type: 'postnr',
     };
 };
 
-const adresseResponse = (
+const homeResponse = (
     postnrData: PostnrData,
-    apiResponse: AdresseSokResponse
+    apiResponse: AdresseSokResponse,
+    showAdresse: boolean
 ): SearchResultPostnrProps => {
     return {
+        type: 'postnr',
         hits: apiResponse.hits,
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
-        type: 'postnr',
+        showAdresse,
     };
 };
 
@@ -90,5 +92,7 @@ export const postnrSearchHandler = async (
             .send(apiErrorResponse('errorServerError'));
     }
 
-    return res.status(200).send(adresseResponse(postnrData, adresseSokRes));
+    return res
+        .status(200)
+        .send(homeResponse(postnrData, adresseSokRes, !!adresse));
 };

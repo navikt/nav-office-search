@@ -5,7 +5,7 @@ export type SearchHitProps = {
     kontorNavn: string;
     enhetNr: string;
     status: string;
-    hitString?: string;
+    adressenavn?: string;
     error?: undefined;
 };
 
@@ -15,6 +15,7 @@ export type SearchResultPostnrProps = {
     postnr: string;
     poststed: string;
     kategori: PostnrKategori;
+    showAdresse?: boolean;
     error?: undefined;
 };
 

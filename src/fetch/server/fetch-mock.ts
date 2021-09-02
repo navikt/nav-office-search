@@ -39,7 +39,7 @@ export const fetchMock = fetchMockLib
                         kontorNavn: `NAV Mock kontor ${i + 1}`,
                         enhetNr: i.toString(),
                         status: 'Aktiv',
-                        hitString: postnrData.poststed,
+                        adressenavn: `Eksempelgata`,
                     })
                 ),
             };

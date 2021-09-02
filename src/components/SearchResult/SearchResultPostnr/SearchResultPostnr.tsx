@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { SearchResultPostnrProps } from '../../../types/searchResult';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import style from './SearchResultPostnr.module.css';
+import { BodyLong } from '@navikt/ds-react';
 
 const getUrl = () => 'https://www.nav.no';
 
@@ -10,7 +11,7 @@ type Props = {
 };
 
 export const SearchResultPostnr = ({ result }: Props) => {
-    const { postnr, poststed, kategori, hits } = result;
+    const { postnr, poststed, kategori, hits, showAdresse } = result;
 
     if (!hits) {
         return <div>{'Error in search results'}</div>;
@@ -38,11 +39,12 @@ export const SearchResultPostnr = ({ result }: Props) => {
                         </div>
                     )}
                     {hits.map((hit) => (
-                        <OfficeLink
-                            href={getUrl()}
-                            name={hit.kontorNavn}
-                            key={hit.enhetNr}
-                        />
+                        <Fragment key={hit.enhetNr}>
+                            {showAdresse && (
+                                <BodyLong>{`${hit.adressenavn}:`}</BodyLong>
+                            )}
+                            <OfficeLink href={getUrl()} name={hit.kontorNavn} />
+                        </Fragment>
                     ))}
                 </>
             ) : (
