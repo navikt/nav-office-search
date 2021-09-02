@@ -1,8 +1,7 @@
 import { fetchJson } from './fetch-utils';
 import { encodeBase64 } from '../../utils';
 import { objectToQueryString } from '../../utils/fetch';
-
-const tokenUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`;
+import { urls } from '../../urls';
 
 type TokenResponse = {
     token_type: 'Bearer';
@@ -11,7 +10,7 @@ type TokenResponse = {
 };
 
 const fetchAccessToken = async (): Promise<TokenResponse | null> => {
-    const response = await fetchJson(tokenUrl, undefined, {
+    const response = await fetchJson(urls.azureAdTokenApi, undefined, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

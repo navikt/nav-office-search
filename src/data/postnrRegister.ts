@@ -3,6 +3,7 @@ import fs from 'fs';
 import { normalizeString } from '../utils';
 import { kommunenrToBydelerMap } from './bydeler';
 import { PostnrData, PostnrKategori } from '../types/postnr';
+import { urls } from '../urls';
 
 type PostnrRegisterItem = [
     postnr: string,
@@ -12,8 +13,6 @@ type PostnrRegisterItem = [
     kategori: PostnrKategori
 ];
 
-const bringPostnrRegisterUrl =
-    'https://www.bring.no/postnummerregister-ansi.txt';
 const localFallbackPath = './rawdata/postnummerregister-ansi.txt';
 const charEncodeFormat = 'windows-1252';
 
@@ -53,7 +52,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
 
 const fetchPostnrRegister = async (): Promise<string | null> => {
     try {
-        return await fetch(bringPostnrRegisterUrl)
+        return await fetch(urls.postnrRegister)
             .then((res) => {
                 if (res.ok) {
                     return res.arrayBuffer();
