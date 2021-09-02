@@ -3,7 +3,7 @@ import {
     FetchErrorResponse,
     fetchErrorResponse,
     fetchJson,
-} from './fetch-utils';
+} from './fetch-json';
 import { SearchHitProps } from '../../types/searchResult';
 import { urls } from '../../urls';
 

@@ -1,3 +1,6 @@
+import { SearchResultProps } from './types/searchResult';
+import { urls } from './urls';
+
 export const objectToQueryString = (params?: object, firstChar = '?') =>
     params
         ? Object.entries(params).reduce(
@@ -10,3 +13,10 @@ export const objectToQueryString = (params?: object, firstChar = '?') =>
               ''
           )
         : '';
+
+export const fetchSearchClient = (query: string): Promise<SearchResultProps> =>
+    fetch(
+        `${urls.searchApi}${objectToQueryString({
+            query,
+        })}`
+    ).then((res) => res.json());

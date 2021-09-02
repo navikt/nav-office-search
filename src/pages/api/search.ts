@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isPostnrQuery } from '../../utils';
 import { SearchResultProps } from '../../types/searchResult';
-import { postnrSearchHandler } from '../../api/postnr';
+import { postnrSearchHandler } from '../../api/search-postnr';
 import { apiErrorResponse } from '../../api/utils';
-import { responseFromNameSearch } from '../../fetch/server/search-name';
+import { responseFromNameSearch } from '../../api/search-name';
 
 const searchHandler = async (
     req: NextApiRequest,

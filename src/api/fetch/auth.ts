@@ -1,6 +1,6 @@
-import { fetchJson } from './fetch-utils';
+import { fetchJson } from './fetch-json';
 import { encodeBase64 } from '../../utils';
-import { objectToQueryString } from '../../utils/fetch';
+import { objectToQueryString } from '../../fetch';
 import { urls } from '../../urls';
 
 type TokenResponse = {

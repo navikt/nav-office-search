@@ -1,6 +1,6 @@
 import nodeFetch from 'node-fetch';
 import { fetchMock } from './fetch-mock';
-import { objectToQueryString } from '../../utils/fetch';
+import { objectToQueryString } from '../../fetch';
 
 const fetch = process.env.ENV === 'localhost' ? fetchMock : nodeFetch;
 

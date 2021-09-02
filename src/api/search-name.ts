@@ -1,19 +1,19 @@
-import { getPostnrRegister } from '../../data/postnrRegister';
-import { getBydelerData } from '../../data/bydeler';
-import { normalizeString, removeDuplicates } from '../../utils';
+import { getPostnrRegister } from '../data/postnrRegister';
+import { getBydelerData } from '../data/bydeler';
+import { normalizeString, removeDuplicates } from '../utils';
 import {
     SearchHitProps,
     SearchResultErrorProps,
     SearchResultNameProps,
-} from '../../types/searchResult';
-import { PostnrData } from '../../types/postnr';
-import { Bydel } from '../../types/bydel';
+} from '../types/searchResult';
+import { PostnrData } from '../types/postnr';
+import { Bydel } from '../types/bydel';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { fetchOfficeInfoByGeoId } from './office-info';
+import { fetchOfficeInfoByGeoId } from './fetch/office-info';
 
 type FetchOfficeInfoProps = {
     geografiskNr: string;
-    hitString: string;
+    adressenavn: string;
 };
 
 const findBydeler = (term: string) => {
@@ -47,13 +47,13 @@ const generateSearchHits = async (
             for (const bydel of poststed.bydeler) {
                 fetchProps.push({
                     geografiskNr: bydel.bydelsnr,
-                    hitString: poststed.poststed,
+                    adressenavn: poststed.poststed,
                 });
             }
         } else {
             fetchProps.push({
                 geografiskNr: poststed.kommunenr,
-                hitString: poststed.poststed,
+                adressenavn: poststed.poststed,
             });
         }
     }
@@ -61,7 +61,7 @@ const generateSearchHits = async (
     for (const bydel of bydeler) {
         fetchProps.push({
             geografiskNr: bydel.bydelsnr,
-            hitString: bydel.navn,
+            adressenavn: bydel.navn,
         });
     }
 
@@ -75,7 +75,7 @@ const generateSearchHits = async (
         const officeInfo = await fetchOfficeInfoByGeoId(props.geografiskNr);
 
         if (officeInfo && !officeInfo.error) {
-            hits.push(officeInfo);
+            hits.push({ ...officeInfo, adressenavn: props.adressenavn });
         }
     }
 

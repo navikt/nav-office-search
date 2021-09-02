@@ -3,4 +3,5 @@ export const urls = {
     postnrApi: `${process.env.API_ORIGIN}/postnr`,
     officeInfoApi: `${process.env.API_ORIGIN}/geoid`,
     postnrRegister: 'https://www.bring.no/postnummerregister-ansi.txt',
+    searchApi: `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/search`,
 };

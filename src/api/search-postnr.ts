@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getPostnrRegister } from '../data/postnrRegister';
-import { fetchTpsAdresseSok } from '../fetch/server/postnr';
+import { fetchTpsAdresseSok } from './fetch/postnr';
 import {
     SearchHitProps,
     SearchResultErrorProps,
     SearchResultPostnrProps,
 } from '../types/searchResult';
-import { fetchOfficeInfoByGeoId } from '../fetch/server/office-info';
+import { fetchOfficeInfoByGeoId } from './fetch/office-info';
 import { apiErrorResponse } from './utils';
 import { PostnrData, PostnrKategori } from '../types/postnr';
 

@@ -3,7 +3,7 @@ import { getPostnrRegister } from '../../data/postnrRegister';
 import { AdresseSokResponse } from './postnr';
 import { urls } from '../../urls';
 import { SearchHitProps } from '../../types/searchResult';
-import { fetchErrorResponse, FetchErrorResponse } from './fetch-utils';
+import { fetchErrorResponse, FetchErrorResponse } from './fetch-json';
 
 export const fetchMock = fetchMockLib
     .sandbox()
@@ -53,11 +53,9 @@ export const fetchMock = fetchMockLib
                 return fetchErrorResponse(500, 'Missing id-parameter');
             }
 
-            const nr = ((Number(id) % 5) + 1).toString();
-
             return {
-                kontorNavn: `NAV Mock kontor ${nr}`,
-                enhetNr: nr,
+                kontorNavn: `NAV Mock kontor ${id}`,
+                enhetNr: id,
                 status: 'Aktiv',
                 adressenavn: `Eksempelgata`,
             };

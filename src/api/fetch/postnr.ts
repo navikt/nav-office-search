@@ -3,7 +3,7 @@ import {
     fetchErrorResponse,
     FetchErrorResponse,
     fetchJson,
-} from './fetch-utils';
+} from './fetch-json';
 import { getAuthorizationHeader } from './auth';
 import { urls } from '../../urls';
 
