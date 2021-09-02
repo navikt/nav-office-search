@@ -12,27 +12,33 @@ const isPostnrFormat = (postnr: string) => {
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
+    const [errorMsg, setErrorMsg] = useState<LocaleStringId | null>();
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState<LocaleStringId | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const runSearch = () => {
+    const handleInput = (submit: boolean) => {
         const input = inputRef.current?.value;
 
-        if (!input) {
+        if (!input || input.length < 2) {
             setErrorMsg(null);
             return;
         }
 
-        if (Number(input) && !isPostnrFormat(input)) {
-            setErrorMsg('errorInvalidPostnr');
+        const [postnr, ...adresse] = input.split(' ');
+
+        if (isPostnrFormat(postnr) && adresse) {
+            runSearch(postnr, adresse.join(' ').trim());
             return;
         }
 
+        runSearch(input);
+    };
+
+    const runSearch = (input: string, adresse?: string) => {
         setIsLoading(true);
         setErrorMsg(null);
 
-        fetchSearchResult(input)
+        fetchSearchResult(input, adresse)
             .then((result) => {
                 console.log('response:', result);
                 if (result.type === 'error') {
@@ -59,7 +65,7 @@ export const SearchForm = () => {
                     id={'search-input'}
                     className={style.searchField}
                     ref={inputRef}
-                    onChange={runSearch}
+                    onChange={() => handleInput(false)}
                 />
                 {isLoading && (
                     <span className={style.loader}>
@@ -73,7 +79,10 @@ export const SearchForm = () => {
                         />
                     </span>
                 )}
-                <Button className={style.searchButton} onClick={runSearch}>
+                <Button
+                    className={style.searchButton}
+                    onClick={() => handleInput(true)}
+                >
                     <LocaleString id={'inputSubmit'} />
                 </Button>
             </div>

@@ -16,25 +16,32 @@ export const mockFetch = fetchMock
         `begin:${postnrApi}`,
         async (url): Promise<AdresseSokResponse> => {
             const postnr = new URL(url).searchParams.get('postnr');
+            if (!postnr) {
+                return {
+                    hits: [],
+                };
+            }
+
             const postnrData = (await getPostnrRegister()).find(
                 (item) => item.postnr === postnr
             );
-
             if (!postnrData) {
                 return {
                     hits: [],
                 };
             }
 
+            const numOfficesToReturn = (Number(postnr[0]) % 3) + 1;
+
             return {
-                hits: [
-                    {
-                        kontorNavn: 'Mock-kontor',
-                        enhetNr: '1337',
+                hits: Array.from({ length: numOfficesToReturn }).map(
+                    (_, i) => ({
+                        kontorNavn: `NAV Mock kontor ${i + 1}`,
+                        enhetNr: i.toString(),
                         status: 'Aktiv',
                         hitString: postnrData.poststed,
-                    },
-                ],
+                    })
+                ),
             };
         },
         { delay: 1000 }

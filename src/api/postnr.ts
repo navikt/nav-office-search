@@ -79,6 +79,7 @@ export const postnrSearchHandler = async (
     }
 
     const adresseSokRes = await fetchTpsAdresseSok(postnr, adresse);
+    console.log(postnr, adresse);
 
     if (adresseSokRes.error) {
         return res
