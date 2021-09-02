@@ -43,8 +43,7 @@ export const fetchMock = fetchMockLib
                     })
                 ),
             };
-        },
-        { delay: 1000 }
+        }
     )
     .mock(
         `begin:${urls.officeInfoApi}`,
@@ -54,12 +53,13 @@ export const fetchMock = fetchMockLib
                 return fetchErrorResponse(500, 'Missing id-parameter');
             }
 
+            const nr = ((Number(id) % 5) + 1).toString();
+
             return {
-                kontorNavn: 'NAV Mock kontor',
-                enhetNr: '1337',
+                kontorNavn: `NAV Mock kontor ${nr}`,
+                enhetNr: nr,
                 status: 'Aktiv',
                 adressenavn: `Eksempelgata`,
             };
-        },
-        { delay: 1000 }
+        }
     );
