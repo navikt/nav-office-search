@@ -16,7 +16,7 @@ export type SearchResultPostnrProps = {
     poststed: string;
     kommune: string;
     kategori: PostnrKategori;
-    showAdresse?: boolean;
+    adresseQuery?: string;
     error?: undefined;
 };
 

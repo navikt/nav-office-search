@@ -48,7 +48,7 @@ const specialResponse = async (
 const homeResponse = (
     postnrData: PostnrData,
     apiResponse: AdresseSokResponse,
-    showAdresse: boolean
+    adresse: string
 ): SearchResultPostnrProps => {
     return {
         type: 'postnr',
@@ -57,7 +57,7 @@ const homeResponse = (
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
         kommune: postnrData.kommune,
-        showAdresse,
+        adresseQuery: adresse,
     };
 };
 
@@ -103,5 +103,5 @@ export const postnrSearchHandler = async (
 
     return res
         .status(200)
-        .send(homeResponse(postnrData, adresseSokRes, !!adresse));
+        .send(homeResponse(postnrData, adresseSokRes, adresse));
 };

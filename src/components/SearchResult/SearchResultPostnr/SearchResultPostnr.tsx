@@ -8,7 +8,7 @@ import style from './SearchResultPostnr.module.css';
 const getUrl = () => 'https://www.nav.no';
 
 const HeaderText = (result: SearchResultPostnrProps) => {
-    const { postnr, poststed, kommune, kategori, hits } = result;
+    const { postnr, poststed, kommune, kategori, hits, adresseQuery } = result;
 
     const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;
 
@@ -19,6 +19,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
             <>
                 {`Ingen NAV-kontor funnet for `}
                 {postnrOgPoststed}
+                {adresseQuery && ` med gatenavn ${adresseQuery}`}
             </>
         );
     }
@@ -67,7 +68,7 @@ type Props = {
 };
 
 export const SearchResultPostnr = ({ result }: Props) => {
-    const { hits, showAdresse } = result;
+    const { hits, adresseQuery } = result;
 
     if (!hits) {
         return <div>{'Error in search results'}</div>;
@@ -80,7 +81,7 @@ export const SearchResultPostnr = ({ result }: Props) => {
             </div>
             {hits.map((hit) => (
                 <Fragment key={hit.enhetNr}>
-                    {showAdresse && (
+                    {adresseQuery && (
                         <BodyLong>{`${hit.adressenavn}:`}</BodyLong>
                     )}
                     <OfficeLink href={getUrl()} name={hit.kontorNavn} />
