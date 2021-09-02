@@ -14,6 +14,7 @@ export type SearchResultPostnrProps = {
     hits: SearchHitProps[];
     postnr: string;
     poststed: string;
+    kommune: string;
     kategori: PostnrKategori;
     showAdresse?: boolean;
     error?: undefined;

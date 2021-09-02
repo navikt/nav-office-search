@@ -10,7 +10,8 @@ import { fetchOfficeInfoByGeoId } from '../fetch/server/office-info';
 import { apiErrorResponse } from './utils';
 import { PostnrData, PostnrKategori } from '../types/postnr';
 
-const postboksResponse = async (
+// Response-data for postnr used for po-boxes or other special purposes
+const specialResponse = async (
     postnrData: PostnrData
 ): Promise<SearchResultPostnrProps> => {
     const geoIds = postnrData.bydeler?.map((bydel) => bydel.bydelsnr) || [
@@ -36,9 +37,11 @@ const postboksResponse = async (
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
+        kommune: postnrData.kommune,
     };
 };
 
+// Response-data for postnr used for home adresses
 const homeResponse = (
     postnrData: PostnrData,
     apiResponse: AdresseSokResponse,
@@ -50,6 +53,7 @@ const homeResponse = (
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
+        kommune: postnrData.kommune,
         showAdresse,
     };
 };
@@ -78,7 +82,7 @@ export const postnrSearchHandler = async (
         postnrData.kategori === PostnrKategori.Postbokser ||
         postnrData.kategori === PostnrKategori.Servicepostnummer
     ) {
-        return res.status(200).send(await postboksResponse(postnrData));
+        return res.status(200).send(await specialResponse(postnrData));
     }
 
     const adresse = adresseSegments?.join(' ').trim();

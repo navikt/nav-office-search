@@ -13,6 +13,7 @@ export type PostnrData = {
     poststedNormalized: string;
     poststed: string;
     kommunenr: string;
+    kommune: string;
     kategori: PostnrKategori;
     bydeler?: Bydel[];
 };

@@ -2,9 +2,9 @@ import React, { useRef, useState } from 'react';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
-import style from './SearchForm.module.css';
 import { SearchResultProps } from '../../types/searchResult';
 import { fetchSearchResult } from '../../fetch/client/search';
+import style from './SearchForm.module.css';
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();

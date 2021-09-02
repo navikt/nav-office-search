@@ -4,6 +4,10 @@
     text-decoration: none;
 }
 
+.link:not(:last-child) {
+    margin-bottom: 0.25rem;
+}
+
 .chevron {
     margin-right: 0.5rem;
     transition: transform 0.25s ease-out;

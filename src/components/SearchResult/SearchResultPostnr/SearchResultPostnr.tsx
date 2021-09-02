@@ -1,58 +1,91 @@
 import React, { Fragment } from 'react';
 import { SearchResultPostnrProps } from '../../../types/searchResult';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
-import style from './SearchResultPostnr.module.css';
 import { BodyLong } from '@navikt/ds-react';
+import { PostnrKategori } from '../../../types/postnr';
+import style from './SearchResultPostnr.module.css';
 
 const getUrl = () => 'https://www.nav.no';
+
+const HeaderText = (result: SearchResultPostnrProps) => {
+    const { postnr, poststed, kommune, kategori, hits } = result;
+
+    const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;
+
+    const numHits = hits.length;
+
+    if (numHits === 0) {
+        return (
+            <>
+                {`Ingen NAV-kontor funnet for `}
+                {postnrOgPoststed}
+            </>
+        );
+    }
+
+    if (kategori === PostnrKategori.Postbokser) {
+        return (
+            <>
+                {`${postnr} er et postnummer for postbokser i `}
+                <strong>${kommune}</strong>
+                {` kommune. Kommunens NAV-kontor:`}
+            </>
+        );
+    }
+
+    if (kategori === PostnrKategori.Servicepostnummer) {
+        return (
+            <>
+                {`${postnr} er et servicepostnummer i `}
+                <strong>${kommune}</strong>
+                {` kommune. Kommunens NAV-kontor:`}
+            </>
+        );
+    }
+
+    if (numHits > 1) {
+        return (
+            <>
+                {`${numHits} kontorer dekker `}
+                {postnrOgPoststed}
+                {`. Du kan legge til et gatenavn for å filtrere søket, f.eks. ${postnr} Eksempelgata`}
+            </>
+        );
+    }
+
+    return (
+        <>
+            {`NAV-kontor for `}
+            {postnrOgPoststed}
+            {':'}
+        </>
+    );
+};
 
 type Props = {
     result: SearchResultPostnrProps;
 };
 
 export const SearchResultPostnr = ({ result }: Props) => {
-    const { postnr, poststed, kategori, hits, showAdresse } = result;
+    const { hits, showAdresse } = result;
 
     if (!hits) {
         return <div>{'Error in search results'}</div>;
     }
 
-    const numHits = hits.length;
-
-    const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;
-
     return (
         <div className={style.container}>
-            {numHits > 0 ? (
-                <>
-                    {numHits > 1 ? (
-                        <div>
-                            {`${numHits} kontorer dekker `}
-                            {postnrOgPoststed}
-                            {`. Du kan legge til et gatenavn for å filtrere søket, f.eks. ${postnr} Eksempelgata`}
-                        </div>
-                    ) : (
-                        <div className={style.header}>
-                            {`NAV-kontor for `}
-                            {postnrOgPoststed}
-                            {':'}
-                        </div>
+            <div className={style.header}>
+                <HeaderText {...result} />
+            </div>
+            {hits.map((hit) => (
+                <Fragment key={hit.enhetNr}>
+                    {showAdresse && (
+                        <BodyLong>{`${hit.adressenavn}:`}</BodyLong>
                     )}
-                    {hits.map((hit) => (
-                        <Fragment key={hit.enhetNr}>
-                            {showAdresse && (
-                                <BodyLong>{`${hit.adressenavn}:`}</BodyLong>
-                            )}
-                            <OfficeLink href={getUrl()} name={hit.kontorNavn} />
-                        </Fragment>
-                    ))}
-                </>
-            ) : (
-                <div className={style.header}>
-                    {`Ingen NAV-kontor funnet for `}
-                    {postnrOgPoststed}
-                </div>
-            )}
+                    <OfficeLink href={getUrl()} name={hit.kontorNavn} />
+                </Fragment>
+            ))}
         </div>
     );
 };

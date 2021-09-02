@@ -36,7 +36,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
 
     return itemsRaw.map((itemRaw) => {
         const item = itemRaw.trim().split('\t') as PostnrRegisterItem;
-        const [postnr, poststed, kommunenr, , kategori] = item;
+        const [postnr, poststed, kommunenr, kommune, kategori] = item;
         const bydeler = kommunenrToBydelerMap[kommunenr];
 
         return {
@@ -44,6 +44,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
             postnr,
             poststed,
             kommunenr,
+            kommune,
             kategori,
             ...(bydeler && { bydeler }),
         };
