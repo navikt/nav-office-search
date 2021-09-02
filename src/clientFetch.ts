@@ -4,12 +4,13 @@ import {
 } from './types/searchResult';
 import { urls } from './urls';
 
-let abortController = new AbortController();
+let abortController =
+    typeof window !== 'undefined' ? new AbortController() : null;
 
 export const fetchSearchClient = (
     query: string
 ): Promise<SearchResultProps> => {
-    abortController.abort();
+    abortController?.abort();
     abortController = new AbortController();
 
     return fetch(`${urls.searchApi}?query=${query}`, {
