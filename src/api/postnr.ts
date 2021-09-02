@@ -52,7 +52,7 @@ const homeResponse = (
 ): SearchResultPostnrProps => {
     return {
         type: 'postnr',
-        hits: apiResponse.hits.sort(sortByOfficeName),
+        hits: apiResponse.hits?.sort(sortByOfficeName) || [],
         postnr: postnrData.postnr,
         poststed: postnrData.poststed,
         kategori: postnrData.kategori,
@@ -91,9 +91,11 @@ export const postnrSearchHandler = async (
     const adresse = adresseSegments?.join(' ').trim();
 
     const adresseSokRes = await fetchTpsAdresseSok(postnr, adresse);
-    console.log(postnr, adresse);
 
     if (adresseSokRes.error) {
+        console.error(
+            `Error fetching postnr from query ${query} - ${adresseSokRes.statusCode} ${adresseSokRes.message}`
+        );
         return res
             .status(adresseSokRes.statusCode)
             .send(apiErrorResponse('errorServerError'));

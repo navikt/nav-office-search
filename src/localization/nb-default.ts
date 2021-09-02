@@ -8,6 +8,6 @@ export const localeNb = {
     inputSubmit: 'Søk',
     errorMissingQuery: 'Mangler søke-streng',
     errorInvalidQuery: 'Feil i søke-streng',
-    errorInvalidPostnr: 'Postnummeret er ikke gyldig',
+    errorInvalidPostnr: 'Postnummeret finnes ikke',
     errorServerError: 'Server-feil',
 };
