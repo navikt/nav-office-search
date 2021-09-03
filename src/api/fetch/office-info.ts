@@ -4,19 +4,19 @@ import {
     fetchErrorResponse,
     fetchJson,
 } from './fetch-json';
-import { SearchHitProps } from '../../types/searchResult';
+import { OfficeHitProps } from '../../types/searchResult';
 import { urls } from '../../urls';
 
 export const fetchOfficeInfoByGeoId = async (
     id: string
-): Promise<SearchHitProps | FetchErrorResponse> => {
+): Promise<OfficeHitProps | FetchErrorResponse> => {
     const authorizationHeader = await getAuthorizationHeader();
 
     if (!authorizationHeader) {
         return fetchErrorResponse(500, 'Failed to get authorization header');
     }
 
-    return await fetchJson<SearchHitProps>(
+    return await fetchJson<OfficeHitProps>(
         urls.officeInfoApi,
         { id },
         {

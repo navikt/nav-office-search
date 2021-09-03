@@ -2,7 +2,7 @@ import { getPostnrRegister } from '../data/postnrRegister';
 import { getBydelerData } from '../data/bydeler';
 import { normalizeString, removeDuplicates } from '../utils';
 import {
-    NameHits,
+    OfficeHitProps,
     SearchResultErrorProps,
     SearchResultNameProps,
 } from '../types/searchResult';
@@ -35,11 +35,34 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
     );
 };
 
-const generateSearchHits = async (
+const sortNamesearch =
+    (queryNormalized: string) => (a: OfficeHitProps, b: OfficeHitProps) => {
+        const aName = a.adressenavn;
+        const bName = b.adressenavn;
+
+        const aNormalized = normalizeString(aName);
+        const bNormalized = normalizeString(bName);
+
+        const aStartsWithInput = aNormalized.startsWith(queryNormalized);
+        const bStartsWithInput = bNormalized.startsWith(queryNormalized);
+
+        if (aStartsWithInput && !bStartsWithInput) {
+            return -1;
+        }
+
+        if (!aStartsWithInput && bStartsWithInput) {
+            return 1;
+        }
+
+        return aName === bName ? 0 : aName > bName ? 1 : -1;
+    };
+
+const transformToNameHits = async (
     poststeder: PostnrData[],
-    bydeler: Bydel[]
-): Promise<NameHits> => {
-    const hitsMap: NameHits = {};
+    bydeler: Bydel[],
+    query: string
+): Promise<SearchResultNameProps['nameHits']> => {
+    const hitsMap: { [name: string]: OfficeHitProps[] } = {};
     const fetchProps: FetchOfficeInfoProps[] = [];
 
     for (const poststed of poststeder) {
@@ -88,7 +111,13 @@ const generateSearchHits = async (
         }
     }
 
-    return hitsMap;
+    return Object.entries(hitsMap).map(([name, hits]) => ({
+        name: name,
+        officeHits: removeDuplicates(
+            hits,
+            (a, b) => a.enhetNr === b.enhetNr
+        ).sort(sortNamesearch(normalizeString(query))),
+    }));
 };
 
 export const responseFromNameSearch = async (
@@ -103,7 +132,11 @@ export const responseFromNameSearch = async (
 
     const bydelerHits = findBydeler(normalizedQuery);
 
-    const allHits = await generateSearchHits(poststederHits, bydelerHits);
+    const allHits = await transformToNameHits(
+        poststederHits,
+        bydelerHits,
+        query
+    );
 
     return res
         .status(200)

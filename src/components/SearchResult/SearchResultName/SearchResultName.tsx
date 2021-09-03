@@ -37,24 +37,6 @@ const NameWithHighlightedInput = ({
     );
 };
 
-const sortNamesearch = (queryNormalized: string) => (a: string, b: string) => {
-    const aNormalized = normalizeString(a);
-    const bNormalized = normalizeString(b);
-
-    const aStartsWithInput = aNormalized.startsWith(queryNormalized);
-    const bStartsWithInput = bNormalized.startsWith(queryNormalized);
-
-    if (aStartsWithInput && !bStartsWithInput) {
-        return -1;
-    }
-
-    if (!aStartsWithInput && bStartsWithInput) {
-        return 1;
-    }
-
-    return a === b ? 0 : a > b ? 1 : -1;
-};
-
 type Props = {
     result: SearchResultNameProps;
 };
@@ -67,8 +49,7 @@ export const SearchResultName = ({ result }: Props) => {
     }
 
     const normalizedInput = normalizeString(input);
-    const hitKeys = Object.keys(nameHits).sort(sortNamesearch(normalizedInput));
-    const numHits = hitKeys.length;
+    const numHits = nameHits.length;
 
     return (
         <div>
@@ -77,19 +58,19 @@ export const SearchResultName = ({ result }: Props) => {
                     ? `Ingen resultater for "${input}"`
                     : `Søkeresultat for "${input}" (${numHits}):`}
             </div>
-            {hitKeys.map((hitKey) => (
-                <Fragment key={hitKey}>
+            {nameHits.map((nameHit) => (
+                <Fragment key={nameHit.name}>
                     <BodyShort size={'s'} className={style.hitname}>
                         <NameWithHighlightedInput
-                            name={hitKey}
+                            name={nameHit.name}
                             normalizedInput={normalizedInput}
                         />
                     </BodyShort>
-                    {nameHits[hitKey].map((hit) => (
+                    {nameHit.officeHits.map((office) => (
                         <OfficeLink
                             href={getUrl()}
-                            name={hit.kontorNavn}
-                            key={hit.enhetNr}
+                            name={office.kontorNavn}
+                            key={office.enhetNr}
                         />
                     ))}
                 </Fragment>

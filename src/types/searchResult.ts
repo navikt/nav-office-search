@@ -1,7 +1,7 @@
 import { LocaleStringId } from '../localization/LocaleString';
 import { PostnrKategori } from './postnr';
 
-export type SearchHitProps = {
+export type OfficeHitProps = {
     kontorNavn: string;
     enhetNr: string;
     status: string;
@@ -11,7 +11,7 @@ export type SearchHitProps = {
 
 export type SearchResultPostnrProps = {
     type: 'postnr';
-    hits: SearchHitProps[];
+    hits: OfficeHitProps[];
     postnr: string;
     poststed: string;
     kommune: string;
@@ -20,11 +20,9 @@ export type SearchResultPostnrProps = {
     error?: undefined;
 };
 
-export type NameHits = { [name: string]: SearchHitProps[] };
-
 export type SearchResultNameProps = {
     type: 'name';
-    nameHits: NameHits;
+    nameHits: { name: string; officeHits: OfficeHitProps[] }[];
     input: string;
     error?: undefined;
 };

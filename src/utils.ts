@@ -38,7 +38,7 @@ export const normalizeString = (str: string) =>
 
 export const removeDuplicates = <Type>(
     array: Type[],
-    isEqualPredicate?: (a: any, b: any) => boolean
+    isEqualPredicate?: (a: Type, b: Type) => boolean
 ): Type[] =>
     isEqualPredicate
         ? array.filter((aItem, aIndex) => {
