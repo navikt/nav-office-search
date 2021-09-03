@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import debounce from 'lodash.debounce';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
@@ -38,7 +39,7 @@ export const SearchForm = () => {
         abortSearchClient();
     };
 
-    const runSearch = (input: string) => {
+    const runSearch = debounce((input: string) => {
         setIsLoading(true);
         setErrorMsg(null);
 
@@ -56,7 +57,7 @@ export const SearchForm = () => {
 
             setIsLoading(false);
         });
-    };
+    }, 500);
 
     return (
         <div className={style.searchForm}>
