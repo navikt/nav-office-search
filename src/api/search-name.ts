@@ -10,6 +10,7 @@ import {
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchOfficeInfoByGeoId } from './fetch/office-info';
 import { fetchTpsAdresseSok } from './fetch/postnr';
+import { PostnrKategori } from '../types/postnr';
 
 const findBydeler = async (
     normalizedQuery: string
@@ -37,8 +38,11 @@ const findPoststeder = async (
     const results: OfficeHitProps[] = [];
 
     const postnrMatches = removeDuplicates(
-        (await getPostnrRegister()).filter((item) =>
-            item.poststedNormalized.includes(normalizedQuery)
+        (await getPostnrRegister()).filter(
+            (item) =>
+                item.kategori !== PostnrKategori.Postbokser &&
+                item.kategori !== PostnrKategori.Servicepostnummer &&
+                item.poststedNormalized.includes(normalizedQuery)
         ),
         (a, b) => a.kommunenr === b.kommunenr && !a.bydeler && !b.bydeler
     );
