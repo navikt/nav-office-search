@@ -7,10 +7,12 @@ import { urls } from './urls';
 let abortController =
     typeof window !== 'undefined' ? new AbortController() : null;
 
+export const abortSearchClient = () => abortController?.abort();
+
 export const fetchSearchClient = (
     query: string
 ): Promise<SearchResultProps> => {
-    abortController?.abort();
+    abortSearchClient();
     abortController = new AbortController();
 
     return fetch(`${urls.searchApi}?query=${query}`, {

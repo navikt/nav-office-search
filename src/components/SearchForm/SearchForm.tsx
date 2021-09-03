@@ -3,7 +3,7 @@ import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
-import { fetchSearchClient } from '../../clientFetch';
+import { abortSearchClient, fetchSearchClient } from '../../clientFetch';
 import style from './SearchForm.module.css';
 
 export const SearchForm = () => {
@@ -17,6 +17,8 @@ export const SearchForm = () => {
 
         if (!input || input.length < 2) {
             setErrorMsg(null);
+            setIsLoading(false);
+            abortSearchClient();
             return;
         }
 
