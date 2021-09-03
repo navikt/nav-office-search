@@ -2,7 +2,7 @@ import { getPostnrRegister } from '../data/postnrRegister';
 import { getBydelerData } from '../data/bydeler';
 import { normalizeString, removeDuplicates } from '../utils';
 import {
-    SearchHitProps,
+    NameHits,
     SearchResultErrorProps,
     SearchResultNameProps,
 } from '../types/searchResult';
@@ -35,34 +35,11 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
     );
 };
 
-const sortNamesearch =
-    (queryNormalized: string) => (a: SearchHitProps, b: SearchHitProps) => {
-        const aNormalized = normalizeString(a.adressenavn);
-        const bNormalized = normalizeString(b.adressenavn);
-
-        const aStartsWithInput = aNormalized.startsWith(queryNormalized);
-        const bStartsWithInput = bNormalized.startsWith(queryNormalized);
-
-        if (aStartsWithInput && !bStartsWithInput) {
-            return -1;
-        }
-
-        if (!aStartsWithInput && bStartsWithInput) {
-            return 1;
-        }
-
-        return a.adressenavn === b.adressenavn
-            ? 0
-            : a.adressenavn > b.adressenavn
-            ? 1
-            : -1;
-    };
-
 const generateSearchHits = async (
     poststeder: PostnrData[],
     bydeler: Bydel[]
-): Promise<SearchHitProps[]> => {
-    const hits: SearchHitProps[] = [];
+): Promise<NameHits> => {
+    const hitsMap: NameHits = {};
     const fetchProps: FetchOfficeInfoProps[] = [];
 
     for (const poststed of poststeder) {
@@ -98,11 +75,20 @@ const generateSearchHits = async (
         const officeInfo = await fetchOfficeInfoByGeoId(props.geografiskNr);
 
         if (officeInfo && !officeInfo.error) {
-            hits.push({ ...officeInfo, adressenavn: props.adressenavn });
+            const name = props.adressenavn;
+            if (!hitsMap[name]) {
+                hitsMap[name] = [];
+            }
+
+            if (
+                !hitsMap[name].some((hit) => hit.enhetNr === officeInfo.enhetNr)
+            ) {
+                hitsMap[name].push({ ...officeInfo });
+            }
         }
     }
 
-    return removeDuplicates(hits);
+    return hitsMap;
 };
 
 export const responseFromNameSearch = async (
@@ -117,11 +103,9 @@ export const responseFromNameSearch = async (
 
     const bydelerHits = findBydeler(normalizedQuery);
 
-    const searchHits = (
-        await generateSearchHits(poststederHits, bydelerHits)
-    ).sort(sortNamesearch(normalizedQuery));
+    const allHits = await generateSearchHits(poststederHits, bydelerHits);
 
     return res
         .status(200)
-        .send({ hits: searchHits, type: 'name', input: query });
+        .send({ nameHits: allHits, type: 'name', input: query });
 };

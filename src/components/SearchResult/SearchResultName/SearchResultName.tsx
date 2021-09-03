@@ -37,19 +37,38 @@ const NameWithHighlightedInput = ({
     );
 };
 
+const sortNamesearch = (queryNormalized: string) => (a: string, b: string) => {
+    const aNormalized = normalizeString(a);
+    const bNormalized = normalizeString(b);
+
+    const aStartsWithInput = aNormalized.startsWith(queryNormalized);
+    const bStartsWithInput = bNormalized.startsWith(queryNormalized);
+
+    if (aStartsWithInput && !bStartsWithInput) {
+        return -1;
+    }
+
+    if (!aStartsWithInput && bStartsWithInput) {
+        return 1;
+    }
+
+    return a === b ? 0 : a > b ? 1 : -1;
+};
+
 type Props = {
     result: SearchResultNameProps;
 };
 
 export const SearchResultName = ({ result }: Props) => {
-    const { input, hits } = result;
+    const { input, nameHits } = result;
 
-    if (!hits) {
+    if (!nameHits) {
         return <div>{'Error in search results'}</div>;
     }
 
-    const numHits = hits.length;
     const normalizedInput = normalizeString(input);
+    const hitKeys = Object.keys(nameHits).sort(sortNamesearch(normalizedInput));
+    const numHits = hitKeys.length;
 
     return (
         <div>
@@ -58,15 +77,21 @@ export const SearchResultName = ({ result }: Props) => {
                     ? `Ingen resultater for "${input}"`
                     : `Søkeresultat for "${input}" (${numHits}):`}
             </div>
-            {hits.map((hit) => (
-                <Fragment key={hit.enhetNr}>
+            {hitKeys.map((hitKey) => (
+                <Fragment key={hitKey}>
                     <BodyShort size={'s'} className={style.hitname}>
                         <NameWithHighlightedInput
-                            name={hit.adressenavn}
+                            name={hitKey}
                             normalizedInput={normalizedInput}
                         />
                     </BodyShort>
-                    <OfficeLink href={getUrl()} name={hit.kontorNavn} />
+                    {nameHits[hitKey].map((hit) => (
+                        <OfficeLink
+                            href={getUrl()}
+                            name={hit.kontorNavn}
+                            key={hit.enhetNr}
+                        />
+                    ))}
                 </Fragment>
             ))}
         </div>

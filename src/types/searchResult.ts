@@ -20,9 +20,11 @@ export type SearchResultPostnrProps = {
     error?: undefined;
 };
 
+export type NameHits = { [name: string]: SearchHitProps[] };
+
 export type SearchResultNameProps = {
     type: 'name';
-    hits: SearchHitProps[];
+    nameHits: NameHits;
     input: string;
     error?: undefined;
 };
