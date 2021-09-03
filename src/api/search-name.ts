@@ -35,7 +35,28 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
     );
 };
 
-const sortNamesearch = (a: SearchHitProps, b: SearchHitProps) => {};
+const sortNamesearch =
+    (queryNormalized: string) => (a: SearchHitProps, b: SearchHitProps) => {
+        const aNormalized = normalizeString(a.adressenavn);
+        const bNormalized = normalizeString(b.adressenavn);
+
+        const aStartsWithInput = aNormalized.startsWith(queryNormalized);
+        const bStartsWithInput = bNormalized.startsWith(queryNormalized);
+
+        if (aStartsWithInput && !bStartsWithInput) {
+            return -1;
+        }
+
+        if (!aStartsWithInput && bStartsWithInput) {
+            return 1;
+        }
+
+        return a.adressenavn === b.adressenavn
+            ? 0
+            : a.adressenavn > b.adressenavn
+            ? 1
+            : -1;
+    };
 
 const generateSearchHits = async (
     poststeder: PostnrData[],
@@ -81,7 +102,7 @@ const generateSearchHits = async (
         }
     }
 
-    return removeDuplicates(hits).sort();
+    return removeDuplicates(hits);
 };
 
 export const responseFromNameSearch = async (
@@ -96,7 +117,9 @@ export const responseFromNameSearch = async (
 
     const bydelerHits = findBydeler(normalizedQuery);
 
-    const searchHits = await generateSearchHits(poststederHits, bydelerHits);
+    const searchHits = (
+        await generateSearchHits(poststederHits, bydelerHits)
+    ).sort(sortNamesearch(normalizedQuery));
 
     return res
         .status(200)
