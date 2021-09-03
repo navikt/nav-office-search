@@ -10,5 +10,7 @@ export const localeNb = {
     errorInvalidQuery: 'Feil i søke-streng',
     errorInvalidPostnr: 'Postnummeret finnes ikke',
     errorServerError: 'Server-feil',
+    errorClientSideValidation:
+        'Skriv inn minst to bokstaver eller et postnummer (fire siffer)',
     nameResultHeader: 'Søkeresultat for ',
 };

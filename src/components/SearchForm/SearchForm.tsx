@@ -5,6 +5,14 @@ import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
 import { abortSearchClient, fetchSearchClient } from '../../clientFetch';
 import style from './SearchForm.module.css';
+import { isPostnrQuery } from '../../utils';
+
+const validateInput = (input?: string): input is string =>
+    !!(
+        typeof input === 'string' &&
+        input.length >= 2 &&
+        (!Number(input) || isPostnrQuery(input))
+    );
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
@@ -15,16 +23,19 @@ export const SearchForm = () => {
     const handleInput = (submit: boolean) => {
         const input = inputRef.current?.value;
 
-        if (!input || input.length < 2) {
-            setErrorMsg(null);
-            setIsLoading(false);
-            abortSearchClient();
+        if (validateInput(input)) {
+            runSearch(input);
             return;
         }
 
-        // TODO: handle certain input errors to prevent unnecessary api-calls
+        if (submit) {
+            setErrorMsg('errorClientSideValidation');
+        } else {
+            setErrorMsg(null);
+        }
 
-        runSearch(input);
+        setIsLoading(false);
+        abortSearchClient();
     };
 
     const runSearch = (input: string) => {
