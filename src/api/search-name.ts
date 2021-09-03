@@ -36,8 +36,11 @@ const findPoststeder = async (
 ): Promise<OfficeHitProps[]> => {
     const results: OfficeHitProps[] = [];
 
-    const postnrMatches = (await getPostnrRegister()).filter((item) =>
-        item.poststedNormalized.includes(normalizedQuery)
+    const postnrMatches = removeDuplicates(
+        (await getPostnrRegister()).filter((item) =>
+            item.poststedNormalized.includes(normalizedQuery)
+        ),
+        (a, b) => a.kommunenr === b.kommunenr && !a.bydeler && !b.bydeler
     );
 
     for (const postnrData of postnrMatches) {
