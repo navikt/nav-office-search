@@ -58,7 +58,7 @@ export const fetchMock = fetchMockLib
             );
 
             return {
-                kontorNavn: `NAV ${postnrData?.kommune || 'Mock-kontor'}`,
+                kontorNavn: `NAV ${postnrData?.kommune || `Mock-kontor ${id}`}`,
                 enhetNr: id,
                 status: 'Aktiv',
                 adressenavn: `Eksempelgata`,

@@ -2,6 +2,7 @@ import { getPostnrRegister } from '../data/postnrRegister';
 import { getBydelerData } from '../data/bydeler';
 import { normalizeString, removeDuplicates } from '../utils';
 import {
+    NameHit,
     OfficeHitProps,
     SearchResultErrorProps,
     SearchResultNameProps,
@@ -36,12 +37,9 @@ const findPoststeder = async (term: string): Promise<PostnrData[]> => {
 };
 
 const sortNamesearch =
-    (queryNormalized: string) => (a: OfficeHitProps, b: OfficeHitProps) => {
-        const aName = a.adressenavn;
-        const bName = b.adressenavn;
-
-        const aNormalized = normalizeString(aName);
-        const bNormalized = normalizeString(bName);
+    (queryNormalized: string) => (a: NameHit, b: NameHit) => {
+        const aNormalized = normalizeString(a.name);
+        const bNormalized = normalizeString(b.name);
 
         const aStartsWithInput = aNormalized.startsWith(queryNormalized);
         const bStartsWithInput = bNormalized.startsWith(queryNormalized);
@@ -54,14 +52,14 @@ const sortNamesearch =
             return 1;
         }
 
-        return aName === bName ? 0 : aName > bName ? 1 : -1;
+        return a.name === b.name ? 0 : a.name > b.name ? 1 : -1;
     };
 
-const transformToNameHits = async (
+const transformHits = async (
     poststeder: PostnrData[],
     bydeler: Bydel[],
-    query: string
-): Promise<SearchResultNameProps['nameHits']> => {
+    normalizedQuery: string
+): Promise<NameHit[]> => {
     const hitsMap: { [name: string]: OfficeHitProps[] } = {};
     const fetchProps: FetchOfficeInfoProps[] = [];
 
@@ -106,18 +104,20 @@ const transformToNameHits = async (
             if (
                 !hitsMap[name].some((hit) => hit.enhetNr === officeInfo.enhetNr)
             ) {
-                hitsMap[name].push({ ...officeInfo });
+                hitsMap[name].push(officeInfo);
             }
         }
     }
 
-    return Object.entries(hitsMap).map(([name, hits]) => ({
-        name: name,
-        officeHits: removeDuplicates(
-            hits,
-            (a, b) => a.enhetNr === b.enhetNr
-        ).sort(sortNamesearch(normalizeString(query))),
-    }));
+    return Object.entries(hitsMap)
+        .map(([name, hits]) => ({
+            name: name,
+            officeHits: removeDuplicates(
+                hits,
+                (a, b) => a.enhetNr === b.enhetNr
+            ).sort((a, b) => (a.kontorNavn > b.kontorNavn ? 1 : -1)),
+        }))
+        .sort(sortNamesearch(normalizedQuery));
 };
 
 export const responseFromNameSearch = async (
@@ -132,10 +132,10 @@ export const responseFromNameSearch = async (
 
     const bydelerHits = findBydeler(normalizedQuery);
 
-    const allHits = await transformToNameHits(
+    const allHits = await transformHits(
         poststederHits,
         bydelerHits,
-        query
+        normalizedQuery
     );
 
     return res

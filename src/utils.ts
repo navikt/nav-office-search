@@ -33,8 +33,10 @@ const replaceSpecialCharFunc = (match: string) => {
 
 export const normalizeString = (str: string) =>
     str
-        .toLowerCase()
-        .replace(replaceSpecialCharPattern, replaceSpecialCharFunc);
+        ? str
+              .toLowerCase()
+              .replace(replaceSpecialCharPattern, replaceSpecialCharFunc)
+        : '';
 
 export const removeDuplicates = <Type>(
     array: Type[],
