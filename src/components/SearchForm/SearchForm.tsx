@@ -4,8 +4,8 @@ import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
 import { abortSearchClient, fetchSearchClient } from '../../clientFetch';
-import style from './SearchForm.module.css';
 import { isPostnrQuery } from '../../utils';
+import style from './SearchForm.module.css';
 
 const validateInput = (input?: string): input is string =>
     !!(

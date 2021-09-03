@@ -34,7 +34,6 @@ const replaceSpecialCharFunc = (match: string) => {
 export const normalizeString = (str: string) =>
     str
         .toLowerCase()
-        .normalize('NFD')
         .replace(replaceSpecialCharPattern, replaceSpecialCharFunc);
 
 export const removeDuplicates = <Type>(
