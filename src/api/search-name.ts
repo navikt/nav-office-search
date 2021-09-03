@@ -43,11 +43,18 @@ const findPoststeder = async (
         (a, b) => a.kommunenr === b.kommunenr && !a.bydeler && !b.bydeler
     );
 
+    console.log('postnr:', postnrMatches);
+
     for (const postnrData of postnrMatches) {
         const officeInfo = await fetchTpsAdresseSok(postnrData.postnr);
 
         if (officeInfo && !officeInfo.error) {
-            results.push(...officeInfo.hits);
+            results.push(
+                ...officeInfo.hits.map((hit) => ({
+                    ...hit,
+                    adressenavn: postnrData.poststed,
+                }))
+            );
         }
     }
 
