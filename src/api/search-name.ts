@@ -25,20 +25,23 @@ const findBydeler = async (
         const officeInfo = await fetchOfficeInfoByGeoId(bydelData.bydelsnr);
 
         if (officeInfo && !officeInfo.error) {
-            results.push(officeInfo);
+            results.push({ ...officeInfo, adressenavn: bydelData.navn });
         }
     }
 
     return results;
 };
 
+// TODO: optimaliser! (og cache)
 const findPoststeder = async (
     normalizedQuery: string
 ): Promise<OfficeHitProps[]> => {
     const results: OfficeHitProps[] = [];
 
-    const postnrMatches = removeDuplicates(
-        (await getPostnrRegister()).filter(
+    const postnrRegister = await getPostnrRegister();
+
+    const poststedMatches = removeDuplicates(
+        postnrRegister.filter(
             (item) =>
                 item.kategori !== PostnrKategori.Postbokser &&
                 item.kategori !== PostnrKategori.Servicepostnummer &&
@@ -47,9 +50,14 @@ const findPoststeder = async (
         (a, b) => a.kommunenr === b.kommunenr && !a.bydeler && !b.bydeler
     );
 
-    console.log('postnr:', postnrMatches);
+    const kommuneMatches = removeDuplicates(
+        postnrRegister.filter((item) =>
+            normalizeString(item.kommune).includes(normalizedQuery)
+        ),
+        (a, b) => a.kommunenr === b.kommunenr
+    );
 
-    for (const postnrData of postnrMatches) {
+    for (const postnrData of poststedMatches) {
         const officeInfo = await fetchTpsAdresseSok(postnrData.postnr);
 
         if (officeInfo && !officeInfo.error) {
@@ -59,6 +67,32 @@ const findPoststeder = async (
                     adressenavn: postnrData.poststed,
                 }))
             );
+        }
+    }
+
+    for (const kommuneData of kommuneMatches) {
+        if (kommuneData.bydeler) {
+            for (const bydel of kommuneData.bydeler) {
+                const officeInfo = await fetchOfficeInfoByGeoId(bydel.bydelsnr);
+
+                if (officeInfo && !officeInfo.error) {
+                    results.push({
+                        ...officeInfo,
+                        adressenavn: kommuneData.kommune,
+                    });
+                }
+            }
+        } else {
+            const officeInfo = await fetchOfficeInfoByGeoId(
+                kommuneData.kommunenr
+            );
+
+            if (officeInfo && !officeInfo.error) {
+                results.push({
+                    ...officeInfo,
+                    adressenavn: kommuneData.kommune,
+                });
+            }
         }
     }
 
