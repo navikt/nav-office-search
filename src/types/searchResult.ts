@@ -5,7 +5,7 @@ export type SearchHitProps = {
     kontorNavn: string;
     enhetNr: string;
     status: string;
-    adressenavn?: string;
+    adressenavn: string;
     error?: undefined;
 };
 

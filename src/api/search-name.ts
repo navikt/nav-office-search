@@ -92,15 +92,9 @@ export const responseFromNameSearch = async (
 
     const normalizedQuery = normalizeString(query);
 
-    console.log(query, normalizedQuery);
-
     const poststederHits = await findPoststeder(normalizedQuery);
 
-    console.log('poststeder:', poststederHits);
-
     const bydelerHits = findBydeler(normalizedQuery);
-
-    console.log('bydeler:', bydelerHits);
 
     const searchHits = await generateSearchHits(poststederHits, bydelerHits);
 

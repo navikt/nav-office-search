@@ -1,0 +1,11 @@
+.header:not(:last-child) {
+    margin-bottom: 0.75rem;
+}
+
+.hitname {
+    color: var(--navds-color-gray-60);
+}
+
+.hitname strong {
+    color: var(--navds-color-gray-80);
+}

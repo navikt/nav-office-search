@@ -2,12 +2,12 @@ export const encodeBase64 = (str: string) =>
     Buffer.from(str).toString('base64');
 
 const charMap: { [key: string]: string } = {
-    æ: 'ae',
+    æ: 'e',
     ø: 'o',
     đ: 'd',
     ŋ: 'n',
     ŧ: 't',
-    '.': '',
+    '.': '-',
     ' ': '-',
 };
 
