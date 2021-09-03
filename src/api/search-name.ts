@@ -7,42 +7,58 @@ import {
     SearchResultErrorProps,
     SearchResultNameProps,
 } from '../types/searchResult';
-import { PostnrData } from '../types/postnr';
-import { Bydel } from '../types/bydel';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fetchOfficeInfoByGeoId } from './fetch/office-info';
+import { fetchTpsAdresseSok } from './fetch/postnr';
 
-type FetchOfficeInfoProps = {
-    geografiskNr: string;
-    adressenavn: string;
-};
-
-const findBydeler = (term: string) => {
-    return getBydelerData().filter((bydel) =>
-        bydel.navnNormalized.includes(term)
-    );
-};
-
-const findPoststeder = async (term: string): Promise<PostnrData[]> => {
-    const results = (await getPostnrRegister()).reduce(
-        (acc, item) =>
-            item.poststedNormalized.includes(term) ? [...acc, item] : acc,
-        [] as PostnrData[]
+const findBydeler = async (
+    normalizedQuery: string
+): Promise<OfficeHitProps[]> => {
+    const bydelerMatches = getBydelerData().filter((bydel) =>
+        bydel.navnNormalized.includes(normalizedQuery)
     );
 
-    return removeDuplicates(
-        results,
-        (a: PostnrData, b: PostnrData) => a.kommunenr === b.kommunenr
-    );
+    const results: OfficeHitProps[] = [];
+
+    for (const bydelData of bydelerMatches) {
+        const officeInfo = await fetchOfficeInfoByGeoId(bydelData.bydelsnr);
+
+        if (officeInfo && !officeInfo.error) {
+            results.push(officeInfo);
+        }
+    }
+
+    return results;
 };
 
-const sortNamesearch =
+const findPoststeder = async (
+    normalizedQuery: string
+): Promise<OfficeHitProps[]> => {
+    const results: OfficeHitProps[] = [];
+
+    const postnrMatches = (await getPostnrRegister()).filter((item) =>
+        item.poststedNormalized.includes(normalizedQuery)
+    );
+
+    for (const postnrData of postnrMatches) {
+        const officeInfo = await fetchTpsAdresseSok(postnrData.postnr);
+
+        if (officeInfo && !officeInfo.error) {
+            results.push(...officeInfo.hits);
+        }
+    }
+
+    return results;
+};
+
+const sortNamesWithQueryFirstBias =
     (queryNormalized: string) => (a: NameHit, b: NameHit) => {
-        const aNormalized = normalizeString(a.name);
-        const bNormalized = normalizeString(b.name);
-
-        const aStartsWithInput = aNormalized.startsWith(queryNormalized);
-        const bStartsWithInput = bNormalized.startsWith(queryNormalized);
+        const aStartsWithInput = normalizeString(a.name).startsWith(
+            queryNormalized
+        );
+        const bStartsWithInput = normalizeString(b.name).startsWith(
+            queryNormalized
+        );
 
         if (aStartsWithInput && !bStartsWithInput) {
             return -1;
@@ -56,57 +72,18 @@ const sortNamesearch =
     };
 
 const transformHits = async (
-    poststeder: PostnrData[],
-    bydeler: Bydel[],
+    officeHits: OfficeHitProps[],
     normalizedQuery: string
 ): Promise<NameHit[]> => {
     const hitsMap: { [name: string]: OfficeHitProps[] } = {};
-    const fetchProps: FetchOfficeInfoProps[] = [];
 
-    for (const poststed of poststeder) {
-        if (poststed.bydeler) {
-            for (const bydel of poststed.bydeler) {
-                fetchProps.push({
-                    geografiskNr: bydel.bydelsnr,
-                    adressenavn: poststed.poststed,
-                });
-            }
-        } else {
-            fetchProps.push({
-                geografiskNr: poststed.kommunenr,
-                adressenavn: poststed.poststed,
-            });
+    for (const officeHit of officeHits) {
+        const name = officeHit.adressenavn;
+        if (!hitsMap[name]) {
+            hitsMap[name] = [];
         }
-    }
 
-    for (const bydel of bydeler) {
-        fetchProps.push({
-            geografiskNr: bydel.bydelsnr,
-            adressenavn: bydel.navn,
-        });
-    }
-
-    const fetchPropsUnique = removeDuplicates(
-        fetchProps,
-        (a: FetchOfficeInfoProps, b: FetchOfficeInfoProps) =>
-            a.geografiskNr === b.geografiskNr
-    );
-
-    for (const props of fetchPropsUnique) {
-        const officeInfo = await fetchOfficeInfoByGeoId(props.geografiskNr);
-
-        if (officeInfo && !officeInfo.error) {
-            const name = props.adressenavn;
-            if (!hitsMap[name]) {
-                hitsMap[name] = [];
-            }
-
-            if (
-                !hitsMap[name].some((hit) => hit.enhetNr === officeInfo.enhetNr)
-            ) {
-                hitsMap[name].push(officeInfo);
-            }
-        }
+        hitsMap[name].push(officeHit);
     }
 
     return Object.entries(hitsMap)
@@ -117,7 +94,7 @@ const transformHits = async (
                 (a, b) => a.enhetNr === b.enhetNr
             ).sort((a, b) => (a.kontorNavn > b.kontorNavn ? 1 : -1)),
         }))
-        .sort(sortNamesearch(normalizedQuery));
+        .sort(sortNamesWithQueryFirstBias(normalizedQuery));
 };
 
 export const responseFromNameSearch = async (
@@ -130,11 +107,10 @@ export const responseFromNameSearch = async (
 
     const poststederHits = await findPoststeder(normalizedQuery);
 
-    const bydelerHits = findBydeler(normalizedQuery);
+    const bydelerHits = await findBydeler(normalizedQuery);
 
     const allHits = await transformHits(
-        poststederHits,
-        bydelerHits,
+        [...poststederHits, ...bydelerHits],
         normalizedQuery
     );
 
