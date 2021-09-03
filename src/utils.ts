@@ -2,11 +2,20 @@ export const encodeBase64 = (str: string) =>
     Buffer.from(str).toString('base64');
 
 const charMap: { [key: string]: string } = {
-    æ: 'e',
-    ø: 'o',
     đ: 'd',
     ŋ: 'n',
+    š: 's',
     ŧ: 't',
+    û: 'u',
+    ù: 'u',
+    ú: 'u',
+    ü: 'u',
+    ö: 'ø',
+    á: 'a',
+    à: 'a',
+    â: 'a',
+    ã: 'a',
+    ä: 'a',
     '.': '-',
     ' ': '-',
 };
@@ -26,7 +35,6 @@ export const normalizeString = (str: string) =>
     str
         .toLowerCase()
         .normalize('NFD')
-        .replace(/\p{Diacritic}/gu, '')
         .replace(replaceSpecialCharPattern, replaceSpecialCharFunc);
 
 export const removeDuplicates = <Type>(
