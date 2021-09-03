@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { SearchResultPostnrProps } from '../../../types/searchResult';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
-import { BodyLong } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../types/postnr';
 import style from './SearchResultPostnr.module.css';
 
@@ -82,7 +82,9 @@ export const SearchResultPostnr = ({ result }: Props) => {
             {hits.map((hit) => (
                 <Fragment key={hit.enhetNr}>
                     {adresseQuery && (
-                        <BodyLong>{`${hit.adressenavn}:`}</BodyLong>
+                        <BodyShort
+                            size={'s'}
+                        >{`${hit.adressenavn}:`}</BodyShort>
                     )}
                     <OfficeLink href={getUrl()} name={hit.kontorNavn} />
                 </Fragment>
