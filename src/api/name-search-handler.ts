@@ -3,7 +3,7 @@ import { getBydelerData } from '../data/bydeler';
 import { normalizeString, removeDuplicates } from '../utils';
 import {
     NameHit,
-    OfficeHitProps,
+    OfficeInfo,
     SearchResultErrorProps,
     SearchResultNameProps,
 } from '../types/searchResult';
@@ -12,31 +12,19 @@ import { fetchOfficeInfoByGeoId } from './fetch/office-info';
 import { fetchTpsAdresseSok } from './fetch/postnr';
 import { PostnrKategori } from '../types/postnr';
 
-const findBydeler = async (
-    normalizedQuery: string
-): Promise<OfficeHitProps[]> => {
+const findBydeler = async (normalizedQuery: string): Promise<OfficeInfo[]> => {
     const bydelerMatches = getBydelerData().filter((bydel) =>
         bydel.navnNormalized.includes(normalizedQuery)
     );
 
-    const results: OfficeHitProps[] = [];
-
-    for (const bydelData of bydelerMatches) {
-        const officeInfo = await fetchOfficeInfoByGeoId(bydelData.bydelsnr);
-
-        if (officeInfo && !officeInfo.error) {
-            results.push({ ...officeInfo, adressenavn: bydelData.navn });
-        }
-    }
-
-    return results;
+    return bydelerMatches.map((bydel) => bydel.officeInfo);
 };
 
 // TODO: optimaliser! (og cache)
 const findPoststeder = async (
     normalizedQuery: string
-): Promise<OfficeHitProps[]> => {
-    const results: OfficeHitProps[] = [];
+): Promise<OfficeInfo[]> => {
+    const results: OfficeInfo[] = [];
 
     const postnrRegister = await getPostnrRegister();
 
@@ -120,10 +108,10 @@ const sortNamesWithQueryFirstBias =
     };
 
 const transformHits = async (
-    officeHits: OfficeHitProps[],
+    officeHits: OfficeInfo[],
     normalizedQuery: string
 ): Promise<NameHit[]> => {
-    const hitsMap: { [name: string]: OfficeHitProps[] } = {};
+    const hitsMap: { [name: string]: OfficeInfo[] } = {};
 
     for (const officeHit of officeHits) {
         const name = officeHit.adressenavn;
@@ -145,7 +133,7 @@ const transformHits = async (
         .sort(sortNamesWithQueryFirstBias(normalizedQuery));
 };
 
-export const responseFromNameSearch = async (
+export const nameSearchHandler = async (
     req: NextApiRequest,
     res: NextApiResponse<SearchResultNameProps | SearchResultErrorProps>
 ) => {

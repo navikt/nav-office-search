@@ -2,7 +2,7 @@ import fetchMockLib from 'fetch-mock';
 import { getPostnrRegister } from '../../data/postnrRegister';
 import { AdresseSokResponse } from './postnr';
 import { urls } from '../../urls';
-import { OfficeHitProps } from '../../types/searchResult';
+import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from './fetch-json';
 
 export const fetchMock = fetchMockLib
@@ -47,7 +47,7 @@ export const fetchMock = fetchMockLib
     )
     .mock(
         `begin:${urls.officeInfoApi}`,
-        async (url): Promise<OfficeHitProps | FetchErrorResponse> => {
+        async (url): Promise<OfficeInfo | FetchErrorResponse> => {
             const id = new URL(url).searchParams.get('id');
             if (!id) {
                 return fetchErrorResponse(500, 'Missing id-parameter');

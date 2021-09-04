@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getPostnrRegister } from '../data/postnrRegister';
 import { fetchTpsAdresseSok } from './fetch/postnr';
 import {
-    OfficeHitProps,
+    OfficeInfo,
     SearchResultErrorProps,
     SearchResultPostnrProps,
 } from '../types/searchResult';
@@ -10,7 +10,7 @@ import { fetchOfficeInfoByGeoId } from './fetch/office-info';
 import { apiErrorResponse } from './utils';
 import { PostnrData, PostnrKategori } from '../types/postnr';
 
-const sortByOfficeName = (a: OfficeHitProps, b: OfficeHitProps) =>
+const sortByOfficeName = (a: OfficeInfo, b: OfficeInfo) =>
     a.kontorNavn > b.kontorNavn ? 1 : -1;
 
 // Response-data for postnr used for po-boxes or other special purposes
@@ -21,7 +21,7 @@ const specialResponse = async (
         postnrData.kommunenr,
     ];
 
-    const hits: OfficeHitProps[] = [];
+    const hits: OfficeInfo[] = [];
 
     for (const id of geoIds) {
         const officeInfo = await fetchOfficeInfoByGeoId(id);
@@ -47,7 +47,7 @@ const specialResponse = async (
 // Response-data for postnr used for home adresses
 const homeResponse = (
     postnrData: PostnrData,
-    hits: OfficeHitProps[],
+    hits: OfficeInfo[],
     adresse: string
 ): SearchResultPostnrProps => {
     return {

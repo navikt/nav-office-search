@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isPostnrQuery } from '../../utils';
 import { SearchResultProps } from '../../types/searchResult';
-import { postnrSearchHandler } from '../../api/search-postnr';
+import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';
-import { responseFromNameSearch } from '../../api/search-name';
+import { nameSearchHandler } from '../../api/name-search-handler';
 
 const searchHandler = async (
     req: NextApiRequest,
@@ -20,7 +20,7 @@ const searchHandler = async (
             return postnrSearchHandler(req, res);
         }
 
-        return responseFromNameSearch(req, res);
+        return nameSearchHandler(req, res);
     } catch (e) {
         console.error(`Search api error: ${e}`);
         return res.status(500).send(apiErrorResponse('errorServerError'));

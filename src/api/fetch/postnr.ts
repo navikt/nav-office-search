@@ -1,4 +1,4 @@
-import { OfficeHitProps } from '../../types/searchResult';
+import { OfficeInfo } from '../../types/searchResult';
 import {
     fetchErrorResponse,
     FetchErrorResponse,
@@ -9,7 +9,7 @@ import { urls } from '../../urls';
 
 export type AdresseSokResponse = {
     error?: undefined;
-    hits: OfficeHitProps[];
+    hits: OfficeInfo[];
 };
 
 export const fetchTpsAdresseSok = async (
