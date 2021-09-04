@@ -68,6 +68,11 @@ export const SearchForm = () => {
                     className={style.searchField}
                     ref={inputRef}
                     onChange={() => handleInput(false)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleInput(true);
+                        }
+                    }}
                 />
                 {isLoading && (
                     <span className={style.loader}>
