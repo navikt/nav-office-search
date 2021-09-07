@@ -104,12 +104,24 @@ const populatePostnrMap = async (postnrRegister: PostnrDataOld[]) => {
         };
 
         if (kommuneData.bydeler) {
-            const result = await fetchTpsAdresseSok(postnr);
-            if (!result.error) {
+            if (
+                kategori === PostnrKategori.Postbokser ||
+                PostnrKategori.Servicepostnummer
+            ) {
                 newPostnrMap[postnr] = {
                     ...postNrDataPartial,
-                    officeInfo: result.hits,
+                    officeInfo: kommuneData.bydeler.map(
+                        (bydel) => bydel.officeInfo
+                    ),
                 };
+            } else {
+                const adresseSokResult = await fetchTpsAdresseSok(postnr);
+                if (!adresseSokResult.error) {
+                    newPostnrMap[postnr] = {
+                        ...postNrDataPartial,
+                        officeInfo: adresseSokResult.hits,
+                    };
+                }
             }
         } else if (kommuneData.officeInfo) {
             newPostnrMap[postnr] = {
