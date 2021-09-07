@@ -55,14 +55,12 @@ const populateKommunerMap = async (postnrRegister: PostnrDataOld[]) => {
     for (const item of uniqueKommuneItems) {
         const { kommunenr, kommune } = item;
 
-        const kommuneNavnNormalized = normalizeString(kommune);
-
         const bydeler = kommunenrToBydelerMap[kommunenr];
 
         const kommuneDataPartial = {
             kommunenr,
             kommuneNavn: kommune,
-            kommuneNavnNormalized,
+            kommuneNavnNormalized: normalizeString(kommune),
         };
 
         if (bydeler) {
@@ -90,14 +88,17 @@ const populatePostnrMap = async (postnrRegister: PostnrDataOld[]) => {
     for (const item of postnrRegister) {
         const { postnr, poststed, kommunenr, kategori, kommune } = item;
 
-        const poststedNormalized = normalizeString(poststed);
-
         const kommuneData = data.kommuner[kommunenr];
+
+        if (!kommuneData) {
+            console.error(`No kommune found for kommunenr ${kommunenr}`);
+            continue;
+        }
 
         const postNrDataPartial = {
             postnr,
             poststed,
-            poststedNormalized,
+            poststedNormalized: normalizeString(poststed),
             kommuneNavn: kommune,
             kategori,
         };
