@@ -2,7 +2,7 @@ import { Bydel } from '../types/bydel';
 import { PostnrDataOld, PostnrKategori } from '../types/postnr';
 import { normalizeString, removeDuplicates } from '../utils';
 import { fetchOfficeInfoByGeoId } from '../api/fetch/office-info';
-import { kommunenrToBydelerMap, loadBydelerData } from './bydeler';
+import { loadBydelerData } from './bydeler';
 import { fetchTpsAdresseSok } from '../api/fetch/postnr';
 import { getPostnrRegister } from './postnrRegister';
 import { OfficeInfo } from '../types/searchResult';
@@ -28,19 +28,35 @@ export type PostnrData = {
 
 type PostnrMap = { [postnr: string]: PostnrData };
 
+export type BydelerData = {
+    bydelsnr: string;
+    navn: string;
+    navnNormalized: string;
+    officeInfo: OfficeInfo;
+};
+
+type BydelerMap = { [bydelnr: string]: BydelerData };
+type BydelerByKommunenrMap = { [kommunenr: string]: BydelerData[] };
+
 type OfficeDataMaps = {
     kommuner: KommunerMap;
     postnr: PostnrMap;
+    bydeler: BydelerMap;
+    bydelerByKommunenr: BydelerByKommunenrMap;
 };
 
 const data: OfficeDataMaps = {
     kommuner: {},
     postnr: {},
+    bydeler: {},
+    bydelerByKommunenr: {},
 };
 
 export const getKommunerMap = () => data.kommuner;
 
 export const getPostnrMap = () => data.postnr;
+
+export const getBydelerMap = () => data.bydeler;
 
 export const getPostnrData = (postnr: string) => data.postnr[postnr];
 
@@ -55,7 +71,7 @@ const populateKommunerMap = async (postnrRegister: PostnrDataOld[]) => {
     for (const item of uniqueKommuneItems) {
         const { kommunenr, kommune } = item;
 
-        const bydeler = kommunenrToBydelerMap[kommunenr];
+        const bydeler = data.bydelerByKommunenr[kommunenr];
 
         const kommuneDataPartial = {
             kommunenr,
@@ -106,7 +122,7 @@ const populatePostnrMap = async (postnrRegister: PostnrDataOld[]) => {
         if (kommuneData.bydeler) {
             if (
                 kategori === PostnrKategori.Postbokser ||
-                PostnrKategori.Servicepostnummer
+                kategori === PostnrKategori.Servicepostnummer
             ) {
                 newPostnrMap[postnr] = {
                     ...postNrDataPartial,
@@ -134,21 +150,51 @@ const populatePostnrMap = async (postnrRegister: PostnrDataOld[]) => {
     data.postnr = newPostnrMap;
 };
 
+const populateBydelerMap = async () => {
+    const bydelerCsvData = await loadBydelerData();
+
+    const newBydelerMap: BydelerMap = {};
+    const newBydelerByKommunenr: BydelerByKommunenrMap = {};
+
+    for (const item of bydelerCsvData) {
+        const { code: bydelsnr, name } = item;
+
+        const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
+
+        if (!officeInfo.error) {
+            const bydel = {
+                bydelsnr,
+                navn: name,
+                navnNormalized: normalizeString(name),
+                officeInfo,
+            };
+
+            newBydelerMap[bydelsnr] = bydel;
+
+            const kommunenr = bydelsnr.substr(0, 4);
+
+            if (!newBydelerByKommunenr[kommunenr]) {
+                newBydelerByKommunenr[kommunenr] = [];
+            }
+
+            newBydelerByKommunenr[kommunenr].push(bydel);
+        }
+    }
+};
+
 let isLoaded = false;
 let isLoading = false;
 
-export const loadData = async (callbackOnFinish?: () => void) => {
+export const loadData = async () => {
     if (!isLoading) {
-        isLoading = true;
         console.log('started loading data');
-        loadBydelerData(async () => {
-            const postnrRegister = await getPostnrRegister();
-            await populateKommunerMap(postnrRegister);
-            await populatePostnrMap(postnrRegister);
-            isLoading = false;
-            isLoaded = true;
-            callbackOnFinish?.();
-        });
+        isLoading = true;
+        await populateBydelerMap();
+        const postnrRegister = await getPostnrRegister();
+        await populateKommunerMap(postnrRegister);
+        await populatePostnrMap(postnrRegister);
+        isLoading = false;
+        isLoaded = true;
     }
 };
 

@@ -1,9 +1,10 @@
 import fetchMockLib from 'fetch-mock';
 import { getPostnrRegister } from '../../data/postnrRegister';
-import { AdresseSokResponse } from './postnr';
+import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
-import { fetchErrorResponse, FetchErrorResponse } from './fetch-json';
+import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
+import kommuner from './kommuner.json';
 
 export const fetchMock = fetchMockLib
     .sandbox()

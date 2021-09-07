@@ -3,11 +3,7 @@ import { isDataLoaded, loadData } from '../../../data/data';
 
 const isReadyHandler = (req: NextApiRequest, res: NextApiResponse) => {
     if (!isDataLoaded()) {
-        loadData(() => {
-            console.log(
-                'Finished loading data - application is ready to serve!'
-            );
-        });
+        loadData();
 
         return res.status(502).json({ message: 'Application not ready' });
     }

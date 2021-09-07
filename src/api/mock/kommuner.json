@@ -1,0 +1,3920 @@
+{
+  "1101": {
+    "kommunenr": "1101",
+    "kommuneNavn": "EIGERSUND",
+    "kommuneNavnNormalized": "eigersund",
+    "officeInfo": {
+      "kontorNavn": "NAV Eigersund-Bjerkreim",
+      "enhetNr": "1101",
+      "status": "Aktiv"
+    }
+  },
+  "1103": {
+    "kommunenr": "1103",
+    "kommuneNavn": "STAVANGER",
+    "kommuneNavnNormalized": "stavanger",
+    "bydeler": [
+      {
+        "bydelsnr": "110307",
+        "navn": "Hinna",
+        "navnNormalized": "hinna",
+        "officeInfo": {
+          "kontorNavn": "NAV Hillevåg og Hinna",
+          "enhetNr": "1164",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110302",
+        "navn": "Tasta",
+        "navnNormalized": "tasta",
+        "officeInfo": {
+          "kontorNavn": "NAV Eiganes og Tasta",
+          "enhetNr": "1161",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110308",
+        "navn": "Finnøy",
+        "navnNormalized": "finnøy",
+        "officeInfo": {
+          "kontorNavn": "NAV Rennesøy og Finnøy",
+          "enhetNr": "1169",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110309",
+        "navn": "Rennesøy",
+        "navnNormalized": "rennesøy",
+        "officeInfo": {
+          "kontorNavn": "NAV Rennesøy og Finnøy",
+          "enhetNr": "1169",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110303",
+        "navn": "Eiganes og Våland",
+        "navnNormalized": "eiganes-og-våland",
+        "officeInfo": {
+          "kontorNavn": "NAV Eiganes og Tasta",
+          "enhetNr": "1161",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110301",
+        "navn": "Hundvåg",
+        "navnNormalized": "hundvåg",
+        "officeInfo": {
+          "kontorNavn": "NAV Hundvåg og Storhaug",
+          "enhetNr": "1162",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110305",
+        "navn": "Storhaug",
+        "navnNormalized": "storhaug",
+        "officeInfo": {
+          "kontorNavn": "NAV Hundvåg og Storhaug",
+          "enhetNr": "1162",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110304",
+        "navn": "Madla",
+        "navnNormalized": "madla",
+        "officeInfo": {
+          "kontorNavn": "NAV Madla",
+          "enhetNr": "1165",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "110306",
+        "navn": "Hillevåg",
+        "navnNormalized": "hillevåg",
+        "officeInfo": {
+          "kontorNavn": "NAV Hillevåg og Hinna",
+          "enhetNr": "1164",
+          "status": "Aktiv"
+        }
+      }
+    ]
+  },
+  "1106": {
+    "kommunenr": "1106",
+    "kommuneNavn": "HAUGESUND",
+    "kommuneNavnNormalized": "haugesund",
+    "officeInfo": {
+      "kontorNavn": "NAV Haugesund-Utsira",
+      "enhetNr": "1106",
+      "status": "Aktiv"
+    }
+  },
+  "1108": {
+    "kommunenr": "1108",
+    "kommuneNavn": "SANDNES",
+    "kommuneNavnNormalized": "sandnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Sandnes",
+      "enhetNr": "1102",
+      "status": "Aktiv"
+    }
+  },
+  "1111": {
+    "kommunenr": "1111",
+    "kommuneNavn": "SOKNDAL",
+    "kommuneNavnNormalized": "sokndal",
+    "officeInfo": {
+      "kontorNavn": "NAV Sokndal",
+      "enhetNr": "1111",
+      "status": "Aktiv"
+    }
+  },
+  "1112": {
+    "kommunenr": "1112",
+    "kommuneNavn": "LUND",
+    "kommuneNavnNormalized": "lund",
+    "officeInfo": {
+      "kontorNavn": "NAV Lund",
+      "enhetNr": "1112",
+      "status": "Aktiv"
+    }
+  },
+  "1114": {
+    "kommunenr": "1114",
+    "kommuneNavn": "BJERKREIM",
+    "kommuneNavnNormalized": "bjerkreim",
+    "officeInfo": {
+      "kontorNavn": "NAV Eigersund-Bjerkreim",
+      "enhetNr": "1101",
+      "status": "Aktiv"
+    }
+  },
+  "1119": {
+    "kommunenr": "1119",
+    "kommuneNavn": "HÅ",
+    "kommuneNavnNormalized": "hå",
+    "officeInfo": {
+      "kontorNavn": "NAV Hå",
+      "enhetNr": "1119",
+      "status": "Aktiv"
+    }
+  },
+  "1120": {
+    "kommunenr": "1120",
+    "kommuneNavn": "KLEPP",
+    "kommuneNavnNormalized": "klepp",
+    "officeInfo": {
+      "kontorNavn": "NAV Klepp-Time",
+      "enhetNr": "1120",
+      "status": "Aktiv"
+    }
+  },
+  "1121": {
+    "kommunenr": "1121",
+    "kommuneNavn": "TIME",
+    "kommuneNavnNormalized": "time",
+    "officeInfo": {
+      "kontorNavn": "NAV Klepp-Time",
+      "enhetNr": "1120",
+      "status": "Aktiv"
+    }
+  },
+  "1122": {
+    "kommunenr": "1122",
+    "kommuneNavn": "GJESDAL",
+    "kommuneNavnNormalized": "gjesdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Gjesdal",
+      "enhetNr": "1122",
+      "status": "Aktiv"
+    }
+  },
+  "1124": {
+    "kommunenr": "1124",
+    "kommuneNavn": "SOLA",
+    "kommuneNavnNormalized": "sola",
+    "officeInfo": {
+      "kontorNavn": "NAV Sola",
+      "enhetNr": "1124",
+      "status": "Aktiv"
+    }
+  },
+  "1127": {
+    "kommunenr": "1127",
+    "kommuneNavn": "RANDABERG",
+    "kommuneNavnNormalized": "randaberg",
+    "officeInfo": {
+      "kontorNavn": "NAV Randaberg-Kvitsøy",
+      "enhetNr": "1127",
+      "status": "Aktiv"
+    }
+  },
+  "1130": {
+    "kommunenr": "1130",
+    "kommuneNavn": "STRAND",
+    "kommuneNavnNormalized": "strand",
+    "officeInfo": {
+      "kontorNavn": "NAV Strand",
+      "enhetNr": "1130",
+      "status": "Aktiv"
+    }
+  },
+  "1133": {
+    "kommunenr": "1133",
+    "kommuneNavn": "HJELMELAND",
+    "kommuneNavnNormalized": "hjelmeland",
+    "officeInfo": {
+      "kontorNavn": "NAV Hjelmeland",
+      "enhetNr": "1133",
+      "status": "Aktiv"
+    }
+  },
+  "1134": {
+    "kommunenr": "1134",
+    "kommuneNavn": "SULDAL",
+    "kommuneNavnNormalized": "suldal",
+    "officeInfo": {
+      "kontorNavn": "NAV Suldal",
+      "enhetNr": "1134",
+      "status": "Aktiv"
+    }
+  },
+  "1135": {
+    "kommunenr": "1135",
+    "kommuneNavn": "SAUDA",
+    "kommuneNavnNormalized": "sauda",
+    "officeInfo": {
+      "kontorNavn": "NAV Sauda",
+      "enhetNr": "1135",
+      "status": "Aktiv"
+    }
+  },
+  "1144": {
+    "kommunenr": "1144",
+    "kommuneNavn": "KVITSØY",
+    "kommuneNavnNormalized": "kvitsøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Randaberg-Kvitsøy",
+      "enhetNr": "1127",
+      "status": "Aktiv"
+    }
+  },
+  "1145": {
+    "kommunenr": "1145",
+    "kommuneNavn": "BOKN",
+    "kommuneNavnNormalized": "bokn",
+    "officeInfo": {
+      "kontorNavn": "NAV Karmøy-Bokn",
+      "enhetNr": "1149",
+      "status": "Aktiv"
+    }
+  },
+  "1146": {
+    "kommunenr": "1146",
+    "kommuneNavn": "TYSVÆR",
+    "kommuneNavnNormalized": "tysvær",
+    "officeInfo": {
+      "kontorNavn": "NAV Tysvær",
+      "enhetNr": "1146",
+      "status": "Aktiv"
+    }
+  },
+  "1149": {
+    "kommunenr": "1149",
+    "kommuneNavn": "KARMØY",
+    "kommuneNavnNormalized": "karmøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Karmøy-Bokn",
+      "enhetNr": "1149",
+      "status": "Aktiv"
+    }
+  },
+  "1151": {
+    "kommunenr": "1151",
+    "kommuneNavn": "UTSIRA",
+    "kommuneNavnNormalized": "utsira",
+    "officeInfo": {
+      "kontorNavn": "NAV Haugesund-Utsira",
+      "enhetNr": "1106",
+      "status": "Aktiv"
+    }
+  },
+  "1160": {
+    "kommunenr": "1160",
+    "kommuneNavn": "VINDAFJORD",
+    "kommuneNavnNormalized": "vindafjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Vindafjord-Etne",
+      "enhetNr": "1160",
+      "status": "Aktiv"
+    }
+  },
+  "1505": {
+    "kommunenr": "1505",
+    "kommuneNavn": "KRISTIANSUND",
+    "kommuneNavnNormalized": "kristiansund",
+    "officeInfo": {
+      "kontorNavn": "NAV Kristiansund",
+      "enhetNr": "1505",
+      "status": "Aktiv"
+    }
+  },
+  "1506": {
+    "kommunenr": "1506",
+    "kommuneNavn": "MOLDE",
+    "kommuneNavnNormalized": "molde",
+    "officeInfo": {
+      "kontorNavn": "NAV Molde",
+      "enhetNr": "1502",
+      "status": "Aktiv"
+    }
+  },
+  "1507": {
+    "kommunenr": "1507",
+    "kommuneNavn": "ÅLESUND",
+    "kommuneNavnNormalized": "ålesund",
+    "officeInfo": {
+      "kontorNavn": "NAV Ålesund",
+      "enhetNr": "1504",
+      "status": "Aktiv"
+    }
+  },
+  "1511": {
+    "kommunenr": "1511",
+    "kommuneNavn": "VANYLVEN",
+    "kommuneNavnNormalized": "vanylven",
+    "officeInfo": {
+      "kontorNavn": "NAV Herøy og Vanylven",
+      "enhetNr": "1515",
+      "status": "Aktiv"
+    }
+  },
+  "1514": {
+    "kommunenr": "1514",
+    "kommuneNavn": "SANDE",
+    "kommuneNavnNormalized": "sande",
+    "officeInfo": {
+      "kontorNavn": "NAV Hareid - Ulstein - Sande",
+      "enhetNr": "1517",
+      "status": "Aktiv"
+    }
+  },
+  "1515": {
+    "kommunenr": "1515",
+    "kommuneNavn": "HERØY (MØRE OG ROMSDAL)",
+    "kommuneNavnNormalized": "herøy-(møre-og-romsdal)",
+    "officeInfo": {
+      "kontorNavn": "NAV Herøy og Vanylven",
+      "enhetNr": "1515",
+      "status": "Aktiv"
+    }
+  },
+  "1516": {
+    "kommunenr": "1516",
+    "kommuneNavn": "ULSTEIN",
+    "kommuneNavnNormalized": "ulstein",
+    "officeInfo": {
+      "kontorNavn": "NAV Hareid - Ulstein - Sande",
+      "enhetNr": "1517",
+      "status": "Aktiv"
+    }
+  },
+  "1517": {
+    "kommunenr": "1517",
+    "kommuneNavn": "HAREID",
+    "kommuneNavnNormalized": "hareid",
+    "officeInfo": {
+      "kontorNavn": "NAV Hareid - Ulstein - Sande",
+      "enhetNr": "1517",
+      "status": "Aktiv"
+    }
+  },
+  "1520": {
+    "kommunenr": "1520",
+    "kommuneNavn": "ØRSTA",
+    "kommuneNavnNormalized": "ørsta",
+    "officeInfo": {
+      "kontorNavn": "NAV Ørsta Volda",
+      "enhetNr": "1520",
+      "status": "Aktiv"
+    }
+  },
+  "1525": {
+    "kommunenr": "1525",
+    "kommuneNavn": "STRANDA",
+    "kommuneNavnNormalized": "stranda",
+    "officeInfo": {
+      "kontorNavn": "NAV Sykkylven - Stranda",
+      "enhetNr": "1528",
+      "status": "Aktiv"
+    }
+  },
+  "1528": {
+    "kommunenr": "1528",
+    "kommuneNavn": "SYKKYLVEN",
+    "kommuneNavnNormalized": "sykkylven",
+    "officeInfo": {
+      "kontorNavn": "NAV Sykkylven - Stranda",
+      "enhetNr": "1528",
+      "status": "Aktiv"
+    }
+  },
+  "1531": {
+    "kommunenr": "1531",
+    "kommuneNavn": "SULA",
+    "kommuneNavnNormalized": "sula",
+    "officeInfo": {
+      "kontorNavn": "NAV Sula",
+      "enhetNr": "1531",
+      "status": "Aktiv"
+    }
+  },
+  "1532": {
+    "kommunenr": "1532",
+    "kommuneNavn": "GISKE",
+    "kommuneNavnNormalized": "giske",
+    "officeInfo": {
+      "kontorNavn": "NAV Giske",
+      "enhetNr": "1532",
+      "status": "Aktiv"
+    }
+  },
+  "1535": {
+    "kommunenr": "1535",
+    "kommuneNavn": "VESTNES",
+    "kommuneNavnNormalized": "vestnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Vestnes",
+      "enhetNr": "1535",
+      "status": "Aktiv"
+    }
+  },
+  "1539": {
+    "kommunenr": "1539",
+    "kommuneNavn": "RAUMA",
+    "kommuneNavnNormalized": "rauma",
+    "officeInfo": {
+      "kontorNavn": "NAV Rauma",
+      "enhetNr": "1539",
+      "status": "Aktiv"
+    }
+  },
+  "1547": {
+    "kommunenr": "1547",
+    "kommuneNavn": "AUKRA",
+    "kommuneNavnNormalized": "aukra",
+    "officeInfo": {
+      "kontorNavn": "NAV Aukra",
+      "enhetNr": "1547",
+      "status": "Aktiv"
+    }
+  },
+  "1554": {
+    "kommunenr": "1554",
+    "kommuneNavn": "AVERØY",
+    "kommuneNavnNormalized": "averøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Averøy",
+      "enhetNr": "1554",
+      "status": "Aktiv"
+    }
+  },
+  "1557": {
+    "kommunenr": "1557",
+    "kommuneNavn": "GJEMNES",
+    "kommuneNavnNormalized": "gjemnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Gjemnes",
+      "enhetNr": "1557",
+      "status": "Aktiv"
+    }
+  },
+  "1560": {
+    "kommunenr": "1560",
+    "kommuneNavn": "TINGVOLL",
+    "kommuneNavnNormalized": "tingvoll",
+    "officeInfo": {
+      "kontorNavn": "NAV Tingvoll",
+      "enhetNr": "1560",
+      "status": "Aktiv"
+    }
+  },
+  "1563": {
+    "kommunenr": "1563",
+    "kommuneNavn": "SUNNDAL",
+    "kommuneNavnNormalized": "sunndal",
+    "officeInfo": {
+      "kontorNavn": "NAV Sunndal",
+      "enhetNr": "1563",
+      "status": "Aktiv"
+    }
+  },
+  "1566": {
+    "kommunenr": "1566",
+    "kommuneNavn": "SURNADAL",
+    "kommuneNavnNormalized": "surnadal",
+    "officeInfo": {
+      "kontorNavn": "NAV Surnadal",
+      "enhetNr": "1566",
+      "status": "Aktiv"
+    }
+  },
+  "1573": {
+    "kommunenr": "1573",
+    "kommuneNavn": "SMØLA",
+    "kommuneNavnNormalized": "smøla",
+    "officeInfo": {
+      "kontorNavn": "NAV Smøla",
+      "enhetNr": "1573",
+      "status": "Aktiv"
+    }
+  },
+  "1576": {
+    "kommunenr": "1576",
+    "kommuneNavn": "AURE",
+    "kommuneNavnNormalized": "aure",
+    "officeInfo": {
+      "kontorNavn": "NAV Aure",
+      "enhetNr": "1576",
+      "status": "Aktiv"
+    }
+  },
+  "1577": {
+    "kommunenr": "1577",
+    "kommuneNavn": "VOLDA",
+    "kommuneNavnNormalized": "volda",
+    "officeInfo": {
+      "kontorNavn": "NAV Ørsta Volda",
+      "enhetNr": "1520",
+      "status": "Aktiv"
+    }
+  },
+  "1578": {
+    "kommunenr": "1578",
+    "kommuneNavn": "FJORD",
+    "kommuneNavnNormalized": "fjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Ålesund",
+      "enhetNr": "1504",
+      "status": "Aktiv"
+    }
+  },
+  "1579": {
+    "kommunenr": "1579",
+    "kommuneNavn": "HUSTADVIKA",
+    "kommuneNavnNormalized": "hustadvika",
+    "officeInfo": {
+      "kontorNavn": "NAV Hustadvika",
+      "enhetNr": "1548",
+      "status": "Aktiv"
+    }
+  },
+  "1804": {
+    "kommunenr": "1804",
+    "kommuneNavn": "BODØ",
+    "kommuneNavnNormalized": "bodø",
+    "officeInfo": {
+      "kontorNavn": "NAV Bodø",
+      "enhetNr": "1804",
+      "status": "Aktiv"
+    }
+  },
+  "1806": {
+    "kommunenr": "1806",
+    "kommuneNavn": "NARVIK",
+    "kommuneNavnNormalized": "narvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Narvik",
+      "enhetNr": "1805",
+      "status": "Aktiv"
+    }
+  },
+  "1811": {
+    "kommunenr": "1811",
+    "kommuneNavn": "BINDAL",
+    "kommuneNavnNormalized": "bindal",
+    "officeInfo": {
+      "kontorNavn": "NAV Nærøysund",
+      "enhetNr": "1751",
+      "status": "Aktiv"
+    }
+  },
+  "1812": {
+    "kommunenr": "1812",
+    "kommuneNavn": "SØMNA",
+    "kommuneNavnNormalized": "sømna",
+    "officeInfo": {
+      "kontorNavn": "NAV Sør-Helgeland",
+      "enhetNr": "1813",
+      "status": "Aktiv"
+    }
+  },
+  "1813": {
+    "kommunenr": "1813",
+    "kommuneNavn": "BRØNNØY",
+    "kommuneNavnNormalized": "brønnøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Sør-Helgeland",
+      "enhetNr": "1813",
+      "status": "Aktiv"
+    }
+  },
+  "1815": {
+    "kommunenr": "1815",
+    "kommuneNavn": "VEGA",
+    "kommuneNavnNormalized": "vega",
+    "officeInfo": {
+      "kontorNavn": "NAV Sør-Helgeland",
+      "enhetNr": "1813",
+      "status": "Aktiv"
+    }
+  },
+  "1816": {
+    "kommunenr": "1816",
+    "kommuneNavn": "VEVELSTAD",
+    "kommuneNavnNormalized": "vevelstad",
+    "officeInfo": {
+      "kontorNavn": "NAV Sør-Helgeland",
+      "enhetNr": "1813",
+      "status": "Aktiv"
+    }
+  },
+  "1818": {
+    "kommunenr": "1818",
+    "kommuneNavn": "HERØY (NORDLAND)",
+    "kommuneNavnNormalized": "herøy-(nordland)",
+    "officeInfo": {
+      "kontorNavn": "NAV Herøy",
+      "enhetNr": "1818",
+      "status": "Aktiv"
+    }
+  },
+  "1820": {
+    "kommunenr": "1820",
+    "kommuneNavn": "ALSTAHAUG",
+    "kommuneNavnNormalized": "alstahaug",
+    "officeInfo": {
+      "kontorNavn": "NAV Alstahaug",
+      "enhetNr": "1820",
+      "status": "Aktiv"
+    }
+  },
+  "1822": {
+    "kommunenr": "1822",
+    "kommuneNavn": "LEIRFJORD",
+    "kommuneNavnNormalized": "leirfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Leirfjord",
+      "enhetNr": "1822",
+      "status": "Aktiv"
+    }
+  },
+  "1824": {
+    "kommunenr": "1824",
+    "kommuneNavn": "VEFSN",
+    "kommuneNavnNormalized": "vefsn",
+    "officeInfo": {
+      "kontorNavn": "NAV Mosjøen",
+      "enhetNr": "1824",
+      "status": "Aktiv"
+    }
+  },
+  "1825": {
+    "kommunenr": "1825",
+    "kommuneNavn": "GRANE",
+    "kommuneNavnNormalized": "grane",
+    "officeInfo": {
+      "kontorNavn": "NAV Grane",
+      "enhetNr": "1825",
+      "status": "Aktiv"
+    }
+  },
+  "1826": {
+    "kommunenr": "1826",
+    "kommuneNavn": "HATTFJELLDAL",
+    "kommuneNavnNormalized": "hattfjelldal",
+    "officeInfo": {
+      "kontorNavn": "NAV Hattfjelldal",
+      "enhetNr": "1826",
+      "status": "Aktiv"
+    }
+  },
+  "1827": {
+    "kommunenr": "1827",
+    "kommuneNavn": "DØNNA",
+    "kommuneNavnNormalized": "dønna",
+    "officeInfo": {
+      "kontorNavn": "NAV Dønna",
+      "enhetNr": "1827",
+      "status": "Aktiv"
+    }
+  },
+  "1828": {
+    "kommunenr": "1828",
+    "kommuneNavn": "NESNA",
+    "kommuneNavnNormalized": "nesna",
+    "officeInfo": {
+      "kontorNavn": "NAV Nesna",
+      "enhetNr": "1828",
+      "status": "Aktiv"
+    }
+  },
+  "1832": {
+    "kommunenr": "1832",
+    "kommuneNavn": "HEMNES",
+    "kommuneNavnNormalized": "hemnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Hemnes",
+      "enhetNr": "1832",
+      "status": "Aktiv"
+    }
+  },
+  "1833": {
+    "kommunenr": "1833",
+    "kommuneNavn": "RANA",
+    "kommuneNavnNormalized": "rana",
+    "officeInfo": {
+      "kontorNavn": "NAV Rana",
+      "enhetNr": "1833",
+      "status": "Aktiv"
+    }
+  },
+  "1834": {
+    "kommunenr": "1834",
+    "kommuneNavn": "LURØY",
+    "kommuneNavnNormalized": "lurøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Lurøy",
+      "enhetNr": "1834",
+      "status": "Aktiv"
+    }
+  },
+  "1835": {
+    "kommunenr": "1835",
+    "kommuneNavn": "TRÆNA",
+    "kommuneNavnNormalized": "træna",
+    "officeInfo": {
+      "kontorNavn": "NAV Træna",
+      "enhetNr": "1835",
+      "status": "Aktiv"
+    }
+  },
+  "1836": {
+    "kommunenr": "1836",
+    "kommuneNavn": "RØDØY",
+    "kommuneNavnNormalized": "rødøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Rødøy",
+      "enhetNr": "1836",
+      "status": "Aktiv"
+    }
+  },
+  "1837": {
+    "kommunenr": "1837",
+    "kommuneNavn": "MELØY",
+    "kommuneNavnNormalized": "meløy",
+    "officeInfo": {
+      "kontorNavn": "NAV Meløy",
+      "enhetNr": "1837",
+      "status": "Aktiv"
+    }
+  },
+  "1838": {
+    "kommunenr": "1838",
+    "kommuneNavn": "GILDESKÅL",
+    "kommuneNavnNormalized": "gildeskål",
+    "officeInfo": {
+      "kontorNavn": "NAV Gildeskål",
+      "enhetNr": "1838",
+      "status": "Aktiv"
+    }
+  },
+  "1839": {
+    "kommunenr": "1839",
+    "kommuneNavn": "BEIARN",
+    "kommuneNavnNormalized": "beiarn",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Salten",
+      "enhetNr": "1841",
+      "status": "Aktiv"
+    }
+  },
+  "1840": {
+    "kommunenr": "1840",
+    "kommuneNavn": "SALTDAL",
+    "kommuneNavnNormalized": "saltdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Salten",
+      "enhetNr": "1841",
+      "status": "Aktiv"
+    }
+  },
+  "1841": {
+    "kommunenr": "1841",
+    "kommuneNavn": "FAUSKE",
+    "kommuneNavnNormalized": "fauske",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Salten",
+      "enhetNr": "1841",
+      "status": "Aktiv"
+    }
+  },
+  "1845": {
+    "kommunenr": "1845",
+    "kommuneNavn": "SØRFOLD",
+    "kommuneNavnNormalized": "sørfold",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Salten",
+      "enhetNr": "1841",
+      "status": "Aktiv"
+    }
+  },
+  "1848": {
+    "kommunenr": "1848",
+    "kommuneNavn": "STEIGEN",
+    "kommuneNavnNormalized": "steigen",
+    "officeInfo": {
+      "kontorNavn": "NAV Steigen",
+      "enhetNr": "1848",
+      "status": "Aktiv"
+    }
+  },
+  "1851": {
+    "kommunenr": "1851",
+    "kommuneNavn": "LØDINGEN",
+    "kommuneNavnNormalized": "lødingen",
+    "officeInfo": {
+      "kontorNavn": "NAV Lødingen",
+      "enhetNr": "1851",
+      "status": "Aktiv"
+    }
+  },
+  "1853": {
+    "kommunenr": "1853",
+    "kommuneNavn": "EVENES",
+    "kommuneNavnNormalized": "evenes",
+    "officeInfo": {
+      "kontorNavn": "NAV Narvik",
+      "enhetNr": "1805",
+      "status": "Aktiv"
+    }
+  },
+  "1856": {
+    "kommunenr": "1856",
+    "kommuneNavn": "RØST",
+    "kommuneNavnNormalized": "røst",
+    "officeInfo": {
+      "kontorNavn": "NAV Røst",
+      "enhetNr": "1856",
+      "status": "Aktiv"
+    }
+  },
+  "1857": {
+    "kommunenr": "1857",
+    "kommuneNavn": "VÆRØY",
+    "kommuneNavnNormalized": "værøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Værøy",
+      "enhetNr": "1857",
+      "status": "Aktiv"
+    }
+  },
+  "1859": {
+    "kommunenr": "1859",
+    "kommuneNavn": "FLAKSTAD",
+    "kommuneNavnNormalized": "flakstad",
+    "officeInfo": {
+      "kontorNavn": "NAV Flakstad",
+      "enhetNr": "1859",
+      "status": "Aktiv"
+    }
+  },
+  "1860": {
+    "kommunenr": "1860",
+    "kommuneNavn": "VESTVÅGØY",
+    "kommuneNavnNormalized": "vestvågøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Vestvågøy",
+      "enhetNr": "1860",
+      "status": "Aktiv"
+    }
+  },
+  "1865": {
+    "kommunenr": "1865",
+    "kommuneNavn": "VÅGAN",
+    "kommuneNavnNormalized": "vågan",
+    "officeInfo": {
+      "kontorNavn": "NAV Svolvær",
+      "enhetNr": "1865",
+      "status": "Aktiv"
+    }
+  },
+  "1866": {
+    "kommunenr": "1866",
+    "kommuneNavn": "HADSEL",
+    "kommuneNavnNormalized": "hadsel",
+    "officeInfo": {
+      "kontorNavn": "NAV Hadsel",
+      "enhetNr": "1866",
+      "status": "Aktiv"
+    }
+  },
+  "1867": {
+    "kommunenr": "1867",
+    "kommuneNavn": "BØ",
+    "kommuneNavnNormalized": "bø",
+    "officeInfo": {
+      "kontorNavn": "NAV Bø",
+      "enhetNr": "1867",
+      "status": "Aktiv"
+    }
+  },
+  "1868": {
+    "kommunenr": "1868",
+    "kommuneNavn": "ØKSNES",
+    "kommuneNavnNormalized": "øksnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Øksnes",
+      "enhetNr": "1868",
+      "status": "Aktiv"
+    }
+  },
+  "1870": {
+    "kommunenr": "1870",
+    "kommuneNavn": "SORTLAND",
+    "kommuneNavnNormalized": "sortland",
+    "officeInfo": {
+      "kontorNavn": "NAV Sortland",
+      "enhetNr": "1870",
+      "status": "Aktiv"
+    }
+  },
+  "1871": {
+    "kommunenr": "1871",
+    "kommuneNavn": "ANDØY",
+    "kommuneNavnNormalized": "andøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Andøy",
+      "enhetNr": "1871",
+      "status": "Aktiv"
+    }
+  },
+  "1874": {
+    "kommunenr": "1874",
+    "kommuneNavn": "MOSKENES",
+    "kommuneNavnNormalized": "moskenes",
+    "officeInfo": {
+      "kontorNavn": "NAV Moskenes",
+      "enhetNr": "1874",
+      "status": "Aktiv"
+    }
+  },
+  "1875": {
+    "kommunenr": "1875",
+    "kommuneNavn": "HAMARØY",
+    "kommuneNavnNormalized": "hamarøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Salten",
+      "enhetNr": "1841",
+      "status": "Aktiv"
+    }
+  },
+  "3001": {
+    "kommunenr": "3001",
+    "kommuneNavn": "HALDEN",
+    "kommuneNavnNormalized": "halden",
+    "officeInfo": {
+      "kontorNavn": "NAV Halden-Aremark",
+      "enhetNr": "0101",
+      "status": "Aktiv"
+    }
+  },
+  "3002": {
+    "kommunenr": "3002",
+    "kommuneNavn": "MOSS",
+    "kommuneNavnNormalized": "moss",
+    "officeInfo": {
+      "kontorNavn": "NAV Moss",
+      "enhetNr": "0104",
+      "status": "Aktiv"
+    }
+  },
+  "3003": {
+    "kommunenr": "3003",
+    "kommuneNavn": "SARPSBORG",
+    "kommuneNavnNormalized": "sarpsborg",
+    "officeInfo": {
+      "kontorNavn": "NAV Sarpsborg",
+      "enhetNr": "0105",
+      "status": "Aktiv"
+    }
+  },
+  "3004": {
+    "kommunenr": "3004",
+    "kommuneNavn": "FREDRIKSTAD",
+    "kommuneNavnNormalized": "fredrikstad",
+    "officeInfo": {
+      "kontorNavn": "NAV Fredrikstad",
+      "enhetNr": "0106",
+      "status": "Aktiv"
+    }
+  },
+  "3005": {
+    "kommunenr": "3005",
+    "kommuneNavn": "DRAMMEN",
+    "kommuneNavnNormalized": "drammen",
+    "officeInfo": {
+      "kontorNavn": "NAV Drammen",
+      "enhetNr": "0602",
+      "status": "Aktiv"
+    }
+  },
+  "3006": {
+    "kommunenr": "3006",
+    "kommuneNavn": "KONGSBERG",
+    "kommuneNavnNormalized": "kongsberg",
+    "officeInfo": {
+      "kontorNavn": "NAV Kongsberg",
+      "enhetNr": "0604",
+      "status": "Aktiv"
+    }
+  },
+  "3007": {
+    "kommunenr": "3007",
+    "kommuneNavn": "RINGERIKE",
+    "kommuneNavnNormalized": "ringerike",
+    "officeInfo": {
+      "kontorNavn": "NAV Ringerike",
+      "enhetNr": "0605",
+      "status": "Aktiv"
+    }
+  },
+  "3011": {
+    "kommunenr": "3011",
+    "kommuneNavn": "HVALER",
+    "kommuneNavnNormalized": "hvaler",
+    "officeInfo": {
+      "kontorNavn": "NAV Hvaler",
+      "enhetNr": "0111",
+      "status": "Aktiv"
+    }
+  },
+  "3012": {
+    "kommunenr": "3012",
+    "kommuneNavn": "AREMARK",
+    "kommuneNavnNormalized": "aremark",
+    "officeInfo": {
+      "kontorNavn": "NAV Halden-Aremark",
+      "enhetNr": "0101",
+      "status": "Aktiv"
+    }
+  },
+  "3013": {
+    "kommunenr": "3013",
+    "kommuneNavn": "MARKER",
+    "kommuneNavnNormalized": "marker",
+    "officeInfo": {
+      "kontorNavn": "NAV Skiptvet Marker",
+      "enhetNr": "0119",
+      "status": "Aktiv"
+    }
+  },
+  "3014": {
+    "kommunenr": "3014",
+    "kommuneNavn": "INDRE ØSTFOLD",
+    "kommuneNavnNormalized": "indre-østfold",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Østfold",
+      "enhetNr": "0124",
+      "status": "Aktiv"
+    }
+  },
+  "3015": {
+    "kommunenr": "3015",
+    "kommuneNavn": "SKIPTVET",
+    "kommuneNavnNormalized": "skiptvet",
+    "officeInfo": {
+      "kontorNavn": "NAV Skiptvet Marker",
+      "enhetNr": "0119",
+      "status": "Aktiv"
+    }
+  },
+  "3016": {
+    "kommunenr": "3016",
+    "kommuneNavn": "RAKKESTAD",
+    "kommuneNavnNormalized": "rakkestad",
+    "officeInfo": {
+      "kontorNavn": "NAV Rakkestad",
+      "enhetNr": "0128",
+      "status": "Aktiv"
+    }
+  },
+  "3017": {
+    "kommunenr": "3017",
+    "kommuneNavn": "RÅDE",
+    "kommuneNavnNormalized": "råde",
+    "officeInfo": {
+      "kontorNavn": "NAV Råde",
+      "enhetNr": "0135",
+      "status": "Aktiv"
+    }
+  },
+  "3018": {
+    "kommunenr": "3018",
+    "kommuneNavn": "VÅLER (VIKEN)",
+    "kommuneNavnNormalized": "våler-(viken)",
+    "officeInfo": {
+      "kontorNavn": "NAV Våler",
+      "enhetNr": "0137",
+      "status": "Aktiv"
+    }
+  },
+  "3019": {
+    "kommunenr": "3019",
+    "kommuneNavn": "VESTBY",
+    "kommuneNavnNormalized": "vestby",
+    "officeInfo": {
+      "kontorNavn": "NAV Vestby",
+      "enhetNr": "0211",
+      "status": "Aktiv"
+    }
+  },
+  "3020": {
+    "kommunenr": "3020",
+    "kommuneNavn": "NORDRE FOLLO",
+    "kommuneNavnNormalized": "nordre-follo",
+    "officeInfo": {
+      "kontorNavn": "NAV Nordre Follo",
+      "enhetNr": "0213",
+      "status": "Aktiv"
+    }
+  },
+  "3021": {
+    "kommunenr": "3021",
+    "kommuneNavn": "ÅS",
+    "kommuneNavnNormalized": "ås",
+    "officeInfo": {
+      "kontorNavn": "NAV Ås",
+      "enhetNr": "0214",
+      "status": "Aktiv"
+    }
+  },
+  "3022": {
+    "kommunenr": "3022",
+    "kommuneNavn": "FROGN",
+    "kommuneNavnNormalized": "frogn",
+    "officeInfo": {
+      "kontorNavn": "NAV Frogn",
+      "enhetNr": "0215",
+      "status": "Aktiv"
+    }
+  },
+  "3023": {
+    "kommunenr": "3023",
+    "kommuneNavn": "NESODDEN",
+    "kommuneNavnNormalized": "nesodden",
+    "officeInfo": {
+      "kontorNavn": "NAV Nesodden",
+      "enhetNr": "0216",
+      "status": "Aktiv"
+    }
+  },
+  "3024": {
+    "kommunenr": "3024",
+    "kommuneNavn": "BÆRUM",
+    "kommuneNavnNormalized": "bærum",
+    "officeInfo": {
+      "kontorNavn": "NAV Bærum",
+      "enhetNr": "0219",
+      "status": "Aktiv"
+    }
+  },
+  "3025": {
+    "kommunenr": "3025",
+    "kommuneNavn": "ASKER",
+    "kommuneNavnNormalized": "asker",
+    "officeInfo": {
+      "kontorNavn": "NAV Asker",
+      "enhetNr": "0220",
+      "status": "Aktiv"
+    }
+  },
+  "3026": {
+    "kommunenr": "3026",
+    "kommuneNavn": "AURSKOG-HØLAND",
+    "kommuneNavnNormalized": "aurskog-høland",
+    "officeInfo": {
+      "kontorNavn": "NAV Aurskog-Høland",
+      "enhetNr": "0221",
+      "status": "Aktiv"
+    }
+  },
+  "3027": {
+    "kommunenr": "3027",
+    "kommuneNavn": "RÆLINGEN",
+    "kommuneNavnNormalized": "rælingen",
+    "officeInfo": {
+      "kontorNavn": "NAV Rælingen",
+      "enhetNr": "0228",
+      "status": "Aktiv"
+    }
+  },
+  "3028": {
+    "kommunenr": "3028",
+    "kommuneNavn": "ENEBAKK",
+    "kommuneNavnNormalized": "enebakk",
+    "officeInfo": {
+      "kontorNavn": "NAV Enebakk",
+      "enhetNr": "0229",
+      "status": "Aktiv"
+    }
+  },
+  "3029": {
+    "kommunenr": "3029",
+    "kommuneNavn": "LØRENSKOG",
+    "kommuneNavnNormalized": "lørenskog",
+    "officeInfo": {
+      "kontorNavn": "NAV Lørenskog",
+      "enhetNr": "0230",
+      "status": "Aktiv"
+    }
+  },
+  "3030": {
+    "kommunenr": "3030",
+    "kommuneNavn": "LILLESTRØM",
+    "kommuneNavnNormalized": "lillestrøm",
+    "officeInfo": {
+      "kontorNavn": "NAV Lillestrøm",
+      "enhetNr": "0231",
+      "status": "Aktiv"
+    }
+  },
+  "3031": {
+    "kommunenr": "3031",
+    "kommuneNavn": "NITTEDAL",
+    "kommuneNavnNormalized": "nittedal",
+    "officeInfo": {
+      "kontorNavn": "NAV Nittedal",
+      "enhetNr": "0233",
+      "status": "Aktiv"
+    }
+  },
+  "3032": {
+    "kommunenr": "3032",
+    "kommuneNavn": "GJERDRUM",
+    "kommuneNavnNormalized": "gjerdrum",
+    "officeInfo": {
+      "kontorNavn": "NAV Nannestad Gjerdrum",
+      "enhetNr": "0238",
+      "status": "Aktiv"
+    }
+  },
+  "3033": {
+    "kommunenr": "3033",
+    "kommuneNavn": "ULLENSAKER",
+    "kommuneNavnNormalized": "ullensaker",
+    "officeInfo": {
+      "kontorNavn": "NAV Ullensaker",
+      "enhetNr": "0235",
+      "status": "Aktiv"
+    }
+  },
+  "3034": {
+    "kommunenr": "3034",
+    "kommuneNavn": "NES",
+    "kommuneNavnNormalized": "nes",
+    "officeInfo": {
+      "kontorNavn": "NAV Nes i Akershus",
+      "enhetNr": "0236",
+      "status": "Aktiv"
+    }
+  },
+  "3035": {
+    "kommunenr": "3035",
+    "kommuneNavn": "EIDSVOLL",
+    "kommuneNavnNormalized": "eidsvoll",
+    "officeInfo": {
+      "kontorNavn": "NAV Eidsvoll",
+      "enhetNr": "0237",
+      "status": "Aktiv"
+    }
+  },
+  "3036": {
+    "kommunenr": "3036",
+    "kommuneNavn": "NANNESTAD",
+    "kommuneNavnNormalized": "nannestad",
+    "officeInfo": {
+      "kontorNavn": "NAV Nannestad Gjerdrum",
+      "enhetNr": "0238",
+      "status": "Aktiv"
+    }
+  },
+  "3037": {
+    "kommunenr": "3037",
+    "kommuneNavn": "HURDAL",
+    "kommuneNavnNormalized": "hurdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Hurdal",
+      "enhetNr": "0239",
+      "status": "Aktiv"
+    }
+  },
+  "3038": {
+    "kommunenr": "3038",
+    "kommuneNavn": "HOLE",
+    "kommuneNavnNormalized": "hole",
+    "officeInfo": {
+      "kontorNavn": "NAV Hole",
+      "enhetNr": "0612",
+      "status": "Aktiv"
+    }
+  },
+  "3039": {
+    "kommunenr": "3039",
+    "kommuneNavn": "FLÅ",
+    "kommuneNavnNormalized": "flå",
+    "officeInfo": {
+      "kontorNavn": "NAV Hallingdal",
+      "enhetNr": "0617",
+      "status": "Aktiv"
+    }
+  },
+  "3040": {
+    "kommunenr": "3040",
+    "kommuneNavn": "NESBYEN",
+    "kommuneNavnNormalized": "nesbyen",
+    "officeInfo": {
+      "kontorNavn": "NAV Hallingdal",
+      "enhetNr": "0617",
+      "status": "Aktiv"
+    }
+  },
+  "3041": {
+    "kommunenr": "3041",
+    "kommuneNavn": "GOL",
+    "kommuneNavnNormalized": "gol",
+    "officeInfo": {
+      "kontorNavn": "NAV Hallingdal",
+      "enhetNr": "0617",
+      "status": "Aktiv"
+    }
+  },
+  "3042": {
+    "kommunenr": "3042",
+    "kommuneNavn": "HEMSEDAL",
+    "kommuneNavnNormalized": "hemsedal",
+    "officeInfo": {
+      "kontorNavn": "NAV Hallingdal",
+      "enhetNr": "0617",
+      "status": "Aktiv"
+    }
+  },
+  "3043": {
+    "kommunenr": "3043",
+    "kommuneNavn": "ÅL",
+    "kommuneNavnNormalized": "ål",
+    "officeInfo": {
+      "kontorNavn": "NAV Hallingdal",
+      "enhetNr": "0617",
+      "status": "Aktiv"
+    }
+  },
+  "3044": {
+    "kommunenr": "3044",
+    "kommuneNavn": "HOL",
+    "kommuneNavnNormalized": "hol",
+    "officeInfo": {
+      "kontorNavn": "NAV Hallingdal",
+      "enhetNr": "0617",
+      "status": "Aktiv"
+    }
+  },
+  "3045": {
+    "kommunenr": "3045",
+    "kommuneNavn": "SIGDAL",
+    "kommuneNavnNormalized": "sigdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Buskerud",
+      "enhetNr": "0623",
+      "status": "Aktiv"
+    }
+  },
+  "3046": {
+    "kommunenr": "3046",
+    "kommuneNavn": "KRØDSHERAD",
+    "kommuneNavnNormalized": "krødsherad",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Buskerud",
+      "enhetNr": "0623",
+      "status": "Aktiv"
+    }
+  },
+  "3047": {
+    "kommunenr": "3047",
+    "kommuneNavn": "MODUM",
+    "kommuneNavnNormalized": "modum",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Buskerud",
+      "enhetNr": "0623",
+      "status": "Aktiv"
+    }
+  },
+  "3048": {
+    "kommunenr": "3048",
+    "kommuneNavn": "ØVRE EIKER",
+    "kommuneNavnNormalized": "øvre-eiker",
+    "officeInfo": {
+      "kontorNavn": "NAV Øvre Eiker",
+      "enhetNr": "0624",
+      "status": "Aktiv"
+    }
+  },
+  "3049": {
+    "kommunenr": "3049",
+    "kommuneNavn": "LIER",
+    "kommuneNavnNormalized": "lier",
+    "officeInfo": {
+      "kontorNavn": "NAV Lier",
+      "enhetNr": "0626",
+      "status": "Aktiv"
+    }
+  },
+  "3050": {
+    "kommunenr": "3050",
+    "kommuneNavn": "FLESBERG",
+    "kommuneNavnNormalized": "flesberg",
+    "officeInfo": {
+      "kontorNavn": "NAV Numedal",
+      "enhetNr": "0632",
+      "status": "Aktiv"
+    }
+  },
+  "3051": {
+    "kommunenr": "3051",
+    "kommuneNavn": "ROLLAG",
+    "kommuneNavnNormalized": "rollag",
+    "officeInfo": {
+      "kontorNavn": "NAV Numedal",
+      "enhetNr": "0632",
+      "status": "Aktiv"
+    }
+  },
+  "3052": {
+    "kommunenr": "3052",
+    "kommuneNavn": "NORE OG UVDAL",
+    "kommuneNavnNormalized": "nore-og-uvdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Numedal",
+      "enhetNr": "0632",
+      "status": "Aktiv"
+    }
+  },
+  "3053": {
+    "kommunenr": "3053",
+    "kommuneNavn": "JEVNAKER",
+    "kommuneNavnNormalized": "jevnaker",
+    "officeInfo": {
+      "kontorNavn": "NAV Jevnaker",
+      "enhetNr": "0532",
+      "status": "Aktiv"
+    }
+  },
+  "3054": {
+    "kommunenr": "3054",
+    "kommuneNavn": "LUNNER",
+    "kommuneNavnNormalized": "lunner",
+    "officeInfo": {
+      "kontorNavn": "NAV Hadeland",
+      "enhetNr": "0534",
+      "status": "Aktiv"
+    }
+  },
+  "3401": {
+    "kommunenr": "3401",
+    "kommuneNavn": "KONGSVINGER",
+    "kommuneNavnNormalized": "kongsvinger",
+    "officeInfo": {
+      "kontorNavn": "NAV Kongsvinger",
+      "enhetNr": "0402",
+      "status": "Aktiv"
+    }
+  },
+  "3403": {
+    "kommunenr": "3403",
+    "kommuneNavn": "HAMAR",
+    "kommuneNavnNormalized": "hamar",
+    "officeInfo": {
+      "kontorNavn": "NAV Hamar",
+      "enhetNr": "0403",
+      "status": "Aktiv"
+    }
+  },
+  "3405": {
+    "kommunenr": "3405",
+    "kommuneNavn": "LILLEHAMMER",
+    "kommuneNavnNormalized": "lillehammer",
+    "officeInfo": {
+      "kontorNavn": "NAV Lillehammer-Gausdal",
+      "enhetNr": "0501",
+      "status": "Aktiv"
+    }
+  },
+  "3407": {
+    "kommunenr": "3407",
+    "kommuneNavn": "GJØVIK",
+    "kommuneNavnNormalized": "gjøvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Gjøvik",
+      "enhetNr": "0502",
+      "status": "Aktiv"
+    }
+  },
+  "3411": {
+    "kommunenr": "3411",
+    "kommuneNavn": "RINGSAKER",
+    "kommuneNavnNormalized": "ringsaker",
+    "officeInfo": {
+      "kontorNavn": "NAV Ringsaker",
+      "enhetNr": "0412",
+      "status": "Aktiv"
+    }
+  },
+  "3412": {
+    "kommunenr": "3412",
+    "kommuneNavn": "LØTEN",
+    "kommuneNavnNormalized": "løten",
+    "officeInfo": {
+      "kontorNavn": "NAV Løten",
+      "enhetNr": "0415",
+      "status": "Aktiv"
+    }
+  },
+  "3413": {
+    "kommunenr": "3413",
+    "kommuneNavn": "STANGE",
+    "kommuneNavnNormalized": "stange",
+    "officeInfo": {
+      "kontorNavn": "NAV Stange",
+      "enhetNr": "0417",
+      "status": "Aktiv"
+    }
+  },
+  "3414": {
+    "kommunenr": "3414",
+    "kommuneNavn": "NORD-ODAL",
+    "kommuneNavnNormalized": "nord-odal",
+    "officeInfo": {
+      "kontorNavn": "NAV Odal",
+      "enhetNr": "0419",
+      "status": "Aktiv"
+    }
+  },
+  "3415": {
+    "kommunenr": "3415",
+    "kommuneNavn": "SØR-ODAL",
+    "kommuneNavnNormalized": "sør-odal",
+    "officeInfo": {
+      "kontorNavn": "NAV Odal",
+      "enhetNr": "0419",
+      "status": "Aktiv"
+    }
+  },
+  "3416": {
+    "kommunenr": "3416",
+    "kommuneNavn": "EIDSKOG",
+    "kommuneNavnNormalized": "eidskog",
+    "officeInfo": {
+      "kontorNavn": "NAV Eidskog",
+      "enhetNr": "0420",
+      "status": "Aktiv"
+    }
+  },
+  "3417": {
+    "kommunenr": "3417",
+    "kommuneNavn": "GRUE",
+    "kommuneNavnNormalized": "grue",
+    "officeInfo": {
+      "kontorNavn": "NAV Grue",
+      "enhetNr": "0423",
+      "status": "Aktiv"
+    }
+  },
+  "3418": {
+    "kommunenr": "3418",
+    "kommuneNavn": "ÅSNES",
+    "kommuneNavnNormalized": "åsnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Åsnes",
+      "enhetNr": "0425",
+      "status": "Aktiv"
+    }
+  },
+  "3419": {
+    "kommunenr": "3419",
+    "kommuneNavn": "VÅLER (INNLANDET)",
+    "kommuneNavnNormalized": "våler-(innlandet)",
+    "officeInfo": {
+      "kontorNavn": "NAV Våler i Hedmark",
+      "enhetNr": "0426",
+      "status": "Aktiv"
+    }
+  },
+  "3420": {
+    "kommunenr": "3420",
+    "kommuneNavn": "ELVERUM",
+    "kommuneNavnNormalized": "elverum",
+    "officeInfo": {
+      "kontorNavn": "NAV Elverum",
+      "enhetNr": "0427",
+      "status": "Aktiv"
+    }
+  },
+  "3421": {
+    "kommunenr": "3421",
+    "kommuneNavn": "TRYSIL",
+    "kommuneNavnNormalized": "trysil",
+    "officeInfo": {
+      "kontorNavn": "NAV Trysil",
+      "enhetNr": "0428",
+      "status": "Aktiv"
+    }
+  },
+  "3422": {
+    "kommunenr": "3422",
+    "kommuneNavn": "ÅMOT",
+    "kommuneNavnNormalized": "åmot",
+    "officeInfo": {
+      "kontorNavn": "NAV Åmot",
+      "enhetNr": "0429",
+      "status": "Aktiv"
+    }
+  },
+  "3423": {
+    "kommunenr": "3423",
+    "kommuneNavn": "STOR-ELVDAL",
+    "kommuneNavnNormalized": "stor-elvdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Stor-Elvdal",
+      "enhetNr": "0430",
+      "status": "Aktiv"
+    }
+  },
+  "3424": {
+    "kommunenr": "3424",
+    "kommuneNavn": "RENDALEN",
+    "kommuneNavnNormalized": "rendalen",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Østerdal",
+      "enhetNr": "0437",
+      "status": "Aktiv"
+    }
+  },
+  "3425": {
+    "kommunenr": "3425",
+    "kommuneNavn": "ENGERDAL",
+    "kommuneNavnNormalized": "engerdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Engerdal",
+      "enhetNr": "0434",
+      "status": "Aktiv"
+    }
+  },
+  "3426": {
+    "kommunenr": "3426",
+    "kommuneNavn": "TOLGA",
+    "kommuneNavnNormalized": "tolga",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Østerdal",
+      "enhetNr": "0437",
+      "status": "Aktiv"
+    }
+  },
+  "3427": {
+    "kommunenr": "3427",
+    "kommuneNavn": "TYNSET",
+    "kommuneNavnNormalized": "tynset",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Østerdal",
+      "enhetNr": "0437",
+      "status": "Aktiv"
+    }
+  },
+  "3428": {
+    "kommunenr": "3428",
+    "kommuneNavn": "ALVDAL",
+    "kommuneNavnNormalized": "alvdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Østerdal",
+      "enhetNr": "0437",
+      "status": "Aktiv"
+    }
+  },
+  "3429": {
+    "kommunenr": "3429",
+    "kommuneNavn": "FOLLDAL",
+    "kommuneNavnNormalized": "folldal",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Østerdal",
+      "enhetNr": "0437",
+      "status": "Aktiv"
+    }
+  },
+  "3430": {
+    "kommunenr": "3430",
+    "kommuneNavn": "OS",
+    "kommuneNavnNormalized": "os",
+    "officeInfo": {
+      "kontorNavn": "NAV Røros, Os og Holtålen",
+      "enhetNr": "1640",
+      "status": "Aktiv"
+    }
+  },
+  "3431": {
+    "kommunenr": "3431",
+    "kommuneNavn": "DOVRE",
+    "kommuneNavnNormalized": "dovre",
+    "officeInfo": {
+      "kontorNavn": "NAV Lesja - Dovre",
+      "enhetNr": "0511",
+      "status": "Aktiv"
+    }
+  },
+  "3432": {
+    "kommunenr": "3432",
+    "kommuneNavn": "LESJA",
+    "kommuneNavnNormalized": "lesja",
+    "officeInfo": {
+      "kontorNavn": "NAV Lesja - Dovre",
+      "enhetNr": "0511",
+      "status": "Aktiv"
+    }
+  },
+  "3433": {
+    "kommunenr": "3433",
+    "kommuneNavn": "SKJÅK",
+    "kommuneNavnNormalized": "skjåk",
+    "officeInfo": {
+      "kontorNavn": "NAV Lom-Skjåk",
+      "enhetNr": "0513",
+      "status": "Aktiv"
+    }
+  },
+  "3434": {
+    "kommunenr": "3434",
+    "kommuneNavn": "LOM",
+    "kommuneNavnNormalized": "lom",
+    "officeInfo": {
+      "kontorNavn": "NAV Lom-Skjåk",
+      "enhetNr": "0513",
+      "status": "Aktiv"
+    }
+  },
+  "3435": {
+    "kommunenr": "3435",
+    "kommuneNavn": "VÅGÅ",
+    "kommuneNavnNormalized": "vågå",
+    "officeInfo": {
+      "kontorNavn": "NAV Vågå",
+      "enhetNr": "0515",
+      "status": "Aktiv"
+    }
+  },
+  "3436": {
+    "kommunenr": "3436",
+    "kommuneNavn": "NORD-FRON",
+    "kommuneNavnNormalized": "nord-fron",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Gudbrandsdal",
+      "enhetNr": "0516",
+      "status": "Aktiv"
+    }
+  },
+  "3437": {
+    "kommunenr": "3437",
+    "kommuneNavn": "SEL",
+    "kommuneNavnNormalized": "sel",
+    "officeInfo": {
+      "kontorNavn": "NAV Sel",
+      "enhetNr": "0517",
+      "status": "Aktiv"
+    }
+  },
+  "3438": {
+    "kommunenr": "3438",
+    "kommuneNavn": "SØR-FRON",
+    "kommuneNavnNormalized": "sør-fron",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Gudbrandsdal",
+      "enhetNr": "0516",
+      "status": "Aktiv"
+    }
+  },
+  "3439": {
+    "kommunenr": "3439",
+    "kommuneNavn": "RINGEBU",
+    "kommuneNavnNormalized": "ringebu",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Gudbrandsdal",
+      "enhetNr": "0516",
+      "status": "Aktiv"
+    }
+  },
+  "3440": {
+    "kommunenr": "3440",
+    "kommuneNavn": "ØYER",
+    "kommuneNavnNormalized": "øyer",
+    "officeInfo": {
+      "kontorNavn": "NAV Øyer",
+      "enhetNr": "0521",
+      "status": "Aktiv"
+    }
+  },
+  "3441": {
+    "kommunenr": "3441",
+    "kommuneNavn": "GAUSDAL",
+    "kommuneNavnNormalized": "gausdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Lillehammer-Gausdal",
+      "enhetNr": "0501",
+      "status": "Aktiv"
+    }
+  },
+  "3442": {
+    "kommunenr": "3442",
+    "kommuneNavn": "ØSTRE TOTEN",
+    "kommuneNavnNormalized": "østre-toten",
+    "officeInfo": {
+      "kontorNavn": "NAV Østre Toten",
+      "enhetNr": "0528",
+      "status": "Aktiv"
+    }
+  },
+  "3443": {
+    "kommunenr": "3443",
+    "kommuneNavn": "VESTRE TOTEN",
+    "kommuneNavnNormalized": "vestre-toten",
+    "officeInfo": {
+      "kontorNavn": "NAV Vestre Toten",
+      "enhetNr": "0529",
+      "status": "Aktiv"
+    }
+  },
+  "3446": {
+    "kommunenr": "3446",
+    "kommuneNavn": "GRAN",
+    "kommuneNavnNormalized": "gran",
+    "officeInfo": {
+      "kontorNavn": "NAV Hadeland",
+      "enhetNr": "0534",
+      "status": "Aktiv"
+    }
+  },
+  "3447": {
+    "kommunenr": "3447",
+    "kommuneNavn": "SØNDRE LAND",
+    "kommuneNavnNormalized": "søndre-land",
+    "officeInfo": {
+      "kontorNavn": "NAV Søndre Land",
+      "enhetNr": "0536",
+      "status": "Aktiv"
+    }
+  },
+  "3448": {
+    "kommunenr": "3448",
+    "kommuneNavn": "NORDRE LAND",
+    "kommuneNavnNormalized": "nordre-land",
+    "officeInfo": {
+      "kontorNavn": "NAV Nordre Land",
+      "enhetNr": "0538",
+      "status": "Aktiv"
+    }
+  },
+  "3449": {
+    "kommunenr": "3449",
+    "kommuneNavn": "SØR-AURDAL",
+    "kommuneNavnNormalized": "sør-aurdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Valdres",
+      "enhetNr": "0542",
+      "status": "Aktiv"
+    }
+  },
+  "3450": {
+    "kommunenr": "3450",
+    "kommuneNavn": "ETNEDAL",
+    "kommuneNavnNormalized": "etnedal",
+    "officeInfo": {
+      "kontorNavn": "NAV Valdres",
+      "enhetNr": "0542",
+      "status": "Aktiv"
+    }
+  },
+  "3451": {
+    "kommunenr": "3451",
+    "kommuneNavn": "NORD-AURDAL",
+    "kommuneNavnNormalized": "nord-aurdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Valdres",
+      "enhetNr": "0542",
+      "status": "Aktiv"
+    }
+  },
+  "3452": {
+    "kommunenr": "3452",
+    "kommuneNavn": "VESTRE SLIDRE",
+    "kommuneNavnNormalized": "vestre-slidre",
+    "officeInfo": {
+      "kontorNavn": "NAV Valdres",
+      "enhetNr": "0542",
+      "status": "Aktiv"
+    }
+  },
+  "3453": {
+    "kommunenr": "3453",
+    "kommuneNavn": "ØYSTRE SLIDRE",
+    "kommuneNavnNormalized": "øystre-slidre",
+    "officeInfo": {
+      "kontorNavn": "NAV Valdres",
+      "enhetNr": "0542",
+      "status": "Aktiv"
+    }
+  },
+  "3454": {
+    "kommunenr": "3454",
+    "kommuneNavn": "VANG",
+    "kommuneNavnNormalized": "vang",
+    "officeInfo": {
+      "kontorNavn": "NAV Valdres",
+      "enhetNr": "0542",
+      "status": "Aktiv"
+    }
+  },
+  "3801": {
+    "kommunenr": "3801",
+    "kommuneNavn": "HORTEN",
+    "kommuneNavnNormalized": "horten",
+    "officeInfo": {
+      "kontorNavn": "NAV Horten",
+      "enhetNr": "0701",
+      "status": "Aktiv"
+    }
+  },
+  "3802": {
+    "kommunenr": "3802",
+    "kommuneNavn": "HOLMESTRAND",
+    "kommuneNavnNormalized": "holmestrand",
+    "officeInfo": {
+      "kontorNavn": "NAV Holmestrand",
+      "enhetNr": "5301",
+      "status": "Aktiv"
+    }
+  },
+  "3803": {
+    "kommunenr": "3803",
+    "kommuneNavn": "TØNSBERG",
+    "kommuneNavnNormalized": "tønsberg",
+    "officeInfo": {
+      "kontorNavn": "NAV Tønsberg",
+      "enhetNr": "0704",
+      "status": "Aktiv"
+    }
+  },
+  "3804": {
+    "kommunenr": "3804",
+    "kommuneNavn": "SANDEFJORD",
+    "kommuneNavnNormalized": "sandefjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Sandefjord",
+      "enhetNr": "0710",
+      "status": "Aktiv"
+    }
+  },
+  "3805": {
+    "kommunenr": "3805",
+    "kommuneNavn": "LARVIK",
+    "kommuneNavnNormalized": "larvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Larvik",
+      "enhetNr": "5303",
+      "status": "Aktiv"
+    }
+  },
+  "3806": {
+    "kommunenr": "3806",
+    "kommuneNavn": "PORSGRUNN",
+    "kommuneNavnNormalized": "porsgrunn",
+    "officeInfo": {
+      "kontorNavn": "NAV Porsgrunn",
+      "enhetNr": "0805",
+      "status": "Aktiv"
+    }
+  },
+  "3807": {
+    "kommunenr": "3807",
+    "kommuneNavn": "SKIEN",
+    "kommuneNavnNormalized": "skien",
+    "officeInfo": {
+      "kontorNavn": "NAV Skien",
+      "enhetNr": "0806",
+      "status": "Aktiv"
+    }
+  },
+  "3808": {
+    "kommunenr": "3808",
+    "kommuneNavn": "NOTODDEN",
+    "kommuneNavnNormalized": "notodden",
+    "officeInfo": {
+      "kontorNavn": "NAV Notodden",
+      "enhetNr": "0807",
+      "status": "Aktiv"
+    }
+  },
+  "3811": {
+    "kommunenr": "3811",
+    "kommuneNavn": "FÆRDER",
+    "kommuneNavnNormalized": "færder",
+    "officeInfo": {
+      "kontorNavn": "NAV Færder",
+      "enhetNr": "5302",
+      "status": "Aktiv"
+    }
+  },
+  "3812": {
+    "kommunenr": "3812",
+    "kommuneNavn": "SILJAN",
+    "kommuneNavnNormalized": "siljan",
+    "officeInfo": {
+      "kontorNavn": "NAV Siljan",
+      "enhetNr": "0811",
+      "status": "Aktiv"
+    }
+  },
+  "3813": {
+    "kommunenr": "3813",
+    "kommuneNavn": "BAMBLE",
+    "kommuneNavnNormalized": "bamble",
+    "officeInfo": {
+      "kontorNavn": "NAV Bamble",
+      "enhetNr": "0814",
+      "status": "Aktiv"
+    }
+  },
+  "3814": {
+    "kommunenr": "3814",
+    "kommuneNavn": "KRAGERØ",
+    "kommuneNavnNormalized": "kragerø",
+    "officeInfo": {
+      "kontorNavn": "NAV Kragerø",
+      "enhetNr": "0815",
+      "status": "Aktiv"
+    }
+  },
+  "3815": {
+    "kommunenr": "3815",
+    "kommuneNavn": "DRANGEDAL",
+    "kommuneNavnNormalized": "drangedal",
+    "officeInfo": {
+      "kontorNavn": "NAV Drangedal",
+      "enhetNr": "0817",
+      "status": "Aktiv"
+    }
+  },
+  "3816": {
+    "kommunenr": "3816",
+    "kommuneNavn": "NOME",
+    "kommuneNavnNormalized": "nome",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Telemark",
+      "enhetNr": "0821",
+      "status": "Aktiv"
+    }
+  },
+  "3817": {
+    "kommunenr": "3817",
+    "kommuneNavn": "MIDT-TELEMARK",
+    "kommuneNavnNormalized": "midt-telemark",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Telemark",
+      "enhetNr": "0821",
+      "status": "Aktiv"
+    }
+  },
+  "3818": {
+    "kommunenr": "3818",
+    "kommuneNavn": "TINN",
+    "kommuneNavnNormalized": "tinn",
+    "officeInfo": {
+      "kontorNavn": "NAV Tinn",
+      "enhetNr": "0826",
+      "status": "Aktiv"
+    }
+  },
+  "3819": {
+    "kommunenr": "3819",
+    "kommuneNavn": "HJARTDAL",
+    "kommuneNavnNormalized": "hjartdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Hjartdal",
+      "enhetNr": "0827",
+      "status": "Aktiv"
+    }
+  },
+  "3820": {
+    "kommunenr": "3820",
+    "kommuneNavn": "SELJORD",
+    "kommuneNavnNormalized": "seljord",
+    "officeInfo": {
+      "kontorNavn": "NAV Vest-Telemark",
+      "enhetNr": "0833",
+      "status": "Aktiv"
+    }
+  },
+  "3821": {
+    "kommunenr": "3821",
+    "kommuneNavn": "KVITESEID",
+    "kommuneNavnNormalized": "kviteseid",
+    "officeInfo": {
+      "kontorNavn": "NAV Vest-Telemark",
+      "enhetNr": "0833",
+      "status": "Aktiv"
+    }
+  },
+  "3822": {
+    "kommunenr": "3822",
+    "kommuneNavn": "NISSEDAL",
+    "kommuneNavnNormalized": "nissedal",
+    "officeInfo": {
+      "kontorNavn": "NAV Vest-Telemark",
+      "enhetNr": "0833",
+      "status": "Aktiv"
+    }
+  },
+  "3823": {
+    "kommunenr": "3823",
+    "kommuneNavn": "FYRESDAL",
+    "kommuneNavnNormalized": "fyresdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Vest-Telemark",
+      "enhetNr": "0833",
+      "status": "Aktiv"
+    }
+  },
+  "3824": {
+    "kommunenr": "3824",
+    "kommuneNavn": "TOKKE",
+    "kommuneNavnNormalized": "tokke",
+    "officeInfo": {
+      "kontorNavn": "NAV Vest-Telemark",
+      "enhetNr": "0833",
+      "status": "Aktiv"
+    }
+  },
+  "3825": {
+    "kommunenr": "3825",
+    "kommuneNavn": "VINJE",
+    "kommuneNavnNormalized": "vinje",
+    "officeInfo": {
+      "kontorNavn": "NAV Vest-Telemark",
+      "enhetNr": "0833",
+      "status": "Aktiv"
+    }
+  },
+  "4201": {
+    "kommunenr": "4201",
+    "kommuneNavn": "RISØR",
+    "kommuneNavnNormalized": "risør",
+    "officeInfo": {
+      "kontorNavn": "NAV Risør",
+      "enhetNr": "0901",
+      "status": "Aktiv"
+    }
+  },
+  "4202": {
+    "kommunenr": "4202",
+    "kommuneNavn": "GRIMSTAD",
+    "kommuneNavnNormalized": "grimstad",
+    "officeInfo": {
+      "kontorNavn": "NAV Grimstad",
+      "enhetNr": "0904",
+      "status": "Aktiv"
+    }
+  },
+  "4203": {
+    "kommunenr": "4203",
+    "kommuneNavn": "ARENDAL",
+    "kommuneNavnNormalized": "arendal",
+    "officeInfo": {
+      "kontorNavn": "NAV Arendal",
+      "enhetNr": "0906",
+      "status": "Aktiv"
+    }
+  },
+  "4204": {
+    "kommunenr": "4204",
+    "kommuneNavn": "KRISTIANSAND",
+    "kommuneNavnNormalized": "kristiansand",
+    "officeInfo": {
+      "kontorNavn": "NAV Kristiansand",
+      "enhetNr": "1001",
+      "status": "Aktiv"
+    }
+  },
+  "4205": {
+    "kommunenr": "4205",
+    "kommuneNavn": "LINDESNES",
+    "kommuneNavnNormalized": "lindesnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Lindesnes",
+      "enhetNr": "1002",
+      "status": "Aktiv"
+    }
+  },
+  "4206": {
+    "kommunenr": "4206",
+    "kommuneNavn": "FARSUND",
+    "kommuneNavnNormalized": "farsund",
+    "officeInfo": {
+      "kontorNavn": "NAV Lister",
+      "enhetNr": "1037",
+      "status": "Aktiv"
+    }
+  },
+  "4207": {
+    "kommunenr": "4207",
+    "kommuneNavn": "FLEKKEFJORD",
+    "kommuneNavnNormalized": "flekkefjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Lister",
+      "enhetNr": "1037",
+      "status": "Aktiv"
+    }
+  },
+  "4211": {
+    "kommunenr": "4211",
+    "kommuneNavn": "GJERSTAD",
+    "kommuneNavnNormalized": "gjerstad",
+    "officeInfo": {
+      "kontorNavn": "NAV Gjerstad",
+      "enhetNr": "0911",
+      "status": "Aktiv"
+    }
+  },
+  "4212": {
+    "kommunenr": "4212",
+    "kommuneNavn": "VEGÅRSHEI",
+    "kommuneNavnNormalized": "vegårshei",
+    "officeInfo": {
+      "kontorNavn": "NAV Vegårshei",
+      "enhetNr": "0912",
+      "status": "Aktiv"
+    }
+  },
+  "4213": {
+    "kommunenr": "4213",
+    "kommuneNavn": "TVEDESTRAND",
+    "kommuneNavnNormalized": "tvedestrand",
+    "officeInfo": {
+      "kontorNavn": "NAV Tvedestrand",
+      "enhetNr": "0914",
+      "status": "Aktiv"
+    }
+  },
+  "4214": {
+    "kommunenr": "4214",
+    "kommuneNavn": "FROLAND",
+    "kommuneNavnNormalized": "froland",
+    "officeInfo": {
+      "kontorNavn": "NAV Froland",
+      "enhetNr": "0919",
+      "status": "Aktiv"
+    }
+  },
+  "4215": {
+    "kommunenr": "4215",
+    "kommuneNavn": "LILLESAND",
+    "kommuneNavnNormalized": "lillesand",
+    "officeInfo": {
+      "kontorNavn": "NAV Lillesand",
+      "enhetNr": "0926",
+      "status": "Aktiv"
+    }
+  },
+  "4216": {
+    "kommunenr": "4216",
+    "kommuneNavn": "BIRKENES",
+    "kommuneNavnNormalized": "birkenes",
+    "officeInfo": {
+      "kontorNavn": "NAV Birkenes",
+      "enhetNr": "0928",
+      "status": "Aktiv"
+    }
+  },
+  "4217": {
+    "kommunenr": "4217",
+    "kommuneNavn": "ÅMLI",
+    "kommuneNavnNormalized": "åmli",
+    "officeInfo": {
+      "kontorNavn": "NAV Åmli",
+      "enhetNr": "0929",
+      "status": "Aktiv"
+    }
+  },
+  "4218": {
+    "kommunenr": "4218",
+    "kommuneNavn": "IVELAND",
+    "kommuneNavnNormalized": "iveland",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Agder",
+      "enhetNr": "1014",
+      "status": "Aktiv"
+    }
+  },
+  "4219": {
+    "kommunenr": "4219",
+    "kommuneNavn": "EVJE OG HORNNES",
+    "kommuneNavnNormalized": "evje-og-hornnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Evje og Hornnes",
+      "enhetNr": "0937",
+      "status": "Aktiv"
+    }
+  },
+  "4220": {
+    "kommunenr": "4220",
+    "kommuneNavn": "BYGLAND",
+    "kommuneNavnNormalized": "bygland",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Agder",
+      "enhetNr": "1014",
+      "status": "Aktiv"
+    }
+  },
+  "4221": {
+    "kommunenr": "4221",
+    "kommuneNavn": "VALLE",
+    "kommuneNavnNormalized": "valle",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Agder",
+      "enhetNr": "1014",
+      "status": "Aktiv"
+    }
+  },
+  "4222": {
+    "kommunenr": "4222",
+    "kommuneNavn": "BYKLE",
+    "kommuneNavnNormalized": "bykle",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Agder",
+      "enhetNr": "1014",
+      "status": "Aktiv"
+    }
+  },
+  "4223": {
+    "kommunenr": "4223",
+    "kommuneNavn": "VENNESLA",
+    "kommuneNavnNormalized": "vennesla",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Agder",
+      "enhetNr": "1014",
+      "status": "Aktiv"
+    }
+  },
+  "4224": {
+    "kommunenr": "4224",
+    "kommuneNavn": "ÅSERAL",
+    "kommuneNavnNormalized": "åseral",
+    "officeInfo": {
+      "kontorNavn": "NAV Midt-Agder",
+      "enhetNr": "1014",
+      "status": "Aktiv"
+    }
+  },
+  "4225": {
+    "kommunenr": "4225",
+    "kommuneNavn": "LYNGDAL",
+    "kommuneNavnNormalized": "lyngdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Lister",
+      "enhetNr": "1037",
+      "status": "Aktiv"
+    }
+  },
+  "4226": {
+    "kommunenr": "4226",
+    "kommuneNavn": "HÆGEBOSTAD",
+    "kommuneNavnNormalized": "hægebostad",
+    "officeInfo": {
+      "kontorNavn": "NAV Hægebostad",
+      "enhetNr": "1034",
+      "status": "Aktiv"
+    }
+  },
+  "4227": {
+    "kommunenr": "4227",
+    "kommuneNavn": "KVINESDAL",
+    "kommuneNavnNormalized": "kvinesdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Lister",
+      "enhetNr": "1037",
+      "status": "Aktiv"
+    }
+  },
+  "4228": {
+    "kommunenr": "4228",
+    "kommuneNavn": "SIRDAL",
+    "kommuneNavnNormalized": "sirdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Lister",
+      "enhetNr": "1037",
+      "status": "Aktiv"
+    }
+  },
+  "4601": {
+    "kommunenr": "4601",
+    "kommuneNavn": "BERGEN",
+    "kommuneNavnNormalized": "bergen",
+    "bydeler": [
+      {
+        "bydelsnr": "460105",
+        "navn": "Laksevåg",
+        "navnNormalized": "laksevåg",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergen vest",
+          "enhetNr": "1206",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460102",
+        "navn": "Bergenhus",
+        "navnNormalized": "bergenhus",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergenhus",
+          "enhetNr": "1209",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460104",
+        "navn": "Fyllingsdalen",
+        "navnNormalized": "fyllingsdalen",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergen vest",
+          "enhetNr": "1206",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460101",
+        "navn": "Arna",
+        "navnNormalized": "arna",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergen nord",
+          "enhetNr": "1203",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460108",
+        "navn": "Åsane",
+        "navnNormalized": "åsane",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergen nord",
+          "enhetNr": "1203",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460106",
+        "navn": "Ytrebygda",
+        "navnNormalized": "ytrebygda",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergen sør",
+          "enhetNr": "1202",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460103",
+        "navn": "Fana",
+        "navnNormalized": "fana",
+        "officeInfo": {
+          "kontorNavn": "NAV Bergen sør",
+          "enhetNr": "1202",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "460107",
+        "navn": "Årstad",
+        "navnNormalized": "årstad",
+        "officeInfo": {
+          "kontorNavn": "NAV Årstad",
+          "enhetNr": "1208",
+          "status": "Aktiv"
+        }
+      }
+    ]
+  },
+  "4602": {
+    "kommunenr": "4602",
+    "kommuneNavn": "KINN",
+    "kommuneNavnNormalized": "kinn",
+    "officeInfo": {
+      "kontorNavn": "NAV Kinn",
+      "enhetNr": "1401",
+      "status": "Aktiv"
+    }
+  },
+  "4611": {
+    "kommunenr": "4611",
+    "kommuneNavn": "ETNE",
+    "kommuneNavnNormalized": "etne",
+    "officeInfo": {
+      "kontorNavn": "NAV Vindafjord-Etne",
+      "enhetNr": "1160",
+      "status": "Aktiv"
+    }
+  },
+  "4612": {
+    "kommunenr": "4612",
+    "kommuneNavn": "SVEIO",
+    "kommuneNavnNormalized": "sveio",
+    "officeInfo": {
+      "kontorNavn": "NAV Sveio",
+      "enhetNr": "1216",
+      "status": "Aktiv"
+    }
+  },
+  "4613": {
+    "kommunenr": "4613",
+    "kommuneNavn": "BØMLO",
+    "kommuneNavnNormalized": "bømlo",
+    "officeInfo": {
+      "kontorNavn": "NAV Bømlo",
+      "enhetNr": "1219",
+      "status": "Aktiv"
+    }
+  },
+  "4614": {
+    "kommunenr": "4614",
+    "kommuneNavn": "STORD",
+    "kommuneNavnNormalized": "stord",
+    "officeInfo": {
+      "kontorNavn": "NAV Stord",
+      "enhetNr": "1221",
+      "status": "Aktiv"
+    }
+  },
+  "4615": {
+    "kommunenr": "4615",
+    "kommuneNavn": "FITJAR",
+    "kommuneNavnNormalized": "fitjar",
+    "officeInfo": {
+      "kontorNavn": "NAV Fitjar",
+      "enhetNr": "1222",
+      "status": "Aktiv"
+    }
+  },
+  "4616": {
+    "kommunenr": "4616",
+    "kommuneNavn": "TYSNES",
+    "kommuneNavnNormalized": "tysnes",
+    "officeInfo": {
+      "kontorNavn": "NAV Tysnes",
+      "enhetNr": "1223",
+      "status": "Aktiv"
+    }
+  },
+  "4617": {
+    "kommunenr": "4617",
+    "kommuneNavn": "KVINNHERAD",
+    "kommuneNavnNormalized": "kvinnherad",
+    "officeInfo": {
+      "kontorNavn": "NAV Kvinnherad",
+      "enhetNr": "1224",
+      "status": "Aktiv"
+    }
+  },
+  "4618": {
+    "kommunenr": "4618",
+    "kommuneNavn": "ULLENSVANG",
+    "kommuneNavnNormalized": "ullensvang",
+    "officeInfo": {
+      "kontorNavn": "NAV Ullensvang",
+      "enhetNr": "1228",
+      "status": "Aktiv"
+    }
+  },
+  "4619": {
+    "kommunenr": "4619",
+    "kommuneNavn": "EIDFJORD",
+    "kommuneNavnNormalized": "eidfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Eidfjord",
+      "enhetNr": "1232",
+      "status": "Aktiv"
+    }
+  },
+  "4620": {
+    "kommunenr": "4620",
+    "kommuneNavn": "ULVIK",
+    "kommuneNavnNormalized": "ulvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Ulvik",
+      "enhetNr": "1233",
+      "status": "Aktiv"
+    }
+  },
+  "4621": {
+    "kommunenr": "4621",
+    "kommuneNavn": "VOSS",
+    "kommuneNavnNormalized": "voss",
+    "officeInfo": {
+      "kontorNavn": "NAV Voss",
+      "enhetNr": "1235",
+      "status": "Aktiv"
+    }
+  },
+  "4622": {
+    "kommunenr": "4622",
+    "kommuneNavn": "KVAM",
+    "kommuneNavnNormalized": "kvam",
+    "officeInfo": {
+      "kontorNavn": "NAV Kvam",
+      "enhetNr": "1238",
+      "status": "Aktiv"
+    }
+  },
+  "4623": {
+    "kommunenr": "4623",
+    "kommuneNavn": "SAMNANGER",
+    "kommuneNavnNormalized": "samnanger",
+    "officeInfo": {
+      "kontorNavn": "NAV Samnanger",
+      "enhetNr": "1242",
+      "status": "Aktiv"
+    }
+  },
+  "4624": {
+    "kommunenr": "4624",
+    "kommuneNavn": "BJØRNAFJORDEN",
+    "kommuneNavnNormalized": "bjørnafjorden",
+    "officeInfo": {
+      "kontorNavn": "NAV Bjørnafjorden",
+      "enhetNr": "1243",
+      "status": "Aktiv"
+    }
+  },
+  "4625": {
+    "kommunenr": "4625",
+    "kommuneNavn": "AUSTEVOLL",
+    "kommuneNavnNormalized": "austevoll",
+    "officeInfo": {
+      "kontorNavn": "NAV Austevoll",
+      "enhetNr": "1244",
+      "status": "Aktiv"
+    }
+  },
+  "4626": {
+    "kommunenr": "4626",
+    "kommuneNavn": "ØYGARDEN",
+    "kommuneNavnNormalized": "øygarden",
+    "officeInfo": {
+      "kontorNavn": "NAV Øygarden",
+      "enhetNr": "1246",
+      "status": "Aktiv"
+    }
+  },
+  "4627": {
+    "kommunenr": "4627",
+    "kommuneNavn": "ASKØY",
+    "kommuneNavnNormalized": "askøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Askøy",
+      "enhetNr": "1247",
+      "status": "Aktiv"
+    }
+  },
+  "4628": {
+    "kommunenr": "4628",
+    "kommuneNavn": "VAKSDAL",
+    "kommuneNavnNormalized": "vaksdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Vaksdal",
+      "enhetNr": "1251",
+      "status": "Aktiv"
+    }
+  },
+  "4629": {
+    "kommunenr": "4629",
+    "kommuneNavn": "MODALEN",
+    "kommuneNavnNormalized": "modalen",
+    "officeInfo": {
+      "kontorNavn": "NAV Fensfjorden",
+      "enhetNr": "1266",
+      "status": "Aktiv"
+    }
+  },
+  "4630": {
+    "kommunenr": "4630",
+    "kommuneNavn": "OSTERØY",
+    "kommuneNavnNormalized": "osterøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Osterøy",
+      "enhetNr": "1253",
+      "status": "Aktiv"
+    }
+  },
+  "4631": {
+    "kommunenr": "4631",
+    "kommuneNavn": "ALVER",
+    "kommuneNavnNormalized": "alver",
+    "officeInfo": {
+      "kontorNavn": "NAV Alver",
+      "enhetNr": "1263",
+      "status": "Aktiv"
+    }
+  },
+  "4632": {
+    "kommunenr": "4632",
+    "kommuneNavn": "AUSTRHEIM",
+    "kommuneNavnNormalized": "austrheim",
+    "officeInfo": {
+      "kontorNavn": "NAV Fensfjorden",
+      "enhetNr": "1266",
+      "status": "Aktiv"
+    }
+  },
+  "4633": {
+    "kommunenr": "4633",
+    "kommuneNavn": "FEDJE",
+    "kommuneNavnNormalized": "fedje",
+    "officeInfo": {
+      "kontorNavn": "NAV Fensfjorden",
+      "enhetNr": "1266",
+      "status": "Aktiv"
+    }
+  },
+  "4634": {
+    "kommunenr": "4634",
+    "kommuneNavn": "MASFJORDEN",
+    "kommuneNavnNormalized": "masfjorden",
+    "officeInfo": {
+      "kontorNavn": "NAV Fensfjorden",
+      "enhetNr": "1266",
+      "status": "Aktiv"
+    }
+  },
+  "4635": {
+    "kommunenr": "4635",
+    "kommuneNavn": "GULEN",
+    "kommuneNavnNormalized": "gulen",
+    "officeInfo": {
+      "kontorNavn": "NAV Fensfjorden",
+      "enhetNr": "1266",
+      "status": "Aktiv"
+    }
+  },
+  "4636": {
+    "kommunenr": "4636",
+    "kommuneNavn": "SOLUND",
+    "kommuneNavnNormalized": "solund",
+    "officeInfo": {
+      "kontorNavn": "NAV Solund",
+      "enhetNr": "1412",
+      "status": "Aktiv"
+    }
+  },
+  "4637": {
+    "kommunenr": "4637",
+    "kommuneNavn": "HYLLESTAD",
+    "kommuneNavnNormalized": "hyllestad",
+    "officeInfo": {
+      "kontorNavn": "NAV Hyllestad",
+      "enhetNr": "1413",
+      "status": "Aktiv"
+    }
+  },
+  "4638": {
+    "kommunenr": "4638",
+    "kommuneNavn": "HØYANGER",
+    "kommuneNavnNormalized": "høyanger",
+    "officeInfo": {
+      "kontorNavn": "NAV Høyanger",
+      "enhetNr": "1416",
+      "status": "Aktiv"
+    }
+  },
+  "4639": {
+    "kommunenr": "4639",
+    "kommuneNavn": "VIK",
+    "kommuneNavnNormalized": "vik",
+    "officeInfo": {
+      "kontorNavn": "NAV Vik",
+      "enhetNr": "1417",
+      "status": "Aktiv"
+    }
+  },
+  "4640": {
+    "kommunenr": "4640",
+    "kommuneNavn": "SOGNDAL",
+    "kommuneNavnNormalized": "sogndal",
+    "officeInfo": {
+      "kontorNavn": "NAV Sogndal",
+      "enhetNr": "1420",
+      "status": "Aktiv"
+    }
+  },
+  "4641": {
+    "kommunenr": "4641",
+    "kommuneNavn": "AURLAND",
+    "kommuneNavnNormalized": "aurland",
+    "officeInfo": {
+      "kontorNavn": "NAV Aurland",
+      "enhetNr": "1421",
+      "status": "Aktiv"
+    }
+  },
+  "4642": {
+    "kommunenr": "4642",
+    "kommuneNavn": "LÆRDAL",
+    "kommuneNavnNormalized": "lærdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Lærdal",
+      "enhetNr": "1422",
+      "status": "Aktiv"
+    }
+  },
+  "4643": {
+    "kommunenr": "4643",
+    "kommuneNavn": "ÅRDAL",
+    "kommuneNavnNormalized": "årdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Årdal",
+      "enhetNr": "1424",
+      "status": "Aktiv"
+    }
+  },
+  "4644": {
+    "kommunenr": "4644",
+    "kommuneNavn": "LUSTER",
+    "kommuneNavnNormalized": "luster",
+    "officeInfo": {
+      "kontorNavn": "NAV Luster",
+      "enhetNr": "1426",
+      "status": "Aktiv"
+    }
+  },
+  "4645": {
+    "kommunenr": "4645",
+    "kommuneNavn": "ASKVOLL",
+    "kommuneNavnNormalized": "askvoll",
+    "officeInfo": {
+      "kontorNavn": "NAV Askvoll",
+      "enhetNr": "1428",
+      "status": "Aktiv"
+    }
+  },
+  "4646": {
+    "kommunenr": "4646",
+    "kommuneNavn": "FJALER",
+    "kommuneNavnNormalized": "fjaler",
+    "officeInfo": {
+      "kontorNavn": "NAV Fjaler",
+      "enhetNr": "1429",
+      "status": "Aktiv"
+    }
+  },
+  "4647": {
+    "kommunenr": "4647",
+    "kommuneNavn": "SUNNFJORD",
+    "kommuneNavnNormalized": "sunnfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Sunnfjord",
+      "enhetNr": "1432",
+      "status": "Aktiv"
+    }
+  },
+  "4648": {
+    "kommunenr": "4648",
+    "kommuneNavn": "BREMANGER",
+    "kommuneNavnNormalized": "bremanger",
+    "officeInfo": {
+      "kontorNavn": "NAV Bremanger",
+      "enhetNr": "1438",
+      "status": "Aktiv"
+    }
+  },
+  "4649": {
+    "kommunenr": "4649",
+    "kommuneNavn": "STAD",
+    "kommuneNavnNormalized": "stad",
+    "officeInfo": {
+      "kontorNavn": "NAV Stad",
+      "enhetNr": "1443",
+      "status": "Aktiv"
+    }
+  },
+  "4650": {
+    "kommunenr": "4650",
+    "kommuneNavn": "GLOPPEN",
+    "kommuneNavnNormalized": "gloppen",
+    "officeInfo": {
+      "kontorNavn": "NAV Gloppen",
+      "enhetNr": "1445",
+      "status": "Aktiv"
+    }
+  },
+  "4651": {
+    "kommunenr": "4651",
+    "kommuneNavn": "STRYN",
+    "kommuneNavnNormalized": "stryn",
+    "officeInfo": {
+      "kontorNavn": "NAV Stryn",
+      "enhetNr": "1449",
+      "status": "Aktiv"
+    }
+  },
+  "5001": {
+    "kommunenr": "5001",
+    "kommuneNavn": "TRONDHEIM",
+    "kommuneNavnNormalized": "trondheim",
+    "bydeler": [
+      {
+        "bydelsnr": "500101",
+        "navn": "Midtbyen",
+        "navnNormalized": "midtbyen",
+        "officeInfo": {
+          "kontorNavn": "NAV Falkenborg",
+          "enhetNr": "5701",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "500104",
+        "navn": "Heimdal",
+        "navnNormalized": "heimdal",
+        "officeInfo": {
+          "kontorNavn": "NAV Lerkendal",
+          "enhetNr": "5702",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "500103",
+        "navn": "Lerkendal",
+        "navnNormalized": "lerkendal",
+        "officeInfo": {
+          "kontorNavn": "NAV Lerkendal",
+          "enhetNr": "5702",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "500102",
+        "navn": "Østbyen",
+        "navnNormalized": "østbyen",
+        "officeInfo": {
+          "kontorNavn": "NAV Falkenborg",
+          "enhetNr": "5701",
+          "status": "Aktiv"
+        }
+      }
+    ]
+  },
+  "5006": {
+    "kommunenr": "5006",
+    "kommuneNavn": "STEINKJER",
+    "kommuneNavnNormalized": "steinkjer",
+    "officeInfo": {
+      "kontorNavn": "NAV Inn-Trøndelag",
+      "enhetNr": "1702",
+      "status": "Aktiv"
+    }
+  },
+  "5007": {
+    "kommunenr": "5007",
+    "kommuneNavn": "NAMSOS",
+    "kommuneNavnNormalized": "namsos",
+    "officeInfo": {
+      "kontorNavn": "NAV Midtre Namdal",
+      "enhetNr": "1703",
+      "status": "Aktiv"
+    }
+  },
+  "5014": {
+    "kommunenr": "5014",
+    "kommuneNavn": "FRØYA",
+    "kommuneNavnNormalized": "frøya",
+    "officeInfo": {
+      "kontorNavn": "NAV Hitra Frøya",
+      "enhetNr": "1620",
+      "status": "Aktiv"
+    }
+  },
+  "5020": {
+    "kommunenr": "5020",
+    "kommuneNavn": "OSEN",
+    "kommuneNavnNormalized": "osen",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Fosen",
+      "enhetNr": "1630",
+      "status": "Aktiv"
+    }
+  },
+  "5021": {
+    "kommunenr": "5021",
+    "kommuneNavn": "OPPDAL",
+    "kommuneNavnNormalized": "oppdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Oppdal og Rennebu",
+      "enhetNr": "1634",
+      "status": "Aktiv"
+    }
+  },
+  "5022": {
+    "kommunenr": "5022",
+    "kommuneNavn": "RENNEBU",
+    "kommuneNavnNormalized": "rennebu",
+    "officeInfo": {
+      "kontorNavn": "NAV Oppdal og Rennebu",
+      "enhetNr": "1634",
+      "status": "Aktiv"
+    }
+  },
+  "5025": {
+    "kommunenr": "5025",
+    "kommuneNavn": "RØROS",
+    "kommuneNavnNormalized": "røros",
+    "officeInfo": {
+      "kontorNavn": "NAV Røros, Os og Holtålen",
+      "enhetNr": "1640",
+      "status": "Aktiv"
+    }
+  },
+  "5026": {
+    "kommunenr": "5026",
+    "kommuneNavn": "HOLTÅLEN",
+    "kommuneNavnNormalized": "holtålen",
+    "officeInfo": {
+      "kontorNavn": "NAV Røros, Os og Holtålen",
+      "enhetNr": "1640",
+      "status": "Aktiv"
+    }
+  },
+  "5027": {
+    "kommunenr": "5027",
+    "kommuneNavn": "MIDTRE GAULDAL",
+    "kommuneNavnNormalized": "midtre-gauldal",
+    "officeInfo": {
+      "kontorNavn": "NAV Midtre Gauldal",
+      "enhetNr": "1648",
+      "status": "Aktiv"
+    }
+  },
+  "5028": {
+    "kommunenr": "5028",
+    "kommuneNavn": "MELHUS",
+    "kommuneNavnNormalized": "melhus",
+    "officeInfo": {
+      "kontorNavn": "NAV Melhus",
+      "enhetNr": "1653",
+      "status": "Aktiv"
+    }
+  },
+  "5029": {
+    "kommunenr": "5029",
+    "kommuneNavn": "SKAUN",
+    "kommuneNavnNormalized": "skaun",
+    "officeInfo": {
+      "kontorNavn": "NAV Skaun",
+      "enhetNr": "1657",
+      "status": "Aktiv"
+    }
+  },
+  "5031": {
+    "kommunenr": "5031",
+    "kommuneNavn": "MALVIK",
+    "kommuneNavnNormalized": "malvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Malvik",
+      "enhetNr": "1663",
+      "status": "Aktiv"
+    }
+  },
+  "5032": {
+    "kommunenr": "5032",
+    "kommuneNavn": "SELBU",
+    "kommuneNavnNormalized": "selbu",
+    "officeInfo": {
+      "kontorNavn": "NAV Værnes",
+      "enhetNr": "1783",
+      "status": "Aktiv"
+    }
+  },
+  "5033": {
+    "kommunenr": "5033",
+    "kommuneNavn": "TYDAL",
+    "kommuneNavnNormalized": "tydal",
+    "officeInfo": {
+      "kontorNavn": "NAV Værnes",
+      "enhetNr": "1783",
+      "status": "Aktiv"
+    }
+  },
+  "5034": {
+    "kommunenr": "5034",
+    "kommuneNavn": "MERÅKER",
+    "kommuneNavnNormalized": "meråker",
+    "officeInfo": {
+      "kontorNavn": "NAV Værnes",
+      "enhetNr": "1783",
+      "status": "Aktiv"
+    }
+  },
+  "5035": {
+    "kommunenr": "5035",
+    "kommuneNavn": "STJØRDAL",
+    "kommuneNavnNormalized": "stjørdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Værnes",
+      "enhetNr": "1783",
+      "status": "Aktiv"
+    }
+  },
+  "5036": {
+    "kommunenr": "5036",
+    "kommuneNavn": "FROSTA",
+    "kommuneNavnNormalized": "frosta",
+    "officeInfo": {
+      "kontorNavn": "NAV Værnes",
+      "enhetNr": "1783",
+      "status": "Aktiv"
+    }
+  },
+  "5037": {
+    "kommunenr": "5037",
+    "kommuneNavn": "LEVANGER",
+    "kommuneNavnNormalized": "levanger",
+    "officeInfo": {
+      "kontorNavn": "NAV Levanger",
+      "enhetNr": "1719",
+      "status": "Aktiv"
+    }
+  },
+  "5038": {
+    "kommunenr": "5038",
+    "kommuneNavn": "VERDAL",
+    "kommuneNavnNormalized": "verdal",
+    "officeInfo": {
+      "kontorNavn": "NAV Verdal",
+      "enhetNr": "1721",
+      "status": "Aktiv"
+    }
+  },
+  "5041": {
+    "kommunenr": "5041",
+    "kommuneNavn": "SNÅSA",
+    "kommuneNavnNormalized": "snåsa",
+    "officeInfo": {
+      "kontorNavn": "NAV Inn-Trøndelag",
+      "enhetNr": "1702",
+      "status": "Aktiv"
+    }
+  },
+  "5042": {
+    "kommunenr": "5042",
+    "kommuneNavn": "LIERNE",
+    "kommuneNavnNormalized": "lierne",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Namdal",
+      "enhetNr": "1742",
+      "status": "Aktiv"
+    }
+  },
+  "5043": {
+    "kommunenr": "5043",
+    "kommuneNavn": "RØYRVIK",
+    "kommuneNavnNormalized": "røyrvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Namdal",
+      "enhetNr": "1742",
+      "status": "Aktiv"
+    }
+  },
+  "5044": {
+    "kommunenr": "5044",
+    "kommuneNavn": "NAMSSKOGAN",
+    "kommuneNavnNormalized": "namsskogan",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Namdal",
+      "enhetNr": "1742",
+      "status": "Aktiv"
+    }
+  },
+  "5045": {
+    "kommunenr": "5045",
+    "kommuneNavn": "GRONG",
+    "kommuneNavnNormalized": "grong",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Namdal",
+      "enhetNr": "1742",
+      "status": "Aktiv"
+    }
+  },
+  "5046": {
+    "kommunenr": "5046",
+    "kommuneNavn": "HØYLANDET",
+    "kommuneNavnNormalized": "høylandet",
+    "officeInfo": {
+      "kontorNavn": "NAV Midtre Namdal",
+      "enhetNr": "1703",
+      "status": "Aktiv"
+    }
+  },
+  "5047": {
+    "kommunenr": "5047",
+    "kommuneNavn": "OVERHALLA",
+    "kommuneNavnNormalized": "overhalla",
+    "officeInfo": {
+      "kontorNavn": "NAV Midtre Namdal",
+      "enhetNr": "1703",
+      "status": "Aktiv"
+    }
+  },
+  "5049": {
+    "kommunenr": "5049",
+    "kommuneNavn": "FLATANGER",
+    "kommuneNavnNormalized": "flatanger",
+    "officeInfo": {
+      "kontorNavn": "NAV Midtre Namdal",
+      "enhetNr": "1703",
+      "status": "Aktiv"
+    }
+  },
+  "5052": {
+    "kommunenr": "5052",
+    "kommuneNavn": "LEKA",
+    "kommuneNavnNormalized": "leka",
+    "officeInfo": {
+      "kontorNavn": "NAV Nærøysund",
+      "enhetNr": "1751",
+      "status": "Aktiv"
+    }
+  },
+  "5053": {
+    "kommunenr": "5053",
+    "kommuneNavn": "INDERØY",
+    "kommuneNavnNormalized": "inderøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Inn-Trøndelag",
+      "enhetNr": "1702",
+      "status": "Aktiv"
+    }
+  },
+  "5054": {
+    "kommunenr": "5054",
+    "kommuneNavn": "INDRE FOSEN",
+    "kommuneNavnNormalized": "indre-fosen",
+    "officeInfo": {
+      "kontorNavn": "NAV Indre Fosen",
+      "enhetNr": "5703",
+      "status": "Aktiv"
+    }
+  },
+  "5055": {
+    "kommunenr": "5055",
+    "kommuneNavn": "HEIM",
+    "kommuneNavnNormalized": "heim",
+    "officeInfo": {
+      "kontorNavn": "NAV Heim",
+      "enhetNr": "1612",
+      "status": "Aktiv"
+    }
+  },
+  "5056": {
+    "kommunenr": "5056",
+    "kommuneNavn": "HITRA",
+    "kommuneNavnNormalized": "hitra",
+    "officeInfo": {
+      "kontorNavn": "NAV Hitra Frøya",
+      "enhetNr": "1620",
+      "status": "Aktiv"
+    }
+  },
+  "5057": {
+    "kommunenr": "5057",
+    "kommuneNavn": "ØRLAND",
+    "kommuneNavnNormalized": "ørland",
+    "officeInfo": {
+      "kontorNavn": "NAV Ørland",
+      "enhetNr": "1621",
+      "status": "Aktiv"
+    }
+  },
+  "5058": {
+    "kommunenr": "5058",
+    "kommuneNavn": "ÅFJORD",
+    "kommuneNavnNormalized": "åfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Nord-Fosen",
+      "enhetNr": "1630",
+      "status": "Aktiv"
+    }
+  },
+  "5059": {
+    "kommunenr": "5059",
+    "kommuneNavn": "ORKLAND",
+    "kommuneNavnNormalized": "orkland",
+    "officeInfo": {
+      "kontorNavn": "NAV Orkland",
+      "enhetNr": "1638",
+      "status": "Aktiv"
+    }
+  },
+  "5060": {
+    "kommunenr": "5060",
+    "kommuneNavn": "NÆRØYSUND",
+    "kommuneNavnNormalized": "nærøysund",
+    "officeInfo": {
+      "kontorNavn": "NAV Nærøysund",
+      "enhetNr": "1751",
+      "status": "Aktiv"
+    }
+  },
+  "5061": {
+    "kommunenr": "5061",
+    "kommuneNavn": "RINDAL",
+    "kommuneNavnNormalized": "rindal",
+    "officeInfo": {
+      "kontorNavn": "NAV Orkland",
+      "enhetNr": "1638",
+      "status": "Aktiv"
+    }
+  },
+  "5401": {
+    "kommunenr": "5401",
+    "kommuneNavn": "TROMSØ",
+    "kommuneNavnNormalized": "tromsø",
+    "officeInfo": {
+      "kontorNavn": "NAV Tromsø",
+      "enhetNr": "1902",
+      "status": "Aktiv"
+    }
+  },
+  "5402": {
+    "kommunenr": "5402",
+    "kommuneNavn": "HARSTAD",
+    "kommuneNavnNormalized": "harstad",
+    "officeInfo": {
+      "kontorNavn": "NAV Harstad",
+      "enhetNr": "1903",
+      "status": "Aktiv"
+    }
+  },
+  "5403": {
+    "kommunenr": "5403",
+    "kommuneNavn": "ALTA",
+    "kommuneNavnNormalized": "alta",
+    "officeInfo": {
+      "kontorNavn": "NAV Alta-Kvænangen-Loppa",
+      "enhetNr": "2012",
+      "status": "Aktiv"
+    }
+  },
+  "5404": {
+    "kommunenr": "5404",
+    "kommuneNavn": "VARDØ",
+    "kommuneNavnNormalized": "vardø",
+    "officeInfo": {
+      "kontorNavn": "NAV Vardø",
+      "enhetNr": "2002",
+      "status": "Aktiv"
+    }
+  },
+  "5405": {
+    "kommunenr": "5405",
+    "kommuneNavn": "VADSØ",
+    "kommuneNavnNormalized": "vadsø",
+    "officeInfo": {
+      "kontorNavn": "NAV Vadsø",
+      "enhetNr": "2003",
+      "status": "Aktiv"
+    }
+  },
+  "5406": {
+    "kommunenr": "5406",
+    "kommuneNavn": "HAMMERFEST",
+    "kommuneNavnNormalized": "hammerfest",
+    "officeInfo": {
+      "kontorNavn": "NAV Hammerfest-Måsøy",
+      "enhetNr": "2004",
+      "status": "Aktiv"
+    }
+  },
+  "5411": {
+    "kommunenr": "5411",
+    "kommuneNavn": "KVÆFJORD",
+    "kommuneNavnNormalized": "kvæfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Kvæfjord",
+      "enhetNr": "1911",
+      "status": "Aktiv"
+    }
+  },
+  "5412": {
+    "kommunenr": "5412",
+    "kommuneNavn": "TJELDSUND",
+    "kommuneNavnNormalized": "tjeldsund",
+    "officeInfo": {
+      "kontorNavn": "NAV Tjeldsund",
+      "enhetNr": "1913",
+      "status": "Aktiv"
+    }
+  },
+  "5413": {
+    "kommunenr": "5413",
+    "kommuneNavn": "IBESTAD",
+    "kommuneNavnNormalized": "ibestad",
+    "officeInfo": {
+      "kontorNavn": "NAV Ibestad",
+      "enhetNr": "1917",
+      "status": "Aktiv"
+    }
+  },
+  "5414": {
+    "kommunenr": "5414",
+    "kommuneNavn": "GRATANGEN",
+    "kommuneNavnNormalized": "gratangen",
+    "officeInfo": {
+      "kontorNavn": "NAV Narvik",
+      "enhetNr": "1805",
+      "status": "Aktiv"
+    }
+  },
+  "5415": {
+    "kommunenr": "5415",
+    "kommuneNavn": "LAVANGEN",
+    "kommuneNavnNormalized": "lavangen",
+    "officeInfo": {
+      "kontorNavn": "NAV Salangen-Lavangen-Dyrøy",
+      "enhetNr": "1923",
+      "status": "Aktiv"
+    }
+  },
+  "5416": {
+    "kommunenr": "5416",
+    "kommuneNavn": "BARDU",
+    "kommuneNavnNormalized": "bardu",
+    "officeInfo": {
+      "kontorNavn": "NAV Målselv-Bardu",
+      "enhetNr": "1924",
+      "status": "Aktiv"
+    }
+  },
+  "5417": {
+    "kommunenr": "5417",
+    "kommuneNavn": "SALANGEN",
+    "kommuneNavnNormalized": "salangen",
+    "officeInfo": {
+      "kontorNavn": "NAV Salangen-Lavangen-Dyrøy",
+      "enhetNr": "1923",
+      "status": "Aktiv"
+    }
+  },
+  "5418": {
+    "kommunenr": "5418",
+    "kommuneNavn": "MÅLSELV",
+    "kommuneNavnNormalized": "målselv",
+    "officeInfo": {
+      "kontorNavn": "NAV Målselv-Bardu",
+      "enhetNr": "1924",
+      "status": "Aktiv"
+    }
+  },
+  "5419": {
+    "kommunenr": "5419",
+    "kommuneNavn": "SØRREISA",
+    "kommuneNavnNormalized": "sørreisa",
+    "officeInfo": {
+      "kontorNavn": "NAV Senja-Sørreisa",
+      "enhetNr": "1931",
+      "status": "Aktiv"
+    }
+  },
+  "5420": {
+    "kommunenr": "5420",
+    "kommuneNavn": "DYRØY",
+    "kommuneNavnNormalized": "dyrøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Salangen-Lavangen-Dyrøy",
+      "enhetNr": "1923",
+      "status": "Aktiv"
+    }
+  },
+  "5421": {
+    "kommunenr": "5421",
+    "kommuneNavn": "SENJA",
+    "kommuneNavnNormalized": "senja",
+    "officeInfo": {
+      "kontorNavn": "NAV Senja-Sørreisa",
+      "enhetNr": "1931",
+      "status": "Aktiv"
+    }
+  },
+  "5422": {
+    "kommunenr": "5422",
+    "kommuneNavn": "BALSFJORD",
+    "kommuneNavnNormalized": "balsfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Balsfjord-Storfjord",
+      "enhetNr": "1933",
+      "status": "Aktiv"
+    }
+  },
+  "5423": {
+    "kommunenr": "5423",
+    "kommuneNavn": "KARLSØY",
+    "kommuneNavnNormalized": "karlsøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Karlsøy",
+      "enhetNr": "1936",
+      "status": "Aktiv"
+    }
+  },
+  "5424": {
+    "kommunenr": "5424",
+    "kommuneNavn": "LYNGEN",
+    "kommuneNavnNormalized": "lyngen",
+    "officeInfo": {
+      "kontorNavn": "NAV Lyngen",
+      "enhetNr": "1938",
+      "status": "Aktiv"
+    }
+  },
+  "5425": {
+    "kommunenr": "5425",
+    "kommuneNavn": "STORFJORD",
+    "kommuneNavnNormalized": "storfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Balsfjord-Storfjord",
+      "enhetNr": "1933",
+      "status": "Aktiv"
+    }
+  },
+  "5426": {
+    "kommunenr": "5426",
+    "kommuneNavn": "GÁIVUOTNA KÅFJORD",
+    "kommuneNavnNormalized": "gaivuotna-kåfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Gáivuotna/Kåfjord",
+      "enhetNr": "1940",
+      "status": "Aktiv"
+    }
+  },
+  "5427": {
+    "kommunenr": "5427",
+    "kommuneNavn": "SKJERVØY",
+    "kommuneNavnNormalized": "skjervøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Skjervøy",
+      "enhetNr": "1941",
+      "status": "Aktiv"
+    }
+  },
+  "5428": {
+    "kommunenr": "5428",
+    "kommuneNavn": "NORDREISA",
+    "kommuneNavnNormalized": "nordreisa",
+    "officeInfo": {
+      "kontorNavn": "NAV Nordreisa",
+      "enhetNr": "1942",
+      "status": "Aktiv"
+    }
+  },
+  "5429": {
+    "kommunenr": "5429",
+    "kommuneNavn": "KVÆNANGEN",
+    "kommuneNavnNormalized": "kvænangen",
+    "officeInfo": {
+      "kontorNavn": "NAV Alta-Kvænangen-Loppa",
+      "enhetNr": "2012",
+      "status": "Aktiv"
+    }
+  },
+  "5430": {
+    "kommunenr": "5430",
+    "kommuneNavn": "GUOVDAGEAIDNU KAUTOKEINO",
+    "kommuneNavnNormalized": "guovdageaidnu-kautokeino",
+    "officeInfo": {
+      "kontorNavn": "NAV Guovdageaidnu/Kautokeino",
+      "enhetNr": "2011",
+      "status": "Aktiv"
+    }
+  },
+  "5432": {
+    "kommunenr": "5432",
+    "kommuneNavn": "LOPPA",
+    "kommuneNavnNormalized": "loppa",
+    "officeInfo": {
+      "kontorNavn": "NAV Alta-Kvænangen-Loppa",
+      "enhetNr": "2012",
+      "status": "Aktiv"
+    }
+  },
+  "5433": {
+    "kommunenr": "5433",
+    "kommuneNavn": "HASVIK",
+    "kommuneNavnNormalized": "hasvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Hasvik",
+      "enhetNr": "2015",
+      "status": "Aktiv"
+    }
+  },
+  "5434": {
+    "kommunenr": "5434",
+    "kommuneNavn": "MÅSØY",
+    "kommuneNavnNormalized": "måsøy",
+    "officeInfo": {
+      "kontorNavn": "NAV Hammerfest-Måsøy",
+      "enhetNr": "2004",
+      "status": "Aktiv"
+    }
+  },
+  "5435": {
+    "kommunenr": "5435",
+    "kommuneNavn": "NORDKAPP",
+    "kommuneNavnNormalized": "nordkapp",
+    "officeInfo": {
+      "kontorNavn": "NAV Nordkapp",
+      "enhetNr": "2019",
+      "status": "Aktiv"
+    }
+  },
+  "5436": {
+    "kommunenr": "5436",
+    "kommuneNavn": "PORSANGER PORSÁNGU PORSANKI",
+    "kommuneNavnNormalized": "porsanger-porsangu-porsanki",
+    "officeInfo": {
+      "kontorNavn": "NAV Porsanger",
+      "enhetNr": "2020",
+      "status": "Aktiv"
+    }
+  },
+  "5437": {
+    "kommunenr": "5437",
+    "kommuneNavn": "KARASJOHKA KARASJOK",
+    "kommuneNavnNormalized": "karasjohka-karasjok",
+    "officeInfo": {
+      "kontorNavn": "NAV Karasjohka/Karasjok",
+      "enhetNr": "2021",
+      "status": "Aktiv"
+    }
+  },
+  "5438": {
+    "kommunenr": "5438",
+    "kommuneNavn": "LEBESBY",
+    "kommuneNavnNormalized": "lebesby",
+    "officeInfo": {
+      "kontorNavn": "NAV Lebesby",
+      "enhetNr": "2022",
+      "status": "Aktiv"
+    }
+  },
+  "5439": {
+    "kommunenr": "5439",
+    "kommuneNavn": "GAMVIK",
+    "kommuneNavnNormalized": "gamvik",
+    "officeInfo": {
+      "kontorNavn": "NAV Gamvik",
+      "enhetNr": "2023",
+      "status": "Aktiv"
+    }
+  },
+  "5440": {
+    "kommunenr": "5440",
+    "kommuneNavn": "BERLEVÅG",
+    "kommuneNavnNormalized": "berlevåg",
+    "officeInfo": {
+      "kontorNavn": "NAV Berlevåg",
+      "enhetNr": "2024",
+      "status": "Aktiv"
+    }
+  },
+  "5441": {
+    "kommunenr": "5441",
+    "kommuneNavn": "DEATNU TANA",
+    "kommuneNavnNormalized": "deatnu-tana",
+    "officeInfo": {
+      "kontorNavn": "NAV Deatnu/Tana",
+      "enhetNr": "2025",
+      "status": "Aktiv"
+    }
+  },
+  "5442": {
+    "kommunenr": "5442",
+    "kommuneNavn": "UNJARGGA NESSEBY",
+    "kommuneNavnNormalized": "unjargga-nesseby",
+    "officeInfo": {
+      "kontorNavn": "NAV Unjárga/Nesseby",
+      "enhetNr": "2027",
+      "status": "Aktiv"
+    }
+  },
+  "5443": {
+    "kommunenr": "5443",
+    "kommuneNavn": "BÅTSFJORD",
+    "kommuneNavnNormalized": "båtsfjord",
+    "officeInfo": {
+      "kontorNavn": "NAV Båtsfjord",
+      "enhetNr": "2028",
+      "status": "Aktiv"
+    }
+  },
+  "5444": {
+    "kommunenr": "5444",
+    "kommuneNavn": "SØR-VARANGER",
+    "kommuneNavnNormalized": "sør-varanger",
+    "officeInfo": {
+      "kontorNavn": "NAV Sør-Varanger",
+      "enhetNr": "2030",
+      "status": "Aktiv"
+    }
+  },
+  "0301": {
+    "kommunenr": "0301",
+    "kommuneNavn": "OSLO",
+    "kommuneNavnNormalized": "oslo",
+    "bydeler": [
+      {
+        "bydelsnr": "030104",
+        "navn": "St. Hanshaugen",
+        "navnNormalized": "st--hanshaugen",
+        "officeInfo": {
+          "kontorNavn": "NAV St. Hanshaugen",
+          "enhetNr": "0313",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030102",
+        "navn": "Grünerløkka",
+        "navnNormalized": "grunerløkka",
+        "officeInfo": {
+          "kontorNavn": "NAV Grünerløkka",
+          "enhetNr": "0315",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030105",
+        "navn": "Frogner",
+        "navnNormalized": "frogner",
+        "officeInfo": {
+          "kontorNavn": "NAV Frogner",
+          "enhetNr": "0312",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030103",
+        "navn": "Sagene",
+        "navnNormalized": "sagene",
+        "officeInfo": {
+          "kontorNavn": "NAV Sagene",
+          "enhetNr": "0314",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030107",
+        "navn": "Vestre Aker",
+        "navnNormalized": "vestre-aker",
+        "officeInfo": {
+          "kontorNavn": "NAV Vestre Aker",
+          "enhetNr": "0334",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030108",
+        "navn": "Nordre Aker",
+        "navnNormalized": "nordre-aker",
+        "officeInfo": {
+          "kontorNavn": "NAV Nordre Aker",
+          "enhetNr": "0331",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030101",
+        "navn": "Gamle Oslo",
+        "navnNormalized": "gamle-oslo",
+        "officeInfo": {
+          "kontorNavn": "NAV Gamle Oslo",
+          "enhetNr": "0316",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030106",
+        "navn": "Ullern",
+        "navnNormalized": "ullern",
+        "officeInfo": {
+          "kontorNavn": "NAV Ullern",
+          "enhetNr": "0335",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030111",
+        "navn": "Stovner",
+        "navnNormalized": "stovner",
+        "officeInfo": {
+          "kontorNavn": "NAV Stovner",
+          "enhetNr": "0327",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030110",
+        "navn": "Grorud",
+        "navnNormalized": "grorud",
+        "officeInfo": {
+          "kontorNavn": "NAV Grorud",
+          "enhetNr": "0328",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030114",
+        "navn": "Nordstrand",
+        "navnNormalized": "nordstrand",
+        "officeInfo": {
+          "kontorNavn": "NAV Nordstrand",
+          "enhetNr": "0318",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030115",
+        "navn": "Søndre Nordstrand",
+        "navnNormalized": "søndre-nordstrand",
+        "officeInfo": {
+          "kontorNavn": "NAV Søndre Nordstrand",
+          "enhetNr": "0319",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030113",
+        "navn": "Østensjø",
+        "navnNormalized": "østensjø",
+        "officeInfo": {
+          "kontorNavn": "NAV Østensjø",
+          "enhetNr": "0321",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030116",
+        "navn": "Sentrum",
+        "navnNormalized": "sentrum",
+        "officeInfo": {
+          "kontorNavn": "NAV St. Hanshaugen",
+          "enhetNr": "0313",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030109",
+        "navn": "Bjerke",
+        "navnNormalized": "bjerke",
+        "officeInfo": {
+          "kontorNavn": "NAV Bjerke",
+          "enhetNr": "0330",
+          "status": "Aktiv"
+        }
+      },
+      {
+        "bydelsnr": "030112",
+        "navn": "Alna",
+        "navnNormalized": "alna",
+        "officeInfo": {
+          "kontorNavn": "NAV Alna",
+          "enhetNr": "0326",
+          "status": "Aktiv"
+        }
+      }
+    ]
+  }
+}

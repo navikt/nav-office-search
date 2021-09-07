@@ -1,5 +1,3 @@
-import { getPostnrRegister } from '../data/postnrRegister';
-import { getBydelerData } from '../data/bydeler';
 import { normalizeString, removeDuplicates } from '../utils';
 import {
     NameHit,
@@ -8,83 +6,35 @@ import {
     SearchResultNameProps,
 } from '../types/searchResult';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { fetchOfficeInfoByGeoId } from './fetch/office-info';
-import { fetchTpsAdresseSok } from './fetch/postnr';
-import { PostnrKategori } from '../types/postnr';
+import { getBydelerMap, getKommunerMap, getPostnrMap } from '../data/data';
 
-const findBydeler = async (normalizedQuery: string): Promise<OfficeInfo[]> => {
-    const bydelerMatches = getBydelerData().filter((bydel) =>
+const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
+    const bydelerMatches = Object.values(getBydelerMap()).filter((bydel) =>
         bydel.navnNormalized.includes(normalizedQuery)
     );
 
     return bydelerMatches.map((bydel) => bydel.officeInfo);
 };
 
-// TODO: optimaliser! (og cache)
-const findPoststeder = async (
-    normalizedQuery: string
-): Promise<OfficeInfo[]> => {
-    const results: OfficeInfo[] = [];
+const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
+    const poststedMatches: OfficeInfo[] = Object.values(getPostnrMap())
+        .filter((item) => item.poststedNormalized.includes(normalizedQuery))
+        .flatMap((item) => item.officeInfo);
 
-    const postnrRegister = await getPostnrRegister();
+    return poststedMatches;
+};
 
-    const poststedMatches = removeDuplicates(
-        postnrRegister.filter(
+const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
+    const kommuneMatches = Object.values(getKommunerMap())
+        .filter((item) => item.kommuneNavnNormalized.includes(normalizedQuery))
+        .flatMap(
             (item) =>
-                item.kategori !== PostnrKategori.Postbokser &&
-                item.kategori !== PostnrKategori.Servicepostnummer &&
-                item.poststedNormalized.includes(normalizedQuery)
-        ),
-        (a, b) => a.kommunenr === b.kommunenr && !a.bydeler && !b.bydeler
-    );
+                item.officeInfo ||
+                item.bydeler?.map((bydel) => bydel.officeInfo) ||
+                []
+        );
 
-    const kommuneMatches = removeDuplicates(
-        postnrRegister.filter((item) =>
-            normalizeString(item.kommune).includes(normalizedQuery)
-        ),
-        (a, b) => a.kommunenr === b.kommunenr
-    );
-
-    for (const postnrData of poststedMatches) {
-        const officeInfo = await fetchTpsAdresseSok(postnrData.postnr);
-
-        if (officeInfo && !officeInfo.error) {
-            results.push(
-                ...officeInfo.hits.map((hit) => ({
-                    ...hit,
-                    adressenavn: postnrData.poststed,
-                }))
-            );
-        }
-    }
-
-    for (const kommuneData of kommuneMatches) {
-        if (kommuneData.bydeler) {
-            for (const bydel of kommuneData.bydeler) {
-                const officeInfo = await fetchOfficeInfoByGeoId(bydel.bydelsnr);
-
-                if (officeInfo && !officeInfo.error) {
-                    results.push({
-                        ...officeInfo,
-                        adressenavn: kommuneData.kommune,
-                    });
-                }
-            }
-        } else {
-            const officeInfo = await fetchOfficeInfoByGeoId(
-                kommuneData.kommunenr
-            );
-
-            if (officeInfo && !officeInfo.error) {
-                results.push({
-                    ...officeInfo,
-                    adressenavn: kommuneData.kommune,
-                });
-            }
-        }
-    }
-
-    return results;
+    return kommuneMatches;
 };
 
 const sortNamesWithQueryFirstBias =
@@ -107,10 +57,10 @@ const sortNamesWithQueryFirstBias =
         return a.name === b.name ? 0 : a.name > b.name ? 1 : -1;
     };
 
-const transformHits = async (
+const transformHits = (
     officeHits: OfficeInfo[],
     normalizedQuery: string
-): Promise<NameHit[]> => {
+): NameHit[] => {
     const hitsMap: { [name: string]: OfficeInfo[] } = {};
 
     for (const officeHit of officeHits) {
@@ -141,16 +91,20 @@ export const nameSearchHandler = async (
 
     const normalizedQuery = normalizeString(query);
 
-    const poststederHits = await findPoststeder(normalizedQuery);
+    const poststederHits = findPoststeder(normalizedQuery);
 
-    const bydelerHits = await findBydeler(normalizedQuery);
+    const kommunerHits = findKommuner(normalizedQuery);
 
-    const allHits = await transformHits(
-        [...poststederHits, ...bydelerHits],
-        normalizedQuery
-    );
+    const bydelerHits = findBydeler(normalizedQuery);
 
     return res
         .status(200)
-        .send({ nameHits: allHits, type: 'name', input: query });
+        .send({
+            nameHits: transformHits(
+                [...poststederHits, ...kommunerHits, ...bydelerHits],
+                normalizedQuery
+            ),
+            type: 'name',
+            input: query,
+        });
 };
