@@ -5,6 +5,7 @@ import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
 import kommuner from './kommuner.json';
+import { KommuneData } from '../../data/data';
 
 export const fetchMock = fetchMockLib
     .sandbox()
@@ -54,15 +55,13 @@ export const fetchMock = fetchMockLib
                 return fetchErrorResponse(500, 'Missing id-parameter');
             }
 
-            const postnrData = (await getPostnrRegister()).find(
-                (item) => item.kommunenr === id
-            );
+            // @ts-ignore
+            const postnrData: KommuneData = kommuner[id];
 
-            return {
-                kontorNavn: `NAV ${postnrData?.kommune || `Mock-kontor ${id}`}`,
-                enhetNr: id,
-                status: 'Aktiv',
-                adressenavn: `Eksempelgata`,
-            };
+            if (postnrData.officeInfo) {
+                return { ...postnrData.officeInfo };
+            }
+
+            return fetchErrorResponse(500, 'Mock error');
         }
     );

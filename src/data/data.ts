@@ -15,7 +15,7 @@ export type KommuneData = {
     bydeler?: Bydel[];
 };
 
-type KommunerMap = { [kommunenr: string]: KommuneData };
+export type KommunerMap = { [kommunenr: string]: KommuneData };
 
 export type PostnrData = {
     postnr: string;
