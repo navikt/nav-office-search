@@ -2,6 +2,7 @@ import fs from 'fs';
 import csv from 'csv-parser';
 import { normalizeString } from '../utils';
 import { Bydel } from '../types/bydel';
+import { fetchOfficeInfoByGeoId } from '../api/fetch/office-info';
 
 type BydelerMap = { [kommunenr: string]: Bydel[] };
 
@@ -14,21 +15,28 @@ export const getBydelerData = (): Bydel[] => bydelerData;
 export const loadBydelerData = (onFinish: () => void) => {
     fs.createReadStream('./rawdata/bydeler.csv', { encoding: 'latin1' })
         .pipe(csv({ separator: ';' }))
-        .on('data', (data) => {
+        .on('data', async (data) => {
             if (data.name !== 'Uoppgitt') {
-                const bydel = {
-                    bydelsnr: data.code,
-                    navn: data.name,
-                    navnNormalized: normalizeString(data.name),
-                };
+                const bydelsnr = data.code;
 
-                const kommunenr = data.code.substr(0, 4);
-                if (!kommunenrToBydelerMap[kommunenr]) {
-                    kommunenrToBydelerMap[kommunenr] = [];
+                const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
+
+                if (!officeInfo.error) {
+                    const bydel = {
+                        bydelsnr,
+                        navn: data.name,
+                        navnNormalized: normalizeString(data.name),
+                        officeInfo,
+                    };
+
+                    const kommunenr = bydelsnr.substr(0, 4);
+                    if (!kommunenrToBydelerMap[kommunenr]) {
+                        kommunenrToBydelerMap[kommunenr] = [];
+                    }
+
+                    bydelerData.push(bydel);
+                    kommunenrToBydelerMap[kommunenr].push(bydel);
                 }
-
-                bydelerData.push(bydel);
-                kommunenrToBydelerMap[kommunenr].push(bydel);
             }
         })
         .on('end', () => {
