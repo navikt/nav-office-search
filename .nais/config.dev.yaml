@@ -15,7 +15,7 @@ spec:
     initialDelay: 10
   readiness:
     path: /person/finnkontor/api/internal/isReady
-    initialDelay: 10
+    initialDelay: 120
   ingresses:
     - https://finnkontor.dev.nav.no/person/finnkontor
   replicas:

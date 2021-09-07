@@ -8,7 +8,7 @@ export enum PostnrKategori {
     Servicepostnummer = 'S',
 }
 
-export type PostnrDataOld = {
+export type PostnrRegisterData = {
     postnr: string;
     poststedNormalized: string;
     poststed: string;

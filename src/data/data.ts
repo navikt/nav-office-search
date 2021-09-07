@@ -1,5 +1,5 @@
 import { Bydel } from '../types/bydel';
-import { PostnrDataOld, PostnrKategori } from '../types/postnr';
+import { PostnrRegisterData, PostnrKategori } from '../types/postnr';
 import { normalizeString, removeDuplicates } from '../utils';
 import { fetchOfficeInfoByGeoId } from '../api/fetch/office-info';
 import { loadBydelerData } from './bydeler';
@@ -60,7 +60,7 @@ export const getBydelerMap = () => data.bydeler;
 
 export const getPostnrData = (postnr: string) => data.postnr[postnr];
 
-const populateKommunerMap = async (postnrRegister: PostnrDataOld[]) => {
+const populateKommunerMap = async (postnrRegister: PostnrRegisterData[]) => {
     const uniqueKommuneItems = removeDuplicates(
         postnrRegister,
         (a, b) => a.kommunenr === b.kommunenr
@@ -98,7 +98,7 @@ const populateKommunerMap = async (postnrRegister: PostnrDataOld[]) => {
     data.kommuner = newKommunerMap;
 };
 
-const populatePostnrMap = async (postnrRegister: PostnrDataOld[]) => {
+const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
     const newPostnrMap: PostnrMap = {};
 
     for (const item of postnrRegister) {
