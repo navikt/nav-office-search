@@ -132,7 +132,14 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
                 };
             } else {
                 const adresseSokResult = await fetchTpsAdresseSok(postnr);
-                if (!adresseSokResult.error) {
+                if (adresseSokResult.error) {
+                    newPostnrMap[postnr] = {
+                        ...postNrDataPartial,
+                        officeInfo: kommuneData.bydeler.map(
+                            (bydel) => bydel.officeInfo
+                        ),
+                    };
+                } else {
                     newPostnrMap[postnr] = {
                         ...postNrDataPartial,
                         officeInfo: adresseSokResult.hits,
