@@ -180,6 +180,9 @@ const populateBydelerMap = async () => {
             newBydelerByKommunenr[kommunenr].push(bydel);
         }
     }
+
+    data.bydeler = newBydelerMap;
+    data.bydelerByKommunenr = newBydelerByKommunenr;
 };
 
 let isLoaded = false;
