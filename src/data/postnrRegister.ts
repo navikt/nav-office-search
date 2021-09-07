@@ -1,7 +1,7 @@
 import Cache from 'node-cache';
 import fs from 'fs';
 import { normalizeString } from '../utils';
-import { PostnrData, PostnrKategori } from '../types/postnr';
+import { PostnrDataOld, PostnrKategori } from '../types/postnr';
 import { urls } from '../urls';
 
 type PostnrRegisterItem = [
@@ -29,7 +29,7 @@ postnrRegisterCache.on('expired', (key) => {
     }
 });
 
-const transformPostnrRegisterData = (rawText: string): PostnrData[] => {
+const transformPostnrRegisterData = (rawText: string): PostnrDataOld[] => {
     const itemsRaw = rawText.split('\n');
 
     return itemsRaw.map((itemRaw) => {
@@ -99,10 +99,10 @@ export const loadPostnrRegister = async () => {
     }
 };
 
-export const getPostnrRegister = async (): Promise<PostnrData[]> => {
+export const getPostnrRegister = async (): Promise<PostnrDataOld[]> => {
     if (!postnrRegisterCache.has(postnrRegisterCacheKey)) {
         await loadPostnrRegister();
     }
 
-    return postnrRegisterCache.get(postnrRegisterCacheKey) as PostnrData[];
+    return postnrRegisterCache.get(postnrRegisterCacheKey) as PostnrDataOld[];
 };

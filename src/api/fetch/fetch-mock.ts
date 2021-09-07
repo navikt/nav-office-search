@@ -1,9 +1,9 @@
 import fetchMockLib from 'fetch-mock';
-import { getPostnrRegister } from '../../data/postnrRegister';
 import { AdresseSokResponse } from './postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from './fetch-json';
+import { getPostnrData } from '../../data/data';
 
 export const fetchMock = fetchMockLib
     .sandbox()
@@ -22,9 +22,7 @@ export const fetchMock = fetchMockLib
                 };
             }
 
-            const postnrData = (await getPostnrRegister()).find(
-                (item) => item.postnr === postnr
-            );
+            const postnrData = getPostnrData(postnr);
             if (!postnrData) {
                 return {
                     hits: [],
@@ -36,7 +34,9 @@ export const fetchMock = fetchMockLib
             return {
                 hits: Array.from({ length: numOfficesToReturn }).map(
                     (_, i) => ({
-                        kontorNavn: `NAV ${postnrData.kommune} Mock ${i + 1}`,
+                        kontorNavn: `NAV ${postnrData.kommuneNavn} Mock ${
+                            i + 1
+                        }`,
                         enhetNr: i.toString(),
                         status: 'Aktiv',
                         adressenavn: `Eksempelgata`,
@@ -53,12 +53,12 @@ export const fetchMock = fetchMockLib
                 return fetchErrorResponse(500, 'Missing id-parameter');
             }
 
-            const postnrData = (await getPostnrRegister()).find(
-                (item) => item.kommunenr === id
-            );
+            const postnrData = getPostnrData(id);
 
             return {
-                kontorNavn: `NAV ${postnrData?.kommune || `Mock-kontor ${id}`}`,
+                kontorNavn: `NAV ${
+                    postnrData?.kommuneNavn || `Mock-kontor ${id}`
+                }`,
                 enhetNr: id,
                 status: 'Aktiv',
                 adressenavn: `Eksempelgata`,

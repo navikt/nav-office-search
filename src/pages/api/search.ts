@@ -4,11 +4,18 @@ import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';
 import { nameSearchHandler } from '../../api/name-search-handler';
+import { isDataLoaded, loadData } from '../../data/data';
 
 const searchHandler = async (
     req: NextApiRequest,
     res: NextApiResponse<SearchResultProps>
 ) => {
+    if (!isDataLoaded()) {
+        loadData();
+        console.log('Application not ready');
+        return res.status(500).send(apiErrorResponse('errorServerError'));
+    }
+
     try {
         const { query } = req.query;
 

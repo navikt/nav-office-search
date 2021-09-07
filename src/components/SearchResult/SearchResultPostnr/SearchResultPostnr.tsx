@@ -8,11 +8,18 @@ import style from './SearchResultPostnr.module.css';
 const getUrl = () => 'https://www.nav.no';
 
 const HeaderText = (result: SearchResultPostnrProps) => {
-    const { postnr, poststed, kommune, kategori, hits, adresseQuery } = result;
+    const {
+        postnr,
+        poststed,
+        kommuneNavn,
+        kategori,
+        officeInfo,
+        adresseQuery,
+    } = result;
 
     const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;
 
-    const numHits = hits.length;
+    const numHits = officeInfo.length;
 
     if (numHits === 0) {
         return (
@@ -28,7 +35,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         return (
             <>
                 {`${postnr} er et postnummer for postbokser i `}
-                <strong>{kommune}</strong>
+                <strong>{kommuneNavn}</strong>
                 {` kommune. Kommunens NAV-kontor:`}
             </>
         );
@@ -38,7 +45,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         return (
             <>
                 {`${postnr} er et servicepostnummer i `}
-                <strong>{kommune}</strong>
+                <strong>{kommuneNavn}</strong>
                 {` kommune. Kommunens NAV-kontor:`}
             </>
         );
@@ -68,9 +75,9 @@ type Props = {
 };
 
 export const SearchResultPostnr = ({ result }: Props) => {
-    const { hits, adresseQuery } = result;
+    const { officeInfo, adresseQuery } = result;
 
-    if (!hits) {
+    if (!officeInfo) {
         return <div>{'Error in search results'}</div>;
     }
 
@@ -79,7 +86,7 @@ export const SearchResultPostnr = ({ result }: Props) => {
             <div className={style.header}>
                 <HeaderText {...result} />
             </div>
-            {hits.map((hit) => (
+            {officeInfo.map((hit) => (
                 <Fragment key={hit.enhetNr}>
                     {adresseQuery && (
                         <BodyShort

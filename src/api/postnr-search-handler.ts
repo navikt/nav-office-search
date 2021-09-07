@@ -1,65 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getPostnrRegister } from '../data/postnrRegister';
 import { fetchTpsAdresseSok } from './fetch/postnr';
 import {
-    OfficeInfo,
     SearchResultErrorProps,
     SearchResultPostnrProps,
 } from '../types/searchResult';
-import { fetchOfficeInfoByGeoId } from './fetch/office-info';
 import { apiErrorResponse } from './utils';
-import { PostnrData, PostnrKategori } from '../types/postnr';
-
-const sortByOfficeName = (a: OfficeInfo, b: OfficeInfo) =>
-    a.kontorNavn > b.kontorNavn ? 1 : -1;
-
-// Response-data for postnr used for po-boxes or other special purposes
-const specialResponse = async (
-    postnrData: PostnrData
-): Promise<SearchResultPostnrProps> => {
-    const geoIds = postnrData.bydeler?.map((bydel) => bydel.bydelsnr) || [
-        postnrData.kommunenr,
-    ];
-
-    const hits: OfficeInfo[] = [];
-
-    for (const id of geoIds) {
-        const officeInfo = await fetchOfficeInfoByGeoId(id);
-        if (
-            officeInfo &&
-            !officeInfo.error &&
-            !hits.some((hit) => hit.enhetNr === officeInfo.enhetNr)
-        ) {
-            hits.push(officeInfo);
-        }
-    }
-
-    return {
-        type: 'postnr',
-        hits: hits.sort(sortByOfficeName),
-        postnr: postnrData.postnr,
-        poststed: postnrData.poststed,
-        kategori: postnrData.kategori,
-        kommune: postnrData.kommune,
-    };
-};
-
-// Response-data for postnr used for home adresses
-const homeResponse = (
-    postnrData: PostnrData,
-    hits: OfficeInfo[],
-    adresse: string
-): SearchResultPostnrProps => {
-    return {
-        type: 'postnr',
-        hits,
-        postnr: postnrData.postnr,
-        poststed: postnrData.poststed,
-        kategori: postnrData.kategori,
-        kommune: postnrData.kommune,
-        adresseQuery: adresse,
-    };
-};
+import { getPostnrData } from '../data/data';
 
 export const postnrSearchHandler = async (
     req: NextApiRequest,
@@ -69,19 +15,14 @@ export const postnrSearchHandler = async (
 
     const [postnr, ...adresseSegments] = query?.split(' ');
 
-    const postnrData = (await getPostnrRegister()).find(
-        (item) => item.postnr === postnr
-    );
+    const postnrData = getPostnrData(postnr);
 
     if (!postnrData) {
         return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));
     }
 
-    if (
-        postnrData.kategori === PostnrKategori.Postbokser ||
-        postnrData.kategori === PostnrKategori.Servicepostnummer
-    ) {
-        return res.status(200).send(await specialResponse(postnrData));
+    if (adresseSegments.length === 0) {
+        return res.status(200).send({ type: 'postnr', ...postnrData });
     }
 
     const adresse = adresseSegments?.join(' ').trim();
@@ -99,13 +40,10 @@ export const postnrSearchHandler = async (
         }
     }
 
-    return res
-        .status(200)
-        .send(
-            homeResponse(
-                postnrData,
-                adresseSokRes.error ? [] : adresseSokRes.hits,
-                adresse
-            )
-        );
+    return res.status(200).send({
+        ...postnrData,
+        type: 'postnr',
+        adresseQuery: adresse,
+        officeInfo: adresseSokRes.error ? [] : adresseSokRes.hits,
+    });
 };

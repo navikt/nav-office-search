@@ -1,5 +1,5 @@
 import { LocaleStringId } from '../localization/LocaleString';
-import { PostnrKategori } from './postnr';
+import { PostnrData } from '../data/data';
 
 export type OfficeInfo = {
     kontorNavn: string;
@@ -11,14 +11,9 @@ export type OfficeInfo = {
 
 export type SearchResultPostnrProps = {
     type: 'postnr';
-    hits: OfficeInfo[];
-    postnr: string;
-    poststed: string;
-    kommune: string;
-    kategori: PostnrKategori;
     adresseQuery?: string;
     error?: undefined;
-};
+} & PostnrData;
 
 export type NameHit = { name: string; officeHits: OfficeInfo[] };
 

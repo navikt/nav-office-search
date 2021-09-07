@@ -21,22 +21,24 @@ export const loadBydelerData = (onFinish: () => void) => {
 
                 const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
 
-                if (!officeInfo.error) {
-                    const bydel = {
-                        bydelsnr,
-                        navn: data.name,
-                        navnNormalized: normalizeString(data.name),
-                        officeInfo,
-                    };
-
-                    const kommunenr = bydelsnr.substr(0, 4);
-                    if (!kommunenrToBydelerMap[kommunenr]) {
-                        kommunenrToBydelerMap[kommunenr] = [];
-                    }
-
-                    bydelerData.push(bydel);
-                    kommunenrToBydelerMap[kommunenr].push(bydel);
+                if (officeInfo.error) {
+                    return;
                 }
+
+                const bydel = {
+                    bydelsnr,
+                    navn: data.name,
+                    navnNormalized: normalizeString(data.name),
+                    officeInfo,
+                };
+
+                const kommunenr = bydelsnr.substr(0, 4);
+                if (!kommunenrToBydelerMap[kommunenr]) {
+                    kommunenrToBydelerMap[kommunenr] = [];
+                }
+
+                bydelerData.push(bydel);
+                kommunenrToBydelerMap[kommunenr].push(bydel);
             }
         })
         .on('end', () => {
