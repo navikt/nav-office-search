@@ -17,29 +17,26 @@ export const loadBydelerData = (onFinish: () => void) => {
         .pipe(csv({ separator: ';' }))
         .on('data', async (data) => {
             if (data.name !== 'Uoppgitt') {
-                const officeInfo = await fetchOfficeInfoByGeoId(data.code);
+                const bydelsnr = data.code;
 
-                if (officeInfo.error) {
-                    console.error(
-                        `Failed to load office info for bydelnr ${data.code} - ${officeInfo.message}`
-                    );
-                    return;
+                const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
+
+                if (!officeInfo.error) {
+                    const bydel = {
+                        bydelsnr,
+                        navn: data.name,
+                        navnNormalized: normalizeString(data.name),
+                        officeInfo,
+                    };
+
+                    const kommunenr = bydelsnr.substr(0, 4);
+                    if (!kommunenrToBydelerMap[kommunenr]) {
+                        kommunenrToBydelerMap[kommunenr] = [];
+                    }
+
+                    bydelerData.push(bydel);
+                    kommunenrToBydelerMap[kommunenr].push(bydel);
                 }
-
-                const bydel: Bydel = {
-                    bydelsnr: data.code,
-                    navn: data.name,
-                    navnNormalized: normalizeString(data.name),
-                    officeInfo: officeInfo,
-                };
-
-                const kommunenr = data.code.substr(0, 4);
-                if (!kommunenrToBydelerMap[kommunenr]) {
-                    kommunenrToBydelerMap[kommunenr] = [];
-                }
-
-                bydelerData.push(bydel);
-                kommunenrToBydelerMap[kommunenr].push(bydel);
             }
         })
         .on('end', () => {
