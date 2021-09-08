@@ -63,30 +63,32 @@ export const SearchForm = () => {
     return (
         <div className={style.searchForm}>
             <div className={style.searchInput}>
-                <TextField
-                    label={<LocaleString id={'inputLabel'} />}
-                    id={'search-input'}
-                    className={style.searchField}
-                    ref={inputRef}
-                    onChange={() => handleInput(false)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            handleInput(true);
-                        }
-                    }}
-                />
-                {isLoading && (
-                    <span className={style.loader}>
-                        <BodyShort className={style.loaderText}>
-                            {'Søker...'}
-                        </BodyShort>
-                        <Loader
-                            size={'l'}
-                            variant={'interaction'}
-                            title={'Søker...'}
-                        />
-                    </span>
-                )}
+                <div className={style.searchFieldContainer}>
+                    <TextField
+                        label={<LocaleString id={'inputLabel'} />}
+                        id={'search-input'}
+                        className={style.searchField}
+                        ref={inputRef}
+                        onChange={() => handleInput(false)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleInput(true);
+                            }
+                        }}
+                    />
+                    {isLoading && (
+                        <span className={style.loader}>
+                            <BodyShort className={style.loaderText}>
+                                {'Søker...'}
+                            </BodyShort>
+                            <Loader
+                                size={'l'}
+                                variant={'interaction'}
+                                title={'Søker...'}
+                            />
+                        </span>
+                    )}
+                </div>
                 <Button
                     className={style.searchButton}
                     onClick={() => handleInput(true)}

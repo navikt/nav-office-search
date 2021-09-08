@@ -11,6 +11,11 @@
     position: relative;
 }
 
+.searchFieldContainer {
+    position: relative;
+    width: 100%;
+}
+
 .searchField input {
     height: 3rem;
 }
@@ -33,7 +38,7 @@
     display: flex;
     align-items: center;
     position: absolute;
-    right: 4.5rem;
+    right: 0.5rem;
     bottom: 0.5rem;
 
     color: var(--navds-color-gray-60);
