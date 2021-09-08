@@ -106,10 +106,14 @@ const populateKommunerMap = async (postnrRegister: PostnrRegisterData[]) => {
             };
         } else {
             const officeInfo = await fetchOfficeInfoByGeoId(kommunenr);
+
             if (!officeInfo.error) {
                 newKommunerMap[kommunenr] = {
                     ...kommuneDataPartial,
-                    officeInfo,
+                    officeInfo: {
+                        ...officeInfo,
+                        adressenavn: kommune,
+                    },
                 };
             }
         }
@@ -138,38 +142,13 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
             kategori,
         };
 
-        // if (kommuneData.bydeler) {
-        //     if (
-        //         kategori === PostnrKategori.Postbokser ||
-        //         kategori === PostnrKategori.Servicepostnummer
-        //     ) {
-        //         newPostnrMap[postnr] = {
-        //             ...postNrDataPartial,
-        //             officeInfo: kommuneData.bydeler.map(
-        //                 (bydel) => bydel.officeInfo
-        //             ),
-        //         };
-        //     } else {
-        //         const adresseSokResult = await fetchTpsAdresseSok(postnr);
-        //         if (adresseSokResult.error) {
-        //             newPostnrMap[postnr] = {
-        //                 ...postNrDataPartial,
-        //                 officeInfo: kommuneData.bydeler.map(
-        //                     (bydel) => bydel.officeInfo
-        //                 ),
-        //             };
-        //         } else {
-        //             newPostnrMap[postnr] = {
-        //                 ...postNrDataPartial,
-        //                 officeInfo: adresseSokResult.hits,
-        //             };
-        //         }
-        //     }
-        // } else
+        const officeInfo = kommuneData.officeInfo
+            ? [{ ...kommuneData.officeInfo, adressenavn: poststed }]
+            : [];
 
         newPostnrMap[postnr] = {
             ...postNrDataPartial,
-            officeInfo: kommuneData.officeInfo ? [kommuneData.officeInfo] : [],
+            officeInfo,
         };
     }
 
