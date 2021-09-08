@@ -51,11 +51,11 @@ const data: OfficeDataMaps = {
     bydelerByKommunenr: {},
 };
 
-export const getKommunerMap = () => data.kommuner;
+export const getKommunerArray = () => Object.values(data.kommuner);
 
-export const getPostnrMap = () => data.postnr;
+export const getPostnrArray = () => Object.values(data.postnr);
 
-export const getBydelerMap = () => data.bydeler;
+export const getBydelerArray = () => Object.values(data.bydeler);
 
 export const getPostnrData = async (
     postnr: string

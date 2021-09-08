@@ -6,10 +6,14 @@ import {
     SearchResultNameProps,
 } from '../types/searchResult';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBydelerMap, getKommunerMap, getPostnrMap } from '../data/data';
+import {
+    getBydelerArray,
+    getKommunerArray,
+    getPostnrArray,
+} from '../data/data';
 
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
-    const bydelerMatches = Object.values(getBydelerMap()).filter((bydel) =>
+    const bydelerMatches = getBydelerArray().filter((bydel) =>
         bydel.navnNormalized.includes(normalizedQuery)
     );
 
@@ -20,42 +24,44 @@ const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
 };
 
 const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
-    const poststedMatches = Object.values(getPostnrMap())
-        .filter(
-            (poststed) =>
-                poststed.poststedNormalized.includes(normalizedQuery) &&
-                poststed.officeInfo.length > 0
-        )
-        .flatMap((poststed) => ({
-            ...poststed.officeInfo,
-            hitString: poststed.poststed,
-        }));
+    const poststedMatches = getPostnrArray().reduce((matches, poststed) => {
+        const isMatch =
+            poststed.poststedNormalized.includes(normalizedQuery) &&
+            poststed.officeInfo.length > 0;
+        if (!isMatch) {
+            return matches;
+        }
+
+        return [
+            ...matches,
+            ...poststed.officeInfo.map((office) => ({
+                ...office,
+                hitString: poststed.poststed,
+            })),
+        ];
+    }, [] as OfficeInfo[]);
 
     return poststedMatches;
 };
 
 const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
-    const kommuneMatches = Object.values(getKommunerMap()).reduce(
-        (matches, kommune) => {
-            const isMatch =
-                kommune.kommuneNavnNormalized.includes(normalizedQuery);
-            if (!isMatch) {
-                return matches;
-            }
+    const kommuneMatches = getKommunerArray().reduce((matches, kommune) => {
+        const isMatch = kommune.kommuneNavnNormalized.includes(normalizedQuery);
+        if (!isMatch) {
+            return matches;
+        }
 
-            const officeInfo = kommune.bydeler
-                ? kommune.bydeler.map((bydel) => ({
-                      ...bydel.officeInfo,
-                      hitString: kommune.kommuneNavn,
-                  }))
-                : kommune.officeInfo
-                ? [{ ...kommune.officeInfo, hitString: kommune.kommuneNavn }]
-                : [];
+        const officeInfo = kommune.bydeler
+            ? kommune.bydeler.map((bydel) => ({
+                  ...bydel.officeInfo,
+                  hitString: kommune.kommuneNavn,
+              }))
+            : kommune.officeInfo
+            ? [{ ...kommune.officeInfo, hitString: kommune.kommuneNavn }]
+            : [];
 
-            return [...matches, ...officeInfo];
-        },
-        [] as OfficeInfo[]
-    );
+        return [...matches, ...officeInfo];
+    }, [] as OfficeInfo[]);
 
     return kommuneMatches;
 };

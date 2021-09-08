@@ -1,11 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBydelerMap, getKommunerMap, getPostnrMap } from '../../data/data';
+import {
+    getBydelerArray,
+    getKommunerArray,
+    getPostnrArray,
+} from '../../data/data';
 
 const searchHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({
-        kommuner: getKommunerMap(),
-        postnr: getPostnrMap(),
-        bydeler: getBydelerMap(),
+        kommuner: getKommunerArray(),
+        postnr: getPostnrArray(),
+        bydeler: getBydelerArray(),
     });
 };
 
