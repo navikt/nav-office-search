@@ -4,4 +4,5 @@ export const urls = {
     officeInfoApi: `${process.env.API_ORIGIN}/geoid`,
     postnrRegister: 'https://www.bring.no/postnummerregister-ansi.txt',
     searchApi: `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/search`,
+    kontaktOss: `${process.env.XP_ORIGIN}/person/kontakt-oss`,
 };
