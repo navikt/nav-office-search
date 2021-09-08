@@ -19,12 +19,18 @@ export type LocaleStringId =
     | 'postnrResultPostbox'
     | 'postnrResultServiceBox'
     | 'nameResultNone'
-    | 'nameResultFound';
+    | 'nameResultFound'
+    | 'breadcrumb1'
+    | 'breadcrumb2';
 
-export const localeNb: {
+export type LocaleModule = Partial<typeof localeModuleNb>;
+
+export const localeModuleNb: {
     [key in LocaleStringId]: string | ((...args: string[]) => React.ReactNode);
 } = {
     pageTitle: 'Søk opp NAV-kontor',
+    breadcrumb1: 'Kontakt oss',
+    breadcrumb2: 'Søk opp NAV-kontor',
     ingressLine1:
         'Mangler du elektronisk ID? Eller skal du finne NAV-kontor på vegne av noen andre?',
     ingressLine2:
@@ -34,8 +40,8 @@ export const localeNb: {
     errorMissingQuery: 'Mangler søke-streng',
     errorInvalidQuery: 'Feil i søke-streng',
     errorInvalidPostnr: 'Postnummeret finnes ikke',
-    errorServerError: 'Server-feil',
-    errorInvalidResult: 'Feil i søke-resultatet',
+    errorServerError: 'Ukjent server-feil',
+    errorInvalidResult: 'Server-feil: Feil i søke-resultatet',
     errorClientSideValidation:
         'Skriv inn minst to bokstaver eller et postnummer (fire siffer)',
     nameResultHeader: 'Søkeresultat for ',
@@ -60,7 +66,7 @@ export const localeNb: {
             {`. Du kan legge til et gatenavn for å filtrere søket, f.eks. ${postnr} Eksempelgata`}
         </>
     ),
-    postnrResultPostbox: (postnr, kommuneNavn) => (
+    postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
         <>
             {`${postnr} er et postnummer for postbokser i `}
             <strong>{kommuneNavn}</strong>

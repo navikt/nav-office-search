@@ -42,7 +42,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         return (
             <LocaleString
                 id={'postnrResultServiceBox'}
-                args={[postnr, kommuneNavn]}
+                args={[postnr, kommuneNavn, numHits.toString()]}
             />
         );
     }

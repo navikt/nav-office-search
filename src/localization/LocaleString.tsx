@@ -1,12 +1,15 @@
 import React from 'react';
-import { localeNb, LocaleStringId } from './nb-default';
+import { LocaleModule, localeModuleNb, LocaleStringId } from './nb-default';
+import { localeModuleEn } from './en';
+import { useRouter } from 'next/router';
 
-type LocaleModule = typeof localeNb;
+export type Locale = 'nb' | 'en';
 
-type Locale = 'nb';
+const defaultLocale: Locale = 'nb';
 
 const localeModules: { [key in Locale]: LocaleModule } = {
-    nb: localeNb,
+    nb: localeModuleNb,
+    en: localeModuleEn,
 };
 
 type Props = {
@@ -16,17 +19,31 @@ type Props = {
 
 export const localeString = (
     id: Props['id'],
-    locale: Locale = 'nb',
+    locale: Locale = defaultLocale,
     args: Props['args'] = []
-) => {
-    const value = localeModules[locale][id];
+): string => {
+    const value = localeModules[locale][id] || localeModules[defaultLocale][id];
     if (!value) {
         return id;
     }
 
-    return typeof value === 'function' ? value(...args) : value;
+    const finalValue = typeof value === 'function' ? value(...args) : value;
+
+    return typeof finalValue === 'string' ? finalValue : id;
 };
 
-export const LocaleString = ({ id, args }: Props) => {
-    return <>{localeString(id, 'nb', args)}</>;
+export const LocaleString = ({ id, args = [] }: Props) => {
+    const router = useRouter();
+    const locale = (router.locale ||
+        router.defaultLocale ||
+        defaultLocale) as Locale;
+
+    const value = localeModules[locale][id] || localeModules[defaultLocale][id];
+    if (!value) {
+        return <>{id}</>;
+    }
+
+    const finalValue = typeof value === 'function' ? value(...args) : value;
+
+    return <>{finalValue}</>;
 };

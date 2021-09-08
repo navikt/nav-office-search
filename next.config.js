@@ -10,4 +10,9 @@ module.exports = withTranspileModules({
         APP_ORIGIN: process.env.APP_ORIGIN,
         APP_BASEPATH: process.env.APP_BASEPATH,
     },
+    i18n: {
+        locales: ['nb', 'en'],
+        defaultLocale: 'nb',
+        localeDetection: false,
+    },
 });

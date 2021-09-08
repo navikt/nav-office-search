@@ -4,25 +4,17 @@ import {
     Props,
     fetchDecoratorReact,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
-import { Params as DecoratorParams } from '@navikt/nav-dekoratoren-moduler';
 import { objectToQueryString } from './api/utils';
+import { getDecoratorParams } from './decorator-params';
+import { Locale } from './localization/LocaleString';
 
 const decoratorUrl = process.env.DECORATOR_FALLBACK_URL;
 const decoratorEnv = process.env.ENV as Props['env'];
 const decoratorLocalPort = process.env.DECORATOR_LOCAL_PORT || 8100;
 const fetchTimeoutMs = 15000;
 
-const params: DecoratorParams = {
-    language: 'nb',
-    context: 'privatperson',
-    breadcrumbs: [
-        { url: '/person/kontakt-oss', title: 'Kontakt oss' },
-        { url: '/person/kontakt-oss/finnkontor', title: 'Søk opp NAV-kontor' },
-    ],
-};
-
-const decoratorComponentsCSR = (): Components => {
-    const query = objectToQueryString(params);
+const decoratorComponentsCSR = (locale: Locale): Components => {
+    const query = objectToQueryString(getDecoratorParams(locale));
 
     return {
         Header: () => <div id="decorator-header"></div>,
@@ -42,13 +34,15 @@ const decoratorComponentsCSR = (): Components => {
     };
 };
 
-export const getDecoratorComponents = async (): Promise<Components> => {
+export const getDecoratorComponents = async (
+    locale: Locale
+): Promise<Components> => {
     try {
         const decoratorComponents = await Promise.race([
             fetchDecoratorReact({
                 env: decoratorEnv,
                 port: decoratorLocalPort,
-                ...params,
+                ...getDecoratorParams(locale),
             }),
             new Promise((res, rej) =>
                 setTimeout(() => rej('Fetch timeout'), fetchTimeoutMs)
@@ -58,6 +52,6 @@ export const getDecoratorComponents = async (): Promise<Components> => {
         return decoratorComponents as Components;
     } catch (e) {
         console.error(`Failed to fetch decorator - ${e}`);
-        return decoratorComponentsCSR();
+        return decoratorComponentsCSR(locale);
     }
 };
