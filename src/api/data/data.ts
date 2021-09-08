@@ -1,5 +1,5 @@
 import { PostnrRegisterData, PostnrKategori } from '../../types/postnr';
-import { normalizeString, removeDuplicates } from '../../utils';
+import { normalizeString, removeDuplicates } from '../../utils/utils';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { loadBydelerData } from './bydeler';
 import { fetchTpsAdresseSok } from '../fetch/postnr';
@@ -50,6 +50,13 @@ const data: OfficeDataMaps = {
     postnr: {},
     bydeler: {},
     bydelerByKommunenr: {},
+};
+
+// Svalbard (2100) and Jan Mayen (2211) do not have their own offices
+// These are served by NAV Tromsø (5401)
+const kommunenrExceptionsMap: { [key: string]: string } = {
+    '2100': '5401',
+    '2211': '5401',
 };
 
 export const getKommunerArray = () => Object.values(data.kommuner);
@@ -105,7 +112,9 @@ const populateKommunerMap = async (postnrRegister: PostnrRegisterData[]) => {
                 bydeler,
             };
         } else {
-            const officeInfo = await fetchOfficeInfoByGeoId(kommunenr);
+            const officeInfo = await fetchOfficeInfoByGeoId(
+                kommunenrExceptionsMap[kommunenr] || kommunenr
+            );
 
             if (!officeInfo.error) {
                 newKommunerMap[kommunenr] = {

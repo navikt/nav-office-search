@@ -4,8 +4,8 @@ import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
-import { abortSearchClient, fetchSearchClient } from '../../clientFetch';
-import { isPostnrQuery } from '../../utils';
+import { abortSearchClient, fetchSearchClient } from '../../utils/clientFetch';
+import { isPostnrQuery } from '../../utils/utils';
 import { LocaleStringId } from '../../localization/nb-default';
 import style from './SearchForm.module.css';
 

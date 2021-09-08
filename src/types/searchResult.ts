@@ -1,5 +1,5 @@
-import { LocaleStringId } from '../localization/LocaleString';
 import { PostnrData } from '../api/data/data';
+import { LocaleStringId } from '../localization/nb-default';
 
 export type OfficeInfo = {
     kontorNavn: string;

@@ -1,4 +1,4 @@
-import { normalizeString, removeDuplicates } from '../utils';
+import { normalizeString, removeDuplicates } from '../utils/utils';
 import {
     NameHit,
     OfficeInfo,

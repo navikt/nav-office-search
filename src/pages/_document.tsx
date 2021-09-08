@@ -6,7 +6,7 @@ import Document, {
     Main,
     NextScript,
 } from 'next/document';
-import { getDecoratorComponents } from '../decorator';
+import { getDecoratorComponents } from '../utils/decorator';
 import { Components } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { Locale } from '../localization/LocaleString';
 

@@ -4,9 +4,9 @@ import {
     Props,
     fetchDecoratorReact,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
-import { objectToQueryString } from './api/utils';
+import { objectToQueryString } from '../api/utils';
 import { getDecoratorParams } from './decorator-params';
-import { Locale } from './localization/LocaleString';
+import { Locale } from '../localization/LocaleString';
 
 const decoratorUrl = process.env.DECORATOR_FALLBACK_URL;
 const decoratorEnv = process.env.ENV as Props['env'];

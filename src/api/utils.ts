@@ -1,5 +1,5 @@
-import { LocaleStringId } from '../localization/LocaleString';
 import { SearchResultErrorProps } from '../types/searchResult';
+import { LocaleStringId } from '../localization/nb-default';
 
 export const apiErrorResponse = (
     messageId: LocaleStringId

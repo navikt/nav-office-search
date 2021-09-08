@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isPostnrQuery } from '../../utils';
+import { isPostnrQuery } from '../../utils/utils';
 import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';

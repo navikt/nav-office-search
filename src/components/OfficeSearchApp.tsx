@@ -4,7 +4,7 @@ import { BodyLong, Title } from '@navikt/ds-react';
 import { Locale, LocaleString } from '../localization/LocaleString';
 import { useRouter } from 'next/router';
 import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler';
-import { getDecoratorParams } from '../decorator-params';
+import { getDecoratorParams } from '../utils/decorator-params';
 import style from './OfficeSearchApp.module.css';
 
 export const OfficeSearchApp = () => {

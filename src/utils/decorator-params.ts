@@ -1,5 +1,5 @@
 import { Params } from '@navikt/nav-dekoratoren-moduler';
-import { Locale, localeString } from './localization/LocaleString';
+import { Locale, localeString } from '../localization/LocaleString';
 
 const defaultParams: Params = {
     context: 'privatperson',
