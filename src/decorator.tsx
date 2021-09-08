@@ -15,6 +15,10 @@ const fetchTimeoutMs = 15000;
 const params: DecoratorParams = {
     language: 'nb',
     context: 'privatperson',
+    breadcrumbs: [
+        { url: '/person/kontakt-oss', title: 'Kontakt oss' },
+        { url: '/person/kontakt-oss/finnkontor', title: 'Søk opp NAV-kontor' },
+    ],
 };
 
 const decoratorComponentsCSR = (): Components => {
