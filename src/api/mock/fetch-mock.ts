@@ -59,7 +59,7 @@ export const fetchMock = fetchMockLib
             const postnrData: KommuneData = kommuner[id];
 
             if (postnrData.officeInfo) {
-                return { ...postnrData.officeInfo };
+                return { ...postnrData.officeInfo, adressenavn: 'test' };
             }
 
             return fetchErrorResponse(500, 'Mock error');

@@ -15,7 +15,7 @@ export const postnrSearchHandler = async (
 
     const [postnr, ...adresseSegments] = query?.split(' ');
 
-    const postnrData = getPostnrData(postnr);
+    const postnrData = await getPostnrData(postnr);
 
     if (!postnrData) {
         return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));

@@ -23,7 +23,7 @@ export type PostnrData = {
     poststedNormalized: string;
     kommuneNavn: string;
     kategori: PostnrKategori;
-    officeInfo: OfficeInfo[];
+    officeInfo?: OfficeInfo[];
 };
 
 type PostnrMap = { [postnr: string]: PostnrData };
@@ -58,7 +58,27 @@ export const getPostnrMap = () => data.postnr;
 
 export const getBydelerMap = () => data.bydeler;
 
-export const getPostnrData = (postnr: string) => data.postnr[postnr];
+export const getPostnrData = async (
+    postnr: string
+): Promise<PostnrData | null> => {
+    const localData = data.postnr[postnr];
+
+    if (!localData) {
+        return null;
+    }
+
+    if (localData.officeInfo) {
+        return localData;
+    }
+
+    const fetchedData = await fetchTpsAdresseSok(postnr);
+
+    if (!fetchedData.error) {
+        return { ...localData, officeInfo: fetchedData.hits };
+    }
+
+    return null;
+};
 
 const populateKommunerMap = async (postnrRegister: PostnrRegisterData[]) => {
     const uniqueKommuneItems = removeDuplicates(
@@ -107,7 +127,6 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
         const kommuneData = data.kommuner[kommunenr];
 
         if (!kommuneData) {
-            console.error(`No kommune found for kommunenr ${kommunenr}`);
             continue;
         }
 
@@ -119,34 +138,36 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
             kategori,
         };
 
-        if (kommuneData.bydeler) {
-            if (
-                kategori === PostnrKategori.Postbokser ||
-                kategori === PostnrKategori.Servicepostnummer
-            ) {
-                newPostnrMap[postnr] = {
-                    ...postNrDataPartial,
-                    officeInfo: kommuneData.bydeler.map(
-                        (bydel) => bydel.officeInfo
-                    ),
-                };
-            } else {
-                const adresseSokResult = await fetchTpsAdresseSok(postnr);
-                if (adresseSokResult.error) {
-                    newPostnrMap[postnr] = {
-                        ...postNrDataPartial,
-                        officeInfo: kommuneData.bydeler.map(
-                            (bydel) => bydel.officeInfo
-                        ),
-                    };
-                } else {
-                    newPostnrMap[postnr] = {
-                        ...postNrDataPartial,
-                        officeInfo: adresseSokResult.hits,
-                    };
-                }
-            }
-        } else if (kommuneData.officeInfo) {
+        // if (kommuneData.bydeler) {
+        //     if (
+        //         kategori === PostnrKategori.Postbokser ||
+        //         kategori === PostnrKategori.Servicepostnummer
+        //     ) {
+        //         newPostnrMap[postnr] = {
+        //             ...postNrDataPartial,
+        //             officeInfo: kommuneData.bydeler.map(
+        //                 (bydel) => bydel.officeInfo
+        //             ),
+        //         };
+        //     } else {
+        //         const adresseSokResult = await fetchTpsAdresseSok(postnr);
+        //         if (adresseSokResult.error) {
+        //             newPostnrMap[postnr] = {
+        //                 ...postNrDataPartial,
+        //                 officeInfo: kommuneData.bydeler.map(
+        //                     (bydel) => bydel.officeInfo
+        //                 ),
+        //             };
+        //         } else {
+        //             newPostnrMap[postnr] = {
+        //                 ...postNrDataPartial,
+        //                 officeInfo: adresseSokResult.hits,
+        //             };
+        //         }
+        //     }
+        // } else
+
+        if (kommuneData.officeInfo) {
             newPostnrMap[postnr] = {
                 ...postNrDataPartial,
                 officeInfo: [kommuneData.officeInfo],
