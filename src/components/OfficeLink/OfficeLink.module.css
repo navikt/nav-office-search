@@ -20,3 +20,7 @@
 .link:hover > .chevron {
     transform: translateX(0.3rem);
 }
+
+.link:focus > .chevron > * {
+    background-color: var(--navds-color-text-inverse);
+}
