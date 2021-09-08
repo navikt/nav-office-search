@@ -21,8 +21,10 @@ const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
 
 const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
     const poststedMatches = Object.values(getPostnrMap())
-        .filter((poststed) =>
-            poststed.poststedNormalized.includes(normalizedQuery)
+        .filter(
+            (poststed) =>
+                poststed.poststedNormalized.includes(normalizedQuery) &&
+                poststed.officeInfo.length > 0
         )
         .flatMap((poststed) => ({
             ...poststed.officeInfo,
@@ -42,7 +44,7 @@ const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
             }
 
             const officeInfo = kommune.bydeler
-                ? kommune.bydeler?.map((bydel) => ({
+                ? kommune.bydeler.map((bydel) => ({
                       ...bydel.officeInfo,
                       hitString: kommune.kommuneNavn,
                   }))
