@@ -6,11 +6,7 @@ import {
     SearchResultNameProps,
 } from '../types/searchResult';
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-    getBydelerArray,
-    getKommunerArray,
-    getPostnrArray,
-} from '../data/data';
+import { getBydelerArray, getKommunerArray, getPostnrArray } from './data/data';
 
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
     const bydelerMatches = getBydelerArray().filter((bydel) =>

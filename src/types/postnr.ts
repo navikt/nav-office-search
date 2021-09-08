@@ -1,4 +1,4 @@
-import { BydelerData } from '../data/data';
+import { BydelerData } from '../api/data/data';
 
 export enum PostnrKategori {
     GateadresserOgPostbokser = 'B',

@@ -3,7 +3,7 @@ import {
     getBydelerArray,
     getKommunerArray,
     getPostnrArray,
-} from '../../data/data';
+} from '../../api/data/data';
 
 const searchHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json({

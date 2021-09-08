@@ -27,6 +27,7 @@ jobs:
           API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
           API_CLIENT_ID=3399e573-0d83-4581-8db9-7b66c8f5f775
           DECORATOR_FALLBACK_URL=https://dekoratoren.dev.nav.no
+          XP_OFFICE_INFO_API=https://www.dev.nav.no/_/service/no.nav.navno/officeInfo
           EOF
       - name: NPM cache
         uses: actions/cache@v2

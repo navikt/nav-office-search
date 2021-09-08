@@ -1,10 +1,11 @@
-import { PostnrRegisterData, PostnrKategori } from '../types/postnr';
-import { normalizeString, removeDuplicates } from '../utils';
-import { fetchOfficeInfoByGeoId } from '../api/fetch/office-info';
+import { PostnrRegisterData, PostnrKategori } from '../../types/postnr';
+import { normalizeString, removeDuplicates } from '../../utils';
+import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { loadBydelerData } from './bydeler';
-import { fetchTpsAdresseSok } from '../api/fetch/postnr';
+import { fetchTpsAdresseSok } from '../fetch/postnr';
 import { getPostnrRegister } from './postnrRegister';
-import { OfficeInfo } from '../types/searchResult';
+import { OfficeInfo } from '../../types/searchResult';
+import { loadOfficeUrls } from './officeUrls';
 
 export type KommuneData = {
     kommunenr: string;
@@ -193,6 +194,7 @@ export const loadData = async () => {
     if (!isLoading) {
         console.log('started loading data');
         isLoading = true;
+        await loadOfficeUrls();
         await populateBydelerMap();
         const postnrRegister = await getPostnrRegister();
         await populateKommunerMap(postnrRegister);

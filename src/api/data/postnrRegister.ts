@@ -1,8 +1,8 @@
 import Cache from 'node-cache';
 import fs from 'fs';
-import { normalizeString } from '../utils';
-import { PostnrRegisterData, PostnrKategori } from '../types/postnr';
-import { urls } from '../urls';
+import { normalizeString } from '../../utils';
+import { PostnrRegisterData, PostnrKategori } from '../../types/postnr';
+import { urls } from '../../urls';
 
 type PostnrRegisterItem = [
     postnr: string,

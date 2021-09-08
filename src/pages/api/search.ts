@@ -4,7 +4,7 @@ import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';
 import { nameSearchHandler } from '../../api/name-search-handler';
-import { isDataLoaded, loadData } from '../../data/data';
+import { isDataLoaded, loadData } from '../../api/data/data';
 
 const searchHandler = async (
     req: NextApiRequest,

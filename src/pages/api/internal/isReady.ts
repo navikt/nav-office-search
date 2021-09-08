@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isDataLoaded, loadData } from '../../../data/data';
+import { isDataLoaded, loadData } from '../../../api/data/data';
 
 const isReadyHandler = (req: NextApiRequest, res: NextApiResponse) => {
     if (!isDataLoaded()) {

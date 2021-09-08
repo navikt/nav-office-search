@@ -1,11 +1,13 @@
 import fetchMockLib from 'fetch-mock';
-import { getPostnrRegister } from '../../data/postnrRegister';
 import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
-import kommuner from './kommuner.json';
-import { KommuneData } from '../../data/data';
+import data from './mock-data.json';
+import { KommuneData } from '../data/data';
+import { getOfficeUrl } from '../data/officeUrls';
+
+fetchMockLib.config.fallbackToNetwork = true;
 
 export const fetchMock = fetchMockLib
     .sandbox()
@@ -24,7 +26,7 @@ export const fetchMock = fetchMockLib
                 };
             }
 
-            const postnrData = (await getPostnrRegister()).find(
+            const postnrData = data.postnr.find(
                 (item) => item.postnr === postnr
             );
             if (!postnrData) {
@@ -42,6 +44,7 @@ export const fetchMock = fetchMockLib
                         enhetNr: i.toString(),
                         status: 'Aktiv',
                         hitString: `Eksempelgata`,
+                        url: getOfficeUrl(postnrData.kommunenr),
                     })
                 ),
             };
@@ -56,7 +59,9 @@ export const fetchMock = fetchMockLib
             }
 
             // @ts-ignore
-            const postnrData: KommuneData = kommuner[id];
+            const postnrData: KommuneData =
+                data.kommuner.find((item) => item.kommunenr === id) ||
+                data.bydeler.find((item) => item.bydelsnr === id);
 
             if (postnrData.officeInfo) {
                 return { ...postnrData.officeInfo, hitString: 'test' };

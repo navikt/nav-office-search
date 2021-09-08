@@ -5,7 +5,7 @@ import {
     SearchResultPostnrProps,
 } from '../types/searchResult';
 import { apiErrorResponse } from './utils';
-import { getPostnrData } from '../data/data';
+import { getPostnrData } from './data/data';
 
 export const postnrSearchHandler = async (
     req: NextApiRequest,

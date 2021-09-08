@@ -1,10 +1,11 @@
 import { LocaleStringId } from '../localization/LocaleString';
-import { PostnrData } from '../data/data';
+import { PostnrData } from '../api/data/data';
 
 export type OfficeInfo = {
     kontorNavn: string;
     enhetNr: string;
     status: string;
+    url: string;
     hitString: string;
     error?: undefined;
 };
