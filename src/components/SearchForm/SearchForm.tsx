@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
-import { LocaleString, LocaleStringId } from '../../localization/LocaleString';
+import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
 import { abortSearchClient, fetchSearchClient } from '../../clientFetch';
 import { isPostnrQuery } from '../../utils';
+import { LocaleStringId } from '../../localization/nb-default';
 import style from './SearchForm.module.css';
 
 const validateInput = (input?: string): input is string =>

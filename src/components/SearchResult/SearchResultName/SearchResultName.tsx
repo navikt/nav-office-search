@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { SearchResultNameProps } from '../../../types/searchResult';
-import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { normalizeString } from '../../../utils';
+import { LocaleString } from '../../../localization/LocaleString';
 import { BodyShort } from '@navikt/ds-react';
+import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import style from './SearchResultName.module.css';
 
 const NameWithHighlightedInput = ({
@@ -15,7 +16,6 @@ const NameWithHighlightedInput = ({
     const normalizedName = normalizeString(name);
     const startIndex = normalizedName.indexOf(normalizedInput);
     if (startIndex === -1) {
-        console.log('Something is wrong...');
         return <>{name}</>;
     }
 
@@ -43,7 +43,11 @@ export const SearchResultName = ({ result }: Props) => {
     const { input, nameHits } = result;
 
     if (!nameHits) {
-        return <div>{'Error in search results'}</div>;
+        return (
+            <div>
+                <LocaleString id={'errorInvalidResult'} />
+            </div>
+        );
     }
 
     const normalizedInput = normalizeString(input);
@@ -52,9 +56,14 @@ export const SearchResultName = ({ result }: Props) => {
     return (
         <div>
             <div className={style.header}>
-                {numHits === 0
-                    ? `Ingen resultater for "${input}"`
-                    : `Søkeresultat for "${input}" (${numHits}):`}
+                {numHits === 0 ? (
+                    <LocaleString id={'nameResultNone'} args={[input]} />
+                ) : (
+                    <LocaleString
+                        id={'nameResultFound'}
+                        args={[input, numHits.toString()]}
+                    />
+                )}
             </div>
             {nameHits.map((nameHit) => (
                 <Fragment key={nameHit.name}>

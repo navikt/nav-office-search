@@ -1,8 +1,7 @@
 import React from 'react';
-import { localeNb } from './nb-default';
+import { localeNb, LocaleStringId } from './nb-default';
 
 type LocaleModule = typeof localeNb;
-export type LocaleStringId = keyof LocaleModule;
 
 type Locale = 'nb';
 
@@ -12,11 +11,22 @@ const localeModules: { [key in Locale]: LocaleModule } = {
 
 type Props = {
     id: LocaleStringId;
+    args?: string[];
 };
 
-export const localeString = (id: LocaleStringId, locale: Locale = 'nb') =>
-    localeModules[locale][id] || `${id}`;
+export const localeString = (
+    id: Props['id'],
+    locale: Locale = 'nb',
+    args: Props['args'] = []
+) => {
+    const value = localeModules[locale][id];
+    if (!value) {
+        return id;
+    }
 
-export const LocaleString = ({ id }: Props) => {
-    return <>{localeString(id)}</>;
+    return typeof value === 'function' ? value(...args) : value;
+};
+
+export const LocaleString = ({ id, args }: Props) => {
+    return <>{localeString(id, 'nb', args)}</>;
 };

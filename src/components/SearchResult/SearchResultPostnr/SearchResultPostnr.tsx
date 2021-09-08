@@ -4,6 +4,7 @@ import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { BodyShort } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../types/postnr';
 import style from './SearchResultPostnr.module.css';
+import { LocaleString } from '../../../localization/LocaleString';
 
 const HeaderText = (result: SearchResultPostnrProps) => {
     const {
@@ -12,60 +13,50 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         kommuneNavn,
         kategori,
         officeInfo,
-        adresseQuery,
+        adresseQuery = '',
     } = result;
 
-    const postnrOgPoststed = <strong>{`${postnr} ${poststed}`}</strong>;
+    const postnrOgPoststed = `${postnr} ${poststed}`;
 
     const numHits = officeInfo.length;
 
     if (numHits === 0) {
         return (
-            <>
-                {`Ingen NAV-kontor funnet for `}
-                {postnrOgPoststed}
-                {adresseQuery && ` med gatenavn ${adresseQuery}`}
-            </>
+            <LocaleString
+                id={'postnrResultNone'}
+                args={[postnrOgPoststed, adresseQuery]}
+            />
         );
     }
 
     if (kategori === PostnrKategori.Postbokser) {
         return (
-            <>
-                {`${postnr} er et postnummer for postbokser i `}
-                <strong>{kommuneNavn}</strong>
-                {` kommune. Kommunens NAV-kontor:`}
-            </>
+            <LocaleString
+                id={'postnrResultPostbox'}
+                args={[postnr, kommuneNavn]}
+            />
         );
     }
 
     if (kategori === PostnrKategori.Servicepostnummer) {
         return (
-            <>
-                {`${postnr} er et servicepostnummer i `}
-                <strong>{kommuneNavn}</strong>
-                {` kommune. Kommunens NAV-kontor:`}
-            </>
+            <LocaleString
+                id={'postnrResultServiceBox'}
+                args={[postnr, kommuneNavn]}
+            />
         );
     }
 
     if (numHits > 1) {
         return (
-            <>
-                {`${numHits} kontorer dekker `}
-                {postnrOgPoststed}
-                {`. Du kan legge til et gatenavn for å filtrere søket, f.eks. ${postnr} Eksempelgata`}
-            </>
+            <LocaleString
+                id={'postnrResultMany'}
+                args={[numHits.toString(), postnrOgPoststed, postnr]}
+            />
         );
     }
 
-    return (
-        <>
-            {`NAV-kontor for `}
-            {postnrOgPoststed}
-            {':'}
-        </>
-    );
+    return <LocaleString id={'postnrResultOne'} args={[postnrOgPoststed]} />;
 };
 
 type Props = {
@@ -76,11 +67,15 @@ export const SearchResultPostnr = ({ result }: Props) => {
     const { officeInfo, adresseQuery } = result;
 
     if (!officeInfo) {
-        return <div>{'Error in search results'}</div>;
+        return (
+            <div>
+                <LocaleString id={'errorInvalidResult'} />
+            </div>
+        );
     }
 
     return (
-        <div className={style.container}>
+        <div>
             <div className={style.header}>
                 <HeaderText {...result} />
             </div>

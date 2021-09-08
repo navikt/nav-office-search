@@ -31,7 +31,7 @@ export const loadOfficeUrls = async () => {
 
     const officeUrls = await fetchJson<OfficeInfoResponse>(xpOfficeInfoApiUrl);
 
-    if (officeUrls.error) {
+    if (officeUrls?.error || !officeUrls?.offices) {
         console.error('Failed to load office urls, retrying in 10 minutes');
         cache.ttl(cacheKey, tenMinutes);
         return;
