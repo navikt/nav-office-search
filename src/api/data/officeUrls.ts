@@ -1,7 +1,7 @@
 import Cache from 'node-cache';
 import { fetchJson } from '../fetch/fetch-json';
 
-const apiUrl = `${process.env.XP_ORIGIN}${process.env.XP_OFFICE_INFO_API}`;
+const xpOfficeInfoApiUrl = `${process.env.XP_ORIGIN}${process.env.XP_OFFICE_INFO_API}`;
 
 const oneHour = 3600;
 const tenMinutes = 600;
@@ -16,8 +16,8 @@ cache.on('expired', () => {
     loadOfficeUrls();
 });
 
-type OfficeUrlsResponse = {
-    paths: {
+type OfficeInfoResponse = {
+    offices: {
         enhetNr: string;
         path: string;
     }[];
@@ -29,7 +29,7 @@ type EnhetNrToOfficePathMap = { [enhetNr: string]: string };
 export const loadOfficeUrls = async () => {
     console.log('Loading office URLs');
 
-    const officeUrls = await fetchJson<OfficeUrlsResponse>(apiUrl);
+    const officeUrls = await fetchJson<OfficeInfoResponse>(xpOfficeInfoApiUrl);
 
     if (officeUrls.error) {
         console.error('Failed to load office urls, retrying in 10 minutes');
@@ -37,7 +37,7 @@ export const loadOfficeUrls = async () => {
         return;
     }
 
-    const enhetNrToPathMap = officeUrls.paths.reduce(
+    const enhetNrToPathMap = officeUrls.offices.reduce(
         (acc, office) => ({
             ...acc,
             [office.enhetNr]: office.path,
