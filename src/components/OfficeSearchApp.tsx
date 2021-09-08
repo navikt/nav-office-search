@@ -15,7 +15,7 @@ export const OfficeSearchApp = () => {
         onLanguageSelect((language) => {
             router.push('/', '/', { locale: language.locale });
         });
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         setParams(getDecoratorParams(locale));

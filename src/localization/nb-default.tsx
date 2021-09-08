@@ -63,7 +63,7 @@ export const localeModuleNb: {
         <>
             {`${numHits} kontorer dekker `}
             <strong>{postnrOgPoststed}</strong>
-            {`. Du kan legge til et gatenavn for å filtrere søket, f.eks. ${postnr} Eksempelgata`}
+            {`. Du kan legge til et gatenavn for å spisse søket, f.eks. ${postnr} Eksempelgata`}
         </>
     ),
     postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
