@@ -23,7 +23,7 @@ export type PostnrData = {
     poststedNormalized: string;
     kommuneNavn: string;
     kategori: PostnrKategori;
-    officeInfo?: OfficeInfo[];
+    officeInfo: OfficeInfo[];
 };
 
 type PostnrMap = { [postnr: string]: PostnrData };
@@ -67,7 +67,7 @@ export const getPostnrData = async (
         return null;
     }
 
-    if (localData.officeInfo) {
+    if (localData.officeInfo.length > 0) {
         return localData;
     }
 
@@ -167,12 +167,10 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
         //     }
         // } else
 
-        if (kommuneData.officeInfo) {
-            newPostnrMap[postnr] = {
-                ...postNrDataPartial,
-                officeInfo: [kommuneData.officeInfo],
-            };
-        }
+        newPostnrMap[postnr] = {
+            ...postNrDataPartial,
+            officeInfo: kommuneData.officeInfo ? [kommuneData.officeInfo] : [],
+        };
     }
 
     data.postnr = newPostnrMap;

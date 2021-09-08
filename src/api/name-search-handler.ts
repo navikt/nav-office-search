@@ -17,7 +17,7 @@ const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
 };
 
 const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
-    const poststedMatches: OfficeInfo[] = Object.values(getPostnrMap())
+    const poststedMatches = Object.values(getPostnrMap())
         .filter((item) => item.poststedNormalized.includes(normalizedQuery))
         .flatMap((item) => item.officeInfo);
 
@@ -97,14 +97,12 @@ export const nameSearchHandler = async (
 
     const bydelerHits = findBydeler(normalizedQuery);
 
-    return res
-        .status(200)
-        .send({
-            nameHits: transformHits(
-                [...poststederHits, ...kommunerHits, ...bydelerHits],
-                normalizedQuery
-            ),
-            type: 'name',
-            input: query,
-        });
+    return res.status(200).send({
+        nameHits: transformHits(
+            [...poststederHits, ...kommunerHits, ...bydelerHits],
+            normalizedQuery
+        ),
+        type: 'name',
+        input: query,
+    });
 };
