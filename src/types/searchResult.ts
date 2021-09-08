@@ -5,7 +5,7 @@ export type OfficeInfo = {
     kontorNavn: string;
     enhetNr: string;
     status: string;
-    adressenavn: string;
+    hitString: string;
     error?: undefined;
 };
 

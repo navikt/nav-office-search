@@ -13,36 +13,44 @@ const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
         bydel.navnNormalized.includes(normalizedQuery)
     );
 
-    return bydelerMatches.map((bydel) => bydel.officeInfo);
+    return bydelerMatches.map((bydel) => ({
+        ...bydel.officeInfo,
+        hitString: bydel.navn,
+    }));
 };
 
 const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
     const poststedMatches = Object.values(getPostnrMap())
-        .filter((item) => item.poststedNormalized.includes(normalizedQuery))
-        .flatMap((item) => item.officeInfo);
+        .filter((poststed) =>
+            poststed.poststedNormalized.includes(normalizedQuery)
+        )
+        .flatMap((poststed) => ({
+            ...poststed.officeInfo,
+            hitString: poststed.poststed,
+        }));
 
     return poststedMatches;
 };
 
 const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
     const kommuneMatches = Object.values(getKommunerMap()).reduce(
-        (acc, item) => {
+        (matches, kommune) => {
             const isMatch =
-                item.kommuneNavnNormalized.includes(normalizedQuery);
+                kommune.kommuneNavnNormalized.includes(normalizedQuery);
             if (!isMatch) {
-                return acc;
+                return matches;
             }
 
-            const officeInfo = item.bydeler
-                ? item.bydeler?.map((bydel) => ({
+            const officeInfo = kommune.bydeler
+                ? kommune.bydeler?.map((bydel) => ({
                       ...bydel.officeInfo,
-                      adressenavn: item.kommuneNavn,
+                      hitString: kommune.kommuneNavn,
                   }))
-                : item.officeInfo
-                ? [item.officeInfo]
+                : kommune.officeInfo
+                ? [{ ...kommune.officeInfo, hitString: kommune.kommuneNavn }]
                 : [];
 
-            return [...acc, ...officeInfo];
+            return [...matches, ...officeInfo];
         },
         [] as OfficeInfo[]
     );
@@ -77,7 +85,7 @@ const transformHits = (
     const hitsMap: { [name: string]: OfficeInfo[] } = {};
 
     for (const officeHit of officeHits) {
-        const name = officeHit.adressenavn;
+        const name = officeHit.hitString;
         if (!hitsMap[name]) {
             hitsMap[name] = [];
         }

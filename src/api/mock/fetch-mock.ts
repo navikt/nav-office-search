@@ -41,7 +41,7 @@ export const fetchMock = fetchMockLib
                         kontorNavn: `NAV ${postnrData.kommune} Mock ${i + 1}`,
                         enhetNr: i.toString(),
                         status: 'Aktiv',
-                        adressenavn: `Eksempelgata`,
+                        hitString: `Eksempelgata`,
                     })
                 ),
             };
@@ -59,7 +59,7 @@ export const fetchMock = fetchMockLib
             const postnrData: KommuneData = kommuner[id];
 
             if (postnrData.officeInfo) {
-                return { ...postnrData.officeInfo, adressenavn: 'test' };
+                return { ...postnrData.officeInfo, hitString: 'test' };
             }
 
             return fetchErrorResponse(500, 'Mock error');

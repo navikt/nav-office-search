@@ -1,4 +1,3 @@
-import { Bydel } from '../types/bydel';
 import { PostnrRegisterData, PostnrKategori } from '../types/postnr';
 import { normalizeString, removeDuplicates } from '../utils';
 import { fetchOfficeInfoByGeoId } from '../api/fetch/office-info';
@@ -12,7 +11,7 @@ export type KommuneData = {
     kommuneNavn: string;
     kommuneNavnNormalized: string;
     officeInfo?: OfficeInfo;
-    bydeler?: Bydel[];
+    bydeler?: BydelerData[];
 };
 
 export type KommunerMap = { [kommunenr: string]: KommuneData };
@@ -110,10 +109,7 @@ const populateKommunerMap = async (postnrRegister: PostnrRegisterData[]) => {
             if (!officeInfo.error) {
                 newKommunerMap[kommunenr] = {
                     ...kommuneDataPartial,
-                    officeInfo: {
-                        ...officeInfo,
-                        adressenavn: kommune,
-                    },
+                    officeInfo,
                 };
             }
         }
@@ -143,7 +139,7 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
         };
 
         const officeInfo = kommuneData.officeInfo
-            ? [{ ...kommuneData.officeInfo, adressenavn: poststed }]
+            ? [kommuneData.officeInfo]
             : [];
 
         newPostnrMap[postnr] = {
