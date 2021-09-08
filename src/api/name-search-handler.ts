@@ -25,14 +25,27 @@ const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
 };
 
 const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
-    const kommuneMatches = Object.values(getKommunerMap())
-        .filter((item) => item.kommuneNavnNormalized.includes(normalizedQuery))
-        .flatMap(
-            (item) =>
-                item.officeInfo ||
-                item.bydeler?.map((bydel) => bydel.officeInfo) ||
-                []
-        );
+    const kommuneMatches = Object.values(getKommunerMap()).reduce(
+        (acc, item) => {
+            const isMatch =
+                item.kommuneNavnNormalized.includes(normalizedQuery);
+            if (!isMatch) {
+                return acc;
+            }
+
+            const officeInfo = item.bydeler
+                ? item.bydeler?.map((bydel) => ({
+                      ...bydel.officeInfo,
+                      adressenavn: item.kommuneNavn,
+                  }))
+                : item.officeInfo
+                ? [item.officeInfo]
+                : [];
+
+            return [...acc, ...officeInfo];
+        },
+        [] as OfficeInfo[]
+    );
 
     return kommuneMatches;
 };
