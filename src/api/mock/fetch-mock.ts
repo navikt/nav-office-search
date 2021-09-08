@@ -3,9 +3,16 @@ import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
-import data from './mock-data.json';
-import { KommuneData } from '../data/data';
+import jsonData from './mock-data.json';
+import { BydelerData, KommuneData, PostnrData } from '../data/data';
 import { getOfficeUrl } from '../data/officeUrls';
+
+// @ts-ignore
+const mockData: {
+    kommuner: KommuneData[];
+    postnr: PostnrData[];
+    bydeler: BydelerData[];
+} = jsonData;
 
 fetchMockLib.config.fallbackToNetwork = true;
 
@@ -26,27 +33,12 @@ export const fetchMock = fetchMockLib
                 };
             }
 
-            const postnrData = data.postnr.find(
+            const postnrData = mockData.postnr.find(
                 (item) => item.postnr === postnr
             );
-            if (!postnrData) {
-                return {
-                    hits: [],
-                };
-            }
-
-            const numOfficesToReturn = (Number(postnr[0]) % 3) + 1;
 
             return {
-                hits: Array.from({ length: numOfficesToReturn }).map(
-                    (_, i) => ({
-                        kontorNavn: `NAV ${postnrData.kommune} Mock ${i + 1}`,
-                        enhetNr: i.toString(),
-                        status: 'Aktiv',
-                        hitString: `Eksempelgata`,
-                        url: getOfficeUrl(postnrData.kommunenr),
-                    })
-                ),
+                hits: postnrData?.officeInfo || [],
             };
         }
     )
@@ -58,13 +50,16 @@ export const fetchMock = fetchMockLib
                 return fetchErrorResponse(500, 'Missing id-parameter');
             }
 
-            // @ts-ignore
-            const postnrData: KommuneData =
-                data.kommuner.find((item) => item.kommunenr === id) ||
-                data.bydeler.find((item) => item.bydelsnr === id);
+            const data =
+                mockData.kommuner.find((item) => item.kommunenr === id) ||
+                mockData.bydeler.find((item) => item.bydelsnr === id);
 
-            if (postnrData.officeInfo) {
-                return { ...postnrData.officeInfo, hitString: 'test' };
+            if (data?.officeInfo) {
+                return {
+                    ...data.officeInfo,
+                    hitString: 'test',
+                    url: getOfficeUrl(data.officeInfo.enhetNr),
+                };
             }
 
             return fetchErrorResponse(500, 'Mock error');

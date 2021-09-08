@@ -2,17 +2,19 @@ import React from 'react';
 import { BodyShort, Link } from '@navikt/ds-react';
 import { Chevron } from '../Chevron/Chevron';
 import style from './OfficeLink.module.css';
+import { OfficeInfo } from '../../types/searchResult';
 
 type Props = {
-    name: string;
-    href: string;
+    officeInfo: OfficeInfo;
 };
 
-export const OfficeLink = ({ name, href }: Props) => {
+export const OfficeLink = ({ officeInfo }: Props) => {
+    const { url, kontorNavn } = officeInfo;
+
     return (
-        <Link href={href} className={style.link}>
+        <Link href={url} className={style.link}>
             <Chevron className={style.chevron} />
-            <BodyShort>{name}</BodyShort>
+            <BodyShort>{kontorNavn}</BodyShort>
         </Link>
     );
 };

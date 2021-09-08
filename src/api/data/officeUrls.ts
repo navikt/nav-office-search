@@ -1,7 +1,7 @@
 import Cache from 'node-cache';
 import { fetchJson } from '../fetch/fetch-json';
 
-const apiUrl = `${process.env.ORIGIN}${process.env.XP_OFFICE_INFO_API}`;
+const apiUrl = `${process.env.XP_ORIGIN}${process.env.XP_OFFICE_INFO_API}`;
 
 const oneHour = 3600;
 const tenMinutes = 600;

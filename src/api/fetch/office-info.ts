@@ -6,6 +6,7 @@ import {
 } from './fetch-json';
 import { OfficeInfo } from '../../types/searchResult';
 import { urls } from '../../urls';
+import { getOfficeUrl } from '../data/officeUrls';
 
 export const fetchOfficeInfoByGeoId = async (
     id: string
@@ -16,11 +17,17 @@ export const fetchOfficeInfoByGeoId = async (
         return fetchErrorResponse(500, 'Failed to get authorization header');
     }
 
-    return await fetchJson<OfficeInfo>(
+    const result = await fetchJson<OfficeInfo>(
         urls.officeInfoApi,
         { id },
         {
             headers: { Authorization: authorizationHeader },
         }
     );
+
+    if (result.error) {
+        return result;
+    }
+
+    return { ...result, url: getOfficeUrl(result.enhetNr) };
 };

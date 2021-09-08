@@ -5,8 +5,6 @@ import { normalizeString } from '../../../utils';
 import { BodyShort } from '@navikt/ds-react';
 import style from './SearchResultName.module.css';
 
-const getUrl = () => 'https://www.nav.no';
-
 const NameWithHighlightedInput = ({
     name,
     normalizedInput,
@@ -67,11 +65,7 @@ export const SearchResultName = ({ result }: Props) => {
                         />
                     </BodyShort>
                     {nameHit.officeHits.map((office) => (
-                        <OfficeLink
-                            href={getUrl()}
-                            name={office.kontorNavn}
-                            key={office.enhetNr}
-                        />
+                        <OfficeLink officeInfo={office} key={office.enhetNr} />
                     ))}
                 </Fragment>
             ))}

@@ -5,8 +5,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../types/postnr';
 import style from './SearchResultPostnr.module.css';
 
-const getUrl = () => 'https://www.nav.no';
-
 const HeaderText = (result: SearchResultPostnrProps) => {
     const {
         postnr,
@@ -91,7 +89,7 @@ export const SearchResultPostnr = ({ result }: Props) => {
                     {adresseQuery && (
                         <BodyShort size={'s'}>{`${hit.hitString}:`}</BodyShort>
                     )}
-                    <OfficeLink href={getUrl()} name={hit.kontorNavn} />
+                    <OfficeLink officeInfo={hit} />
                 </Fragment>
             ))}
         </div>
