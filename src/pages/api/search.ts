@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isPostnrQuery } from '../../utils/utils';
+import { isValidNameQuery, isValidPostnrQuery } from '../../utils/utils';
 import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';
@@ -22,11 +22,15 @@ const searchHandler = async (
             return res.status(400).send(apiErrorResponse('errorMissingQuery'));
         }
 
-        if (isPostnrQuery(query)) {
+        if (isValidPostnrQuery(query)) {
             return postnrSearchHandler(req, res);
         }
 
-        return nameSearchHandler(req, res);
+        if (isValidNameQuery(query)) {
+            return nameSearchHandler(req, res);
+        }
+
+        return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
     } catch (e) {
         console.error(`Search api error: ${e}`);
         return res.status(500).send(apiErrorResponse('errorServerError'));

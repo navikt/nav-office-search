@@ -5,16 +5,12 @@ import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
 import { abortSearchClient, fetchSearchClient } from '../../utils/clientFetch';
-import { isPostnrQuery } from '../../utils/utils';
+import { isValidPostnrQuery, isValidNameQuery } from '../../utils/utils';
 import { LocaleStringId } from '../../localization/nb-default';
 import style from './SearchForm.module.css';
 
-const validateInput = (input?: string): input is string =>
-    !!(
-        typeof input === 'string' &&
-        input.length >= 2 &&
-        (!Number(input) || isPostnrQuery(input))
-    );
+const isValidInput = (input?: string): input is string =>
+    typeof input === 'string' && input.length >= 2;
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
@@ -25,19 +21,34 @@ export const SearchForm = () => {
     const handleInput = (submit: boolean) => {
         const input = inputRef.current?.value;
 
-        if (validateInput(input)) {
-            runSearch(input);
+        setIsLoading(false);
+        abortSearchClient();
+
+        if (!isValidInput(input)) {
+            if (submit) {
+                setErrorMsg('errorInputValidationLength');
+            } else {
+                setErrorMsg(null);
+            }
             return;
         }
 
-        if (submit) {
-            setErrorMsg('errorClientSideValidation');
-        } else {
-            setErrorMsg(null);
+        if (Number(input)) {
+            if (!isValidPostnrQuery(input)) {
+                if (submit) {
+                    setErrorMsg('errorInputValidationPostnr');
+                } else {
+                    setErrorMsg(null);
+                }
+
+                return;
+            }
+        } else if (!isValidNameQuery(input)) {
+            setErrorMsg('errorInputValidationName');
+            return;
         }
 
-        setIsLoading(false);
-        abortSearchClient();
+        runSearch(input);
     };
 
     const runSearch = debounce((input: string) => {

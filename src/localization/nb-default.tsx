@@ -11,7 +11,9 @@ export type LocaleStringId =
     | 'errorInvalidPostnr'
     | 'errorServerError'
     | 'errorInvalidResult'
-    | 'errorClientSideValidation'
+    | 'errorInputValidationLength'
+    | 'errorInputValidationPostnr'
+    | 'errorInputValidationName'
     | 'nameResultHeader'
     | 'postnrResultNone'
     | 'postnrResultOne'
@@ -42,8 +44,10 @@ export const localeModuleNb: {
     errorInvalidPostnr: 'Postnummeret finnes ikke',
     errorServerError: 'Ukjent server-feil',
     errorInvalidResult: 'Server-feil: Feil i søke-resultatet',
-    errorClientSideValidation:
-        'Skriv inn minst to bokstaver eller et postnummer (fire siffer)',
+    errorInputValidationLength:
+        'Skriv inn minst to bokstaver eller et postnummer',
+    errorInputValidationPostnr: 'Postnummer-søk må være fire siffer',
+    errorInputValidationName: 'Søket inneholder ugyldige tegn',
     nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed, adresseQuery) => (
         <>
@@ -70,7 +74,9 @@ export const localeModuleNb: {
         <>
             {`${postnr} er et postnummer for postbokser i `}
             <strong>{kommuneNavn}</strong>
-            {` kommune. Kommunens NAV-kontor:`}
+            {` kommune. Kommunens NAV-kontor${
+                Number(numHits) > 1 ? 'er' : ''
+            }:`}
         </>
     ),
     postnrResultServiceBox: (postnr, kommuneNavn) => (
