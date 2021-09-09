@@ -160,7 +160,7 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
 
         const officeInfo = kommuneData.officeInfo
             ? [kommuneData.officeInfo]
-            : kommuneData.bydeler?.map((bydel) => bydel.officeInfo) || [];
+            : [];
 
         newPostnrMap[postnr] = {
             ...postNrDataPartial,
