@@ -33,17 +33,20 @@ export const SearchForm = () => {
             return;
         }
 
-        if (!isNaN(Number(input))) {
-            if (!isValidPostnrQuery(input)) {
-                if (submit) {
-                    setErrorMsg('errorInputValidationPostnr');
-                } else {
-                    setErrorMsg(null);
-                }
-
-                return;
+        if (isValidPostnrQuery(input)) {
+            runSearch(input);
+            return;
+        } else if (!isNaN(Number(input))) {
+            if (submit) {
+                setErrorMsg('errorInputValidationPostnr');
+            } else {
+                setErrorMsg(null);
             }
-        } else if (!isValidNameQuery(input)) {
+
+            return;
+        }
+
+        if (!isValidNameQuery(input)) {
             setErrorMsg('errorInputValidationName');
             return;
         }
