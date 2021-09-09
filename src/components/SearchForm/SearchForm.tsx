@@ -33,7 +33,7 @@ export const SearchForm = () => {
             return;
         }
 
-        if (Number(input)) {
+        if (!isNaN(Number(input))) {
             if (!isValidPostnrQuery(input)) {
                 if (submit) {
                     setErrorMsg('errorInputValidationPostnr');
