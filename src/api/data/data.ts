@@ -6,6 +6,7 @@ import { fetchTpsAdresseSok } from '../fetch/postnr';
 import { getPostnrRegister } from './postnrRegister';
 import { OfficeInfo } from '../../types/searchResult';
 import { loadOfficeUrls } from './officeUrls';
+import { officeInfoFromAdresseSokResponse } from '../utils';
 
 export type KommuneData = {
     kommunenr: string;
@@ -22,6 +23,8 @@ export type PostnrData = {
     poststed: string;
     poststedNormalized: string;
     kommuneNavn: string;
+    kommunenr: string;
+    bydelsnr?: string;
     kategori: PostnrKategori;
     officeInfo: OfficeInfo[];
 };
@@ -65,6 +68,10 @@ export const getPostnrArray = () => Object.values(data.postnr);
 
 export const getBydelerArray = () => Object.values(data.bydeler);
 
+export const getKommuneData = (kommunenr: string) => data.kommuner[kommunenr];
+
+export const getBydelerData = (bydelnr: string) => data.bydeler[bydelnr];
+
 export const getPostnrData = async (
     postnr: string
 ): Promise<PostnrData | null> => {
@@ -78,13 +85,15 @@ export const getPostnrData = async (
         return localData;
     }
 
-    const fetchedData = await fetchTpsAdresseSok(postnr);
+    const adresseSokResponse = await fetchTpsAdresseSok(postnr);
 
-    if (!fetchedData.error) {
-        return { ...localData, officeInfo: fetchedData.hits };
+    if (adresseSokResponse.error) {
+        return null;
     }
 
-    return null;
+    const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse);
+
+    return { ...localData, officeInfo };
 };
 
 const populateKommunerMap = async (postnrRegister: PostnrRegisterData[]) => {
@@ -145,12 +154,13 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
             poststed,
             poststedNormalized: normalizeString(poststed),
             kommuneNavn: kommune,
+            kommunenr,
             kategori,
         };
 
         const officeInfo = kommuneData.officeInfo
             ? [kommuneData.officeInfo]
-            : [];
+            : kommuneData.bydeler?.map((bydel) => bydel.officeInfo) || [];
 
         newPostnrMap[postnr] = {
             ...postNrDataPartial,

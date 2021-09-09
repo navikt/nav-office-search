@@ -7,6 +7,7 @@ export type OfficeInfo = {
     status: string;
     url: string;
     hitString: string;
+    geoId: string;
     error?: undefined;
 };
 

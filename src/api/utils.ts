@@ -1,5 +1,7 @@
-import { SearchResultErrorProps } from '../types/searchResult';
+import { OfficeInfo, SearchResultErrorProps } from '../types/searchResult';
 import { LocaleStringId } from '../localization/nb-default';
+import { AdresseSokResponse } from './fetch/postnr';
+import { getBydelerData, getKommuneData } from './data/data';
 
 export const apiErrorResponse = (
     messageId: LocaleStringId
@@ -20,3 +22,20 @@ export const objectToQueryString = (params?: object, firstChar = '?') =>
               ''
           )
         : '';
+
+export const officeInfoFromAdresseSokResponse = (
+    adresseSokResponse: AdresseSokResponse
+) => {
+    return adresseSokResponse.hits.reduce((acc, hit) => {
+        const geoId = hit.geografiskTilknytning;
+        const officeInfo = (getKommuneData(geoId) || getBydelerData(geoId))
+            ?.officeInfo;
+
+        if (!officeInfo) {
+            console.error(`No office info found for geoid ${geoId}`);
+            return acc;
+        }
+
+        return [...acc, officeInfo];
+    }, [] as OfficeInfo[]);
+};

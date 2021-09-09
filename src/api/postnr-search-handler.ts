@@ -4,7 +4,7 @@ import {
     SearchResultErrorProps,
     SearchResultPostnrProps,
 } from '../types/searchResult';
-import { apiErrorResponse } from './utils';
+import { apiErrorResponse, officeInfoFromAdresseSokResponse } from './utils';
 import { getPostnrData } from './data/data';
 
 export const postnrSearchHandler = async (
@@ -27,15 +27,15 @@ export const postnrSearchHandler = async (
 
     const adresse = adresseSegments?.join(' ').trim();
 
-    const adresseSokRes = await fetchTpsAdresseSok(postnr, adresse);
+    const adresseSokResponse = await fetchTpsAdresseSok(postnr, adresse);
 
-    if (adresseSokRes.error) {
+    if (adresseSokResponse.error) {
         console.error(
-            `Error fetching postnr from query ${query} - ${adresseSokRes.statusCode} ${adresseSokRes.message}`
+            `Error fetching postnr from query ${query} - ${adresseSokResponse.statusCode} ${adresseSokResponse.message}`
         );
-        if (adresseSokRes.statusCode >= 500) {
+        if (adresseSokResponse.statusCode >= 500) {
             return res
-                .status(adresseSokRes.statusCode)
+                .status(adresseSokResponse.statusCode)
                 .send(apiErrorResponse('errorServerError'));
         }
     }
@@ -44,6 +44,8 @@ export const postnrSearchHandler = async (
         ...postnrData,
         type: 'postnr',
         adresseQuery: adresse,
-        officeInfo: adresseSokRes.error ? [] : adresseSokRes.hits,
+        officeInfo: adresseSokResponse.error
+            ? []
+            : officeInfoFromAdresseSokResponse(adresseSokResponse),
     });
 };

@@ -29,5 +29,5 @@ export const fetchOfficeInfoByGeoId = async (
         return result;
     }
 
-    return { ...result, url: getOfficeUrl(result.enhetNr) };
+    return { ...result, url: getOfficeUrl(result.enhetNr), geoId: id };
 };

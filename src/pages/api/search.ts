@@ -11,9 +11,8 @@ const searchHandler = async (
     res: NextApiResponse<SearchResultProps>
 ) => {
     if (!isDataLoaded()) {
-        loadData();
         console.log('Application not ready');
-        return res.status(500).send(apiErrorResponse('errorServerError'));
+        await loadData();
     }
 
     try {

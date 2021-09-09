@@ -1,4 +1,3 @@
-import { OfficeInfo } from '../../types/searchResult';
 import {
     fetchErrorResponse,
     FetchErrorResponse,
@@ -7,9 +6,16 @@ import {
 import { getAuthorizationHeader } from './auth';
 import { urls } from '../../urls';
 
+export type AdresseSokHit = {
+    kommunenummer: string;
+    adressenavn: string;
+    postnummer: string;
+    geografiskTilknytning: string;
+};
+
 export type AdresseSokResponse = {
     error?: undefined;
-    hits: OfficeInfo[];
+    hits: AdresseSokHit[];
 };
 
 export const fetchTpsAdresseSok = async (

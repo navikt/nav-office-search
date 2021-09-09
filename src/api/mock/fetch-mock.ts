@@ -37,8 +37,15 @@ export const fetchMock = fetchMockLib
                 (item) => item.postnr === postnr
             );
 
+            const hits = postnrData?.officeInfo.map((item) => ({
+                geografiskTilknytning: item.geoId,
+                kommunenummer: postnrData.kommunenr,
+                adressenavn: postnrData.poststed,
+                postnummer: postnrData.postnr,
+            }));
+
             return {
-                hits: postnrData?.officeInfo || [],
+                hits: hits || [],
             };
         }
     )
