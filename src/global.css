@@ -1,1 +1,7 @@
 @import '~@navikt/ds-css/dist/index.css';
+
+:root {
+    --tablet-min-width: 768px;
+    --desktop-min-width: 1024px;
+    --desktop-max-width: 1440px;
+}

@@ -1,9 +1,25 @@
 .appContainer {
+    padding: 2rem 1rem 6rem 1rem;
+}
+
+@media (min-width: var(--tablet-min-width)) {
+    .appContainer {
+        padding: 2rem 1rem 6rem 1rem;
+    }
+}
+
+@media (max-width: var(--desktop-min-width)) {
+    .appContainer {
+        padding: 3rem 3rem 6rem 3rem;
+    }
+}
+
+
+.appContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     max-width: 1440px;
-    padding: 3rem 3rem 6rem 3rem;
     margin: 0 auto;
 }
 
