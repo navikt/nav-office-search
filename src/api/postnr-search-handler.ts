@@ -4,7 +4,11 @@ import {
     SearchResultErrorProps,
     SearchResultPostnrProps,
 } from '../types/searchResult';
-import { apiErrorResponse, officeInfoFromAdresseSokResponse } from './utils';
+import {
+    apiErrorResponse,
+    officeInfoFromAdresseSokResponse,
+    sortOfficeNames,
+} from './utils';
 import { getPostnrData } from './data/data';
 
 export const postnrSearchHandler = async (
@@ -40,12 +44,16 @@ export const postnrSearchHandler = async (
         }
     }
 
+    const officeInfo = adresseSokResponse.error
+        ? []
+        : officeInfoFromAdresseSokResponse(adresseSokResponse).sort(
+              sortOfficeNames
+          );
+
     return res.status(200).send({
         ...postnrData,
         type: 'postnr',
         adresseQuery: adresse,
-        officeInfo: adresseSokResponse.error
-            ? []
-            : officeInfoFromAdresseSokResponse(adresseSokResponse),
+        officeInfo: officeInfo,
     });
 };

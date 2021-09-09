@@ -6,7 +6,7 @@ import { fetchTpsAdresseSok } from '../fetch/postnr';
 import { getPostnrRegister } from './postnrRegister';
 import { OfficeInfo } from '../../types/searchResult';
 import { loadOfficeUrls } from './officeUrls';
-import { officeInfoFromAdresseSokResponse } from '../utils';
+import { officeInfoFromAdresseSokResponse, sortOfficeNames } from '../utils';
 
 export type KommuneData = {
     kommunenr: string;
@@ -164,7 +164,7 @@ const populatePostnrMap = async (postnrRegister: PostnrRegisterData[]) => {
 
         newPostnrMap[postnr] = {
             ...postNrDataPartial,
-            officeInfo,
+            officeInfo: officeInfo.sort(sortOfficeNames),
         };
     }
 

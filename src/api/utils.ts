@@ -39,3 +39,6 @@ export const officeInfoFromAdresseSokResponse = (
         return [...acc, officeInfo];
     }, [] as OfficeInfo[]);
 };
+
+export const sortOfficeNames = (a: OfficeInfo, b: OfficeInfo) =>
+    a.kontorNavn > b.kontorNavn ? 1 : -1;

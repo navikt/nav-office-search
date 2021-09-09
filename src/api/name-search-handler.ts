@@ -7,6 +7,7 @@ import {
 } from '../types/searchResult';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getBydelerArray, getKommunerArray, getPostnrArray } from './data/data';
+import { sortOfficeNames } from './utils';
 
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
     const bydelerMatches = getBydelerArray().filter((bydel) =>
@@ -103,7 +104,7 @@ const transformHits = (
             officeHits: removeDuplicates(
                 hits,
                 (a, b) => a.enhetNr === b.enhetNr
-            ).sort((a, b) => (a.kontorNavn > b.kontorNavn ? 1 : -1)),
+            ).sort(sortOfficeNames),
         }))
         .sort(sortNamesWithQueryFirstBias(normalizedQuery));
 };
