@@ -26,11 +26,9 @@ const searchHandler = async (
             return postnrSearchHandler(req, res);
         }
 
-        if (isValidNameQuery(query)) {
-            return nameSearchHandler(req, res);
-        }
+        return nameSearchHandler(req, res);
 
-        return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
+        //return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
     } catch (e) {
         console.error(`Search api error: ${e}`);
         return res.status(500).send(apiErrorResponse('errorServerError'));
