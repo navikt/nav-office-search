@@ -19,13 +19,15 @@ jobs:
           echo "IMAGE_VERSION=${IMAGE_VERSION_RAW,,}" >> $GITHUB_ENV
           echo "GITHUB_TOKEN=$(echo ${GITHUB_TOKEN})" >> $GITHUB_ENV
       - name: Define app environmment
+        env:
+          API_CLIENT_ID: ${{ secrets.API_CLIENT_ID }}
         run: |
           cat > .env <<EOF
           ENV=dev
           APP_ORIGIN=https://finnkontor.dev.nav.no
           APP_BASEPATH=/person/finnkontor
           API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
-          API_CLIENT_ID=3399e573-0d83-4581-8db9-7b66c8f5f775
+          API_CLIENT_ID=$API_CLIENT_ID
           DECORATOR_FALLBACK_URL=https://dekoratoren.dev.nav.no
           XP_OFFICE_INFO_API=/_/service/no.nav.navno/officeInfo
           XP_ORIGIN=https://www.dev.nav.no
