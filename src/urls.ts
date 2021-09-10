@@ -5,4 +5,5 @@ export const urls = {
     postnrRegister: 'https://www.bring.no/postnummerregister-ansi.txt',
     searchApi: `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/search`,
     kontaktOss: `${process.env.XP_ORIGIN}/person/kontakt-oss`,
+    xpOfficeInfoPath: '/_/service/no.nav.navno/officeInfo',
 };

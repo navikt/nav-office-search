@@ -15,6 +15,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                     'pageTitle',
                     router.locale as Locale
                 )} - nav.no`}</title>
+                <meta name={'robots'} content={'noindex, nofollow'} />
             </Head>
             <Component {...pageProps} />
         </>

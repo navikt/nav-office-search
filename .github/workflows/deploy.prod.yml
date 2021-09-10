@@ -1,13 +1,17 @@
-name: Deploy-to-dev
+name: Deploy-to-prod
 on:
-  workflow_dispatch
+  release:
+    types: [released]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: dev-gcp:personbruker
+    environment: prod-gcp:personbruker
     steps:
       - uses: actions/checkout@v1
+      - name: Abort if branch is not master
+        if: github.event.release.target_commitish != 'master'
+        run: echo "Release is not on master, aborting"; exit 1;
       - name: Define build environment
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -24,12 +28,12 @@ jobs:
         run: |
           cat > .env <<EOF
           ENV=dev
-          APP_ORIGIN=https://finnkontor.dev.nav.no
-          APP_BASEPATH=/person/finnkontor
-          API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
+          APP_ORIGIN=https://www.nav.no
+          APP_BASEPATH=/finn-nav-kontor
+          API_ORIGIN=https://nav-office-search-api.prod-fss-pub.nais.io
           API_CLIENT_ID=$API_CLIENT_ID
-          DECORATOR_FALLBACK_URL=https://dekoratoren.dev.nav.no
-          XP_ORIGIN=https://www.dev.nav.no
+          DECORATOR_FALLBACK_URL=https://www.nav.no/dekoratoren
+          XP_ORIGIN=https://www.nav.no
           EOF
       - name: NPM cache
         uses: actions/cache@v2
@@ -59,7 +63,7 @@ jobs:
           EOF
       - uses: nais/deploy/actions/deploy@master
         env:
-          CLUSTER: dev-gcp
+          CLUSTER: prod-gcp
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          RESOURCE: .nais/config.dev.yaml
+          RESOURCE: .nais/config.prod.yaml
           VARS: .nais/vars.yaml

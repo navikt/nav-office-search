@@ -11,7 +11,6 @@ declare global {
             DECORATOR_FALLBACK_URL: string;
             DECORATOR_LOCAL_PORT: string;
             ENV: string;
-            XP_OFFICE_INFO_API: string;
             XP_ORIGIN: string;
         }
     }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { SearchForm } from './SearchForm/SearchForm';
-import { BodyLong, Title } from '@navikt/ds-react';
+import { Alert, BodyLong, Title } from '@navikt/ds-react';
 import { Locale, LocaleString } from '../localization/LocaleString';
 import { useRouter } from 'next/router';
 import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler';
@@ -23,6 +23,14 @@ export const OfficeSearchApp = () => {
 
     return (
         <div className={style.appContainer}>
+            <Alert variant={'info'} size={'m'} style={{ marginBottom: '2rem' }}>
+                {
+                    'Hei! Denne tjenesten er under utvikling og er ikke helt klar for lansering ennå.'
+                }
+                {
+                    ' Du er velkommen til å prøve ut tjenesten, men vær oppmerksom på at noe funksjonalitet kan være uferdig eller mangelfull.'
+                }
+            </Alert>
             <Title size={'2xl'} className={style.title}>
                 <LocaleString id={'pageTitle'} />
             </Title>

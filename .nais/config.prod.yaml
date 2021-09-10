@@ -1,0 +1,38 @@
+---
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  name: nav-office-search
+  namespace: {{namespace}}
+  labels:
+    team: personbruker
+spec:
+  image: {{image}}:{{version}}
+  team: personbruker
+  port: 3005
+  liveness:
+    path: /person/finnkontor/api/internal/isAlive
+    initialDelay: 10
+  readiness:
+    path: /person/finnkontor/api/internal/isReady
+    initialDelay: 10
+  ingresses:
+    - https://www.nav.no/finn-nav-kontor
+  replicas:
+    min: 2
+    max: 2
+  azure:
+    application:
+      enabled: true
+      tenant: nav.no
+  accessPolicy:
+    outbound:
+      external:
+        - host: nav.no
+        - host: nav-office-search-api.prod-fss-pub.nais.io
+  resources:
+    limits:
+      cpu: '2'
+      memory: 1000Mi
+    requests:
+      memory: 1000Mi

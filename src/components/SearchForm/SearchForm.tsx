@@ -46,10 +46,10 @@ export const SearchForm = () => {
             return;
         }
 
-        //if (!isValidNameQuery(input)) {
-        //   setErrorMsg('errorInputValidationName');
-        // return;
-        //}
+        if (!isValidNameQuery(input)) {
+            setErrorMsg('errorInputValidationName');
+            return;
+        }
 
         runSearch(input);
     };
