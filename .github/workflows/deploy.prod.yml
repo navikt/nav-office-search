@@ -27,7 +27,7 @@ jobs:
           API_CLIENT_ID: ${{ secrets.API_CLIENT_ID }}
         run: |
           cat > .env <<EOF
-          ENV=dev
+          ENV=prod
           APP_ORIGIN=https://www.nav.no
           APP_BASEPATH=/finn-nav-kontor
           API_ORIGIN=https://nav-office-search-api.prod-fss-pub.nais.io
