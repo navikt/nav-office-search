@@ -37,26 +37,3 @@ export const normalizeString = (str: string) =>
               .toLowerCase()
               .replace(replaceSpecialCharPattern, replaceSpecialCharFunc)
         : '';
-
-export const removeDuplicates = <Type>(
-    array: Type[],
-    isEqualPredicate?: (a: Type, b: Type) => boolean
-): Type[] =>
-    isEqualPredicate
-        ? array.filter((aItem, aIndex) => {
-              const bIndex = array.findIndex((bItem) =>
-                  isEqualPredicate(aItem, bItem)
-              );
-              return aIndex === bIndex;
-          })
-        : [...new Set(array)];
-
-export const isValidPostnrQuery = (query: string) => {
-    const [postnr] = query?.split(' ');
-
-    return postnr && /^\d{4}$/.test(postnr);
-};
-
-export const isValidNameQuery = (query: string) => {
-    return query && /^(\p{Letter}|\.|-| ){2,}$/gu.test(query);
-};

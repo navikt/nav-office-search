@@ -1,5 +1,5 @@
 import { PostnrRegisterData, PostnrKategori } from '../../types/postnr';
-import { normalizeString, removeDuplicates } from '../../utils/utils';
+import { normalizeString } from '../../utils/normalizeString';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { loadBydelerData } from './bydeler';
 import { fetchTpsAdresseSok } from '../fetch/postnr';
@@ -7,6 +7,7 @@ import { getPostnrRegister } from './postnrRegister';
 import { OfficeInfo } from '../../types/searchResult';
 import { loadOfficeUrls } from './officeUrls';
 import { officeInfoFromAdresseSokResponse, sortOfficeNames } from '../utils';
+import { removeDuplicates } from '../../utils/removeDuplicates';
 
 export type KommuneData = {
     kommunenr: string;

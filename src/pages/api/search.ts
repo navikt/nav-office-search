@@ -1,10 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isValidNameQuery, isValidPostnrQuery } from '../../utils/utils';
 import { SearchResultProps } from '../../types/searchResult';
 import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';
 import { nameSearchHandler } from '../../api/name-search-handler';
 import { isDataLoaded, loadData } from '../../api/data/data';
+import {
+    isValidNameQuery,
+    isValidPostnrQuery,
+} from '../../utils/validateInput';
 
 const searchHandler = async (
     req: NextApiRequest,

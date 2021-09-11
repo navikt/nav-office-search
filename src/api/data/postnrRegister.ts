@@ -1,6 +1,6 @@
 import Cache from 'node-cache';
 import fs from 'fs';
-import { normalizeString } from '../../utils/utils';
+import { normalizeString } from '../../utils/normalizeString';
 import { PostnrRegisterData, PostnrKategori } from '../../types/postnr';
 import { urls } from '../../urls';
 

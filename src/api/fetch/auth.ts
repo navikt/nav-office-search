@@ -1,5 +1,5 @@
 import { fetchJson } from './fetch-json';
-import { encodeBase64 } from '../../utils/utils';
+import { encodeBase64 } from '../../utils/normalizeString';
 import { urls } from '../../urls';
 import { objectToQueryString } from '../utils';
 

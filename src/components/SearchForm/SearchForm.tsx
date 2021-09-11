@@ -5,8 +5,11 @@ import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../types/searchResult';
 import { abortSearchClient, fetchSearchClient } from '../../utils/clientFetch';
-import { isValidPostnrQuery, isValidNameQuery } from '../../utils/utils';
 import { LocaleStringId } from '../../localization/nb-default';
+import {
+    isValidNameQuery,
+    isValidPostnrQuery,
+} from '../../utils/validateInput';
 import style from './SearchForm.module.css';
 
 const isValidInput = (input?: string): input is string =>

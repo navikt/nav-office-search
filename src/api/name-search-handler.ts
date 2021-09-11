@@ -1,4 +1,4 @@
-import { normalizeString, removeDuplicates } from '../utils/utils';
+import { normalizeString } from '../utils/normalizeString';
 import {
     NameHit,
     OfficeInfo,
@@ -8,6 +8,7 @@ import {
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getBydelerArray, getKommunerArray, getPostnrArray } from './data/data';
 import { sortOfficeNames } from './utils';
+import { removeDuplicates } from '../utils/removeDuplicates';
 
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
     const bydelerMatches = getBydelerArray().filter((bydel) =>

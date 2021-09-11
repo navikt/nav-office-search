@@ -5,7 +5,7 @@ import {
     fetchDecoratorReact,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { objectToQueryString } from '../api/utils';
-import { getDecoratorParams } from './decorator-params';
+import { getDecoratorParams } from './decoratorParams';
 import { Locale } from '../localization/LocaleString';
 
 const decoratorUrl = process.env.DECORATOR_FALLBACK_URL;
