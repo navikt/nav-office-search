@@ -25,7 +25,7 @@ export type LocaleStringId =
     | 'breadcrumb1'
     | 'breadcrumb2';
 
-export type LocaleModule = Partial<typeof localeModuleNb>;
+export type LocaleModule = typeof localeModuleNb;
 
 export const localeModuleNb: {
     [key in LocaleStringId]: string | ((...args: string[]) => React.ReactNode);
