@@ -42,8 +42,10 @@ export const getBydelerForKommune = (kommunenr: string) =>
     getBydelerData()?.bydelerByKommunenr[kommunenr];
 
 const populateBydelerCache = async (bydelerCsvData: BydelCsvData[]) => {
+    console.log('Loading data for bydeler...');
+
     const newBydelerMap: BydelerByBydelsnrMap = {};
-    const newBydelerByKommunenr: BydelerByKommunenrMap = {};
+    const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
 
     for (const item of bydelerCsvData) {
         const { code: bydelsnr, name } = item;
@@ -62,19 +64,25 @@ const populateBydelerCache = async (bydelerCsvData: BydelCsvData[]) => {
 
             const kommunenr = bydelsnr.substr(0, 4);
 
-            if (!newBydelerByKommunenr[kommunenr]) {
-                newBydelerByKommunenr[kommunenr] = [];
+            if (!newBydelerByKommunenrMap[kommunenr]) {
+                newBydelerByKommunenrMap[kommunenr] = [];
             }
 
-            newBydelerByKommunenr[kommunenr].push(bydel);
+            newBydelerByKommunenrMap[kommunenr].push(bydel);
         }
     }
 
+    const newArray = Object.values(newBydelerMap);
+
     cache.set<BydelerData>(cacheKey, {
         bydelerByBydelsnr: newBydelerMap,
-        bydelerByKommunenr: newBydelerByKommunenr,
-        bydelerArray: Object.values(newBydelerMap),
+        bydelerByKommunenr: newBydelerByKommunenrMap,
+        bydelerArray: newArray,
     });
+
+    console.log(
+        `Finished loading data for bydeler! (${newArray.length} entries)`
+    );
 };
 
 export const loadBydelerData = async () => {
