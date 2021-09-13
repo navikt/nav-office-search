@@ -9,7 +9,7 @@ import {
     officeInfoFromAdresseSokResponse,
     sortOfficeNames,
 } from './utils';
-import { getPostnrData } from './data/data';
+import { getPostnrData } from './data/poststed';
 
 export const postnrSearchHandler = async (
     req: NextApiRequest,

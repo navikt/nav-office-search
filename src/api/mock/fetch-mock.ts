@@ -3,12 +3,12 @@ import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
-import { PostnrData } from '../data/data';
 import { getOfficeUrl } from '../data/officeUrls';
 import jsonData from './data/data.json';
 import officeUrlData from './data/office-urls.json';
 import { BydelData } from '../data/bydeler';
 import { KommuneData } from '../data/kommuner';
+import { PostnrData } from '../data/poststed';
 
 // @ts-ignore
 const mockData: {

@@ -66,7 +66,7 @@ const fetchPostnrRegister = async (): Promise<string | null> => {
     }
 };
 
-export const loadPostnrRegister = async () => {
+const loadPostnrRegister = async () => {
     const postnrRegisterData = await fetchPostnrRegister();
 
     if (postnrRegisterData) {
