@@ -16,7 +16,7 @@ export type AdresseSokHit = {
     poststed: string;
     geografiskTilknytning: string;
     gatekode: string;
-    bydel: string;
+    bydel?: string;
 };
 
 export type AdresseSokResponse = {

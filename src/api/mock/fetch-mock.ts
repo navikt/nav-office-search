@@ -5,7 +5,7 @@ import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
 import { BydelerData, KommuneData, PostnrData } from '../data/data';
 import { getOfficeUrl } from '../data/officeUrls';
-import jsonData from './mock-data.json';
+import jsonData from './data.json';
 import xpOfficeInfo from './office-urls.json';
 
 // @ts-ignore
@@ -39,10 +39,15 @@ export const fetchMock = fetchMockLib
             );
 
             const hits = postnrData?.officeInfo.map((item) => ({
-                geografiskTilknytning: item.geoId,
                 kommunenummer: postnrData.kommunenr,
+                kommunenavn: 'Kommune mock',
                 adressenavn: postnrData.poststed,
+                husnummerFra: '0000',
+                husnummerTil: '0100',
                 postnummer: postnrData.postnr,
+                poststed: postnrData.poststed,
+                geografiskTilknytning: item.geoId,
+                gatekode: '000001',
             }));
 
             return {
