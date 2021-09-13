@@ -6,4 +6,6 @@ export const urls = {
     searchApi: `${process.env.APP_ORIGIN}${process.env.APP_BASEPATH}/api/search`,
     kontaktOss: `${process.env.XP_ORIGIN}/person/kontakt-oss`,
     xpOfficeInfoApi: `${process.env.XP_ORIGIN}/_/service/no.nav.navno/officeInfo`,
+    ssbBydelerClassification:
+        'https://data.ssb.no/api/klass/v1/classifications/103',
 };

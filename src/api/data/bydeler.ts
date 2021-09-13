@@ -1,9 +1,10 @@
-import fs from 'fs';
-import csv from 'csv-parser';
 import Cache from 'node-cache';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { normalizeString } from '../../utils/normalizeString';
 import { Bydel } from '../../types/data';
+import { fetchJson } from '../fetch/fetch-json';
+import fallbackData from '../../../rawdata/bydeler.json';
+import { urls } from '../../urls';
 
 const cacheKey = 'bydeler';
 
@@ -18,9 +19,23 @@ cache.on('expired', () => {
 
 const getBydelerData = () => cache.get<BydelerData>(cacheKey);
 
-type BydelCsvData = {
+type SSB_BydelData = {
     code: string;
     name: string;
+};
+
+type SSB_ClassificationResponse = {
+    error: undefined;
+    versions: {
+        _links: { self: { href: string } };
+        validFrom: string;
+        validTo: string;
+    }[];
+};
+
+type SSB_VersionResponse = {
+    error: undefined;
+    classificationItems: SSB_BydelData[];
 };
 
 type BydelerByBydelsnrMap = { [bydelnr: string]: Bydel };
@@ -41,13 +56,11 @@ export const getBydel = (bydelnr: string) =>
 export const getBydelerForKommune = (kommunenr: string) =>
     getBydelerData()?.bydelerByKommunenr[kommunenr];
 
-const populateBydelerCache = async (bydelerCsvData: BydelCsvData[]) => {
-    console.log('Loading data for bydeler...');
-
+const populateBydelerCache = async (bydelerData: SSB_BydelData[]) => {
     const newBydelerMap: BydelerByBydelsnrMap = {};
     const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
 
-    for (const item of bydelerCsvData) {
+    for (const item of bydelerData) {
         const { code: bydelsnr, name } = item;
 
         const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
@@ -86,21 +99,45 @@ const populateBydelerCache = async (bydelerCsvData: BydelCsvData[]) => {
 };
 
 export const loadBydelerData = async () => {
-    const dataFromCsv = (await new Promise((res, rej) => {
-        const acc: BydelCsvData[] = [];
+    console.log('Loading data for bydeler...');
 
-        fs.createReadStream('./rawdata/bydeler.csv', { encoding: 'latin1' })
-            .pipe(csv({ separator: ';' }))
-            .on('data', (data: BydelCsvData) => {
-                if (data.name !== 'Uoppgitt') {
-                    acc.push(data);
-                }
-            })
-            .on('end', () => {
-                res(acc);
-            })
-            .on('error', rej);
-    })) as BydelCsvData[];
+    const bydelerClassification = await fetchJson<SSB_ClassificationResponse>(
+        urls.ssbBydelerClassification
+    );
 
-    await populateBydelerCache(dataFromCsv);
+    if (!bydelerClassification.error) {
+        const now = new Date();
+
+        const currentVersion = bydelerClassification.versions.find(
+            (version) => {
+                const validTo = version.validTo && new Date(version.validTo);
+                const validFrom =
+                    version.validFrom && new Date(version.validFrom);
+
+                return now >= validFrom && (!validTo || now <= validTo);
+            }
+        );
+
+        const currentVersionUrl = currentVersion?._links?.self?.href;
+
+        if (currentVersionUrl) {
+            const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(
+                currentVersionUrl
+            );
+
+            if (!currentBydelerVersion.error) {
+                await populateBydelerCache(
+                    currentBydelerVersion.classificationItems
+                );
+
+                return;
+            }
+        }
+    }
+
+    console.error(
+        'Failed to load bydeler from SSB - falling back to local data'
+    );
+
+    await populateBydelerCache(fallbackData);
 };

@@ -1,0 +1,338 @@
+[
+    {
+        "code": "030101",
+        "parentCode": "",
+        "level": "1",
+        "name": "Gamle Oslo",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030102",
+        "parentCode": "",
+        "level": "1",
+        "name": "Grünerløkka",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030103",
+        "parentCode": "",
+        "level": "1",
+        "name": "Sagene",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030104",
+        "parentCode": "",
+        "level": "1",
+        "name": "St. Hanshaugen",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030105",
+        "parentCode": "",
+        "level": "1",
+        "name": "Frogner",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030106",
+        "parentCode": "",
+        "level": "1",
+        "name": "Ullern",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030107",
+        "parentCode": "",
+        "level": "1",
+        "name": "Vestre Aker",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030108",
+        "parentCode": "",
+        "level": "1",
+        "name": "Nordre Aker",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030109",
+        "parentCode": "",
+        "level": "1",
+        "name": "Bjerke",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030110",
+        "parentCode": "",
+        "level": "1",
+        "name": "Grorud",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030111",
+        "parentCode": "",
+        "level": "1",
+        "name": "Stovner",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030112",
+        "parentCode": "",
+        "level": "1",
+        "name": "Alna",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030113",
+        "parentCode": "",
+        "level": "1",
+        "name": "Østensjø",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030114",
+        "parentCode": "",
+        "level": "1",
+        "name": "Nordstrand",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030115",
+        "parentCode": "",
+        "level": "1",
+        "name": "Søndre Nordstrand",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030116",
+        "parentCode": "",
+        "level": "1",
+        "name": "Sentrum",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030117",
+        "parentCode": "",
+        "level": "1",
+        "name": "Marka",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "030199",
+        "parentCode": "",
+        "level": "1",
+        "name": "Uoppgitt",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110301",
+        "parentCode": "",
+        "level": "1",
+        "name": "Hundvåg",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110302",
+        "parentCode": "",
+        "level": "1",
+        "name": "Tasta",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110303",
+        "parentCode": "",
+        "level": "1",
+        "name": "Eiganes og Våland",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110304",
+        "parentCode": "",
+        "level": "1",
+        "name": "Madla",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110305",
+        "parentCode": "",
+        "level": "1",
+        "name": "Storhaug",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110306",
+        "parentCode": "",
+        "level": "1",
+        "name": "Hillevåg",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110307",
+        "parentCode": "",
+        "level": "1",
+        "name": "Hinna",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110308",
+        "parentCode": "",
+        "level": "1",
+        "name": "Finnøy",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110309",
+        "parentCode": "",
+        "level": "1",
+        "name": "Rennesøy",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "110399",
+        "parentCode": "",
+        "level": "1",
+        "name": "Uoppgitt",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460101",
+        "parentCode": "",
+        "level": "1",
+        "name": "Arna",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460102",
+        "parentCode": "",
+        "level": "1",
+        "name": "Bergenhus",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460103",
+        "parentCode": "",
+        "level": "1",
+        "name": "Fana",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460104",
+        "parentCode": "",
+        "level": "1",
+        "name": "Fyllingsdalen",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460105",
+        "parentCode": "",
+        "level": "1",
+        "name": "Laksevåg",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460106",
+        "parentCode": "",
+        "level": "1",
+        "name": "Ytrebygda",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460107",
+        "parentCode": "",
+        "level": "1",
+        "name": "Årstad",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460108",
+        "parentCode": "",
+        "level": "1",
+        "name": "Åsane",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "460199",
+        "parentCode": "",
+        "level": "1",
+        "name": "Uoppgitt",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "500101",
+        "parentCode": "",
+        "level": "1",
+        "name": "Midtbyen",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "500102",
+        "parentCode": "",
+        "level": "1",
+        "name": "Østbyen",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "500103",
+        "parentCode": "",
+        "level": "1",
+        "name": "Lerkendal",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "500104",
+        "parentCode": "",
+        "level": "1",
+        "name": "Heimdal",
+        "shortName": null,
+        "notes": null
+    },
+    {
+        "code": "500199",
+        "parentCode": "",
+        "level": "1",
+        "name": "Uoppgitt",
+        "shortName": null,
+        "notes": null
+    }
+]

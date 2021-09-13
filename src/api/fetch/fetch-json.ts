@@ -27,7 +27,14 @@ export const fetchJson = async <T = any>(
     const urlWithQuery = `${url}${params ? objectToQueryString(params) : ''}`;
 
     try {
-        const res = await fetch(urlWithQuery, options);
+        const res = await fetch(urlWithQuery, {
+            ...options,
+            headers: {
+                accept: 'application/json',
+                // @ts-ignore
+                ...(options?.headers && { ...options.headers }),
+            },
+        });
 
         const isJson = res.headers
             ?.get('content-type')
