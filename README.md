@@ -2,7 +2,7 @@
 
 React/[Next.js](https://nextjs.org/) applikasjon for å søke opp NAV-kontor etter postnummer eller stedsnavn.
 
-Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot tps og norg-tjenester (ved lokal kjøring brukes mocks).
+Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
 
 ![Deploy-to-prod](https://github.com/navikt/nav-enonicxp-frontend/workflows/Deploy-to-prod/badge.svg) <br>
 ![Deploy-to-dev](https://github.com/navikt/nav-enonicxp-frontend/workflows/Deploy-to-dev/badge.svg) <br>
