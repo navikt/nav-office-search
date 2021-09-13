@@ -1,4 +1,4 @@
-import { BydelerData } from '../api/data/data';
+import { BydelData } from '../api/data/bydeler';
 
 export enum PostnrKategori {
     GateadresserOgPostbokser = 'B',
@@ -15,5 +15,5 @@ export type PostnrRegisterData = {
     kommunenr: string;
     kommune: string;
     kategori: PostnrKategori;
-    bydeler?: BydelerData[];
+    bydeler?: BydelData[];
 };

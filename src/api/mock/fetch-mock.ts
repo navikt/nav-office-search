@@ -3,16 +3,18 @@ import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
-import { BydelerData, KommuneData, PostnrData } from '../data/data';
+import { PostnrData } from '../data/data';
 import { getOfficeUrl } from '../data/officeUrls';
-import jsonData from './data.json';
-import xpOfficeInfo from './office-urls.json';
+import jsonData from './data/data.json';
+import officeUrlData from './data/office-urls.json';
+import { BydelData } from '../data/bydeler';
+import { KommuneData } from '../data/kommuner';
 
 // @ts-ignore
 const mockData: {
     kommuner: KommuneData[];
     postnr: PostnrData[];
-    bydeler: BydelerData[];
+    bydeler: BydelData[];
 } = jsonData;
 
 fetchMockLib.config.fallbackToNetwork = true;
@@ -79,5 +81,5 @@ export const fetchMock = fetchMockLib
         }
     )
     .mock(urls.xpOfficeInfoApi, async () => {
-        return xpOfficeInfo;
+        return officeUrlData;
     });

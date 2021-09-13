@@ -1,8 +1,9 @@
 import { OfficeInfo, SearchResultErrorProps } from '../types/searchResult';
 import { LocaleStringId } from '../localization/nb-default';
 import { AdresseSokResponse } from './fetch/postnr';
-import { getBydelerData, getKommuneData } from './data/data';
 import { removeDuplicates } from '../utils/removeDuplicates';
+import { getBydel } from './data/bydeler';
+import { getKommune } from './data/kommuner';
 
 export const apiErrorResponse = (
     messageId: LocaleStringId
@@ -29,8 +30,7 @@ export const officeInfoFromAdresseSokResponse = (
 ): OfficeInfo[] => {
     const officeInfo = adresseSokResponse.hits.reduce((acc, hit) => {
         const geoId = hit.geografiskTilknytning;
-        const officeInfo = (getKommuneData(geoId) || getBydelerData(geoId))
-            ?.officeInfo;
+        const officeInfo = (getKommune(geoId) || getBydel(geoId))?.officeInfo;
 
         if (!officeInfo) {
             console.error(`No office info found for geoid ${geoId}`);
