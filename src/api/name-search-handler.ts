@@ -5,7 +5,7 @@ import {
     SearchResultNameProps,
 } from '../types/results';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { sortOfficeNames } from './utils';
+import { norskSort, sortOfficeNames } from './utils';
 import { removeDuplicates } from '../utils/removeDuplicates';
 import { getBydelerArray } from './data/bydeler';
 import { getKommunerArray } from './data/kommuner';
@@ -79,7 +79,7 @@ const sortNamesWithQueryFirstBias =
             return 1;
         }
 
-        return a.name === b.name ? 0 : a.name > b.name ? 1 : -1;
+        return norskSort(a.name, b.name);
     };
 
 const transformHits = (

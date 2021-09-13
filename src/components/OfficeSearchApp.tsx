@@ -28,7 +28,7 @@ export const OfficeSearchApp = () => {
                     'Hei! Denne tjenesten er under utvikling og er ikke helt klar for lansering ennå.'
                 }
                 {
-                    ' Du er velkommen til å prøve ut tjenesten, men vær oppmerksom på at noe funksjonalitet kan være uferdig eller mangelfull.'
+                    ' Du er velkommen til å prøve ut tjenesten, men vær oppmerksom på at noe funksjonalitet kan være uferdig.'
                 }
             </Alert>
             <Title size={'2xl'} className={style.title}>

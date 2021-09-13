@@ -23,4 +23,8 @@ export const objectToQueryString = (params?: object, firstChar = '?') =>
         : '';
 
 export const sortOfficeNames = (a: OfficeInfo, b: OfficeInfo) =>
-    a.name === b.name ? 0 : a.name > b.name ? 1 : -1;
+    norskSort(a.name, b.name);
+
+export const norskSort = new Intl.Collator(['no', 'nb', 'nn'], {
+    usage: 'sort',
+}).compare;

@@ -67,7 +67,7 @@ export const SearchResultName = ({ result }: Props) => {
             </div>
             {hits.map((nameHit) => (
                 <Fragment key={nameHit.name}>
-                    <BodyShort size={'s'} className={style.hitname}>
+                    <BodyShort size={'m'} className={style.hitname}>
                         <NameWithHighlightedInput
                             name={nameHit.name.toUpperCase()}
                             normalizedInput={normalizedInput}

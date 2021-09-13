@@ -40,7 +40,7 @@ export const fetchMock = fetchMockLib
 
             const hits = postnrData?.officeInfo.map((item) => ({
                 kommunenummer: postnrData.kommunenr,
-                kommunenavn: 'Kommune mock',
+                kommunenavn: postnrData.kommuneNavn,
                 adressenavn: postnrData.poststed,
                 husnummerFra: '0000',
                 husnummerTil: '0100',
