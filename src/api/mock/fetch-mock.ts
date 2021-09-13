@@ -3,9 +3,10 @@ import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
-import jsonData from './mock-data.json';
 import { BydelerData, KommuneData, PostnrData } from '../data/data';
 import { getOfficeUrl } from '../data/officeUrls';
+import jsonData from './mock-data.json';
+import xpOfficeInfo from './office-urls.json';
 
 // @ts-ignore
 const mockData: {
@@ -71,4 +72,7 @@ export const fetchMock = fetchMockLib
 
             return fetchErrorResponse(500, 'Mock error');
         }
-    );
+    )
+    .mock(urls.xpOfficeInfoApi, async () => {
+        return xpOfficeInfo;
+    });

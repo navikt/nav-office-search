@@ -37,6 +37,7 @@ export const postnrSearchHandler = async (
         console.error(
             `Error fetching postnr from query ${query} - ${adresseSokResponse.statusCode} ${adresseSokResponse.message}`
         );
+
         if (adresseSokResponse.statusCode >= 500) {
             return res
                 .status(adresseSokResponse.statusCode)

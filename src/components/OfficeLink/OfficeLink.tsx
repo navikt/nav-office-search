@@ -9,12 +9,12 @@ type Props = {
 };
 
 export const OfficeLink = ({ officeInfo }: Props) => {
-    const { url, kontorNavn } = officeInfo;
+    const { url, name } = officeInfo;
 
     return (
         <Link href={url} className={style.link}>
             <Chevron className={style.chevron} />
-            <BodyShort>{kontorNavn}</BodyShort>
+            <BodyShort>{name}</BodyShort>
         </Link>
     );
 };

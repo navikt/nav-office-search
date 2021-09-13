@@ -2,8 +2,6 @@ import Cache from 'node-cache';
 import { fetchJson } from '../fetch/fetch-json';
 import { urls } from '../../urls';
 
-const xpOfficeInfoApiUrl = `${process.env.XP_ORIGIN}${urls.xpOfficeInfoPath}`;
-
 const oneHour = 3600;
 const tenMinutes = 600;
 
@@ -30,7 +28,9 @@ type EnhetNrToOfficePathMap = { [enhetNr: string]: string };
 export const loadOfficeUrls = async () => {
     console.log('Loading office URLs');
 
-    const officeUrls = await fetchJson<OfficeInfoResponse>(xpOfficeInfoApiUrl);
+    const officeUrls = await fetchJson<OfficeInfoResponse>(
+        urls.xpOfficeInfoApi
+    );
 
     if (officeUrls?.error || !officeUrls?.offices) {
         console.error('Failed to load office urls, retrying in 10 minutes');

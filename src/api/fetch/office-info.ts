@@ -8,6 +8,27 @@ import { OfficeInfo } from '../../types/searchResult';
 import { urls } from '../../urls';
 import { getOfficeUrl } from '../data/officeUrls';
 
+type OfficeInfoResponse = {
+    error: undefined;
+    enhetId: number;
+    navn: string;
+    enhetNr: string;
+    antallRessurser: number;
+    status: string;
+    orgNivaa: string;
+    type: string;
+    organisasjonsnummer: string;
+    underEtableringDato: string;
+    aktiveringsdato: string;
+    underAvviklingDato: string;
+    nedleggelsesdato: string;
+    oppgavebehandler: boolean;
+    versjon: number;
+    sosialeTjenester: string;
+    kanalstrategi: string;
+    orgNrTilKommunaltNavKontor: string;
+};
+
 export const fetchOfficeInfoByGeoId = async (
     id: string
 ): Promise<OfficeInfo | FetchErrorResponse> => {
@@ -17,7 +38,7 @@ export const fetchOfficeInfoByGeoId = async (
         return fetchErrorResponse(500, 'Failed to get authorization header');
     }
 
-    const result = await fetchJson<OfficeInfo>(
+    const response = await fetchJson<OfficeInfoResponse>(
         urls.officeInfoApi,
         { id },
         {
@@ -25,9 +46,15 @@ export const fetchOfficeInfoByGeoId = async (
         }
     );
 
-    if (result.error) {
-        return result;
+    if (response.error) {
+        return response;
     }
 
-    return { ...result, url: getOfficeUrl(result.enhetNr), geoId: id };
+    return {
+        name: response.navn,
+        url: getOfficeUrl(response.enhetNr),
+        geoId: id,
+        enhetNr: response.enhetNr,
+        hitString: '',
+    };
 };

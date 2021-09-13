@@ -2,9 +2,8 @@ import { PostnrData } from '../api/data/data';
 import { LocaleStringId } from '../localization/nb-default';
 
 export type OfficeInfo = {
-    kontorNavn: string;
+    name: string;
     enhetNr: string;
-    status: string;
     url: string;
     hitString: string;
     geoId: string;

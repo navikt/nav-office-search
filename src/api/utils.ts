@@ -2,6 +2,7 @@ import { OfficeInfo, SearchResultErrorProps } from '../types/searchResult';
 import { LocaleStringId } from '../localization/nb-default';
 import { AdresseSokResponse } from './fetch/postnr';
 import { getBydelerData, getKommuneData } from './data/data';
+import { removeDuplicates } from '../utils/removeDuplicates';
 
 export const apiErrorResponse = (
     messageId: LocaleStringId
@@ -25,8 +26,8 @@ export const objectToQueryString = (params?: object, firstChar = '?') =>
 
 export const officeInfoFromAdresseSokResponse = (
     adresseSokResponse: AdresseSokResponse
-) => {
-    return adresseSokResponse.hits.reduce((acc, hit) => {
+): OfficeInfo[] => {
+    const officeInfo = adresseSokResponse.hits.reduce((acc, hit) => {
         const geoId = hit.geografiskTilknytning;
         const officeInfo = (getKommuneData(geoId) || getBydelerData(geoId))
             ?.officeInfo;
@@ -38,7 +39,9 @@ export const officeInfoFromAdresseSokResponse = (
 
         return [...acc, officeInfo];
     }, [] as OfficeInfo[]);
+
+    return removeDuplicates(officeInfo, (a, b) => a.enhetNr === b.enhetNr);
 };
 
 export const sortOfficeNames = (a: OfficeInfo, b: OfficeInfo) =>
-    a.kontorNavn > b.kontorNavn ? 1 : -1;
+    a.name > b.name ? 1 : -1;

@@ -8,9 +8,15 @@ import { urls } from '../../urls';
 
 export type AdresseSokHit = {
     kommunenummer: string;
+    kommunenavn: string;
     adressenavn: string;
+    husnummerFra: string;
+    husnummerTil: string;
     postnummer: string;
+    poststed: string;
     geografiskTilknytning: string;
+    gatekode: string;
+    bydel: string;
 };
 
 export type AdresseSokResponse = {
