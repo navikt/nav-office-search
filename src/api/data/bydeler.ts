@@ -19,6 +19,8 @@ cache.on('expired', () => {
 
 const getBydelerData = () => cache.get<BydelerData>(cacheKey);
 
+const invalidName = 'Uoppgitt';
+
 type SSB_BydelData = {
     code: string;
     name: string;
@@ -63,6 +65,10 @@ const populateBydelerCache = async (bydelerData: SSB_BydelData[]) => {
     for (const item of bydelerData) {
         const { code: bydelsnr, name } = item;
 
+        if (name === invalidName) {
+            continue;
+        }
+
         const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
 
         if (!officeInfo.error) {
@@ -98,46 +104,59 @@ const populateBydelerCache = async (bydelerData: SSB_BydelData[]) => {
     );
 };
 
-export const loadBydelerData = async () => {
-    console.log('Loading data for bydeler...');
-
+const fetchBydelerRawData = async () => {
     const bydelerClassification = await fetchJson<SSB_ClassificationResponse>(
         urls.ssbBydelerClassification
     );
 
-    if (!bydelerClassification.error) {
-        const now = new Date();
-
-        const currentVersion = bydelerClassification.versions.find(
-            (version) => {
-                const validTo = version.validTo && new Date(version.validTo);
-                const validFrom =
-                    version.validFrom && new Date(version.validFrom);
-
-                return now >= validFrom && (!validTo || now <= validTo);
-            }
+    if (bydelerClassification.error) {
+        console.error(
+            `Error while fetching SSB classification for bydeler - ${bydelerClassification.message}`
         );
-
-        const currentVersionUrl = currentVersion?._links?.self?.href;
-
-        if (currentVersionUrl) {
-            const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(
-                currentVersionUrl
-            );
-
-            if (!currentBydelerVersion.error) {
-                await populateBydelerCache(
-                    currentBydelerVersion.classificationItems
-                );
-
-                return;
-            }
-        }
+        return null;
     }
 
-    console.error(
-        'Failed to load bydeler from SSB - falling back to local data'
+    const now = new Date();
+
+    const currentVersion = bydelerClassification.versions.find((version) => {
+        const validTo = version.validTo && new Date(version.validTo);
+        const validFrom = version.validFrom && new Date(version.validFrom);
+
+        return now >= validFrom && (!validTo || now <= validTo);
+    });
+
+    const currentVersionUrl = currentVersion?._links?.self?.href;
+
+    if (!currentVersionUrl) {
+        console.error('Could not find valid version for bydeler from SSB');
+        return null;
+    }
+
+    const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(
+        currentVersionUrl
     );
 
-    await populateBydelerCache(fallbackData);
+    if (currentBydelerVersion.error) {
+        console.error(
+            `Error while fetching current bydeler version - ${currentBydelerVersion.message}`
+        );
+        return null;
+    }
+
+    return currentBydelerVersion.classificationItems;
+};
+
+export const loadBydelerData = async () => {
+    console.log('Loading data for bydeler...');
+
+    const bydelerRawData = await fetchBydelerRawData();
+
+    if (bydelerRawData) {
+        await populateBydelerCache(bydelerRawData);
+    } else {
+        console.error(
+            'Failed to load bydeler from SSB - falling back to local data'
+        );
+        await populateBydelerCache(fallbackData);
+    }
 };
