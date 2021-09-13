@@ -1,7 +1,4 @@
-import {
-    SearchResultErrorProps,
-    SearchResultProps,
-} from '../types/searchResult';
+import { SearchResultErrorProps, SearchResultProps } from '../types/results';
 import { urls } from '../urls';
 
 let abortController =

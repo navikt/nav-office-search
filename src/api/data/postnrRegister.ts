@@ -1,16 +1,7 @@
 import Cache from 'node-cache';
 import fs from 'fs';
-import { normalizeString } from '../../utils/normalizeString';
-import { PostnrRegisterData, PostnrKategori } from '../../types/postnr';
+import { PostnrKategori } from '../../types/data';
 import { urls } from '../../urls';
-
-type PostnrRegisterItem = [
-    postnr: string,
-    poststed: string,
-    kommunenr: string,
-    kommune: string,
-    kategori: PostnrKategori
-];
 
 const localFallbackPath = './rawdata/postnummerregister-ansi.txt';
 const charEncodeFormat = 'windows-1252';
@@ -29,6 +20,22 @@ postnrRegisterCache.on('expired', (key) => {
     }
 });
 
+type PostnrRegisterItem = [
+    postnr: string,
+    poststed: string,
+    kommunenr: string,
+    kommune: string,
+    kategori: PostnrKategori
+];
+
+export type PostnrRegisterData = {
+    postnr: string;
+    poststed: string;
+    kommune: string;
+    kommunenr: string;
+    kategori: PostnrKategori;
+};
+
 const transformPostnrRegisterData = (rawText: string): PostnrRegisterData[] => {
     const itemsRaw = rawText.split('\n');
 
@@ -37,7 +44,6 @@ const transformPostnrRegisterData = (rawText: string): PostnrRegisterData[] => {
         const [postnr, poststed, kommunenr, kommune, kategori] = item;
 
         return {
-            poststedNormalized: normalizeString(poststed),
             postnr,
             poststed,
             kommunenr,

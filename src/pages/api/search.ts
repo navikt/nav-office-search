@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SearchResultProps } from '../../types/searchResult';
+import { SearchResultProps } from '../../types/results';
 import { postnrSearchHandler } from '../../api/postnr-search-handler';
 import { apiErrorResponse } from '../../api/utils';
 import { nameSearchHandler } from '../../api/name-search-handler';

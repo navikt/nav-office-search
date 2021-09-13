@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { fetchTpsAdresseSok } from './fetch/postnr';
+import {
+    fetchTpsAdresseSok,
+    officeInfoFromAdresseSokResponse,
+} from './fetch/postnr';
 import {
     SearchResultErrorProps,
     SearchResultPostnrProps,
-} from '../types/searchResult';
-import {
-    apiErrorResponse,
-    officeInfoFromAdresseSokResponse,
-    sortOfficeNames,
-} from './utils';
-import { getPostnrData } from './data/poststed';
+} from '../types/results';
+import { apiErrorResponse, sortOfficeNames } from './utils';
+import { getPoststed } from './data/poststeder';
 
 export const postnrSearchHandler = async (
     req: NextApiRequest,
@@ -19,7 +18,7 @@ export const postnrSearchHandler = async (
 
     const [postnr, ...adresseSegments] = query?.split(' ');
 
-    const postnrData = await getPostnrData(postnr);
+    const postnrData = await getPoststed(postnr);
 
     if (!postnrData) {
         return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));

@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
-import { SearchResultProps } from '../../types/searchResult';
+import { SearchResultProps } from '../../types/results';
 import { abortSearchClient, fetchSearchClient } from '../../utils/clientFetch';
 import { LocaleStringId } from '../../localization/nb-default';
 import {

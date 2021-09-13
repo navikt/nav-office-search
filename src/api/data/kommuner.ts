@@ -1,21 +1,31 @@
-import { OfficeInfo } from '../../types/searchResult';
-import { BydelData, getBydelerForKommune } from './bydeler';
-import { PostnrRegisterData } from '../../types/postnr';
+import { getBydelerForKommune } from './bydeler';
+import { Kommune } from '../../types/data';
 import { removeDuplicates } from '../../utils/removeDuplicates';
 import { normalizeString } from '../../utils/normalizeString';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
+import Cache from 'node-cache';
+import { getPostnrRegister, PostnrRegisterData } from './postnrRegister';
 
-export type KommuneData = {
-    kommunenr: string;
-    kommuneNavn: string;
-    kommuneNavnNormalized: string;
-    officeInfo?: OfficeInfo;
-    bydeler?: BydelData[];
+const cacheKey = 'kommuner';
+
+const cache = new Cache({
+    stdTTL: 3600,
+    deleteOnExpire: false,
+});
+
+cache.on('expired', async () => {
+    const postnrRegister = await getPostnrRegister();
+    loadKommuneData(postnrRegister);
+});
+
+const getKommunerData = () => cache.get<KommunerData>(cacheKey);
+
+type KommunerMap = { [kommunenr: string]: Kommune };
+
+type KommunerData = {
+    kommunerMap: KommunerMap;
+    kommunerArray: Kommune[];
 };
-
-export type KommunerMap = { [kommunenr: string]: KommuneData };
-
-let kommuner: KommunerMap = {};
 
 // Svalbard (2100) and Jan Mayen (2211) do not have their own offices
 // These are served by NAV Tromsø (5401)
@@ -24,17 +34,20 @@ const kommunenrExceptionsMap: { [key: string]: string } = {
     '2211': '5401',
 };
 
-export const getKommunerArray = () => Object.values(kommuner);
+export const getKommunerArray = () => getKommunerData()?.kommunerArray || [];
 
-export const getKommune = (kommunenr: string) => kommuner[kommunenr];
+export const getKommune = (kommunenr: string) =>
+    getKommunerData()?.kommunerMap[kommunenr];
 
 export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
+    console.log('Loading data for kommuner...');
+
     const uniqueKommuneItems = removeDuplicates(
         postnrRegister,
         (a, b) => a.kommunenr === b.kommunenr
     );
 
-    const newKommunerMap: KommunerMap = {};
+    const newMap: KommunerMap = {};
 
     for (const item of uniqueKommuneItems) {
         const { kommunenr, kommune } = item;
@@ -48,7 +61,7 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
         };
 
         if (bydeler) {
-            newKommunerMap[kommunenr] = {
+            newMap[kommunenr] = {
                 ...kommuneDataPartial,
                 bydeler,
             };
@@ -58,7 +71,7 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
             );
 
             if (!officeInfo.error) {
-                newKommunerMap[kommunenr] = {
+                newMap[kommunenr] = {
                     ...kommuneDataPartial,
                     officeInfo,
                 };
@@ -66,5 +79,14 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
         }
     }
 
-    kommuner = newKommunerMap;
+    const newArray = Object.values(newMap);
+
+    cache.set<KommunerData>(cacheKey, {
+        kommunerMap: newMap,
+        kommunerArray: newArray,
+    });
+
+    console.log(
+        `Finished loading data for kommuner! (${newArray.length} entries)`
+    );
 };

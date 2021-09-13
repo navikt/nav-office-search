@@ -1,16 +1,16 @@
 import { normalizeString } from '../utils/normalizeString';
 import {
     NameHit,
-    OfficeInfo,
     SearchResultErrorProps,
     SearchResultNameProps,
-} from '../types/searchResult';
+} from '../types/results';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sortOfficeNames } from './utils';
 import { removeDuplicates } from '../utils/removeDuplicates';
 import { getBydelerArray } from './data/bydeler';
 import { getKommunerArray } from './data/kommuner';
-import { getPostnrArray } from './data/poststed';
+import { getPoststedArray } from './data/poststeder';
+import { OfficeInfo } from '../types/data';
 
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
     const bydelerMatches = getBydelerArray().filter((bydel) =>
@@ -24,7 +24,7 @@ const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
 };
 
 const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
-    const poststedMatches = getPostnrArray().reduce((matches, poststed) => {
+    return getPoststedArray().reduce((matches, poststed) => {
         const isMatch =
             poststed.poststedNormalized.includes(normalizedQuery) &&
             poststed.officeInfo.length > 0;
@@ -40,12 +40,10 @@ const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
             })),
         ];
     }, [] as OfficeInfo[]);
-
-    return poststedMatches;
 };
 
 const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
-    const kommuneMatches = getKommunerArray().reduce((matches, kommune) => {
+    return getKommunerArray().reduce((matches, kommune) => {
         const isMatch = kommune.kommuneNavnNormalized.includes(normalizedQuery);
         if (!isMatch) {
             return matches;
@@ -62,8 +60,6 @@ const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
 
         return [...matches, ...officeInfo];
     }, [] as OfficeInfo[]);
-
-    return kommuneMatches;
 };
 
 const sortNamesWithQueryFirstBias =
@@ -127,7 +123,7 @@ export const nameSearchHandler = async (
     const bydelerHits = findBydeler(normalizedQuery);
 
     return res.status(200).send({
-        nameHits: transformHits(
+        hits: transformHits(
             [...poststederHits, ...kommunerHits, ...bydelerHits],
             normalizedQuery
         ),

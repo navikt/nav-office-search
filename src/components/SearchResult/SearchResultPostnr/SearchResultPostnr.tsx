@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { SearchResultPostnrProps } from '../../../types/searchResult';
+import { SearchResultPostnrProps } from '../../../types/results';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { BodyShort } from '@navikt/ds-react';
-import { PostnrKategori } from '../../../types/postnr';
+import { PostnrKategori } from '../../../types/data';
 import style from './SearchResultPostnr.module.css';
 import { LocaleString } from '../../../localization/LocaleString';
 

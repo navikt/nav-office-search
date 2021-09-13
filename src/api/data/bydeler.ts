@@ -1,37 +1,47 @@
 import fs from 'fs';
 import csv from 'csv-parser';
-import { OfficeInfo } from '../../types/searchResult';
+import Cache from 'node-cache';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { normalizeString } from '../../utils/normalizeString';
+import { Bydel } from '../../types/data';
+
+const cacheKey = 'bydeler';
+
+const cache = new Cache({
+    stdTTL: 3600,
+    deleteOnExpire: false,
+});
+
+cache.on('expired', () => {
+    loadBydelerData();
+});
+
+const getBydelerData = () => cache.get<BydelerData>(cacheKey);
 
 type BydelCsvData = {
     code: string;
     name: string;
 };
 
-export type BydelData = {
-    bydelsnr: string;
-    navn: string;
-    navnNormalized: string;
-    officeInfo: OfficeInfo;
+type BydelerByBydelsnrMap = { [bydelnr: string]: Bydel };
+
+type BydelerByKommunenrMap = { [kommunenr: string]: Bydel[] };
+
+type BydelerData = {
+    bydelerByBydelsnr: BydelerByBydelsnrMap;
+    bydelerByKommunenr: BydelerByKommunenrMap;
+    bydelerArray: Bydel[];
 };
 
-type BydelerByBydelsnrMap = { [bydelnr: string]: BydelData };
+export const getBydelerArray = () => getBydelerData()?.bydelerArray || [];
 
-type BydelerByKommunenrMap = { [kommunenr: string]: BydelData[] };
-
-let bydelerByBydelsnr: BydelerByBydelsnrMap = {};
-
-let bydelerByKommunenr: BydelerByKommunenrMap = {};
-
-export const getBydelerArray = () => Object.values(bydelerByBydelsnr);
-
-export const getBydel = (bydelnr: string) => bydelerByBydelsnr[bydelnr];
+export const getBydel = (bydelnr: string) =>
+    getBydelerData()?.bydelerByBydelsnr[bydelnr];
 
 export const getBydelerForKommune = (kommunenr: string) =>
-    bydelerByKommunenr[kommunenr];
+    getBydelerData()?.bydelerByKommunenr[kommunenr];
 
-const populateBydelerMap = async (bydelerCsvData: BydelCsvData[]) => {
+const populateBydelerCache = async (bydelerCsvData: BydelCsvData[]) => {
     const newBydelerMap: BydelerByBydelsnrMap = {};
     const newBydelerByKommunenr: BydelerByKommunenrMap = {};
 
@@ -60,8 +70,11 @@ const populateBydelerMap = async (bydelerCsvData: BydelCsvData[]) => {
         }
     }
 
-    bydelerByBydelsnr = newBydelerMap;
-    bydelerByKommunenr = newBydelerByKommunenr;
+    cache.set<BydelerData>(cacheKey, {
+        bydelerByBydelsnr: newBydelerMap,
+        bydelerByKommunenr: newBydelerByKommunenr,
+        bydelerArray: Object.values(newBydelerMap),
+    });
 };
 
 export const loadBydelerData = async () => {
@@ -81,5 +94,5 @@ export const loadBydelerData = async () => {
             .on('error', rej);
     })) as BydelCsvData[];
 
-    await populateBydelerMap(dataFromCsv);
+    await populateBydelerCache(dataFromCsv);
 };

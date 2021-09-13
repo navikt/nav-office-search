@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { SearchResultNameProps } from '../../../types/searchResult';
+import { SearchResultNameProps } from '../../../types/results';
 import { normalizeString } from '../../../utils/normalizeString';
 import { LocaleString } from '../../../localization/LocaleString';
 import { BodyShort } from '@navikt/ds-react';
@@ -40,9 +40,9 @@ type Props = {
 };
 
 export const SearchResultName = ({ result }: Props) => {
-    const { input, nameHits } = result;
+    const { input, hits } = result;
 
-    if (!nameHits) {
+    if (!hits) {
         return (
             <div>
                 <LocaleString id={'errorInvalidResult'} />
@@ -51,7 +51,7 @@ export const SearchResultName = ({ result }: Props) => {
     }
 
     const normalizedInput = normalizeString(input);
-    const numHits = nameHits.length;
+    const numHits = hits.length;
 
     return (
         <div>
@@ -65,7 +65,7 @@ export const SearchResultName = ({ result }: Props) => {
                     />
                 )}
             </div>
-            {nameHits.map((nameHit) => (
+            {hits.map((nameHit) => (
                 <Fragment key={nameHit.name}>
                     <BodyShort size={'s'} className={style.hitname}>
                         <NameWithHighlightedInput

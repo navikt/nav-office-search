@@ -4,9 +4,9 @@ import {
     fetchErrorResponse,
     fetchJson,
 } from './fetch-json';
-import { OfficeInfo } from '../../types/searchResult';
 import { urls } from '../../urls';
 import { getOfficeUrl } from '../data/officeUrls';
+import { OfficeInfo } from '../../types/data';
 
 type OfficeInfoResponse = {
     error: undefined;

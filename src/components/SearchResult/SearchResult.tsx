@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchResultProps } from '../../types/searchResult';
+import { SearchResultProps } from '../../types/results';
 import { SearchResultPostnr } from './SearchResultPostnr/SearchResultPostnr';
 import { SearchResultName } from './SearchResultName/SearchResultName';
 

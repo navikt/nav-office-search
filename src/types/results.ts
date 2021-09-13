@@ -1,26 +1,17 @@
 import { LocaleStringId } from '../localization/nb-default';
-import { PostnrData } from '../api/data/poststed';
-
-export type OfficeInfo = {
-    name: string;
-    enhetNr: string;
-    url: string;
-    hitString: string;
-    geoId: string;
-    error?: undefined;
-};
+import { OfficeInfo, Poststed } from './data';
 
 export type SearchResultPostnrProps = {
     type: 'postnr';
     adresseQuery?: string;
     error?: undefined;
-} & PostnrData;
+} & Poststed;
 
 export type NameHit = { name: string; officeHits: OfficeInfo[] };
 
 export type SearchResultNameProps = {
     type: 'name';
-    nameHits: NameHit[];
+    hits: NameHit[];
     input: string;
     error?: undefined;
 };

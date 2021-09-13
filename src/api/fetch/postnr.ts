@@ -5,6 +5,10 @@ import {
 } from './fetch-json';
 import { getAuthorizationHeader } from './auth';
 import { urls } from '../../urls';
+import { getKommune } from '../data/kommuner';
+import { getBydel } from '../data/bydeler';
+import { removeDuplicates } from '../../utils/removeDuplicates';
+import { OfficeInfo } from '../../types/data';
 
 export type AdresseSokHit = {
     kommunenummer: string;
@@ -22,6 +26,24 @@ export type AdresseSokHit = {
 export type AdresseSokResponse = {
     error?: undefined;
     hits: AdresseSokHit[];
+};
+
+export const officeInfoFromAdresseSokResponse = (
+    adresseSokResponse: AdresseSokResponse
+): OfficeInfo[] => {
+    const officeInfo = adresseSokResponse.hits.reduce((acc, hit) => {
+        const geoId = hit.geografiskTilknytning;
+        const officeInfo = (getKommune(geoId) || getBydel(geoId))?.officeInfo;
+
+        if (!officeInfo) {
+            console.error(`No office info found for geoid ${geoId}`);
+            return acc;
+        }
+
+        return [...acc, officeInfo];
+    }, [] as OfficeInfo[]);
+
+    return removeDuplicates(officeInfo, (a, b) => a.enhetNr === b.enhetNr);
 };
 
 export const fetchTpsAdresseSok = async (

@@ -1,20 +1,18 @@
 import fetchMockLib from 'fetch-mock';
 import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
-import { OfficeInfo } from '../../types/searchResult';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
 import { getOfficeUrl } from '../data/officeUrls';
+import { Bydel, Kommune, OfficeInfo, Poststed } from '../../types/data';
+
 import jsonData from './data/data.json';
 import officeUrlData from './data/office-urls.json';
-import { BydelData } from '../data/bydeler';
-import { KommuneData } from '../data/kommuner';
-import { PostnrData } from '../data/poststed';
 
 // @ts-ignore
 const mockData: {
-    kommuner: KommuneData[];
-    postnr: PostnrData[];
-    bydeler: BydelData[];
+    kommuner: Kommune[];
+    postnr: Poststed[];
+    bydeler: Bydel[];
 } = jsonData;
 
 fetchMockLib.config.fallbackToNetwork = true;
