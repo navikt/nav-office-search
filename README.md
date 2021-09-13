@@ -1,34 +1,48 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NAV-kontor søk for åpne sider
 
-## Getting Started
+React/[Next.js](https://nextjs.org/) applikasjon for å søke opp NAV-kontor etter postnummer eller stedsnavn.
 
-First, run the development server:
+Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot tps og norg-tjenester (ved lokal kjøring brukes mocks).
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+![Deploy-to-prod](https://github.com/navikt/nav-enonicxp-frontend/workflows/Deploy-to-prod/badge.svg) <br>
+![Deploy-to-dev](https://github.com/navikt/nav-enonicxp-frontend/workflows/Deploy-to-dev/badge.svg) <br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Lokal kjøring
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
+Dekoratøren kan startes lokalt med `docker-compose up`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Development mode:
 
-## Learn More
+Kjør `npm run dev`
 
-To learn more about Next.js, take a look at the following resources:
+#### Production mode:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Kopier først innhold fra .env.development til .env.local
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Kjør så `npm run start-clean`
 
-## Deploy on Vercel
+## Deploy til dev-miljø
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   Generer en personal access token på Github med repo-tilgang (husk SSO)
+-   Opprett fila .github-token og legg tokenet inn i denne
+-   Push branchen din til Github og kjør `npm run deploy-dev`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Alternativt:
+
+[Actions](https://github.com/navikt/nav-office-search/actions) -> Velg workflow -> Run workflow -> Velg branch -> Run workflow
+
+## Prodsetting
+
+- Lag en PR til master, og merge inn etter godkjenning
+- Lag en release på master med versjon-bump, beskrivende tittel og oppsummering av endringene dine
+- Publiser release'en for å starte deploy til prod
+
+# Henvendelser
+
+Spørsmål knyttet til koden eller prosjektet kan rettes mot https://github.com/orgs/navikt/teams/personbruker
+
+## For NAV-ansatte
+
+Interne henvendelser kan sendes via Slack i kanalen #team-personbruker
