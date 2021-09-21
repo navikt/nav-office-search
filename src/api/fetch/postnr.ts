@@ -28,6 +28,8 @@ export type AdresseSokResponse = {
     hits: AdresseSokHit[];
 };
 
+const removeLeadingZeros = (str: string) => str.replace(/^0+/, '');
+
 export const officeInfoFromAdresseSokResponse = (
     adresseSokResponse: AdresseSokResponse
 ): OfficeInfo[] => {
@@ -40,7 +42,15 @@ export const officeInfoFromAdresseSokResponse = (
             return acc;
         }
 
-        return [...acc, { ...officeInfo, hitString: hit.adressenavn }];
+        return [
+            ...acc,
+            {
+                ...officeInfo,
+                hitString: `${hit.adressenavn} ${removeLeadingZeros(
+                    hit.husnummerFra
+                )}-${removeLeadingZeros(hit.husnummerTil)}`,
+            },
+        ];
     }, [] as OfficeInfo[]);
 
     return removeDuplicates(officeInfo, (a, b) => a.enhetNr === b.enhetNr);
