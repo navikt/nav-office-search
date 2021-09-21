@@ -40,7 +40,7 @@ export const officeInfoFromAdresseSokResponse = (
             return acc;
         }
 
-        return [...acc, officeInfo];
+        return [...acc, { ...officeInfo, hitString: hit.adressenavn }];
     }, [] as OfficeInfo[]);
 
     return removeDuplicates(officeInfo, (a, b) => a.enhetNr === b.enhetNr);
@@ -58,7 +58,7 @@ export const fetchTpsAdresseSok = async (
 
     return await fetchJson(
         urls.postnrApi,
-        { postnr, ...(adresse && { adresse }), husnr: '0001' },
+        { postnr, ...(adresse ? { adresse } : { husnr: '0001' }) },
         {
             headers: { Authorization: authorizationHeader },
         }
