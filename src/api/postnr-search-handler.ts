@@ -78,7 +78,7 @@ export const postnrSearchHandler = async (
                 .status(adresseSokResponse.statusCode)
                 .send(apiErrorResponse('errorServerError'));
         } else {
-            return responseDataWithBydeler(poststedData);
+            return res.status(200).send(responseDataWithBydeler(poststedData));
         }
     }
 
