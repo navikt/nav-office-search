@@ -8,6 +8,7 @@ import { Poststed } from '../../types/data';
 import { getKommune, loadKommuneData } from './kommuner';
 import { normalizeString } from '../../utils/normalizeString';
 import { getPostnrRegister, PostnrRegisterData } from './postnrRegister';
+import { getBydelerForKommune } from './bydeler';
 
 const cacheKey = 'poststeder';
 
@@ -46,13 +47,21 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
 
     const adresseSokResponse = await fetchTpsAdresseSok(postnr);
 
-    if (adresseSokResponse.error) {
+    if (!adresseSokResponse.error) {
+        const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse);
+        return { ...localData, officeInfo };
+    }
+
+    const bydeler = getBydelerForKommune(localData.kommunenr);
+
+    if (!bydeler) {
         return null;
     }
 
-    const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse);
-
-    return { ...localData, officeInfo };
+    return {
+        ...localData,
+        officeInfo: bydeler.map((bydel) => bydel.officeInfo),
+    };
 };
 
 export const loadPoststederData = async (
