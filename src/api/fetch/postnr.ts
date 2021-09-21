@@ -58,7 +58,7 @@ export const fetchTpsAdresseSok = async (
 
     return await fetchJson(
         urls.postnrApi,
-        { postnr, ...(adresse && { adresse }) },
+        { postnr, ...(adresse && { adresse }), husnr: '0001' },
         {
             headers: { Authorization: authorizationHeader },
         }
