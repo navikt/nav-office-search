@@ -48,7 +48,8 @@ export const officeInfoFromAdresseSokResponse = (
 
 export const fetchTpsAdresseSok = async (
     postnr: string,
-    adresse?: string
+    gatenavn?: string,
+    husnr?: string
 ): Promise<AdresseSokResponse | FetchErrorResponse> => {
     const authorizationHeader = await getAuthorizationHeader();
 
@@ -58,7 +59,12 @@ export const fetchTpsAdresseSok = async (
 
     return await fetchJson(
         urls.postnrApi,
-        { postnr, ...(adresse ? { adresse } : { husnr: '0001' }) },
+        {
+            postnr,
+            ...(gatenavn
+                ? { adresse: gatenavn, ...(husnr && { husnr }) }
+                : { husnr: '0001' }),
+        },
         {
             headers: { Authorization: authorizationHeader },
         }

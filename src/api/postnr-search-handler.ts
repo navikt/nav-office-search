@@ -10,13 +10,22 @@ import {
 import { apiErrorResponse, sortOfficeNames } from './utils';
 import { getPoststed } from './data/poststeder';
 
+const getGatenavnAndHusnr = (adresseSegments: string[]) => {
+    const husnr = adresseSegments.slice(-1)[0];
+    if (isNaN(Number(husnr))) {
+        return [adresseSegments.join(' ')];
+    }
+
+    return [adresseSegments.slice(0, -1).join(' '), husnr];
+};
+
 export const postnrSearchHandler = async (
     req: NextApiRequest,
     res: NextApiResponse<SearchResultPostnrProps | SearchResultErrorProps>
 ) => {
     const query = req.query.query as string;
 
-    const [postnr, ...adresseSegments] = query?.split(' ');
+    const [postnr, ...adresseSegments] = query?.trim().split(' ');
 
     const postnrData = await getPoststed(postnr);
 
@@ -28,9 +37,13 @@ export const postnrSearchHandler = async (
         return res.status(200).send({ type: 'postnr', ...postnrData });
     }
 
-    const adresse = adresseSegments?.join(' ').trim();
+    const [gatenavn, husnr] = getGatenavnAndHusnr(adresseSegments);
 
-    const adresseSokResponse = await fetchTpsAdresseSok(postnr, adresse);
+    const adresseSokResponse = await fetchTpsAdresseSok(
+        postnr,
+        gatenavn,
+        husnr
+    );
 
     if (adresseSokResponse.error) {
         console.error(
@@ -53,7 +66,7 @@ export const postnrSearchHandler = async (
     return res.status(200).send({
         ...postnrData,
         type: 'postnr',
-        adresseQuery: adresse,
+        adresseQuery: `${gatenavn}${husnr ? ` ${husnr}` : ''}`,
         officeInfo: officeInfo,
     });
 };
