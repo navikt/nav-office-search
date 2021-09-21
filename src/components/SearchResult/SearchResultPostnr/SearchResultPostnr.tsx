@@ -14,6 +14,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         kategori,
         officeInfo,
         adresseQuery = '',
+        withAllBydeler,
     } = result;
 
     const postnrOgPoststed = `${postnr} ${poststed}`;
@@ -48,6 +49,15 @@ const HeaderText = (result: SearchResultPostnrProps) => {
     }
 
     if (numHits > 1) {
+        if (withAllBydeler) {
+            return (
+                <LocaleString
+                    id={'postnrResultBydeler'}
+                    args={[numHits.toString(), postnrOgPoststed, postnr]}
+                />
+            );
+        }
+
         return (
             <LocaleString
                 id={'postnrResultMany'}

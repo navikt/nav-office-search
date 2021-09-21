@@ -9,6 +9,8 @@ import {
 } from '../types/results';
 import { apiErrorResponse, sortOfficeNames } from './utils';
 import { getPoststed } from './data/poststeder';
+import { getBydelerForKommune } from './data/bydeler';
+import { Poststed } from '../types/data';
 
 const getGatenavnAndHusnr = (adresseSegments: string[]) => {
     const husnr = adresseSegments.slice(-1)[0];
@@ -19,6 +21,23 @@ const getGatenavnAndHusnr = (adresseSegments: string[]) => {
     return [adresseSegments.slice(0, -1).join(' '), husnr];
 };
 
+const responseDataWithBydeler = (
+    poststedData: Poststed
+): SearchResultPostnrProps => {
+    const bydeler = getBydelerForKommune(poststedData.kommunenr);
+
+    if (!bydeler) {
+        return { ...poststedData, type: 'postnr' };
+    }
+
+    return {
+        ...poststedData,
+        type: 'postnr',
+        withAllBydeler: true,
+        officeInfo: bydeler.map((bydel) => bydel.officeInfo),
+    };
+};
+
 export const postnrSearchHandler = async (
     req: NextApiRequest,
     res: NextApiResponse<SearchResultPostnrProps | SearchResultErrorProps>
@@ -27,14 +46,18 @@ export const postnrSearchHandler = async (
 
     const [postnr, ...adresseSegments] = query?.trim().split(' ');
 
-    const postnrData = await getPoststed(postnr);
+    const poststedData = await getPoststed(postnr);
 
-    if (!postnrData) {
+    if (!poststedData) {
         return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));
     }
 
     if (adresseSegments.length === 0) {
-        return res.status(200).send({ type: 'postnr', ...postnrData });
+        if (poststedData.officeInfo.length > 0) {
+            return res.status(200).send({ ...poststedData, type: 'postnr' });
+        }
+
+        return res.status(200).send(responseDataWithBydeler(poststedData));
     }
 
     const [gatenavn, husnr] = getGatenavnAndHusnr(adresseSegments);
@@ -54,17 +77,18 @@ export const postnrSearchHandler = async (
             return res
                 .status(adresseSokResponse.statusCode)
                 .send(apiErrorResponse('errorServerError'));
+        } else {
+            return responseDataWithBydeler(poststedData);
         }
     }
 
-    const officeInfo = adresseSokResponse.error
-        ? []
-        : officeInfoFromAdresseSokResponse(adresseSokResponse).sort(
-              sortOfficeNames
-          );
+    const officeInfo =
+        officeInfoFromAdresseSokResponse(adresseSokResponse).sort(
+            sortOfficeNames
+        );
 
     return res.status(200).send({
-        ...postnrData,
+        ...poststedData,
         type: 'postnr',
         adresseQuery: `${gatenavn}${husnr ? ` ${husnr}` : ''}`,
         officeInfo: officeInfo,

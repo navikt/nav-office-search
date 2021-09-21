@@ -20,6 +20,7 @@ export type LocaleStringId =
     | 'postnrResultMany'
     | 'postnrResultPostbox'
     | 'postnrResultServiceBox'
+    | 'postnrResultBydeler'
     | 'nameResultNone'
     | 'nameResultFound'
     | 'breadcrumb1'
@@ -79,11 +80,22 @@ export const localeModuleNb: {
             }:`}
         </>
     ),
-    postnrResultServiceBox: (postnr, kommuneNavn) => (
+    postnrResultServiceBox: (postnr, kommuneNavn, numHits) => (
         <>
             {`${postnr} er et servicepostnummer i `}
             <strong>{kommuneNavn}</strong>
-            {` kommune. Kommunens NAV-kontor:`}
+            {` kommune. Kommunens NAV-kontor${
+                Number(numHits) > 1 ? 'er' : ''
+            }:`}
+        </>
+    ),
+    postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
+        <>
+            {`Fant ingen kontor spesifikt tilknyttet ${postnr} i `}
+            <strong>{kommuneNavn}</strong>
+            {` kommune. ${
+                Number(numHits) > 1 ? 'Alle k' : 'K'
+            }ommunens NAV-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
         </>
     ),
     nameResultNone: (input) => `Ingen resultater for "${input}"`,

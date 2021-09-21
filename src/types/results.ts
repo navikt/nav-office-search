@@ -4,6 +4,7 @@ import { OfficeInfo, Poststed } from './data';
 export type SearchResultPostnrProps = {
     type: 'postnr';
     adresseQuery?: string;
+    withAllBydeler?: boolean;
     error?: undefined;
 } & Poststed;
 

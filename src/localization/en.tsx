@@ -60,6 +60,15 @@ export const localeModuleEn: LocaleModule = {
             } for this town/city:`}
         </>
     ),
+    postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
+        <>
+            {`No specific office found for ${postnr} in `}
+            <strong>{kommuneNavn}</strong>
+            {`. ${Number(numHits) > 1 ? 'All ' : ''}NAV office${
+                Number(numHits) > 1 ? 's' : ''
+            } for this town/city:`}
+        </>
+    ),
     nameResultNone: (input) => `No results for "${input}"`,
     nameResultFound: (input, numHits) =>
         `Search results for "${input}" (${numHits}):`,
