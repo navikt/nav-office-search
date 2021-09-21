@@ -39,7 +39,7 @@ export const localeModuleEn: LocaleModule = {
         <>
             {`${numHits} offices cover `}
             <strong>{postnrOgPoststed}</strong>
-            {`. You can add a street name to narrow the search, e.g. ${postnr} Example-street`}
+            {`. You can add a street name and building number (optional) to narrow the search, e.g. ${postnr} Example-street or ${postnr} Example-street 12`}
         </>
     ),
     postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
