@@ -11,6 +11,7 @@ import { apiErrorResponse, sortOfficeNames } from './utils';
 import { getPoststed } from './data/poststeder';
 import { getBydelerForKommune } from './data/bydeler';
 import { Poststed } from '../types/data';
+import { removeDuplicates } from '../utils/removeDuplicates';
 
 const getGatenavnAndHusnr = (adresseSegments: string[]) => {
     const husnr = adresseSegments.slice(-1)[0];
@@ -30,11 +31,16 @@ const responseDataWithBydeler = (
         return { ...poststedData, type: 'postnr' };
     }
 
+    const officeInfo = removeDuplicates(
+        bydeler.map((bydel) => bydel.officeInfo),
+        (a, b) => a.enhetNr === b.enhetNr
+    );
+
     return {
         ...poststedData,
         type: 'postnr',
         withAllBydeler: true,
-        officeInfo: bydeler.map((bydel) => bydel.officeInfo),
+        officeInfo,
     };
 };
 
