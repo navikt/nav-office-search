@@ -30,30 +30,30 @@ const HeaderText = (result: SearchResultPostnrProps) => {
         );
     }
 
-    if (kategori === PostnrKategori.Postbokser) {
-        return (
-            <LocaleString
-                id={'postnrResultPostbox'}
-                args={[postnr, kommuneNavn]}
-            />
-        );
-    }
-
-    if (kategori === PostnrKategori.Servicepostnummer) {
-        return (
-            <LocaleString
-                id={'postnrResultServiceBox'}
-                args={[postnr, kommuneNavn, numHits.toString()]}
-            />
-        );
-    }
-
     if (numHits > 1) {
+        if (kategori === PostnrKategori.Postbokser) {
+            return (
+                <LocaleString
+                    id={'postnrResultPostbox'}
+                    args={[postnr, kommuneNavn, numHits.toString()]}
+                />
+            );
+        }
+
+        if (kategori === PostnrKategori.Servicepostnummer) {
+            return (
+                <LocaleString
+                    id={'postnrResultServiceBox'}
+                    args={[postnr, kommuneNavn, numHits.toString()]}
+                />
+            );
+        }
+
         if (withAllBydeler) {
             return (
                 <LocaleString
                     id={'postnrResultBydeler'}
-                    args={[numHits.toString(), postnrOgPoststed, postnr]}
+                    args={[postnr, kommuneNavn, numHits.toString()]}
                 />
             );
         }
