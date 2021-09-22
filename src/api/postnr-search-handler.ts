@@ -34,7 +34,7 @@ const responseDataWithBydeler = (
     const officeInfo = removeDuplicates(
         bydeler.map((bydel) => bydel.officeInfo),
         (a, b) => a.enhetNr === b.enhetNr
-    );
+    ).sort(sortOfficeNames);
 
     return {
         ...poststedData,
