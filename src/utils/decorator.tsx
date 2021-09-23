@@ -40,9 +40,9 @@ export const getDecoratorComponents = async (
     try {
         const decoratorComponents = await Promise.race([
             fetchDecoratorReact({
+                ...getDecoratorParams(locale),
                 env: decoratorEnv,
                 port: decoratorLocalPort,
-                ...getDecoratorParams(locale),
             }),
             new Promise((res, rej) =>
                 setTimeout(() => rej('Fetch timeout'), fetchTimeoutMs)
