@@ -24,8 +24,8 @@ jobs:
         run: |
           cat > .env <<EOF
           ENV=dev
-          APP_ORIGIN=https://finnkontor.dev.nav.no
-          APP_BASEPATH=/person/finnkontor
+          APP_ORIGIN=https://person.dev.nav.no
+          APP_BASEPATH=/sok-nav-kontor
           API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
           API_CLIENT_ID=$API_CLIENT_ID
           DECORATOR_FALLBACK_URL=https://dekoratoren.dev.nav.no

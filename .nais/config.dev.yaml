@@ -11,13 +11,13 @@ spec:
   team: personbruker
   port: 3005
   liveness:
-    path: /person/finnkontor/api/internal/isAlive
+    path: /sok-nav-kontor/api/internal/isAlive
     initialDelay: 10
   readiness:
-    path: /person/finnkontor/api/internal/isReady
+    path: /sok-nav-kontor/api/internal/isReady
     initialDelay: 10
   ingresses:
-    - https://finnkontor.dev.nav.no/person/finnkontor
+    - https://person.dev.nav.no/sok-nav-kontor
   replicas:
     min: 2
     max: 4

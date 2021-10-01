@@ -29,7 +29,7 @@ jobs:
           cat > .env <<EOF
           ENV=prod
           APP_ORIGIN=https://www.nav.no
-          APP_BASEPATH=/finn-nav-kontor
+          APP_BASEPATH=/sok-nav-kontor
           API_ORIGIN=https://nav-office-search-api.prod-fss-pub.nais.io
           API_CLIENT_ID=$API_CLIENT_ID
           DECORATOR_FALLBACK_URL=https://www.nav.no/dekoratoren
