@@ -2,6 +2,13 @@ import { fetchJson } from './fetch-json';
 import { encodeBase64 } from '../../utils/normalizeString';
 import { urls } from '../../urls';
 import { objectToQueryString } from '../utils';
+import Cache from 'node-cache';
+
+const cacheKey = 'authHeader';
+
+const cache = new Cache({
+    deleteOnExpire: true,
+});
 
 type TokenResponse = {
     token_type: 'Bearer';
@@ -35,12 +42,18 @@ const fetchAccessToken = async (): Promise<TokenResponse | null> => {
 };
 
 export const getAuthorizationHeader = async () => {
+    if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+    }
+
     const accessToken = await fetchAccessToken();
     if (!accessToken) {
         return null;
     }
 
-    const tokenBase64 = encodeBase64(accessToken.access_token);
+    const b64BearerToken = `Bearer ${encodeBase64(accessToken.access_token)}`;
 
-    return `Bearer ${tokenBase64}`;
+    cache.set(cacheKey, b64BearerToken, accessToken.expires_in - 60);
+
+    return b64BearerToken;
 };

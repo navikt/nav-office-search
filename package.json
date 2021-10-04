@@ -15,11 +15,9 @@
     "dependencies": {
         "@navikt/ds-css": "^0.6.20",
         "@navikt/ds-react": "^0.7.4",
-        "@navikt/nav-dekoratoren-moduler": "^1.6.3",
+        "@navikt/nav-dekoratoren-moduler": "^1.6.4",
         "amplitude-js": "^8.5.0",
         "classnames": "^2.3.1",
-        "html-react-parser": "^1.2.8",
-        "jsdom": "^16.7.0",
         "jsonwebtoken": "^8.5.1",
         "jwks-rsa": "^2.0.4",
         "lodash.debounce": "^4.0.8",
