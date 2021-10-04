@@ -17,6 +17,8 @@ type TokenResponse = {
 };
 
 const fetchAccessToken = async (): Promise<TokenResponse | null> => {
+    console.log('Refreshing access token...');
+
     const response = await fetchJson(urls.azureAdTokenApi, undefined, {
         method: 'POST',
         headers: {
