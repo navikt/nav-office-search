@@ -41,7 +41,7 @@ export const fetchJson = async <T = any>(
             ?.includes?.('application/json');
 
         if (res.ok && isJson) {
-            return res.json();
+            return (await res.json()) as T;
         }
 
         if (res.ok) {
@@ -51,7 +51,7 @@ export const fetchJson = async <T = any>(
             );
         }
 
-        const errorJson = await res.json();
+        const errorJson = (await res.json()) as any;
 
         console.error('Error fetching json:', errorJson);
 
@@ -60,6 +60,6 @@ export const fetchJson = async <T = any>(
 
         return fetchErrorResponse(res.status, errorMsg);
     } catch (e) {
-        return fetchErrorResponse(500, e.toString());
+        return fetchErrorResponse(500, (e as any)?.toString());
     }
 };
