@@ -39,7 +39,7 @@ export const localeModuleEn: LocaleModule = {
         <>
             {`${numHits} offices cover `}
             <strong>{postnrOgPoststed}</strong>
-            {`. You can add a street name and building number (optional) to narrow the search, e.g. ${postnr} Example-street 12`}
+            {`. You can add a street name and building number to narrow the search, e.g. ${postnr} Example-street 12`}
         </>
     ),
     postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
@@ -62,7 +62,8 @@ export const localeModuleEn: LocaleModule = {
     ),
     postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
         <>
-            {`No specific office found for ${postnr} in `}
+            {'No specific office found for '}$<strong>{postnr}</strong>
+            {' in '}
             <strong>{kommuneNavn}</strong>
             {`. ${Number(numHits) > 1 ? 'All ' : ''}NAV office${
                 Number(numHits) > 1 ? 's' : ''

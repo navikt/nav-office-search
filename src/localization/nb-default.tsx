@@ -68,7 +68,7 @@ export const localeModuleNb: {
         <>
             {`${numHits} kontorer dekker `}
             <strong>{postnrOgPoststed}</strong>
-            {`. Du kan legge til et gatenavn og husnummer (valgfritt) for å spisse søket, f.eks. ${postnr} Eksempelgata 12`}
+            {`. Du kan legge til gatenavn og husnummer for å spisse søket, f.eks. ${postnr} Eksempelgata 12`}
         </>
     ),
     postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
@@ -91,7 +91,9 @@ export const localeModuleNb: {
     ),
     postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
         <>
-            {`Fant ingen kontor spesifikt tilknyttet ${postnr} i `}
+            {'Fant ingen kontor spesifikt tilknyttet '}$
+            <strong>{postnr}</strong>
+            {' i '}
             <strong>{kommuneNavn}</strong>
             {` kommune. ${
                 Number(numHits) > 1 ? 'Alle k' : 'K'
