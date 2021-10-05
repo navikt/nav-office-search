@@ -62,7 +62,6 @@ export const SearchForm = () => {
         setErrorMsg(null);
 
         fetchSearchClient(input).then((result) => {
-            console.log('response:', result);
             if (result.type === 'error') {
                 if (result.aborted) {
                     return;
