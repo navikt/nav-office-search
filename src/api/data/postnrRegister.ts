@@ -6,18 +6,14 @@ import { urls } from '../../urls';
 const localFallbackPath = './rawdata/postnummerregister-ansi.txt';
 const charEncodeFormat = 'windows-1252';
 
-const oneDayInSeconds = 3600 * 24;
-
 const postnrRegisterCacheKey = 'postnrRegister';
 const postnrRegisterCache = new Cache({
-    stdTTL: oneDayInSeconds,
+    stdTTL: 3600,
     deleteOnExpire: false,
 });
 
-postnrRegisterCache.on('expired', (key) => {
-    if (key === postnrRegisterCacheKey) {
-        loadPostnrRegister();
-    }
+postnrRegisterCache.on('expired', () => {
+    loadPostnrRegister();
 });
 
 type PostnrRegisterItem = [
