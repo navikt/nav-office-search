@@ -75,16 +75,25 @@ export const postnrSearchHandler = async (
     );
 
     if (adresseSokResponse.error) {
-        console.error(
-            `Error fetching postnr from query ${query} - ${adresseSokResponse.statusCode} ${adresseSokResponse.message}`
-        );
-
         if (adresseSokResponse.statusCode >= 500) {
+            console.error(
+                `Server error while fetching postnr from query ${query} - ${adresseSokResponse.statusCode} ${adresseSokResponse.message}`
+            );
+
             return res
                 .status(adresseSokResponse.statusCode)
                 .send(apiErrorResponse('errorServerError'));
         } else {
-            return res.status(200).send(responseDataWithBydeler(poststedData));
+            console.log(
+                `Error fetching postnr from query ${query} - ${adresseSokResponse.statusCode} ${adresseSokResponse.message}`
+            );
+
+            return res.status(200).send({
+                ...poststedData,
+                type: 'postnr',
+                adresseQuery: `${gatenavn}${husnr ? ` ${husnr}` : ''}`,
+                officeInfo: [],
+            });
         }
     }
 
