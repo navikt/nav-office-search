@@ -62,7 +62,8 @@ export const localeModuleEn: LocaleModule = {
     ),
     postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
         <>
-            {'No specific office found for '}$<strong>{postnr}</strong>
+            {'No specific office found for '}
+            <strong>{postnr}</strong>
             {' in '}
             <strong>{kommuneNavn}</strong>
             {`. ${Number(numHits) > 1 ? 'All ' : ''}NAV office${

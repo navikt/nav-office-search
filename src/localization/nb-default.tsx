@@ -91,7 +91,7 @@ export const localeModuleNb: {
     ),
     postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
         <>
-            {'Fant ingen kontor spesifikt tilknyttet '}$
+            {'Fant ingen kontor spesifikt tilknyttet '}
             <strong>{postnr}</strong>
             {' i '}
             <strong>{kommuneNavn}</strong>
