@@ -18,7 +18,6 @@ export type LocaleStringId =
     | 'postnrResultNone'
     | 'postnrResultOne'
     | 'postnrResultMany'
-    | 'postnrResultAdresse'
     | 'postnrResultPostbox'
     | 'postnrResultServiceBox'
     | 'postnrResultBydeler'
@@ -72,7 +71,6 @@ export const localeModuleNb: {
             {`. Du kan legge til gatenavn og husnummer for å spisse søket, f.eks. ${postnr} Eksempelgata 12`}
         </>
     ),
-    postnrResultAdresse: () => <>{'Hei'}</>,
     postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
         <>
             {`${postnr} er et postnummer for postbokser i `}
