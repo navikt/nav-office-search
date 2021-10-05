@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { SearchForm } from './SearchForm/SearchForm';
-import { BodyLong, Title } from '@navikt/ds-react';
+import { BodyLong, Heading } from '@navikt/ds-react';
 import { Locale, LocaleString } from '../localization/LocaleString';
 import { useRouter } from 'next/router';
 import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler';
@@ -23,9 +23,9 @@ export const OfficeSearchApp = () => {
 
     return (
         <div className={style.appContainer}>
-            <Title size={'2xl'} className={style.title}>
+            <Heading size={'2xlarge'} className={style.title}>
                 <LocaleString id={'pageTitle'} />
-            </Title>
+            </Heading>
             <BodyLong className={style.ingress}>
                 <LocaleString id={'ingressLine1'} />
                 <br />

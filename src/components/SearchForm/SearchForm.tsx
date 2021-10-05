@@ -98,7 +98,7 @@ export const SearchForm = () => {
                                 {'Søker...'}
                             </BodyShort>
                             <Loader
-                                size={'l'}
+                                size={'large'}
                                 variant={'interaction'}
                                 title={'Søker...'}
                             />

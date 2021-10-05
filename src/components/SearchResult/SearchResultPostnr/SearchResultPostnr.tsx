@@ -92,7 +92,9 @@ export const SearchResultPostnr = ({ result }: Props) => {
             {officeInfo.map((hit) => (
                 <Fragment key={hit.enhetNr}>
                     {adresseQuery && (
-                        <BodyShort size={'s'}>{`${hit.hitString}:`}</BodyShort>
+                        <BodyShort
+                            size={'small'}
+                        >{`${hit.hitString}:`}</BodyShort>
                     )}
                     <OfficeLink officeInfo={hit} />
                 </Fragment>
