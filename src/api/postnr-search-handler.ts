@@ -14,8 +14,13 @@ import { Poststed } from '../types/data';
 import { removeDuplicates } from '../utils/removeDuplicates';
 
 const getGatenavnAndHusnr = (adresseSegments: string[]) => {
-    const husnr = adresseSegments.slice(-1)[0];
-    if (isNaN(Number(husnr))) {
+    const husnrSegment = adresseSegments.slice(-1)[0];
+
+    // Remove non-numbers from the potential husnr segment. Search for eg letter-postfixed
+    // sub-units is not supported, we only want to search for the number itself
+    const husnr = husnrSegment.replace(/[^0-9]/g, '');
+
+    if (!husnr || isNaN(Number(husnr))) {
         return [adresseSegments.join(' ')];
     }
 
