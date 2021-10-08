@@ -20,7 +20,7 @@ spec:
     - https://www.nav.no/sok-nav-kontor
   replicas:
     min: 2
-    max: 4
+    max: 2
   azure:
     application:
       enabled: true
@@ -38,4 +38,5 @@ spec:
       cpu: '2'
       memory: 1000Mi
     requests:
+      cpu: 500m
       memory: 1000Mi
