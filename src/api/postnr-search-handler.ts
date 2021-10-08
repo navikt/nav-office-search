@@ -14,7 +14,10 @@ import { Poststed } from '../types/data';
 import { removeDuplicates } from '../utils/removeDuplicates';
 
 const getGatenavnAndHusnr = (adresseSegments: string[]) => {
-    const husnr = adresseSegments.slice(-1)[0];
+    const husnrSegment = adresseSegments.slice(-1)[0];
+
+    const husnr = husnrSegment.replace(/[^0-9]/g, '');
+
     if (isNaN(Number(husnr))) {
         return [adresseSegments.join(' ')];
     }
