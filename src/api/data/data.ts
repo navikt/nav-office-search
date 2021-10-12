@@ -1,6 +1,6 @@
 import { loadBydelerData } from './bydeler';
 import { getPostnrRegister } from './postnrRegister';
-import { loadOfficeUrls } from './officeUrls';
+import { loadOfficeInfo } from './officeInfo';
 import { loadKommuneData } from './kommuner';
 import { loadPoststederData } from './poststeder';
 
@@ -12,7 +12,7 @@ export const loadData = async () => {
         console.log('Started loading data!');
         isLoading = true;
 
-        await loadOfficeUrls();
+        await loadOfficeInfo();
         await loadBydelerData();
         const postnrRegister = await getPostnrRegister();
         await loadKommuneData(postnrRegister);

@@ -2,7 +2,7 @@ import fetchMockLib from 'fetch-mock';
 import { AdresseSokResponse } from '../fetch/postnr';
 import { urls } from '../../urls';
 import { fetchErrorResponse, FetchErrorResponse } from '../fetch/fetch-json';
-import { getOfficeUrl } from '../data/officeUrls';
+import { getOfficeInfo } from '../data/officeInfo';
 import { Bydel, Kommune, OfficeInfo, Poststed } from '../../types/data';
 
 import jsonData from './data/data.json';
@@ -71,7 +71,7 @@ export const fetchMock = fetchMockLib
                 return {
                     ...data.officeInfo,
                     hitString: 'test',
-                    url: getOfficeUrl(data.officeInfo.enhetNr),
+                    url: getOfficeInfo(data.officeInfo.enhetNr),
                 };
             }
 

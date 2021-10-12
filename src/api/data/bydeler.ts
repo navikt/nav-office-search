@@ -1,10 +1,10 @@
 import Cache from 'node-cache';
-import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { normalizeString } from '../../utils/normalizeString';
 import { Bydel } from '../../types/data';
 import { fetchJson } from '../fetch/fetch-json';
 import fallbackData from '../../../rawdata/bydeler.json';
 import { urls } from '../../urls';
+import { getOfficeInfo } from './officeInfo';
 
 const cacheKey = 'bydeler';
 
@@ -69,9 +69,9 @@ const populateBydelerCache = async (bydelerData: SSB_BydelData[]) => {
             continue;
         }
 
-        const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
+        const officeInfo = getOfficeInfo(bydelsnr);
 
-        if (!officeInfo.error) {
+        if (officeInfo) {
             const bydel = {
                 bydelsnr,
                 navn: name,

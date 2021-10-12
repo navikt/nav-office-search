@@ -2,9 +2,9 @@ import { getBydelerForKommune } from './bydeler';
 import { Kommune } from '../../types/data';
 import { removeDuplicates } from '../../utils/removeDuplicates';
 import { normalizeString } from '../../utils/normalizeString';
-import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import Cache from 'node-cache';
 import { getPostnrRegister, PostnrRegisterData } from './postnrRegister';
+import { getOfficeInfo } from './officeInfo';
 
 const cacheKey = 'kommuner';
 
@@ -66,11 +66,11 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
                 bydeler,
             };
         } else {
-            const officeInfo = await fetchOfficeInfoByGeoId(
+            const officeInfo = await getOfficeInfo(
                 kommunenrExceptionsMap[kommunenr] || kommunenr
             );
 
-            if (!officeInfo.error) {
+            if (officeInfo) {
                 newMap[kommunenr] = {
                     ...kommuneDataPartial,
                     officeInfo,
