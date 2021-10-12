@@ -10,23 +10,8 @@ import { OfficeInfo } from '../../types/data';
 
 type OfficeInfoResponse = {
     error: undefined;
-    enhetId: number;
     navn: string;
     enhetNr: string;
-    antallRessurser: number;
-    status: string;
-    orgNivaa: string;
-    type: string;
-    organisasjonsnummer: string;
-    underEtableringDato: string;
-    aktiveringsdato: string;
-    underAvviklingDato: string;
-    nedleggelsesdato: string;
-    oppgavebehandler: boolean;
-    versjon: number;
-    sosialeTjenester: string;
-    kanalstrategi: string;
-    orgNrTilKommunaltNavKontor: string;
 };
 
 export const fetchOfficeInfoByGeoId = async (
