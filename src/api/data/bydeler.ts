@@ -13,7 +13,8 @@ const cache = new Cache({
     deleteOnExpire: false,
 });
 
-cache.on('expired', () => {
+cache.on('expired', (key) => {
+    console.log(`Cache with key ${key} expired, reloading data`);
     loadBydelerData();
 });
 

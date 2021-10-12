@@ -9,8 +9,9 @@ let isLoading = false;
 
 export const loadData = async () => {
     if (!isLoading) {
-        console.log('Started loading data!');
         isLoading = true;
+
+        console.log('Started loading data!');
 
         await loadOfficeUrls();
         await loadBydelerData();
@@ -18,7 +19,6 @@ export const loadData = async () => {
         await loadKommuneData(postnrRegister);
         await loadPoststederData(postnrRegister);
 
-        isLoading = false;
         isLoaded = true;
 
         console.log('Finished loading data!');
