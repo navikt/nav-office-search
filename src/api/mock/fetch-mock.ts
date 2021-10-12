@@ -71,7 +71,7 @@ export const fetchMock = fetchMockLib
                 return {
                     ...data.officeInfo,
                     hitString: 'test',
-                    url: getOfficeInfo(data.officeInfo.enhetNr),
+                    url: '',
                 };
             }
 
