@@ -3,7 +3,7 @@ import { Kommune } from '../../types/data';
 import { removeDuplicates } from '../../utils/removeDuplicates';
 import { normalizeString } from '../../utils/normalizeString';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
-import { PostnrRegisterData } from './postnrRegister';
+import { PostnrRegisterItem } from './postnrRegister';
 
 type KommunerMap = { [kommunenr: string]: Kommune };
 
@@ -29,7 +29,7 @@ export const getKommunerArray = () => kommunerData.kommunerArray;
 export const getKommune = (kommunenr: string) =>
     kommunerData.kommunerMap[kommunenr];
 
-export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
+export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
     console.log('Loading data for kommuner...');
 
     const uniqueKommuneItems = removeDuplicates(

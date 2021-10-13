@@ -7,7 +7,7 @@ import { sortOfficeNames } from '../utils';
 import { Poststed } from '../../types/data';
 import { getKommune, loadKommuneData } from './kommuner';
 import { normalizeString } from '../../utils/normalizeString';
-import { getPostnrRegister, PostnrRegisterData } from './postnrRegister';
+import { getPostnrRegister, PostnrRegisterItem } from './postnrRegister';
 
 const cacheKey = 'poststeder';
 
@@ -55,7 +55,7 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
 };
 
 export const loadPoststederData = async (
-    postnrRegister: PostnrRegisterData[]
+    postnrRegister: PostnrRegisterItem[]
 ) => {
     console.log('Loading data for poststeder...');
 
