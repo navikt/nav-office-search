@@ -20,6 +20,7 @@ export const loadData = async () => {
         await loadPoststederData(postnrRegister);
 
         isLoaded = true;
+        isLoading = false;
 
         console.log('Finished loading data!');
     }
