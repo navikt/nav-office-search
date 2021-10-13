@@ -68,11 +68,15 @@ export const fetchMock = fetchMockLib
                 mockData.bydeler.find((item) => item.bydelsnr === id);
 
             if (data?.officeInfo) {
-                return {
-                    ...data.officeInfo,
-                    hitString: 'test',
-                    url: getOfficeUrl(data.officeInfo.enhetNr),
-                };
+                const url = getOfficeUrl(data.officeInfo.enhetNr);
+
+                if (url) {
+                    return {
+                        ...data.officeInfo,
+                        hitString: 'test',
+                        url,
+                    };
+                }
             }
 
             return fetchErrorResponse(500, 'Mock error');

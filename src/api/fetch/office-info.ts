@@ -35,9 +35,15 @@ export const fetchOfficeInfoByGeoId = async (
         return response;
     }
 
+    const officeUrl = getOfficeUrl(response.enhetNr);
+
+    if (!officeUrl) {
+        return fetchErrorResponse(500, 'No url found for this office!');
+    }
+
     return {
         name: response.navn,
-        url: getOfficeUrl(response.enhetNr),
+        url: officeUrl,
         geoId: id,
         enhetNr: response.enhetNr,
         hitString: '',

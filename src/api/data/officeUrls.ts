@@ -1,19 +1,5 @@
-import Cache from 'node-cache';
 import { fetchJson } from '../fetch/fetch-json';
 import { urls } from '../../urls';
-
-const oneHour = 3600;
-const tenMinutes = 600;
-
-const cacheKey = 'postnrRegister';
-const cache = new Cache({
-    stdTTL: oneHour,
-    deleteOnExpire: false,
-});
-
-cache.on('expired', () => {
-    loadOfficeUrls();
-});
 
 type OfficeInfoResponse = {
     offices: {
@@ -25,6 +11,8 @@ type OfficeInfoResponse = {
 
 type EnhetNrToOfficePathMap = { [enhetNr: string]: string };
 
+let enhetsNrToOfficePathMap: EnhetNrToOfficePathMap = {};
+
 export const loadOfficeUrls = async () => {
     console.log('Loading office URLs');
 
@@ -34,11 +22,10 @@ export const loadOfficeUrls = async () => {
 
     if (officeUrls?.error || !officeUrls?.offices) {
         console.error('Failed to load office urls, retrying in 10 minutes');
-        cache.ttl(cacheKey, tenMinutes);
         return;
     }
 
-    const enhetNrToPathMap = officeUrls.offices.reduce(
+    const newOfficePathMap = officeUrls.offices.reduce(
         (acc, office) => ({
             ...acc,
             [office.enhetNr]: office.path,
@@ -46,14 +33,15 @@ export const loadOfficeUrls = async () => {
         {}
     );
 
-    cache.set(cacheKey, enhetNrToPathMap, oneHour);
+    enhetsNrToOfficePathMap = newOfficePathMap;
 };
 
 export const getOfficeUrl = (enhetNr: string) => {
-    const path = cache.get<EnhetNrToOfficePathMap>(cacheKey)?.[enhetNr];
+    const path = enhetsNrToOfficePathMap[enhetNr];
 
     if (!path) {
-        return '';
+        console.error(`No office url found for enhetnr ${enhetNr}!`);
+        return null;
     }
 
     return `${process.env.XP_ORIGIN}${path}`;

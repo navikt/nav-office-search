@@ -3,28 +3,18 @@ import { Kommune } from '../../types/data';
 import { removeDuplicates } from '../../utils/removeDuplicates';
 import { normalizeString } from '../../utils/normalizeString';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
-import Cache from 'node-cache';
-import { getPostnrRegister, PostnrRegisterData } from './postnrRegister';
-
-const cacheKey = 'kommuner';
-
-const cache = new Cache({
-    stdTTL: 3600,
-    deleteOnExpire: false,
-});
-
-cache.on('expired', async () => {
-    const postnrRegister = await getPostnrRegister();
-    loadKommuneData(postnrRegister);
-});
-
-const getKommunerData = () => cache.get<KommunerData>(cacheKey);
+import { PostnrRegisterItem } from './postnrRegister';
 
 type KommunerMap = { [kommunenr: string]: Kommune };
 
 type KommunerData = {
     kommunerMap: KommunerMap;
     kommunerArray: Kommune[];
+};
+
+const kommunerData: KommunerData = {
+    kommunerMap: {},
+    kommunerArray: [],
 };
 
 // Svalbard (2100) and Jan Mayen (2211) do not have their own offices
@@ -34,12 +24,12 @@ const kommunenrExceptionsMap: { [key: string]: string } = {
     '2211': '5401',
 };
 
-export const getKommunerArray = () => getKommunerData()?.kommunerArray || [];
+export const getKommunerArray = () => kommunerData.kommunerArray;
 
 export const getKommune = (kommunenr: string) =>
-    getKommunerData()?.kommunerMap[kommunenr];
+    kommunerData.kommunerMap[kommunenr];
 
-export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
+export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
     console.log('Loading data for kommuner...');
 
     const uniqueKommuneItems = removeDuplicates(
@@ -81,10 +71,8 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterData[]) => {
 
     const newArray = Object.values(newMap);
 
-    cache.set<KommunerData>(cacheKey, {
-        kommunerMap: newMap,
-        kommunerArray: newArray,
-    });
+    kommunerData.kommunerMap = newMap;
+    kommunerData.kommunerArray = newArray;
 
     console.log(
         `Finished loading data for kommuner! (${newArray.length} entries)`

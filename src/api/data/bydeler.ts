@@ -1,24 +1,9 @@
-import Cache from 'node-cache';
 import { fetchOfficeInfoByGeoId } from '../fetch/office-info';
 import { normalizeString } from '../../utils/normalizeString';
 import { Bydel } from '../../types/data';
 import { fetchJson } from '../fetch/fetch-json';
 import fallbackData from '../../../rawdata/bydeler.json';
 import { urls } from '../../urls';
-
-const cacheKey = 'bydeler';
-
-const cache = new Cache({
-    stdTTL: 3600,
-    deleteOnExpire: false,
-});
-
-cache.on('expired', (key) => {
-    console.log(`Cache with key ${key} expired, reloading data`);
-    loadBydelerData();
-});
-
-const getBydelerData = () => cache.get<BydelerData>(cacheKey);
 
 const invalidName = 'Uoppgitt';
 
@@ -51,19 +36,25 @@ type BydelerData = {
     bydelerArray: Bydel[];
 };
 
-export const getBydelerArray = () => getBydelerData()?.bydelerArray || [];
+const bydelerData: BydelerData = {
+    bydelerByBydelsnr: {},
+    bydelerByKommunenr: {},
+    bydelerArray: [],
+};
+
+export const getBydelerArray = () => bydelerData.bydelerArray;
 
 export const getBydel = (bydelnr: string) =>
-    getBydelerData()?.bydelerByBydelsnr[bydelnr];
+    bydelerData.bydelerByBydelsnr[bydelnr];
 
 export const getBydelerForKommune = (kommunenr: string) =>
-    getBydelerData()?.bydelerByKommunenr[kommunenr];
+    bydelerData.bydelerByKommunenr[kommunenr];
 
-const populateBydelerCache = async (bydelerData: SSB_BydelData[]) => {
+const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
     const newBydelerMap: BydelerByBydelsnrMap = {};
     const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
 
-    for (const item of bydelerData) {
+    for (const item of bydelerDataRaw) {
         const { code: bydelsnr, name } = item;
 
         if (name === invalidName) {
@@ -94,11 +85,9 @@ const populateBydelerCache = async (bydelerData: SSB_BydelData[]) => {
 
     const newArray = Object.values(newBydelerMap);
 
-    cache.set<BydelerData>(cacheKey, {
-        bydelerByBydelsnr: newBydelerMap,
-        bydelerByKommunenr: newBydelerByKommunenrMap,
-        bydelerArray: newArray,
-    });
+    bydelerData.bydelerByBydelsnr = newBydelerMap;
+    bydelerData.bydelerByKommunenr = newBydelerByKommunenrMap;
+    bydelerData.bydelerArray = newArray;
 
     console.log(
         `Finished loading data for bydeler! (${newArray.length} entries)`
@@ -155,9 +144,15 @@ export const loadBydelerData = async () => {
     if (bydelerRawData) {
         await populateBydelerCache(bydelerRawData);
     } else {
-        console.error(
-            'Failed to load bydeler from SSB - falling back to local data'
-        );
-        await populateBydelerCache(fallbackData);
+        if (bydelerData.bydelerArray.length === 0) {
+            console.error(
+                'Failed to load bydeler from SSB - falling back to local data'
+            );
+            await populateBydelerCache(fallbackData);
+        } else {
+            console.error(
+                'Failed to load bydeler from SSB - keeping current data for this cycle'
+            );
+        }
     }
 };
