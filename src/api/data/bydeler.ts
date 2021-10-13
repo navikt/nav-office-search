@@ -42,7 +42,7 @@ const bydelerData: BydelerData = {
     bydelerArray: [],
 };
 
-export const getBydelerArray = () => bydelerData.bydelerArray || [];
+export const getBydelerArray = () => bydelerData.bydelerArray;
 
 export const getBydel = (bydelnr: string) =>
     bydelerData.bydelerByBydelsnr[bydelnr];
@@ -144,9 +144,15 @@ export const loadBydelerData = async () => {
     if (bydelerRawData) {
         await populateBydelerCache(bydelerRawData);
     } else {
-        console.error(
-            'Failed to load bydeler from SSB - falling back to local data'
-        );
-        await populateBydelerCache(fallbackData);
+        if (bydelerData.bydelerArray.length === 0) {
+            console.error(
+                'Failed to load bydeler from SSB - falling back to local data'
+            );
+            await populateBydelerCache(fallbackData);
+        } else {
+            console.error(
+                'Failed to load bydeler from SSB - keeping current data for this cycle'
+            );
+        }
     }
 };
