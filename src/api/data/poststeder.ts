@@ -1,27 +1,12 @@
-import Cache from 'node-cache';
 import {
     fetchTpsAdresseSok,
     officeInfoFromAdresseSokResponse,
 } from '../fetch/postnr';
 import { sortOfficeNames } from '../utils';
 import { Poststed } from '../../types/data';
-import { getKommune, loadKommuneData } from './kommuner';
+import { getKommune } from './kommuner';
 import { normalizeString } from '../../utils/normalizeString';
-import { getPostnrRegister, PostnrRegisterItem } from './postnrRegister';
-
-const cacheKey = 'poststeder';
-
-const cache = new Cache({
-    stdTTL: 3600,
-    deleteOnExpire: false,
-});
-
-cache.on('expired', async () => {
-    const postnrRegister = await getPostnrRegister();
-    loadKommuneData(postnrRegister);
-});
-
-const getPoststederData = () => cache.get<PoststederData>(cacheKey);
+import { PostnrRegisterItem } from './postnrRegister';
 
 type PoststederMap = { [postnr: string]: Poststed };
 
@@ -30,11 +15,15 @@ type PoststederData = {
     poststederArray: Poststed[];
 };
 
-export const getPoststedArray = () =>
-    getPoststederData()?.poststederArray || [];
+const poststederData: PoststederData = {
+    poststederMap: {},
+    poststederArray: [],
+};
+
+export const getPoststedArray = () => poststederData.poststederArray;
 
 export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
-    const localData = getPoststederData()?.poststederMap[postnr];
+    const localData = poststederData.poststederMap[postnr];
 
     if (!localData) {
         return null;
@@ -91,10 +80,8 @@ export const loadPoststederData = async (
 
     const newArray = Object.values(newMap);
 
-    cache.set<PoststederData>(cacheKey, {
-        poststederMap: newMap,
-        poststederArray: newArray,
-    });
+    poststederData.poststederMap = newMap;
+    poststederData.poststederArray = newArray;
 
     console.log(
         `Finished loading data for poststeder! (${newArray.length} entries)`
