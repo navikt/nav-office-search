@@ -59,7 +59,7 @@ const fetchPostnrRegister = async (): Promise<string | null> => {
     }
 };
 
-const loadPostnrRegister = async () => {
+export const loadPostnrRegister = async () => {
     const postnrRegisterDataRaw = await fetchPostnrRegister();
 
     if (postnrRegisterDataRaw) {
@@ -84,10 +84,6 @@ const loadPostnrRegister = async () => {
     }
 };
 
-export const getPostnrRegister = async (): Promise<PostnrRegisterItem[]> => {
-    if (postnrRegisterData.length === 0) {
-        await loadPostnrRegister();
-    }
-
+export const getPostnrRegister = () => {
     return postnrRegisterData;
 };
