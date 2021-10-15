@@ -22,7 +22,7 @@ export const OfficeSearchApp = () => {
     }, [locale]);
 
     return (
-        <div className={style.appContainer}>
+        <div role={'main'} className={style.appContainer}>
             <Heading size={'2xlarge'} className={style.title}>
                 <LocaleString id={'pageTitle'} />
             </Heading>
