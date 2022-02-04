@@ -29,10 +29,6 @@ spec:
       external:
         - host: dekoratoren.dev.nav.no
         - host: nav-office-search-api.dev-fss-pub.nais.io
-      rules:
-        - application: nav-office-search-api
-          cluster: dev-fss
-          namespace: personbruker
   resources:
     limits:
       cpu: '2'
