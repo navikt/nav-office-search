@@ -31,7 +31,7 @@ spec:
         - host: nav-office-search-api.dev-fss-pub.nais.io
       rules:
         - application: nav-office-search-api
-          cluster: dev-gcp
+          cluster: dev-fss
           namespace: personbruker
   resources:
     limits:
