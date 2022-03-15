@@ -3,11 +3,11 @@ apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
   name: nav-office-search
-  namespace: {{namespace}}
+  namespace: personbruker
   labels:
     team: personbruker
 spec:
-  image: {{image}}:{{version}}
+  image: {{image}}
   team: personbruker
   port: 3005
   liveness:
@@ -16,23 +16,16 @@ spec:
   readiness:
     path: /sok-nav-kontor/api/internal/isReady
     initialDelay: 10
-  ingresses:
-    - https://person.dev.nav.no/sok-nav-kontor
+  envFrom:
+    - secret: nav-office-search
   replicas:
     min: 2
     max: 2
   azure:
     application:
       enabled: true
-  accessPolicy:
-    outbound:
-      external:
-        - host: dekoratoren.dev.nav.no
-        - host: nav-office-search-api.dev-fss-pub.nais.io
-      rules:
-        - application: nav-office-search-api
-          cluster: dev-gcp
-          namespace: personbruker
+  {{ingresses}}
+  {{accessPolicy}}
   resources:
     limits:
       cpu: '2'
