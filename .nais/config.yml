@@ -30,7 +30,7 @@ spec:
     outbound:
       external:
       {{#each outboundExternalHosts as |host|}}
-        - {{host}}
+        - host: {{host}}
       {{/each}}
   {{accessPolicy}}
   resources:
