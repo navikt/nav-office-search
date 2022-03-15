@@ -1,7 +1,4 @@
-ingresses:
-  - https://person.dev.nav.no/sok-nav-kontor
-accessPolicy:
-  outbound:
-    external:
-      - host: dekoratoren.dev.nav.no
-      - host: nav-office-search-api.dev-fss-pub.nais.io
+ingress: https://person.dev.nav.no/sok-nav-kontor
+outboundExternalHosts:
+  - host: dekoratoren.dev.nav.no
+  - host: nav-office-search-api.dev-fss-pub.nais.io

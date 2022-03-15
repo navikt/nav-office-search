@@ -1,11 +1,4 @@
-ingresses:
-  - https://www.nav.no/sok-nav-kontor
-accessPolicy:
-  outbound:
-    external:
-      - host: nav.no
-      - host: nav-office-search-api.prod-fss-pub.nais.io
-    rules:
-      - application: nav-office-search-api
-        cluster: prod-gcp
-        namespace: personbruker
+ingress: https://www.nav.no/sok-nav-kontor
+outboundExternalHosts:
+  - host: nav.no
+  - host: nav-office-search-api.prod-fss-pub.nais.io

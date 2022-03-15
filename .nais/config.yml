@@ -24,7 +24,14 @@ spec:
   azure:
     application:
       enabled: true
-  {{ingresses}}
+  ingresses:
+    - {{ingress}}
+  accessPolicy:
+    outbound:
+      external:
+      {{ #each outboundExternalHosts as |host|}}
+        - {{host}}
+      {{/each}}
   {{accessPolicy}}
   resources:
     limits:
