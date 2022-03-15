@@ -29,7 +29,7 @@ spec:
   accessPolicy:
     outbound:
       external:
-      {{ #each outboundExternalHosts as |host|}}
+      {{#each outboundExternalHosts as |host|}}
         - {{host}}
       {{/each}}
   {{accessPolicy}}
