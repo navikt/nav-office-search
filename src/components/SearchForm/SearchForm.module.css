@@ -24,6 +24,11 @@
     height: 3rem;
     align-self: flex-end;
     margin-left: 0.5rem;
+    width: 6rem;
+}
+
+.searchButton > :global(.navds-button__inner) {
+    font-weight: bold;
 }
 
 .searchResult {
