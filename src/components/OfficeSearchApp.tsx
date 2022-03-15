@@ -23,7 +23,7 @@ export const OfficeSearchApp = () => {
 
     return (
         <div role={'main'} className={style.appContainer}>
-            <Heading size={'2xlarge'} className={style.title}>
+            <Heading size={'xlarge'} className={style.title}>
                 <LocaleString id={'pageTitle'} />
             </Heading>
             <BodyLong className={style.ingress}>
