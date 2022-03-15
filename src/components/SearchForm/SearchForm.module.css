@@ -30,8 +30,8 @@
     margin-top: 1rem;
     padding: 0.75rem;
 
-    border-radius: var(--navds-border-radius);
-    background-color: var(--navds-color-gray-10);
+    border-radius: var(--navds-border-radius-medium);
+    background-color: var(--navds-global-color-gray-100);
 }
 
 .loader {
@@ -41,7 +41,7 @@
     right: 0.5rem;
     bottom: 0.5rem;
 
-    color: var(--navds-color-gray-60);
+    color: var(--navds-global-color-gray-600);
 }
 
 .loaderText {
@@ -52,6 +52,6 @@
     margin-top: 0.05rem;
     padding: 0.5rem;
 
-    border-radius: var(--navds-border-radius);
-    color: var(--navds-color-text-error);
+    border-radius: var(--navds-border-radius-medium);
+    color: var(--navds-error-message-color-text);
 }
