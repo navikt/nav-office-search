@@ -7,7 +7,7 @@ jobs:
     uses: ./.github/workflows/build-and-deploy.yml
     with:
       environment: dev
-      APP_ORIGIN: https://person.dev.nav.no
+      APP_ORIGIN: https://www.dev.nav.no
       API_ORIGIN: https://nav-office-search-api.dev-fss-pub.nais.io
       DECORATOR_FALLBACK_URL: https://dekoratoren.dev.nav.no
       XP_ORIGIN: https://www.dev.nav.no
