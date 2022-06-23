@@ -1,7 +1,7 @@
 import { OfficeSearchApp } from '../components/OfficeSearchApp';
 import { GetStaticProps } from "next";
 
-const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
     return {
         props: {},
         revalidate: 300
