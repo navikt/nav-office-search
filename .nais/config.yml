@@ -18,6 +18,9 @@ spec:
     initialDelay: 10
   envFrom:
     - secret: nav-office-search
+  env:
+    - name: NPM_CONFIG_CACHE
+      value: /tmp/npm-cache
   replicas:
     min: 2
     max: 2
