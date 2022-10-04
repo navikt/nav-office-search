@@ -73,7 +73,7 @@ export const fetchMock = fetchMockLib
                 if (url) {
                     return {
                         ...data.officeInfo,
-                        hitString: 'test',
+                        hitString: 'mock',
                         url,
                     };
                 }
