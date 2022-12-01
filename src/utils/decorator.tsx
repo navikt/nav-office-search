@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Components,
-    Props,
     fetchDecoratorReact,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { objectToQueryString } from '../api/utils';
@@ -9,9 +8,17 @@ import { getDecoratorParams } from './decoratorParams';
 import { Locale } from '../localization/LocaleString';
 
 const decoratorUrl = process.env.DECORATOR_FALLBACK_URL;
-const decoratorEnv = process.env.ENV as Props['env'];
+const decoratorEnv = process.env.ENV;
 const decoratorLocalPort = process.env.DECORATOR_LOCAL_PORT || 8100;
 const fetchTimeoutMs = 15000;
+
+const envProps =
+    decoratorEnv === 'localhost'
+        ? {
+              env: decoratorEnv,
+              port: decoratorLocalPort,
+          }
+        : { env: decoratorEnv };
 
 const decoratorComponentsCSR = (locale: Locale): Components => {
     const query = objectToQueryString(getDecoratorParams(locale));
@@ -41,8 +48,7 @@ export const getDecoratorComponents = async (
         const decoratorComponents = await Promise.race([
             fetchDecoratorReact({
                 ...getDecoratorParams(locale),
-                env: decoratorEnv,
-                port: decoratorLocalPort,
+                ...envProps,
             }),
             new Promise((res, rej) =>
                 setTimeout(() => rej('Fetch timeout'), fetchTimeoutMs)
