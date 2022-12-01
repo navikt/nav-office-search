@@ -10,7 +10,7 @@ declare global {
             AZURE_APP_TENANT_ID: string;
             DECORATOR_FALLBACK_URL: string;
             DECORATOR_LOCAL_PORT: string;
-            ENV: string;
+            ENV: 'prod' | 'dev' | 'localhost';
             XP_ORIGIN: string;
         }
     }
