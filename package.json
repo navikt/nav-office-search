@@ -13,8 +13,8 @@
         "deploy-dev": "npm run deploy -- deploy.dev.yml"
     },
     "dependencies": {
-        "@navikt/ds-css": "1.3.5",
-        "@navikt/ds-react": "1.3.5",
+        "@navikt/ds-css": "2.0.11",
+        "@navikt/ds-react": "2.0.11",
         "@navikt/nav-dekoratoren-moduler": "1.8.1",
         "amplitude-js": "8.21.3",
         "classnames": "2.3.2",
