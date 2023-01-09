@@ -9,7 +9,7 @@
     width: 10px;
     height: 2px;
     top: 2px;
-    background-color: var(--navds-semantic-color-link);
+    background-color: var(--a-text-action);
     transform-origin: right;
     transform: rotate(-45deg);
 }
@@ -19,7 +19,7 @@
     width: 10px;
     height: 2px;
     top: 2px;
-    background-color: var(--navds-semantic-color-link);
+    background-color: var(--a-text-action);
     transform-origin: right;
     transform: rotate(45deg);
 }
