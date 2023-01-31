@@ -1,4 +1,4 @@
 ingress: https://www.nav.no/sok-nav-kontor
 outboundExternalHosts:
-  - host: nav.no
-  - host: nav-office-search-api.prod-fss-pub.nais.io
+    - nav.no
+    - nav-office-search-api.prod-fss-pub.nais.io
