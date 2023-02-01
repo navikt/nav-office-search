@@ -22,5 +22,5 @@
 }
 
 .link:focus > .chevron > * {
-    background-color: var(--navds-semantic-color-text-inverted);
+    background-color: var(--a-text-on-inverted);
 }

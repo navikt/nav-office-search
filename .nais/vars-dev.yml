@@ -1,4 +1,4 @@
 ingress: https://www.dev.nav.no/sok-nav-kontor
 outboundExternalHosts:
-  - host: dekoratoren.dev.nav.no
-  - host: nav-office-search-api.dev-fss-pub.nais.io
+    - dekoratoren.dev.nav.no
+    - nav-office-search-api.dev-fss-pub.nais.io
