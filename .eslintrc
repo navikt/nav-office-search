@@ -1,6 +1,0 @@
-{
-  "rules": {
-    "react/display-name": 0
-  },
-  "extends": ["next", "next/core-web-vitals"]
-}

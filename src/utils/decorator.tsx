@@ -3,7 +3,7 @@ import {
     Components,
     fetchDecoratorReact,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
-import { objectToQueryString } from '../api/utils';
+import { objectToQueryString } from './utils';
 import { getDecoratorParams } from './decoratorParams';
 import { Locale } from '../localization/LocaleString';
 

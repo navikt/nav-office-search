@@ -1,7 +1,6 @@
 import React from 'react';
 import { LocaleModule, localeModuleNb, LocaleStringId } from './nb-default';
 import { localeModuleEn } from './en';
-import { useRouter } from 'next/router';
 
 export type Locale = 'nb' | 'en';
 
@@ -33,10 +32,7 @@ export const localeString = (
 };
 
 export const LocaleString = ({ id, args = [] }: Props) => {
-    const router = useRouter();
-    const locale = (router.locale ||
-        router.defaultLocale ||
-        defaultLocale) as Locale;
+    const locale = defaultLocale as Locale;
 
     const value = localeModules[locale][id] || localeModules[defaultLocale][id];
     if (!value) {
