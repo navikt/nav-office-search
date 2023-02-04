@@ -7,4 +7,13 @@ export default defineConfig({
     esbuild: {
         legalComments: 'none',
     },
+    // TODO: expose only whats needed
+    define: {
+        'process.env': process.env,
+    },
+    ssr: {
+        // React modules from node_modules must not be externalized
+        // in order to work with preact/compat
+        noExternal: ['@navikt/ds-react'],
+    },
 });

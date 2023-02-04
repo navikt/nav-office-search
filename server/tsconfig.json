@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "jsx": "react",
+    "allowJs": true,
+    "baseUrl": "src",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "lib": [
+      "es2021",
+      "dom"
+    ],
+    "moduleResolution": "node",
+    "module": "NodeNext",
+    "outDir": "./dist",
+    "strict": true,
+    "target": "ES2021"
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

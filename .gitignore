@@ -39,3 +39,5 @@ yarn-error.log*
 
 /.github-token
 /dist/
+/server/dist/
+/server/node_modules/
