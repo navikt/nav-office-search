@@ -1,13 +1,13 @@
 import { getAuthorizationHeader } from './auth';
 import { getKommune } from '../../data/kommuner';
 import { getBydel } from '../../data/bydeler';
-import { removeDuplicates } from '../utils/remove-duplicates';
-import { OfficeInfo } from '../../../../src-common/types/data';
+import { removeDuplicates } from '../../utils/remove-duplicates';
+import { OfficeInfo } from '../../../../common/types/data';
 import {
     fetchErrorResponse,
     FetchErrorResponse,
     fetchJson,
-} from '../utils/fetch-utils';
+} from '../../utils/fetch';
 import { serverUrls } from '../../urls';
 
 export type AdresseSokHit = {

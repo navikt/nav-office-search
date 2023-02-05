@@ -4,8 +4,8 @@ import {
     injectDecoratorServerSide,
     Params,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
-import { getDecoratorParams } from '../../../src-common/decoratorParams';
-import { AppLocale } from '../../../src-common/localization/types';
+import { getDecoratorParams } from '../../../common/decoratorParams';
+import { AppLocale } from '../../../common/localization/types';
 import { serverUrls } from '../urls';
 
 const decoratorEnv = process.env.ENV || 'prod';
@@ -22,7 +22,7 @@ const envProps =
 const templatePath =
     process.env.NODE_ENV === 'development'
         ? path.resolve(process.cwd(), '..', 'index.html')
-        : path.resolve(process.cwd(), '..', 'dist', 'client', 'index.html');
+        : path.resolve(process.cwd(), 'frontendDist', 'client', 'index.html');
 
 const getUndecoratedTemplate = () =>
     fs.readFileSync(templatePath, { encoding: 'utf-8' });

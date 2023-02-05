@@ -1,5 +1,5 @@
 import React, { createContext, ProviderProps, useContext } from 'react';
-import { AppLocale } from '../../src-common/localization/types';
+import { AppLocale } from '../../common/localization/types';
 
 const LocaleContext = createContext<AppLocale>('nb');
 

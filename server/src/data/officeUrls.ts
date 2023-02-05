@@ -1,4 +1,4 @@
-import { fetchJson } from '../api/utils/fetch-utils';
+import { fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
 type OfficeInfoResponse = {

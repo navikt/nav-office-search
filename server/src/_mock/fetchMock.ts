@@ -1,16 +1,13 @@
 import fetchMockLib from 'fetch-mock';
 import { AdresseSokResponse } from '../api/fetch/postnr';
 import { getOfficeUrl } from '../data/officeUrls';
-import {
-    FetchErrorResponse,
-    fetchErrorResponse,
-} from '../api/utils/fetch-utils';
+import { FetchErrorResponse, fetchErrorResponse } from '../utils/fetch';
 import {
     Bydel,
     Kommune,
     OfficeInfo,
     Poststed,
-} from '../../../src-common/types/data';
+} from '../../../common/types/data';
 import { serverUrls } from '../urls';
 
 import jsonData from './data/data.json';

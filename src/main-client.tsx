@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
-import { AppLocale } from '../src-common/localization/types';
+import { AppLocale } from '../common/localization/types';
 
 ReactDOM.hydrateRoot(
     document.getElementById('app') as HTMLElement,

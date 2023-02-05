@@ -1,7 +1,7 @@
 import { fetchOfficeInfoByGeoId } from '../api/fetch/officeInfo';
-import { Bydel } from '../../../src-common/types/data';
-import { normalizeString } from '../../../src-common/normalizeString';
-import { fetchJson } from '../api/utils/fetch-utils';
+import { Bydel } from '../../../common/types/data';
+import { normalizeString } from '../../../common/normalizeString';
+import { fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
 import fallbackData from '../_mock/data/bydeler.json';

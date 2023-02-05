@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { PostnrKategori } from '../../../src-common/types/data';
+import { PostnrKategori } from '../../../common/types/data';
 import { serverUrls } from '../urls';
 
 const localFallbackPath = './rawdata/postnummerregister-ansi.txt';

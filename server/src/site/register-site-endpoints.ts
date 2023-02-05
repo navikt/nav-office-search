@@ -1,13 +1,15 @@
-import express, { Express } from 'express';
-import { render } from '../../../dist/server/main-server.js';
+import express, { Express, Router } from 'express';
+import { render } from '../../frontendDist/ssr/main-server.js';
 import { getTemplateWithDecorator } from './html-template-builder';
-import { AppLocale } from '../../../src-common/localization/types';
-import { localeString } from '../../../src-common/localization/localeString';
+import { AppLocale } from '../../../common/localization/types';
+import { localeString } from '../../../common/localization/localeString';
 import { createServer, ViteDevServer } from 'vite';
+import { configureRequestHandler } from '../utils/configure-handler';
 
 const isProd = process.env.NODE_ENV !== 'development';
+const isLocal = process.env.ENV === 'localhost';
 
-const assetsDir = `${process.cwd()}/../dist/client/assets`;
+const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
 
 type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
@@ -21,15 +23,12 @@ const devRender =
     (vite: ViteDevServer): HtmlRenderer =>
     async (locale: AppLocale, url = '') => {
         try {
-            console.log('1');
             const template = await getTemplateWithDecorator(locale);
-            console.log('2');
+            // SSR in dev mode is very glitchy -_-
+            // Run in production mode to test SSR
             // const { render } = await vite.ssrLoadModule('/src/main-server.tsx');
-            // console.log('3');
             // const appHtml = await render(locale);
-            console.log('4');
             const html = await vite.transformIndexHtml(url, template);
-            console.log('5');
             return processTemplate(locale, html, '');
         } catch (e) {
             vite.ssrFixStacktrace(e as Error);
@@ -49,7 +48,7 @@ const processTemplate = async (
         .replace('<!--ssr-app-html-->', appHtml);
 };
 
-export const registerSiteEndpoints = async (expressApp: Express) => {
+export const registerSiteEndpoints = async (expressApp: Router) => {
     let render: HtmlRenderer;
 
     if (isProd) {
@@ -78,8 +77,11 @@ export const registerSiteEndpoints = async (expressApp: Express) => {
         render = devRender(vite);
     }
 
+    if (isLocal) {
+        // expressApp.
+    }
+
     expressApp.get('/', async (req, res) => {
-        console.log('Hello');
         const html = await render('nb', req.originalUrl);
         return res.status(200).send(html);
     });

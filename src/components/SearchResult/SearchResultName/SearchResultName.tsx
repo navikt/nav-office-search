@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { SearchResultNameProps } from '../../../../src-common/types/results';
-import { normalizeString } from '../../../../src-common/normalizeString';
+import { SearchResultNameProps } from '../../../../common/types/results';
+import { normalizeString } from '../../../../common/normalizeString';
 import { LocaleString } from '../../../localization/LocaleString';
 import { BodyShort } from '@navikt/ds-react';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';

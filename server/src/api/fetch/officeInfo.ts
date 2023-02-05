@@ -4,8 +4,8 @@ import {
     fetchErrorResponse,
     FetchErrorResponse,
     fetchJson,
-} from '../utils/fetch-utils';
-import { OfficeInfo } from '../../../../src-common/types/data';
+} from '../../utils/fetch';
+import { OfficeInfo } from '../../../../common/types/data';
 import { serverUrls } from '../../urls';
 
 type OfficeInfoResponse = {

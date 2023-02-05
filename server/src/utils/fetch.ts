@@ -1,6 +1,6 @@
-import { fetchMock } from '../../_mock/fetchMock';
-import { LocaleStringId } from '../../../../src-common/localization/types';
-import { SearchResultErrorProps } from '../../../../src-common/types/results';
+import { fetchMock } from '../_mock/fetchMock';
+import { LocaleStringId } from '../../../common/localization/types';
+import { SearchResultErrorProps } from '../../../common/types/results';
 
 const fetchOrMock = process.env.ENV === 'localhost' ? fetchMock : fetch;
 

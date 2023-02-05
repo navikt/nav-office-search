@@ -1,4 +1,4 @@
-import { fetchJson, objectToQueryString } from '../utils/fetch-utils';
+import { fetchJson, objectToQueryString } from '../../utils/fetch';
 import Cache from 'node-cache';
 import { serverUrls } from '../../urls';
 

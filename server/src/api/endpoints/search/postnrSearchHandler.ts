@@ -1,11 +1,11 @@
-import { Poststed } from '../../../../../src-common/types/data';
-import { SearchResultPostnrProps } from '../../../../../src-common/types/results';
+import { Poststed } from '../../../../../common/types/data';
+import { SearchResultPostnrProps } from '../../../../../common/types/results';
 import { getBydelerForKommune } from '../../../data/bydeler';
-import { removeDuplicates } from '../../utils/remove-duplicates';
-import { sortOfficeNames } from '../../utils/sort';
+import { removeDuplicates } from '../../../utils/remove-duplicates';
+import { sortOfficeNames } from '../../../utils/sort';
 import { Request, Response } from 'express';
 import { getPoststed } from '../../../data/poststeder';
-import { apiErrorResponse } from '../../utils/fetch-utils';
+import { apiErrorResponse } from '../../../utils/fetch';
 import {
     fetchTpsAdresseSok,
     officeInfoFromAdresseSokResponse,

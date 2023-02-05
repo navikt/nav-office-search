@@ -3,13 +3,13 @@ import debounce from 'lodash.debounce';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
-import { SearchResultProps } from '../../../src-common/types/results';
+import { SearchResultProps } from '../../../common/types/results';
 import { abortSearchClient, fetchSearchClient } from '../../utils/fetch';
-import { LocaleStringId } from '../../../src-common/localization/types';
+import { LocaleStringId } from '../../../common/localization/types';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
-} from '../../utils/validate-input';
+} from '../../../common/validate-input';
 
 import style from './SearchForm.module.css';
 

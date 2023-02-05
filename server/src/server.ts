@@ -7,16 +7,19 @@ import { registerApiEndpoints } from './api/endpoints/registerApiEndpoints';
 import schedule from 'node-schedule';
 import { loadData } from './data/data';
 
-const PORT = 3005;
-
-const app = express();
-
 loadData().then(() => {
     schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
 });
 
-registerApiEndpoints(app);
-registerSiteEndpoints(app);
+const PORT = 3005;
+
+const app = express();
+const router = express.Router();
+
+app.use(process.env.VITE_APP_BASEPATH, router);
+
+registerApiEndpoints(router);
+registerSiteEndpoints(router);
 
 app.use(((err, req, res, _) => {
     const { path } = req;

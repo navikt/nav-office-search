@@ -4,9 +4,9 @@ import {
 } from '../api/fetch/postnr';
 import { getKommune } from './kommuner';
 import { PostnrRegisterItem } from './postnrRegister';
-import { Poststed } from '../../../src-common/types/data';
-import { normalizeString } from '../../../src-common/normalizeString';
-import { sortOfficeNames } from '../api/utils/sort';
+import { Poststed } from '../../../common/types/data';
+import { normalizeString } from '../../../common/normalizeString';
+import { sortOfficeNames } from '../utils/sort';
 
 type PoststederMap = { [postnr: string]: Poststed };
 

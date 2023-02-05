@@ -1,7 +1,7 @@
 import React from 'react';
 import { BodyShort, Link } from '@navikt/ds-react';
 import { Chevron } from '../Chevron/Chevron';
-import { OfficeInfo } from '../../../src-common/types/data';
+import { OfficeInfo } from '../../../common/types/data';
 
 import style from './OfficeLink.module.css';
 

@@ -1,7 +1,7 @@
 import {
     SearchResultErrorProps,
     SearchResultProps,
-} from '../../src-common/types/results';
+} from '../../common/types/results';
 import { clientUrls } from '../urls';
 
 let abortController =

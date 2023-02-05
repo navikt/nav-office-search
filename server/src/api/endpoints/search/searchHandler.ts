@@ -2,11 +2,11 @@ import { postnrSearchHandler } from './postnrSearchHandler';
 import { nameSearchHandler } from './nameSearchHandler';
 import { isDataLoaded, loadData } from '../../../data/data';
 import { RequestHandler } from 'express';
-import { apiErrorResponse } from '../../utils/fetch-utils';
+import { apiErrorResponse } from '../../../utils/fetch';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
-} from '../../../../../src/utils/validate-input';
+} from '../../../../../common/validate-input';
 
 export const searchHandler: RequestHandler = async (req, res) => {
     if (!isDataLoaded()) {

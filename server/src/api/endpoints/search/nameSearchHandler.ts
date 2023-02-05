@@ -1,13 +1,13 @@
-import { NameHit } from '../../../../../src-common/types/results';
-import { removeDuplicates } from '../../utils/remove-duplicates';
+import { NameHit } from '../../../../../common/types/results';
+import { removeDuplicates } from '../../../utils/remove-duplicates';
 import { getBydelerArray } from '../../../data/bydeler';
 import { getKommunerArray } from '../../../data/kommuner';
 import { getPoststedArray } from '../../../data/poststeder';
-import { OfficeInfo } from '../../../../../src-common/types/data';
+import { OfficeInfo } from '../../../../../common/types/data';
 import { Request, Response } from 'express';
-import { normalizeString } from '../../../../../src-common/normalizeString';
-import { norskSort, sortOfficeNames } from '../../utils/sort';
-import { apiErrorResponse } from '../../utils/fetch-utils';
+import { normalizeString } from '../../../../../common/normalizeString';
+import { norskSort, sortOfficeNames } from '../../../utils/sort';
+import { apiErrorResponse } from '../../../utils/fetch';
 
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
     const bydelerMatches = getBydelerArray().filter((bydel) =>
