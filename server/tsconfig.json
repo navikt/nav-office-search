@@ -16,10 +16,15 @@
     "module": "NodeNext",
     "outDir": "./dist",
     "strict": true,
-    "target": "ES2021"
+    "target": "ES2021",
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*.ts",
-    "../src-common/**/*.ts"
+    "../src-common/**/*.ts",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "**/*.json"
   ]
 }

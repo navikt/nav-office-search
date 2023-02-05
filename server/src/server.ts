@@ -2,19 +2,20 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
 import express, { ErrorRequestHandler } from 'express';
-import { setupDevServer } from './dev-server.js';
-import { setupProdServer } from './prod-server.js';
+import { registerSiteEndpoints } from './site/register-site-endpoints.js';
+import { registerApiEndpoints } from './api/endpoints/registerApiEndpoints';
+import schedule from 'node-schedule';
+import { loadData } from './data/data';
 
 const PORT = 3100;
 
 const app = express();
 
-console.log(process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'development') {
-    setupDevServer(app);
-} else {
-    setupProdServer(app);
-}
+loadData().then(() => {
+    schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
+    registerApiEndpoints(app);
+    registerSiteEndpoints(app);
+});
 
 app.use(((err, req, res, _) => {
     const { path } = req;
