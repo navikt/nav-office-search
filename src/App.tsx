@@ -7,6 +7,7 @@ import { LocaleProvider } from './localization/useLocale';
 import { AppLocale } from '../src-common/localization/types';
 import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler';
 import { getDecoratorParams } from '../src-common/decoratorParams';
+import { clientUrls } from './urls';
 
 type Props = { locale?: AppLocale };
 
@@ -26,7 +27,7 @@ export const App = ({ locale = 'nb' }: Props) => {
             isFirstRender = false;
             return;
         }
-        setParams(getDecoratorParams(currentLocale));
+        setParams(getDecoratorParams(currentLocale, clientUrls.kontaktOss));
     }, [currentLocale]);
 
     return (

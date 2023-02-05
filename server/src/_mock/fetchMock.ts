@@ -5,13 +5,13 @@ import {
     FetchErrorResponse,
     fetchErrorResponse,
 } from '../api/utils/fetch-utils';
-import { urls } from '../../../src-common/urls';
 import {
     Bydel,
     Kommune,
     OfficeInfo,
     Poststed,
 } from '../../../src-common/types/data';
+import { serverUrls } from '../urls';
 
 import jsonData from './data/data.json';
 import officeUrlData from './data/office-urls.json';
@@ -28,13 +28,13 @@ fetchMockLib.config.fallbackToNetwork = true;
 
 export const fetchMock = fetchMockLib
     .sandbox()
-    .mock(urls.azureAdTokenApi, {
+    .mock(serverUrls.azureAdTokenApi, {
         token_type: 'Bearer',
         expires_in: 3600,
         access_token: 'dummy-token',
     })
     .mock(
-        `begin:${urls.postnrApi}`,
+        `begin:${serverUrls.postnrApi}`,
         async (url): Promise<AdresseSokResponse> => {
             const postnr = new URL(url).searchParams.get('postnr');
             if (!postnr) {
@@ -65,7 +65,7 @@ export const fetchMock = fetchMockLib
         }
     )
     .mock(
-        `begin:${urls.officeInfoApi}`,
+        `begin:${serverUrls.officeInfoApi}`,
         async (url): Promise<OfficeInfo | FetchErrorResponse> => {
             const id = new URL(url).searchParams.get('id');
             if (!id) {
@@ -91,6 +91,6 @@ export const fetchMock = fetchMockLib
             return fetchErrorResponse(500, 'Mock error');
         }
     )
-    .mock(urls.xpOfficeInfoApi, async () => {
+    .mock(serverUrls.xpOfficeInfoApi, async () => {
         return officeUrlData;
     });

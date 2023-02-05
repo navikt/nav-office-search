@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
+dotenv.config();
 
 import express, { ErrorRequestHandler } from 'express';
 import { registerSiteEndpoints } from './site/register-site-endpoints.js';
@@ -7,15 +7,16 @@ import { registerApiEndpoints } from './api/endpoints/registerApiEndpoints';
 import schedule from 'node-schedule';
 import { loadData } from './data/data';
 
-const PORT = 3100;
+const PORT = 3005;
 
 const app = express();
 
 loadData().then(() => {
     schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
-    registerApiEndpoints(app);
-    registerSiteEndpoints(app);
 });
+
+registerApiEndpoints(app);
+registerSiteEndpoints(app);
 
 app.use(((err, req, res, _) => {
     const { path } = req;

@@ -6,6 +6,7 @@ import {
 } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { getDecoratorParams } from '../../../src-common/decoratorParams';
 import { AppLocale } from '../../../src-common/localization/types';
+import { serverUrls } from '../urls';
 
 const decoratorEnv = process.env.ENV || 'prod';
 const decoratorLocalPort = process.env.DECORATOR_LOCAL_PORT || 8100;
@@ -62,7 +63,7 @@ const injectWithDecorator = async (
 };
 
 export const getTemplateWithDecorator = async (locale: AppLocale) => {
-    const params = getDecoratorParams(locale);
+    const params = getDecoratorParams(locale, serverUrls.kontaktOss);
 
     return injectWithDecorator(params);
 };

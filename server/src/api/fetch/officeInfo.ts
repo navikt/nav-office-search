@@ -6,7 +6,7 @@ import {
     fetchJson,
 } from '../utils/fetch-utils';
 import { OfficeInfo } from '../../../../src-common/types/data';
-import { urls } from '../../../../src-common/urls';
+import { serverUrls } from '../../urls';
 
 type OfficeInfoResponse = {
     error: undefined;
@@ -24,7 +24,7 @@ export const fetchOfficeInfoByGeoId = async (
     }
 
     const response = await fetchJson<OfficeInfoResponse>(
-        urls.officeInfoApi,
+        serverUrls.officeInfoApi,
         { id },
         {
             headers: { Authorization: authorizationHeader },

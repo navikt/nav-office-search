@@ -1,15 +1,15 @@
 import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
+import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [preact()],
+    plugins: [
+        preact(),
+        // viteCommonjs({ exclude: ['@navikt/ds-react'] })
+    ],
     esbuild: {
         legalComments: 'none',
-    },
-    // TODO: expose only whats needed
-    define: {
-        'process.env': process.env,
     },
     ssr: {
         // React modules from node_modules must not be externalized

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { PostnrKategori } from '../../../src-common/types/data';
-import { urls } from '../../../src-common/urls';
+import { serverUrls } from '../urls';
 
 const localFallbackPath = './rawdata/postnummerregister-ansi.txt';
 const charEncodeFormat = 'windows-1252';
@@ -42,7 +42,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
 
 const fetchPostnrRegister = async (): Promise<string | null> => {
     try {
-        return await fetch(urls.postnrRegister)
+        return await fetch(serverUrls.postnrRegister)
             .then((res) => {
                 if (res.ok) {
                     return res.arrayBuffer();

@@ -21,13 +21,19 @@ const devRender =
     (vite: ViteDevServer): HtmlRenderer =>
     async (locale: AppLocale, url = '') => {
         try {
+            console.log('1');
             const template = await getTemplateWithDecorator(locale);
-            const { render } = await vite.ssrLoadModule('/src/main-server.tsx');
-            const appHtml = await render(locale);
+            console.log('2');
+            // const { render } = await vite.ssrLoadModule('/src/main-server.tsx');
+            // console.log('3');
+            // const appHtml = await render(locale);
+            console.log('4');
             const html = await vite.transformIndexHtml(url, template);
-            return processTemplate(locale, html, appHtml);
+            console.log('5');
+            return processTemplate(locale, html, '');
         } catch (e) {
             vite.ssrFixStacktrace(e as Error);
+            console.error(e);
             throw e;
         }
     };
@@ -47,6 +53,8 @@ export const registerSiteEndpoints = async (expressApp: Express) => {
     let render: HtmlRenderer;
 
     if (isProd) {
+        console.log('Configuring site endpoints for production mode');
+
         expressApp.use(
             '/assets',
             express.static(assetsDir, {
@@ -57,6 +65,8 @@ export const registerSiteEndpoints = async (expressApp: Express) => {
 
         render = prodRender;
     } else {
+        console.log('Configuring site endpoints for development mode');
+
         const vite = await createServer({
             server: { middlewareMode: true },
             appType: 'custom',
@@ -69,6 +79,7 @@ export const registerSiteEndpoints = async (expressApp: Express) => {
     }
 
     expressApp.get('/', async (req, res) => {
+        console.log('Hello');
         const html = await render('nb', req.originalUrl);
         return res.status(200).send(html);
     });

@@ -1,6 +1,6 @@
-import { urls } from '../../../../src-common/urls';
 import { fetchJson, objectToQueryString } from '../utils/fetch-utils';
 import Cache from 'node-cache';
+import { serverUrls } from '../../urls';
 
 const cacheKey = 'authHeader';
 
@@ -19,7 +19,7 @@ type TokenResponse = {
 const fetchAccessToken = async (): Promise<TokenResponse | null> => {
     console.log('Refreshing access token...');
 
-    const response = await fetchJson(urls.azureAdTokenApi, undefined, {
+    const response = await fetchJson(serverUrls.azureAdTokenApi, undefined, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

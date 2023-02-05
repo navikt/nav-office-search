@@ -2,7 +2,7 @@ import {
     SearchResultErrorProps,
     SearchResultProps,
 } from '../../src-common/types/results';
-import { urls } from '../../src-common/urls';
+import { clientUrls } from '../urls';
 
 let abortController =
     typeof window !== 'undefined' ? new AbortController() : null;
@@ -15,7 +15,7 @@ export const fetchSearchClient = (
     abortSearchClient();
     abortController = new AbortController();
 
-    return fetch(`${urls.searchApi}?query=${query}`, {
+    return fetch(`${clientUrls.searchApi}?query=${query}`, {
         signal: abortController.signal,
     })
         .then((res) => res.json())

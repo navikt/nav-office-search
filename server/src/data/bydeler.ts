@@ -2,7 +2,7 @@ import { fetchOfficeInfoByGeoId } from '../api/fetch/officeInfo';
 import { Bydel } from '../../../src-common/types/data';
 import { normalizeString } from '../../../src-common/normalizeString';
 import { fetchJson } from '../api/utils/fetch-utils';
-import { urls } from '../../../src-common/urls';
+import { serverUrls } from '../urls';
 
 import fallbackData from '../_mock/data/bydeler.json';
 
@@ -97,7 +97,7 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 
 const fetchBydelerRawData = async () => {
     const bydelerClassification = await fetchJson<SSB_ClassificationResponse>(
-        urls.ssbBydelerClassification
+        serverUrls.ssbBydelerClassification
     );
 
     if (bydelerClassification.error) {

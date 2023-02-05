@@ -8,7 +8,7 @@ import {
     FetchErrorResponse,
     fetchJson,
 } from '../utils/fetch-utils';
-import { urls } from '../../../../src-common/urls';
+import { serverUrls } from '../../urls';
 
 export type AdresseSokHit = {
     kommunenummer: string;
@@ -68,7 +68,7 @@ export const fetchTpsAdresseSok = async (
     }
 
     return await fetchJson(
-        urls.postnrApi,
+        serverUrls.postnrApi,
         {
             postnr,
             ...(gatenavn

@@ -1,5 +1,5 @@
 import { fetchJson } from '../api/utils/fetch-utils';
-import { urls } from '../../../src-common/urls';
+import { serverUrls } from '../urls';
 
 type OfficeInfoResponse = {
     offices: {
@@ -17,7 +17,7 @@ export const loadOfficeUrls = async () => {
     console.log('Loading office URLs');
 
     const officeUrls = await fetchJson<OfficeInfoResponse>(
-        urls.xpOfficeInfoApi
+        serverUrls.xpOfficeInfoApi
     );
 
     if (officeUrls?.error || !officeUrls?.offices) {
@@ -44,5 +44,5 @@ export const getOfficeUrl = (enhetNr: string) => {
         return null;
     }
 
-    return `${process.env.XP_ORIGIN}${path}`;
+    return `${process.env.VITE_XP_ORIGIN}${path}`;
 };

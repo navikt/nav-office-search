@@ -1,5 +1,4 @@
 import { Params } from '@navikt/nav-dekoratoren-moduler';
-import { urls } from './urls';
 import { AppLocale } from './localization/types';
 import { localeString } from './localization/localeString';
 
@@ -7,12 +6,15 @@ const defaultParams: Params = {
     context: 'privatperson',
 };
 
-export const getDecoratorParams = (locale: AppLocale): Params => ({
+export const getDecoratorParams = (
+    locale: AppLocale,
+    kontaktOssUrl: string
+): Params => ({
     ...defaultParams,
     language: locale,
     breadcrumbs: [
         {
-            url: `${urls.kontaktOss}/${locale}`,
+            url: `${kontaktOssUrl}/${locale}`,
             title: localeString('breadcrumb1', locale),
         },
         {
