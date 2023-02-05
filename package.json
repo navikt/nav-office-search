@@ -22,9 +22,7 @@
         "@navikt/nav-dekoratoren-moduler": "1.9.0",
         "@preact/compat": "17.1.2",
         "lodash.debounce": "4.0.8",
-        "preact-render-to-string": "5.2.6",
-        "react": "npm:@preact/compat",
-        "react-dom": "npm:@preact/compat"
+        "preact-render-to-string": "5.2.6"
     },
     "devDependencies": {
         "@octokit/core": "4.2.0",
