@@ -1,8 +1,8 @@
-import 'preact/debug';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { OfficeSearchApp } from './components/OfficeSearchApp';
+import { App } from './App';
+import { AppLocale } from '../src-common/localization/types';
 
-export const render = () => {
-    return renderToString(<OfficeSearchApp />);
+export const render = (locale: AppLocale) => {
+    return renderToString(<App locale={locale} />);
 };

@@ -1,5 +1,5 @@
 import { SearchResultErrorProps, SearchResultProps } from '../types/results';
-import { urls } from '../urls';
+import { urls } from '../../src-common/urls';
 
 let abortController =
     typeof window !== 'undefined' ? new AbortController() : null;

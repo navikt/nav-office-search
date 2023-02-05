@@ -19,6 +19,7 @@
     "target": "ES2021"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../src-common/**/*.ts"
   ]
 }

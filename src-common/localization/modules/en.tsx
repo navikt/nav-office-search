@@ -1,5 +1,5 @@
 import React from 'react';
-import { LocaleModule } from './nb-default';
+import { LocaleModule } from '../types';
 
 export const localeModuleEn: LocaleModule = {
     pageTitle: 'Find a NAV office',

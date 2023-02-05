@@ -4,8 +4,8 @@ import {
     fetchDecoratorReact,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { objectToQueryString } from './utils';
-import { getDecoratorParams } from './decoratorParams';
-import { Locale } from '../localization/LocaleString';
+import { getDecoratorParams } from '../../src-common/decoratorParams';
+import { AppLocale } from '../../src-common/localization/types';
 
 const decoratorUrl = process.env.DECORATOR_FALLBACK_URL;
 const decoratorEnv = process.env.ENV;
@@ -20,7 +20,7 @@ const envProps =
           }
         : { env: decoratorEnv };
 
-const decoratorComponentsCSR = (locale: Locale): Components => {
+const decoratorComponentsCSR = (locale: AppLocale): Components => {
     const query = objectToQueryString(getDecoratorParams(locale));
 
     return {
@@ -39,25 +39,4 @@ const decoratorComponentsCSR = (locale: Locale): Components => {
             </>
         ),
     };
-};
-
-export const getDecoratorComponents = async (
-    locale: Locale
-): Promise<Components> => {
-    try {
-        const decoratorComponents = await Promise.race([
-            fetchDecoratorReact({
-                ...getDecoratorParams(locale),
-                ...envProps,
-            }),
-            new Promise((res, rej) =>
-                setTimeout(() => rej('Fetch timeout'), fetchTimeoutMs)
-            ),
-        ]);
-
-        return decoratorComponents as Components;
-    } catch (e) {
-        console.error(`Failed to fetch decorator - ${e}`);
-        return decoratorComponentsCSR(locale);
-    }
 };

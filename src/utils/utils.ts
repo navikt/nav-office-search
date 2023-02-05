@@ -1,6 +1,6 @@
 import { SearchResultErrorProps } from '../types/results';
-import { LocaleStringId } from '../localization/nb-default';
 import { OfficeInfo } from '../types/data';
+import { LocaleStringId } from '../../src-common/localization/types';
 
 export const apiErrorResponse = (
     messageId: LocaleStringId

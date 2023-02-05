@@ -7,4 +7,13 @@ module.exports = {
     ],
     parser: '@typescript-eslint/parser',
     root: true,
+    rules: {
+        "react/prop-types": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "^_$",
+            }
+        ],
+    }
 };

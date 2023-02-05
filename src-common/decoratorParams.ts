@@ -1,12 +1,13 @@
 import { Params } from '@navikt/nav-dekoratoren-moduler';
-import { Locale, localeString } from '../localization/LocaleString';
-import { urls } from '../urls';
+import { urls } from './urls';
+import { AppLocale } from './localization/types';
+import { localeString } from './localization/localeString';
 
 const defaultParams: Params = {
     context: 'privatperson',
 };
 
-export const getDecoratorParams = (locale: Locale): Params => ({
+export const getDecoratorParams = (locale: AppLocale): Params => ({
     ...defaultParams,
     language: locale,
     breadcrumbs: [

@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 import express, { ErrorRequestHandler } from 'express';
 import { setupDevServer } from './dev-server.js';
@@ -9,6 +9,7 @@ const PORT = 3100;
 
 const app = express();
 
+console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
     setupDevServer(app);
 } else {

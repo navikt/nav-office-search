@@ -4,6 +4,7 @@ import { normalizeString } from '../../../utils/normalizeString';
 import { LocaleString } from '../../../localization/LocaleString';
 import { BodyShort } from '@navikt/ds-react';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
+
 import style from './SearchResultName.module.css';
 
 const NameWithHighlightedInput = ({

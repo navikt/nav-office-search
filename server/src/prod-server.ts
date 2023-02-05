@@ -9,7 +9,7 @@ export const setupProdServer = async (expressApp: Express) => {
     expressApp.get('/internal/isReady', (req, res) => {
         return res.status(200).send('I am ready!');
     });
-
+    //
     expressApp.use(
         '/assets',
         express.static(`${process.cwd()}/../dist/client/assets`, {
@@ -17,9 +17,9 @@ export const setupProdServer = async (expressApp: Express) => {
             index: 'false',
         })
     );
-    //
+
     expressApp.use('*', async (req, res, _) => {
-        const template = await getTemplateWithDecorator({});
+        const template = await getTemplateWithDecorator('nb');
 
         const appHtml = render();
 

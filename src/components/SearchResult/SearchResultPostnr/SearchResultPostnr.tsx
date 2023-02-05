@@ -3,8 +3,9 @@ import { SearchResultPostnrProps } from '../../../types/results';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { BodyShort } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../types/data';
-import style from './SearchResultPostnr.module.css';
 import { LocaleString } from '../../../localization/LocaleString';
+
+import style from './SearchResultPostnr.module.css';
 
 const HeaderText = (result: SearchResultPostnrProps) => {
     const {

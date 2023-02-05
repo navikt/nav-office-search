@@ -1,4 +1,4 @@
-import { LocaleStringId } from '../localization/nb-default';
+import { LocaleStringId } from '../../src-common/localization/types';
 import { OfficeInfo, Poststed } from './data';
 
 export type SearchResultPostnrProps = {

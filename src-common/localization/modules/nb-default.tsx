@@ -1,32 +1,5 @@
 import React from 'react';
-
-export type LocaleStringId =
-    | 'pageTitle'
-    | 'ingressLine1'
-    | 'ingressLine2'
-    | 'inputLabel'
-    | 'inputSubmit'
-    | 'errorMissingQuery'
-    | 'errorInvalidQuery'
-    | 'errorInvalidPostnr'
-    | 'errorServerError'
-    | 'errorInvalidResult'
-    | 'errorInputValidationLength'
-    | 'errorInputValidationPostnr'
-    | 'errorInputValidationName'
-    | 'nameResultHeader'
-    | 'postnrResultNone'
-    | 'postnrResultOne'
-    | 'postnrResultMany'
-    | 'postnrResultPostbox'
-    | 'postnrResultServiceBox'
-    | 'postnrResultBydeler'
-    | 'nameResultNone'
-    | 'nameResultFound'
-    | 'breadcrumb1'
-    | 'breadcrumb2';
-
-export type LocaleModule = typeof localeModuleNb;
+import { LocaleStringId } from '../types';
 
 export const localeModuleNb: {
     [key in LocaleStringId]: string | ((...args: string[]) => React.ReactNode);

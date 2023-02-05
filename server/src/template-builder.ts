@@ -1,19 +1,23 @@
 import path from 'path';
-import fs from 'fs';
-import { Params } from '@navikt/nav-dekoratoren-moduler';
 import { injectDecoratorServerSide } from '@navikt/nav-dekoratoren-moduler/ssr';
+import { getDecoratorParams } from '../../src-common/decoratorParams';
 
 const templatePath =
     process.env.NODE_ENV === 'development'
         ? path.resolve(process.cwd(), '..', 'index.html')
         : path.resolve(process.cwd(), '..', 'dist', 'client', 'index.html');
 
-// const baseTemplate = fs.readFileSync(templatePath, 'utf-8');
+export const getTemplateWithDecorator = (locale: any) => {
+    const params = getDecoratorParams('nb');
 
-export const getTemplateWithDecorator = (params: Params) => {
-    return injectDecoratorServerSide({
-        filePath: templatePath,
-        env: 'prod',
-        ...params,
-    });
+    try {
+        return injectDecoratorServerSide({
+            filePath: templatePath,
+            env: 'prod',
+            ...params,
+        });
+    } catch (e) {
+        console.log(e);
+        return 'asdf';
+    }
 };
