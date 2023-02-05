@@ -13,7 +13,7 @@
         "build:server": "npm run build --workspace server",
         "start": "npm run start --workspace server",
         "dev": "npm run dev --workspace server",
-        "prod-local": "npm run prod-local --workspace server"
+        "prod-local": "cp .env.local-prod env.local && npm run prod-local --workspace server"
     },
     "workspaces": ["server"],
     "dependencies": {

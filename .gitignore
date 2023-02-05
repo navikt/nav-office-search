@@ -12,9 +12,15 @@ npm-debug.log*
 
 # local env files
 .env
+server/.env.local-prod
 .env.development.local
 .env.test.local
 .env.production.local
+/server/.env
+/server/.env.local-prod
+/server/.env.development.local
+/server/.env.test.local
+/server/.env.production.local
 
 # intellij
 /nav-office-search.iml
@@ -23,4 +29,3 @@ npm-debug.log*
 /.github-token
 /server/dist/
 /server/frontendDist/
-/server/.env

@@ -6,7 +6,7 @@
     "build": "rm -fr dist && tsc",
     "start": "node dist/server/src/server.js",
     "start-local": "npm run build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",
-    "prod-local": "cp .env.local .env && npm run start-local",
+    "prod-local": "cp .env.local-prod .env && npm run start-local",
     "dev": "cp .env.development .env && npm run start-local"
   },
   "dependencies": {
