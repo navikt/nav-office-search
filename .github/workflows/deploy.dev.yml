@@ -9,7 +9,6 @@ jobs:
       environment: dev
       APP_ORIGIN: https://www.dev.nav.no
       API_ORIGIN: https://nav-office-search-api.dev-fss-pub.nais.io
-      DECORATOR_FALLBACK_URL: https://dekoratoren.dev.nav.no
       XP_ORIGIN: https://www.dev.nav.no
     secrets:
       NAIS_DEPLOY_APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}

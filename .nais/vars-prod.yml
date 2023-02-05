@@ -2,3 +2,6 @@ ingress: https://www.nav.no/sok-nav-kontor
 outboundExternalHosts:
     - nav.no
     - nav-office-search-api.prod-fss-pub.nais.io
+replicas:
+    min: 2
+    max: 2

@@ -4,12 +4,9 @@ dotenv.config();
 import express, { ErrorRequestHandler } from 'express';
 import { registerSiteEndpoints } from './site/register-site-endpoints.js';
 import { registerApiEndpoints } from './api/registerApiEndpoints';
-import schedule from 'node-schedule';
-import { loadData } from './data/data';
+import { loadDataAndStartSchedule } from './data/data';
 
-loadData().then(() => {
-    schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
-});
+loadDataAndStartSchedule();
 
 const isLocal = process.env.ENV === 'localhost';
 const basePath = process.env.VITE_APP_BASEPATH;

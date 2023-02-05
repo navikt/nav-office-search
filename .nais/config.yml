@@ -11,10 +11,10 @@ spec:
   team: personbruker
   port: 3005
   liveness:
-    path: /sok-nav-kontor/api/internal/isAlive
-    initialDelay: 10
+    path: {{basePath}}/internal/isAlive
+    initialDelay: 5
   readiness:
-    path: /sok-nav-kontor/api/internal/isReady
+    path: {{basePath}}/internal/isReady
     initialDelay: 10
   envFrom:
     - secret: nav-office-search
@@ -22,8 +22,10 @@ spec:
     - name: NPM_CONFIG_CACHE
       value: /tmp/npm-cache
   replicas:
-    min: 2
-    max: 2
+  {{#with replicas}}
+    min: {{min}}
+    max: {{max}}
+  {{/with}}
   azure:
     application:
       enabled: true
@@ -35,11 +37,10 @@ spec:
       {{#each outboundExternalHosts as |host|}}
         - host: {{host}}
       {{/each}}
-  {{accessPolicy}}
   resources:
     limits:
-      cpu: '2'
+      cpu: 1000m
       memory: 1000Mi
     requests:
-      cpu: 500m
-      memory: 1000Mi
+      cpu: 200m
+      memory: 256Mi
