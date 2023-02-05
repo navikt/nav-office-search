@@ -26,6 +26,8 @@ npm-debug.log*
 /nav-office-search.iml
 /.idea/
 
-/.github-token
+# build dirs
 /server/dist/
 /server/frontendDist/
+
+/.github-token
