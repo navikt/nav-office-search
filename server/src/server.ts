@@ -3,7 +3,7 @@ dotenv.config();
 
 import express, { ErrorRequestHandler } from 'express';
 import { registerSiteEndpoints } from './site/register-site-endpoints.js';
-import { registerApiEndpoints } from './api/endpoints/registerApiEndpoints';
+import { registerApiEndpoints } from './api/registerApiEndpoints';
 import schedule from 'node-schedule';
 import { loadData } from './data/data';
 
@@ -11,15 +11,28 @@ loadData().then(() => {
     schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
 });
 
-const PORT = 3005;
+const isLocal = process.env.ENV === 'localhost';
+const basePath = process.env.VITE_APP_BASEPATH;
 
+const PORT = 3005;
 const app = express();
 const router = express.Router();
 
-app.use(process.env.VITE_APP_BASEPATH, router);
+app.use(basePath, router);
+
+if (isLocal) {
+    app.get('/', (req, res) => res.redirect(basePath));
+}
 
 registerApiEndpoints(router);
 registerSiteEndpoints(router);
+
+router.use('*', async (req, res) => {
+    const error404 = await fetch(`${process.env.VITE_XP_ORIGIN}/404`).then(
+        (response) => response.text()
+    );
+    res.status(404).send(error404);
+});
 
 app.use(((err, req, res, _) => {
     const { path } = req;
@@ -32,6 +45,7 @@ app.use(((err, req, res, _) => {
 
     res.status(statusCode);
 
+    // TODO: Side for server-feil
     return res.send('Oh noes!');
 }) as ErrorRequestHandler);
 

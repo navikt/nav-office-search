@@ -1,13 +1,11 @@
-import express, { Express, Router } from 'express';
+import express, { Router } from 'express';
 import { render } from '../../frontendDist/ssr/main-server.js';
 import { getTemplateWithDecorator } from './html-template-builder';
 import { AppLocale } from '../../../common/localization/types';
 import { localeString } from '../../../common/localization/localeString';
 import { createServer, ViteDevServer } from 'vite';
-import { configureRequestHandler } from '../utils/configure-handler';
 
 const isProd = process.env.NODE_ENV !== 'development';
-const isLocal = process.env.ENV === 'localhost';
 
 const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
 
@@ -48,13 +46,13 @@ const processTemplate = async (
         .replace('<!--ssr-app-html-->', appHtml);
 };
 
-export const registerSiteEndpoints = async (expressApp: Router) => {
+export const registerSiteEndpoints = async (router: Router) => {
     let render: HtmlRenderer;
 
     if (isProd) {
         console.log('Configuring site endpoints for production mode');
 
-        expressApp.use(
+        router.use(
             '/assets',
             express.static(assetsDir, {
                 maxAge: '1y',
@@ -72,21 +70,17 @@ export const registerSiteEndpoints = async (expressApp: Router) => {
             root: '../',
         });
 
-        expressApp.use(vite.middlewares);
+        router.use(vite.middlewares);
 
         render = devRender(vite);
     }
 
-    if (isLocal) {
-        // expressApp.
-    }
-
-    expressApp.get('/', async (req, res) => {
+    router.get('/', async (req, res) => {
         const html = await render('nb', req.originalUrl);
         return res.status(200).send(html);
     });
 
-    expressApp.get('/en', async (req, res) => {
+    router.get('/en', async (req, res) => {
         const html = await render('en', req.originalUrl);
         return res.status(200).send(html);
     });
