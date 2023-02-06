@@ -4,6 +4,7 @@ import { LocaleStringId } from '../types';
 export const localeModuleNb: {
     [key in LocaleStringId]: string | ((...args: string[]) => React.ReactNode);
 } = {
+    documentTitle: 'Søk opp NAV-kontor - nav.no',
     pageTitle: 'Søk opp NAV-kontor',
     breadcrumb1: 'Kontakt oss',
     breadcrumb2: 'Søk opp NAV-kontor',

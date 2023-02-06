@@ -2,6 +2,7 @@ import React from 'react';
 import { LocaleModule } from '../types';
 
 export const localeModuleEn: LocaleModule = {
+    documentTitle: 'Find a NAV office - nav.no',
     pageTitle: 'Find a NAV office',
     breadcrumb1: 'Contact us',
     breadcrumb2: 'Find a NAV office',

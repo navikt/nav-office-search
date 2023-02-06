@@ -7,6 +7,7 @@ export type LocaleModule = typeof localeModuleNb;
 export type AppLocale = 'nb' | 'en';
 
 export type LocaleStringId =
+    | 'documentTitle'
     | 'pageTitle'
     | 'ingressLine1'
     | 'ingressLine2'
