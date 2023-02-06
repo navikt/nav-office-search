@@ -6,7 +6,7 @@ import { apiErrorResponse } from '../../../utils/fetch';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
-} from '../../../../../common/validate-input';
+} from '../../../../../common/validateInput';
 
 export const searchHandler: RequestHandler = async (req, res) => {
     if (!isDataLoaded()) {

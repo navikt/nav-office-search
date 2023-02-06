@@ -74,7 +74,7 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 
             newBydelerMap[bydelsnr] = bydel;
 
-            const kommunenr = bydelsnr.substr(0, 4);
+            const kommunenr = bydelsnr.slice(0, 4);
 
             if (!newBydelerByKommunenrMap[kommunenr]) {
                 newBydelerByKommunenrMap[kommunenr] = [];

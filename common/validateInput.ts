@@ -1,4 +1,4 @@
-const postnrQueryRegex = new RegExp('^\\d{4}$');
+const postnrQueryRegex = /^\d{4}$/;
 
 export const isValidPostnrQuery = (query: string) => {
     if (!query) {
@@ -10,7 +10,7 @@ export const isValidPostnrQuery = (query: string) => {
     return postnr && postnrQueryRegex.test(postnr);
 };
 
-const nameQueryRegex = new RegExp('^(\\p{Letter}|\\.|-| ){2,}$', 'u');
+const nameQueryRegex = /^(\p{Letter}|\.|-| ){2,}$/u;
 
 export const isValidNameQuery = (query: string) => {
     return query && nameQueryRegex.test(query);

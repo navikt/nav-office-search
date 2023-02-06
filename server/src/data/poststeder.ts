@@ -6,7 +6,6 @@ import { getKommune } from './kommuner';
 import { PostnrRegisterItem } from './postnrRegister';
 import { Poststed } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
-import { sortOfficeNames } from '../utils/sort';
 
 type PoststederMap = { [postnr: string]: Poststed };
 
@@ -59,22 +58,14 @@ export const loadPoststederData = async (
             continue;
         }
 
-        const postNrDataPartial = {
+        newMap[postnr] = {
             postnr,
             poststed,
             poststedNormalized: normalizeString(poststed),
             kommuneNavn: kommune,
             kommunenr,
             kategori,
-        };
-
-        const officeInfo = kommuneData.officeInfo
-            ? [kommuneData.officeInfo]
-            : [];
-
-        newMap[postnr] = {
-            ...postNrDataPartial,
-            officeInfo: officeInfo.sort(sortOfficeNames),
+            officeInfo: kommuneData.officeInfo ? [kommuneData.officeInfo] : [],
         };
     }
 

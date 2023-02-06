@@ -9,7 +9,7 @@ import { LocaleStringId } from '../../../common/localization/types';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
-} from '../../../common/validate-input';
+} from '../../../common/validateInput';
 
 import style from './SearchForm.module.css';
 

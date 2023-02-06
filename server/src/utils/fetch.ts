@@ -70,7 +70,7 @@ export const fetchJson = async <T = any>(
             );
         }
 
-        const errorJson = (await res.json()) as any;
+        const errorJson = await res.json();
 
         console.error('Error fetching json:', errorJson);
 
@@ -78,7 +78,7 @@ export const fetchJson = async <T = any>(
             errorJson.message || errorJson.error_description || res.statusText;
 
         return fetchErrorResponse(res.status, errorMsg);
-    } catch (e) {
-        return fetchErrorResponse(500, (e as any)?.toString());
+    } catch (e: any) {
+        return fetchErrorResponse(500, e?.toString());
     }
 };
