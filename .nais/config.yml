@@ -11,10 +11,10 @@ spec:
   team: personbruker
   port: 3005
   liveness:
-    path: {{basePath}}/internal/isAlive
+    path: {{basePath}}/api/internal/isAlive
     initialDelay: 5
   readiness:
-    path: {{basePath}}/internal/isReady
+    path: {{basePath}}/api/internal/isReady
     initialDelay: 10
   envFrom:
     - secret: nav-office-search
