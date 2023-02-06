@@ -8,7 +8,7 @@ type CacheMiddlewareOptions = {
 };
 
 type ResponseCacheEntry = {
-    sent: any;
+    sentData: any;
     statusCode: number;
 };
 
@@ -27,9 +27,8 @@ export const createCacheMiddleware = ({
 
         const cachedRes = cache.get(originalUrl);
         if (cachedRes) {
-            console.log('Sending cached response!');
-            const { sent, statusCode } = cachedRes;
-            return res.status(statusCode).send(sent);
+            const { sentData, statusCode } = cachedRes;
+            return res.status(statusCode).send(sentData);
         }
 
         const originalSend = res.send;
@@ -37,9 +36,8 @@ export const createCacheMiddleware = ({
         res.send = (sentData) => {
             const { statusCode } = res;
             if (statusCode < 400 || cacheOnErrors) {
-                console.log('Committing response to cache');
                 cache.set(originalUrl, {
-                    sent: sentData,
+                    sentData,
                     statusCode,
                 });
             }
