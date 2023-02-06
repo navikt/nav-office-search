@@ -14,21 +14,19 @@ type Props = { locale?: AppLocale };
 export const App = ({ locale = 'nb' }: Props) => {
     const [currentLocale, setCurrentLocale] = useState<AppLocale>(locale);
 
-    let isFirstRender = true;
-
     useEffect(() => {
         onLanguageSelect((language) => {
-            setCurrentLocale(language.locale as AppLocale);
+            const newLocale = language.locale as AppLocale;
+            setCurrentLocale(newLocale as AppLocale);
+            window.history.replaceState(
+                window.history.state,
+                '',
+                clientUrls.appPath[newLocale]
+            );
+            document.documentElement.lang = newLocale;
+            setParams(getDecoratorParams(newLocale, clientUrls.kontaktOss));
         });
     }, []);
-
-    useEffect(() => {
-        if (isFirstRender) {
-            isFirstRender = false;
-            return;
-        }
-        setParams(getDecoratorParams(currentLocale, clientUrls.kontaktOss));
-    }, [currentLocale]);
 
     return (
         <LocaleProvider value={currentLocale}>

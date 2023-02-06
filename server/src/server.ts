@@ -12,23 +12,26 @@ const isLocal = process.env.ENV === 'localhost';
 const basePath = process.env.VITE_APP_BASEPATH;
 
 const PORT = 3005;
-const app = express();
-const router = express.Router();
 
-app.use(basePath, router);
+const app = express();
+const siteRouter = express.Router();
+const apiRouter = express.Router();
+
+app.use(basePath, siteRouter);
+siteRouter.use('/api', apiRouter);
 
 if (isLocal) {
     app.get('/', (req, res) => res.redirect(basePath));
 }
 
-registerApiEndpoints(router);
-registerSiteEndpoints(router);
-
-router.use('*', async (req, res) => {
-    const error404 = await fetch(`${process.env.VITE_XP_ORIGIN}/404`).then(
-        (response) => response.text()
-    );
-    res.status(404).send(error404);
+registerApiEndpoints(apiRouter);
+registerSiteEndpoints(siteRouter).then(() => {
+    siteRouter.use('*', async (req, res) => {
+        const error404 = await fetch(`${process.env.VITE_XP_ORIGIN}/404`).then(
+            (response) => response.text()
+        );
+        res.status(404).send(error404);
+    });
 });
 
 app.use(((err, req, res, _) => {
