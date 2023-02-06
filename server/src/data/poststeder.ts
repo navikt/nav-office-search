@@ -1,7 +1,7 @@
 import {
     fetchTpsAdresseSok,
     officeInfoFromAdresseSokResponse,
-} from '../api/fetch/postnr';
+} from '../external/postnr';
 import { getKommune } from './kommuner';
 import { PostnrRegisterItem } from './postnrRegister';
 import { Poststed } from '../../../common/types/data';

@@ -1,12 +1,12 @@
 import { getAuthorizationHeader } from './auth';
-import { getOfficeUrl } from '../../data/officeUrls';
+import { getOfficeUrl } from '../data/officeUrls';
 import {
     fetchErrorResponse,
     FetchErrorResponse,
     fetchJson,
-} from '../../utils/fetch';
-import { OfficeInfo } from '../../../../common/types/data';
-import { serverUrls } from '../../urls';
+} from '../utils/fetch';
+import { OfficeInfo } from '../../../common/types/data';
+import { serverUrls } from '../urls';
 
 type OfficeInfoResponse = {
     error: undefined;

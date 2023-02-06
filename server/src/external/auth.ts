@@ -1,6 +1,6 @@
-import { fetchJson, objectToQueryString } from '../../utils/fetch';
+import { fetchJson, objectToQueryString } from '../utils/fetch';
 import Cache from 'node-cache';
-import { serverUrls } from '../../urls';
+import { serverUrls } from '../urls';
 
 const cacheKey = 'authHeader';
 

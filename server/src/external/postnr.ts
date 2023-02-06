@@ -1,14 +1,14 @@
 import { getAuthorizationHeader } from './auth';
-import { getKommune } from '../../data/kommuner';
-import { getBydel } from '../../data/bydeler';
-import { removeDuplicates } from '../../utils/remove-duplicates';
-import { OfficeInfo } from '../../../../common/types/data';
+import { getKommune } from '../data/kommuner';
+import { getBydel } from '../data/bydeler';
+import { removeDuplicates } from '../utils/removeDuplicates';
+import { OfficeInfo } from '../../../common/types/data';
 import {
     fetchErrorResponse,
     FetchErrorResponse,
     fetchJson,
-} from '../../utils/fetch';
-import { serverUrls } from '../../urls';
+} from '../utils/fetch';
+import { serverUrls } from '../urls';
 
 export type AdresseSokHit = {
     kommunenummer: string;

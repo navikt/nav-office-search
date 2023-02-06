@@ -1,5 +1,5 @@
 import { NameHit } from '../../../../../common/types/results';
-import { removeDuplicates } from '../../../utils/remove-duplicates';
+import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { getBydelerArray } from '../../../data/bydeler';
 import { getKommunerArray } from '../../../data/kommuner';
 import { getPoststedArray } from '../../../data/poststeder';

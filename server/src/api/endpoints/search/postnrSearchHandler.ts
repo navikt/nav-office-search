@@ -1,7 +1,7 @@
 import { Poststed } from '../../../../../common/types/data';
 import { SearchResultPostnrProps } from '../../../../../common/types/results';
 import { getBydelerForKommune } from '../../../data/bydeler';
-import { removeDuplicates } from '../../../utils/remove-duplicates';
+import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { sortOfficeNames } from '../../../utils/sort';
 import { Request, Response } from 'express';
 import { getPoststed } from '../../../data/poststeder';
@@ -9,7 +9,7 @@ import { apiErrorResponse } from '../../../utils/fetch';
 import {
     fetchTpsAdresseSok,
     officeInfoFromAdresseSokResponse,
-} from '../../fetch/postnr';
+} from '../../../external/postnr';
 
 const getGatenavnAndHusnr = (adresseSegments: string[]) => {
     const husnrSegment = adresseSegments.slice(-1)[0];

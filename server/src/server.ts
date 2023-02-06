@@ -2,9 +2,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express, { ErrorRequestHandler } from 'express';
-import { registerSiteEndpoints } from './site/register-site-endpoints.js';
-import { registerApiEndpoints } from './api/registerApiEndpoints';
+import { siteEndpoints } from './site/siteEndpoints.js';
+import { apiEndpoints } from './api/apiEndpoints';
 import { loadDataAndStartSchedule } from './data/data';
+import { createCacheMiddleware } from './site/siteCache';
 
 loadDataAndStartSchedule();
 
@@ -20,18 +21,23 @@ const apiRouter = express.Router();
 app.use(basePath, siteRouter);
 siteRouter.use('/api', apiRouter);
 
+// Redirect from root to basepath locally
 if (isLocal) {
     app.get('/', (req, res) => res.redirect(basePath));
 }
 
-registerApiEndpoints(apiRouter);
-registerSiteEndpoints(siteRouter).then(() => {
-    siteRouter.use('*', async (req, res) => {
-        const error404 = await fetch(`${process.env.VITE_XP_ORIGIN}/404`).then(
-            (response) => response.text()
-        );
-        res.status(404).send(error404);
-    });
+apiEndpoints(apiRouter);
+siteEndpoints(siteRouter).then(() => {
+    siteRouter.use(
+        '*',
+        createCacheMiddleware({ cacheOnErrors: true, ttlSec: 10, maxSize: 10 }),
+        async (req, res) => {
+            const error404 = await fetch(
+                `${process.env.VITE_XP_ORIGIN}/404`
+            ).then((response) => response.text());
+            res.status(404).send(error404);
+        }
+    );
 });
 
 app.use(((err, req, res, _) => {

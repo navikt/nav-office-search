@@ -4,9 +4,9 @@ import {
     injectDecoratorServerSide,
     Params,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
-import { getDecoratorParams } from '../../../common/decoratorParams';
-import { AppLocale } from '../../../common/localization/types';
-import { serverUrls } from '../urls';
+import { getDecoratorParams } from '../../../../common/decoratorParams';
+import { AppLocale } from '../../../../common/localization/types';
+import { serverUrls } from '../../urls';
 
 const decoratorEnv = process.env.ENV || 'prod';
 const decoratorLocalPort = process.env.DECORATOR_LOCAL_PORT || 8100;

@@ -4,7 +4,7 @@ import { isAliveHandler } from './endpoints/isAlive/isAliveHandler';
 import { allDataHandler } from './endpoints/alldata/allDataHandler';
 import { searchHandler } from './endpoints/search/searchHandler';
 
-export const registerApiEndpoints = (router: Router) => {
+export const apiEndpoints = (router: Router) => {
     router.get('/internal/isAlive', isAliveHandler);
     router.get('/internal/isReady', isReadyHandler);
     router.get('/search', searchHandler);

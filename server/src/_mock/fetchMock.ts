@@ -1,5 +1,5 @@
 import fetchMockLib from 'fetch-mock';
-import { AdresseSokResponse } from '../api/fetch/postnr';
+import { AdresseSokResponse } from '../external/postnr';
 import { getOfficeUrl } from '../data/officeUrls';
 import { FetchErrorResponse, fetchErrorResponse } from '../utils/fetch';
 import {

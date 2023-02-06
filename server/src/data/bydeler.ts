@@ -1,4 +1,4 @@
-import { fetchOfficeInfoByGeoId } from '../api/fetch/officeInfo';
+import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
 import { Bydel } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
 import { fetchJson } from '../utils/fetch';

@@ -1,6 +1,6 @@
 import { getBydelerForKommune } from './bydeler';
-import { removeDuplicates } from '../utils/remove-duplicates';
-import { fetchOfficeInfoByGeoId } from '../api/fetch/officeInfo';
+import { removeDuplicates } from '../utils/removeDuplicates';
+import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
 import { PostnrRegisterItem } from './postnrRegister';
 import { Kommune } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
