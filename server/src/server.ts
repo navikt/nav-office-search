@@ -30,7 +30,11 @@ apiEndpoints(apiRouter);
 siteEndpoints(siteRouter).then(() => {
     siteRouter.use(
         '*',
-        createCacheMiddleware({ cacheOnErrors: true, ttlSec: 10, maxSize: 10 }),
+        createCacheMiddleware({
+            cacheOnErrors: true,
+            ttlSec: 600,
+            maxSize: 100,
+        }),
         async (req, res) => {
             const error404 = await fetch(
                 `${process.env.VITE_XP_ORIGIN}/404`

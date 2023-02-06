@@ -36,7 +36,7 @@ export const siteEndpoints = async (router: Router) => {
         render = devRender(vite);
     }
 
-    router.use('*', createCacheMiddleware({ ttlSec: 10, maxSize: 1000 }));
+    router.use('*', createCacheMiddleware({ ttlSec: 600, maxSize: 2 }));
 
     router.get('/', async (req, res) => {
         const html = await render('nb', req.originalUrl);
