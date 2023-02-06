@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { createServer } from 'vite';
 import { HtmlRenderer, devRender, prodRender } from './ssr/htmlRenderer';
-import { createCacheMiddleware } from './siteCache';
+import { createCacheMiddleware } from '../utils/cacheMiddleware';
 
 const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
 

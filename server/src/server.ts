@@ -5,7 +5,7 @@ import express, { ErrorRequestHandler } from 'express';
 import { siteEndpoints } from './site/siteEndpoints.js';
 import { apiEndpoints } from './api/apiEndpoints';
 import { loadDataAndStartSchedule } from './data/data';
-import { createCacheMiddleware } from './site/siteCache';
+import { createCacheMiddleware } from './utils/cacheMiddleware';
 
 loadDataAndStartSchedule();
 
