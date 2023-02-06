@@ -15,9 +15,8 @@ export const App = ({ locale = 'nb' }: Props) => {
     const [currentLocale, setCurrentLocale] = useState<AppLocale>(locale);
 
     useEffect(() => {
-        onLanguageSelect((language) => {
-            const newLocale = language.locale as AppLocale;
-            setCurrentLocale(newLocale as AppLocale);
+        const updateLanguageState = (newLocale: AppLocale) => {
+            setCurrentLocale(newLocale);
             window.history.replaceState(
                 window.history.state,
                 '',
@@ -25,6 +24,10 @@ export const App = ({ locale = 'nb' }: Props) => {
             );
             document.documentElement.lang = newLocale;
             setParams(getDecoratorParams(newLocale, clientUrls.kontaktOss));
+        };
+
+        onLanguageSelect((language) => {
+            updateLanguageState(language.locale as AppLocale);
         });
     }, []);
 
