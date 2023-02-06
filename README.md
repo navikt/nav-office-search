@@ -1,37 +1,37 @@
-# NAV-kontor søk for åpne sider
-
-Webapp for å søke opp NAV-kontor etter postnummer eller stedsnavn.
-
-Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+# Søk opp NAV-kontor
 
 ![Deploy-to-prod](https://github.com/navikt/nav-office-search/workflows/Deploy-to-prod/badge.svg) <br>
 ![Deploy-to-dev](https://github.com/navikt/nav-office-search/workflows/Deploy-to-dev/badge.svg) <br>
 
-## Lokal kjøring
+Web-app for å søke etter NAV-kontor med postnummer eller by/stedsnavn.
+
+React/Preact frontend, bygges med Vite.
+
+Node.js + Express backend. Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+
+## Lokal utvikling
 
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
-Dekoratøren kan startes lokalt med `docker-compose up`
+#### Start i development mode:
 
-#### Development mode:
+`npm run dev`
 
-Kjør `npm run dev`
+#### Start i production mode:
 
-#### Production mode:
+`npm run prod-local`
 
-Kopier først innhold fra .env.development til .env.local
+#### Start dekoratøren:
 
-Kjør så `npm run start-clean`
+`npm run decorator`
+
+Benytter prod-dekoratøren dersom denne ikke kjører lokalt
 
 ## Deploy til dev-miljø
 
--   Generer en personal access token på Github med repo-tilgang (husk SSO)
--   Opprett fila .github-token og legg tokenet inn i denne
--   Push branchen din til Github og kjør `npm run deploy-dev`
+[Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow
 
-#### Alternativt:
-
-[Actions](https://github.com/navikt/nav-office-search/actions) -> Velg workflow -> Run workflow -> Velg branch -> Run workflow
+Deployes til https://www.dev.nav.no/sok-nav-kontor
 
 ## Prodsetting
 

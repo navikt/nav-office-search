@@ -5,13 +5,12 @@
     "type": "module",
     "scripts": {
         "typeCheck": "tsc --noemit",
-        "deploy": "npx run-func trigger-workflow.js triggerWorkflow",
-        "deploy-dev": "npm run deploy -- deploy.dev.yml",
         "build": "tsc && npm-run-all build:*",
         "build:client": "vite build --outDir server/frontendDist/client",
         "build:ssr": "vite build --outDir server/frontendDist/ssr --ssr src/main-server.tsx",
         "build:server": "npm run build --workspace server",
         "start": "npm run start --workspace server",
+        "decorator": "docker compose up",
         "dev": "npm run dev --workspace server",
         "prod-local": "cp .env.local-prod env.local && npm run prod-local --workspace server"
     },
