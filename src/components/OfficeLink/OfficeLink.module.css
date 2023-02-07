@@ -1,26 +1,26 @@
 .link {
     display: flex;
-    padding: 0.5rem 0;
-    text-decoration: none;
+    text-decoration: transparent underline;
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    position: relative;
+    text-underline-offset: 0.5rem;
+    transition: text-decoration 0.2s ease-out;
 }
 
 .link:not(:last-child) {
     margin-bottom: 0.25rem;
 }
 
-.chevron {
-    margin-right: 0.5rem;
-    transition: transform 0.25s ease-out;
+.link:hover {
+    text-decoration: currentColor underline;
 }
 
-.link:hover {
-    text-decoration: underline;
+.chevron {
+    position: absolute;
+    left: -0.5rem;
+    transition: transform 0.2s ease-out;
 }
 
 .link:hover > .chevron {
     transform: translateX(0.3rem);
-}
-
-.link:focus > .chevron > * {
-    background-color: var(--a-text-on-inverted);
 }
