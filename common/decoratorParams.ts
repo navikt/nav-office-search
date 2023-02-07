@@ -11,11 +11,11 @@ export const getDecoratorParams = (
     breadcrumbs: [
         {
             url: `${kontaktOssUrl}/${locale}`,
-            title: localeString('breadcrumb1', locale),
+            title: localeString('breadcrumb1', locale) as string,
         },
         {
             url: '/',
-            title: localeString('breadcrumb2', locale),
+            title: localeString('breadcrumb2', locale) as string,
         },
     ],
     availableLanguages: [

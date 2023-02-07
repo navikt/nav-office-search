@@ -13,7 +13,7 @@ const processTemplate = async (
 ) => {
     return templateHtml
         .replace('%%LANG%%', locale)
-        .replace('%%TITLE%%', localeString('documentTitle', locale))
+        .replace('%%TITLE%%', localeString('documentTitle', locale) as string)
         .replace('<!--ssr-app-html-->', appHtml);
 };
 

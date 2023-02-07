@@ -24,7 +24,7 @@ export const App = ({ locale = 'nb' }: Props) => {
                 clientUrls.appPath[newLocale]
             );
             document.documentElement.lang = newLocale;
-            document.title = localeString('documentTitle', newLocale);
+            document.title = localeString('documentTitle', newLocale) as string;
             setParams(getDecoratorParams(newLocale, clientUrls.kontaktOss));
         };
 

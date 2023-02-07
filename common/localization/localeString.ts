@@ -1,11 +1,6 @@
 import { localeModuleNb } from './modules/nb-default';
 import { localeModuleEn } from './modules/en';
-import {
-    AppLocale,
-    defaultLocale,
-    LocaleModule,
-    LocaleStringId,
-} from './types';
+import { AppLocale, LocaleModule, LocaleStringId } from './types';
 
 const localeModules: { [key in AppLocale]: LocaleModule } = {
     nb: localeModuleNb,
@@ -14,15 +9,11 @@ const localeModules: { [key in AppLocale]: LocaleModule } = {
 
 export const localeString = (
     id: LocaleStringId,
-    locale: AppLocale = defaultLocale,
+    locale: AppLocale,
     args: string[] = []
-): string => {
-    const value = localeModules[locale][id] || localeModules[defaultLocale][id];
-    if (!value) {
-        return id;
-    }
-
-    const finalValue = typeof value === 'function' ? value(...args) : value;
-
-    return typeof finalValue === 'string' ? finalValue : id;
+) => {
+    const value = localeModules[locale][id];
+    return typeof value === 'function'
+        ? value(...(args as [string, string, string]))
+        : value;
 };

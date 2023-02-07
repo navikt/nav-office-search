@@ -1,9 +1,6 @@
 import React from 'react';
-import { LocaleStringId } from '../types';
 
-export const localeModuleNb: {
-    [key in LocaleStringId]: string | ((...args: string[]) => React.ReactNode);
-} = {
+export const localeModuleNb = {
     documentTitle: 'Søk opp NAV-kontor - nav.no',
     pageTitle: 'Søk opp NAV-kontor',
     breadcrumb1: 'Kontakt oss',
@@ -24,28 +21,36 @@ export const localeModuleNb: {
     errorInputValidationPostnr: 'Postnummer-søk må være fire siffer',
     errorInputValidationName: 'Søket inneholder ugyldige tegn',
     nameResultHeader: 'Søkeresultat for ',
-    postnrResultNone: (postnrOgPoststed, adresseQuery) => (
+    postnrResultNone: (postnrOgPoststed: string, adresseQuery: string) => (
         <>
             {`Ingen NAV-kontor funnet for `}
             <strong>{postnrOgPoststed}</strong>
             {adresseQuery && ` med gatenavn ${adresseQuery}`}
         </>
     ),
-    postnrResultOne: (postnrOgPoststed) => (
+    postnrResultOne: (postnrOgPoststed: string) => (
         <>
             {'NAV-kontor for '}
             <strong>{postnrOgPoststed}</strong>
             {':'}
         </>
     ),
-    postnrResultMany: (numHits, postnrOgPoststed, postnr) => (
+    postnrResultMany: (
+        numHits: string,
+        postnrOgPoststed: string,
+        postnr: string
+    ) => (
         <>
             {`${numHits} kontorer dekker `}
             <strong>{postnrOgPoststed}</strong>
             {`. Du kan legge til gatenavn og husnummer for å spisse søket, f.eks. ${postnr} Eksempelgata 12`}
         </>
     ),
-    postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
+    postnrResultPostbox: (
+        postnr: string,
+        kommuneNavn: string,
+        numHits: string
+    ) => (
         <>
             {`${postnr} er et postnummer for postbokser i `}
             <strong>{kommuneNavn}</strong>
@@ -54,7 +59,11 @@ export const localeModuleNb: {
             }:`}
         </>
     ),
-    postnrResultServiceBox: (postnr, kommuneNavn, numHits) => (
+    postnrResultServiceBox: (
+        postnr: string,
+        kommuneNavn: string,
+        numHits: string
+    ) => (
         <>
             {`${postnr} er et servicepostnummer i `}
             <strong>{kommuneNavn}</strong>
@@ -63,7 +72,11 @@ export const localeModuleNb: {
             }:`}
         </>
     ),
-    postnrResultBydeler: (postnr, kommuneNavn, numHits) => (
+    postnrResultBydeler: (
+        postnr: string,
+        kommuneNavn: string,
+        numHits: string
+    ) => (
         <>
             {'Fant ingen kontor spesifikt tilknyttet '}
             <strong>{postnr}</strong>
@@ -74,7 +87,7 @@ export const localeModuleNb: {
             }ommunens NAV-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
         </>
     ),
-    nameResultNone: (input) => `Ingen resultater for "${input}"`,
-    nameResultFound: (input, numHits) =>
+    nameResultNone: (input: string) => `Ingen resultater for "${input}"`,
+    nameResultFound: (input: string, numHits: string) =>
         `Søkeresultat for "${input}" (${numHits}):`,
 };
