@@ -32,7 +32,7 @@ export const fetchMock = fetchMockLib
     })
     .mock(
         `begin:${serverUrls.postnrApi}`,
-        async (url): Promise<AdresseSokResponse> => {
+        async (url: string): Promise<AdresseSokResponse> => {
             const postnr = new URL(url).searchParams.get('postnr');
             if (!postnr) {
                 return {
@@ -63,7 +63,7 @@ export const fetchMock = fetchMockLib
     )
     .mock(
         `begin:${serverUrls.officeInfoApi}`,
-        async (url): Promise<OfficeInfo | FetchErrorResponse> => {
+        async (url: string): Promise<OfficeInfo | FetchErrorResponse> => {
             const id = new URL(url).searchParams.get('id');
             if (!id) {
                 return fetchErrorResponse(500, 'Missing id-parameter');

@@ -5,9 +5,7 @@
 
 Web-app for å søke etter NAV-kontor med postnummer eller by/stedsnavn.
 
-React/Preact frontend, bygges med Vite.
-
-Node.js + Express backend. Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
 
 ## Lokal utvikling
 
@@ -31,7 +29,7 @@ Benytter prod-dekoratøren dersom denne ikke kjører lokalt
 
 [Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow
 
-Deployes til https://www.dev.nav.no/sok-nav-kontor
+Ingress for dev-miljø: https://www.dev.nav.no/sok-nav-kontor
 
 ## Prodsetting
 
