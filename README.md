@@ -9,7 +9,11 @@ Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-
 
 ## Lokal utvikling
 
+Kjør `npm run build` før første kjøring.
+
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
+
+Obs: Appen krever node.js versjon 18 eller nyere.
 
 #### Start i development mode:
 
@@ -19,11 +23,11 @@ Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
 `npm run prod-local`
 
-#### Start dekoratøren:
+#### Start dekoratøren lokalt:
 
 `npm run decorator`
 
-Benytter prod-dekoratøren dersom denne ikke kjører lokalt
+Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
 ## Deploy til dev-miljø
 
