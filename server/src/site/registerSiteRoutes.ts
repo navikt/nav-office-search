@@ -7,7 +7,7 @@ const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
 
 const isProd = process.env.NODE_ENV !== 'development';
 
-export const siteEndpoints = async (router: Router) => {
+export const registerSiteRoutes = async (router: Router) => {
     let render: HtmlRenderer;
 
     if (isProd) {
@@ -47,4 +47,20 @@ export const siteEndpoints = async (router: Router) => {
         const html = await render('en', req.originalUrl);
         return res.status(200).send(html);
     });
+
+    // Return 404 from the nav.no frontend
+    router.use(
+        '*',
+        createCacheMiddleware({
+            cacheOnErrors: true,
+            ttlSec: 600,
+            maxSize: 100,
+        }),
+        async (req, res) => {
+            const error404 = await fetch(
+                `${process.env.VITE_XP_ORIGIN}/404`
+            ).then((response) => response.text());
+            res.status(404).send(error404);
+        }
+    );
 };

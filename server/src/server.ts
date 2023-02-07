@@ -2,10 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express, { ErrorRequestHandler } from 'express';
-import { siteEndpoints } from './site/siteEndpoints.js';
-import { apiEndpoints } from './api/apiEndpoints';
+import { registerSiteRoutes } from './site/registerSiteRoutes.js';
+import { registerApiRoutes } from './api/registerApiRoutes';
 import { loadDataAndStartSchedule } from './data/data';
-import { createCacheMiddleware } from './utils/cacheMiddleware';
 
 loadDataAndStartSchedule();
 
@@ -26,23 +25,8 @@ if (isLocal) {
     app.get('/', (req, res) => res.redirect(basePath));
 }
 
-apiEndpoints(apiRouter);
-siteEndpoints(siteRouter).then(() => {
-    siteRouter.use(
-        '*',
-        createCacheMiddleware({
-            cacheOnErrors: true,
-            ttlSec: 600,
-            maxSize: 100,
-        }),
-        async (req, res) => {
-            const error404 = await fetch(
-                `${process.env.VITE_XP_ORIGIN}/404`
-            ).then((response) => response.text());
-            res.status(404).send(error404);
-        }
-    );
-});
+registerApiRoutes(apiRouter);
+registerSiteRoutes(siteRouter);
 
 app.use(((err, req, res, _) => {
     const { path } = req;
