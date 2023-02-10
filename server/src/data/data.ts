@@ -31,10 +31,9 @@ export const loadData = async () => {
     console.log('Finished loading data!');
 };
 
-export const loadDataAndStartSchedule = () => {
-    loadData().then(() =>
-        schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData)
-    );
-};
+export const loadDataAndStartSchedule = () =>
+    loadData().then(() => {
+        schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
+    });
 
 export const isDataLoaded = () => isLoaded;
