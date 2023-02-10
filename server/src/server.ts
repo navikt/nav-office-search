@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express, { ErrorRequestHandler } from 'express';
+import express from 'express';
 import { registerSiteRoutes } from './site/registerSiteRoutes.js';
 import { registerApiRoutes } from './api/registerApiRoutes';
 import { loadDataAndStartSchedule } from './data/data';
+import { registerErrorHandlers } from './utils/errorHandlers';
 
 loadDataAndStartSchedule();
 
@@ -20,28 +21,13 @@ const apiRouter = express.Router();
 app.use(basePath, siteRouter);
 siteRouter.use('/api', apiRouter);
 
-// Redirect from root to basepath locally
+// Redirect from root to basepath in local development environments
 if (isLocal) {
     app.get('/', (req, res) => res.redirect(basePath));
 }
 
 registerApiRoutes(apiRouter);
-registerSiteRoutes(siteRouter);
-
-app.use(((err, req, res, _) => {
-    const { path } = req;
-    const { status, stack } = err;
-    const msg = stack?.split('\n')[0];
-
-    console.log(`Express error on path ${path}: ${status} ${msg}`);
-
-    const statusCode = status || 500;
-
-    res.status(statusCode);
-
-    // TODO: Side for server-feil
-    return res.send('Oh noes!');
-}) as ErrorRequestHandler);
+registerSiteRoutes(siteRouter).then(() => registerErrorHandlers(app));
 
 const server = app.listen(PORT, () => {
     console.log(`Server starting on port ${PORT}`);
