@@ -1,37 +1,39 @@
-# NAV-kontor søk for åpne sider
-
-React/[Next.js](https://nextjs.org/) applikasjon for å søke opp NAV-kontor etter postnummer eller stedsnavn.
-
-Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+# Søk opp NAV-kontor
 
 ![Deploy-to-prod](https://github.com/navikt/nav-office-search/workflows/Deploy-to-prod/badge.svg) <br>
 ![Deploy-to-dev](https://github.com/navikt/nav-office-search/workflows/Deploy-to-dev/badge.svg) <br>
 
-## Lokal kjøring
+Web-app for å søke etter NAV-kontor med postnummer eller by/stedsnavn.
+
+Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+
+## Lokal utvikling
+
+Kjør `npm run build` før første kjøring.
 
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
-Dekoratøren kan startes lokalt med `docker-compose up`
+Obs: Appen krever node.js versjon 18 eller nyere.
 
-#### Development mode:
+#### Start i development mode:
 
-Kjør `npm run dev`
+`npm run dev`
 
-#### Production mode:
+#### Start i production mode:
 
-Kopier først innhold fra .env.development til .env.local
+`npm run prod-local`
 
-Kjør så `npm run start-clean`
+#### Start dekoratøren lokalt:
+
+`npm run decorator`
+
+Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
 ## Deploy til dev-miljø
 
--   Generer en personal access token på Github med repo-tilgang (husk SSO)
--   Opprett fila .github-token og legg tokenet inn i denne
--   Push branchen din til Github og kjør `npm run deploy-dev`
+[Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow
 
-#### Alternativt:
-
-[Actions](https://github.com/navikt/nav-office-search/actions) -> Velg workflow -> Run workflow -> Velg branch -> Run workflow
+Ingress for dev-miljø: https://www.dev.nav.no/sok-nav-kontor
 
 ## Prodsetting
 

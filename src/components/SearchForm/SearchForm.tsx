@@ -3,13 +3,14 @@ import debounce from 'lodash.debounce';
 import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
-import { SearchResultProps } from '../../types/results';
-import { abortSearchClient, fetchSearchClient } from '../../utils/clientFetch';
-import { LocaleStringId } from '../../localization/nb-default';
+import { SearchResultProps } from '../../../common/types/results';
+import { abortSearchClient, fetchSearchClient } from '../../utils/fetch';
+import { LocaleStringId } from '../../../common/localization/types';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
-} from '../../utils/validateInput';
+} from '../../../common/validateInput';
+
 import style from './SearchForm.module.css';
 
 const isValidInput = (input?: string): input is string =>
