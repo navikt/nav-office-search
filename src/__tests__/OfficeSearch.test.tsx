@@ -3,18 +3,23 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { OfficeSearch } from '../components/OfficeSearch';
 import fetch, { enableFetchMocks } from 'jest-fetch-mock';
-import errorInvalidPostnr from './testdata/error-invalid-postnr.json';
-import postnrResultNone from './testdata/postnr-result-none.json';
-import postnrResultOne from './testdata/postnr-result-one.json';
-import postnrResultMany from './testdata/postnr-result-many.json';
-import postnrResultPostbox from './testdata/postnr-result-postbox.json';
-import postnrResultServicebox from './testdata/postnr-result-servicebox.json';
-import postnrResultBydel from './testdata/postnr-result-bydel.json';
-import stedsnavnResultWithHits from './testdata/stedsnavn-result-with-hits.json';
-import stedsnavnResultWithoutHits from './testdata/stedsnavn-result-without-hits.json';
+import * as errorInvalidPostnr from './testdata/error-invalid-postnr.json';
+import * as postnrResultNone from './testdata/postnr-result-none.json';
+import * as postnrResultOne from './testdata/postnr-result-one.json';
+import * as postnrResultMany from './testdata/postnr-result-many.json';
+import * as postnrResultPostbox from './testdata/postnr-result-postbox.json';
+import * as postnrResultServicebox from './testdata/postnr-result-servicebox.json';
+import * as postnrResultBydel from './testdata/postnr-result-bydel.json';
+import * as stedsnavnResultWithHits from './testdata/stedsnavn-result-with-hits.json';
+import * as stedsnavnResultWithoutHits from './testdata/stedsnavn-result-without-hits.json';
 
 jest.mock('../urls', () => ({
     clientUrls: () => [],
+}));
+
+jest.mock('lodash.debounce', () => ({
+    default: jest.fn((fn) => fn),
+    __esModule: true,
 }));
 
 enableFetchMocks();
