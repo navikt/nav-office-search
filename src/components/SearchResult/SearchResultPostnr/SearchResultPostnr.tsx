@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { SearchResultPostnrProps } from '../../../../common/types/results';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyLong, BodyShort } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../../common/types/data';
 import { LocaleString } from '../../../localization/LocaleString';
 
@@ -87,9 +87,9 @@ export const SearchResultPostnr = ({ result }: Props) => {
 
     return (
         <div>
-            <div className={style.header}>
+            <BodyLong className={style.header}>
                 <HeaderText {...result} />
-            </div>
+            </BodyLong>
             {officeInfo.map((hit) => (
                 <Fragment key={hit.enhetNr}>
                     {adresseQuery && (
