@@ -28,13 +28,20 @@ jobs:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
   deploy:
     name: Build docker image and deploy to nais k8s
-    needs: build-and-test
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
       image: ghcr.io/${{ github.repository }}:deploy-${{ inputs.environment }}-${{ github.sha }}
       basePath: /sok-nav-kontor
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          cache: 'npm'
       - name: Define app environmment
         run: |
           cat > .env <<EOF
