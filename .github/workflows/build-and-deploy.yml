@@ -28,6 +28,7 @@ jobs:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
   deploy:
     name: Build docker image and deploy to nais k8s
+    needs: build-and-test
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
