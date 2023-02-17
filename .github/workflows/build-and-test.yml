@@ -15,15 +15,6 @@ jobs:
           node-version: '18'
           registry-url: 'https://npm.pkg.github.com'
           cache: 'npm'
-      - name: Define app environmment
-        run: |
-          cat > .env <<EOF
-          VITE_APP_ORIGIN=${{ inputs.APP_ORIGIN }}
-          VITE_APP_BASEPATH=${{ env.basePath }}
-          VITE_XP_ORIGIN=${{ inputs.XP_ORIGIN }}
-          API_ORIGIN=${{ inputs.API_ORIGIN }}
-          ENV=${{ inputs.environment }}
-          EOF
       - name: Install dependencies
         run: npm ci
         env:
