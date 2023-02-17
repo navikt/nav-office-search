@@ -29,6 +29,8 @@ jobs:
       image: ghcr.io/${{ github.repository }}:deploy-${{ inputs.environment }}-${{ github.sha }}
       basePath: /sok-nav-kontor
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
       - name: Build and test
         uses: ./.github/workflows/build-and-test.yml
       - name: Define app environmment
