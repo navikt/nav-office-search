@@ -19,7 +19,6 @@ jest.mock('../urls', () => ({
 
 jest.mock('lodash.debounce', () => ({
     default: jest.fn((fn) => fn),
-    __esModule: true,
 }));
 
 enableFetchMocks();
