@@ -3,6 +3,9 @@ name: Build and test
 on:
   push:
   workflow_call:
+    secrets:
+      READER_TOKEN:
+        required: true
 
 jobs:
   build:

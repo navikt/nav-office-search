@@ -24,6 +24,8 @@ jobs:
   build-and-test:
     name: Build app and run tests
     uses: ./.github/workflows/build-and-test.yml
+    secrets:
+      READER_TOKEN: ${{ secrets.READER_TOKEN }}
   deploy:
     name: Build docker image and deploy to nais k8s
     needs: build-and-test
