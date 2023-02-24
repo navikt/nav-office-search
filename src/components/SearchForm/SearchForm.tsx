@@ -18,10 +18,17 @@ const isValidInput = (input?: string): input is string =>
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
-    const [serverErrorMsg, setServerErrorMsg] = useState<LocaleStringId | null>();
-    const [clientErrorMsg, setClientErrorMsg] = useState<LocaleStringId | null>();
+    const [serverErrorMsg, setServerErrorMsg] =
+        useState<LocaleStringId | null>();
+    const [clientErrorMsg, setClientErrorMsg] =
+        useState<LocaleStringId | null>();
     const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const resetErrors = () => {
+        setClientErrorMsg(null);
+        setServerErrorMsg(null);
+    };
 
     const handleInput = (submit: boolean) => {
         const input = inputRef.current?.value;
@@ -33,7 +40,7 @@ export const SearchForm = () => {
             if (submit) {
                 setClientErrorMsg('errorInputValidationLength');
             } else {
-                setClientErrorMsg(null);
+                resetErrors();
             }
             return;
         }
@@ -45,7 +52,7 @@ export const SearchForm = () => {
             if (submit) {
                 setClientErrorMsg('errorInputValidationPostnr');
             } else {
-                setClientErrorMsg(null);
+                resetErrors();
             }
 
             return;
@@ -61,7 +68,7 @@ export const SearchForm = () => {
 
     const runSearch = debounce((input: string) => {
         setIsLoading(true);
-        setServerErrorMsg(null);
+        resetErrors();
 
         fetchSearchClient(input).then((result) => {
             if (result.type === 'error') {
@@ -93,7 +100,11 @@ export const SearchForm = () => {
                                 handleInput(true);
                             }
                         }}
-                        error={clientErrorMsg && <LocaleString id={clientErrorMsg} />}
+                        error={
+                            clientErrorMsg && (
+                                <LocaleString id={clientErrorMsg} />
+                            )
+                        }
                     />
                     {isLoading && (
                         <span className={style.loader}>
