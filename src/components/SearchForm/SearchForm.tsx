@@ -18,7 +18,8 @@ const isValidInput = (input?: string): input is string =>
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
-    const [errorMsg, setErrorMsg] = useState<LocaleStringId | null>();
+    const [serverErrorMsg, setServerErrorMsg] = useState<LocaleStringId | null>();
+    const [clientErrorMsg, setClientErrorMsg] = useState<LocaleStringId | null>();
     const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -30,9 +31,9 @@ export const SearchForm = () => {
 
         if (!isValidInput(input)) {
             if (submit) {
-                setErrorMsg('errorInputValidationLength');
+                setClientErrorMsg('errorInputValidationLength');
             } else {
-                setErrorMsg(null);
+                setClientErrorMsg(null);
             }
             return;
         }
@@ -42,16 +43,16 @@ export const SearchForm = () => {
             return;
         } else if (!isNaN(Number(input))) {
             if (submit) {
-                setErrorMsg('errorInputValidationPostnr');
+                setClientErrorMsg('errorInputValidationPostnr');
             } else {
-                setErrorMsg(null);
+                setClientErrorMsg(null);
             }
 
             return;
         }
 
         if (!isValidNameQuery(input)) {
-            setErrorMsg('errorInputValidationName');
+            setClientErrorMsg('errorInputValidationName');
             return;
         }
 
@@ -60,7 +61,7 @@ export const SearchForm = () => {
 
     const runSearch = debounce((input: string) => {
         setIsLoading(true);
-        setErrorMsg(null);
+        setServerErrorMsg(null);
 
         fetchSearchClient(input).then((result) => {
             if (result.type === 'error') {
@@ -68,7 +69,7 @@ export const SearchForm = () => {
                     return;
                 }
                 setSearchResult(undefined);
-                setErrorMsg(result.messageId);
+                setServerErrorMsg(result.messageId);
             } else {
                 setSearchResult(result);
             }
@@ -92,6 +93,7 @@ export const SearchForm = () => {
                                 handleInput(true);
                             }
                         }}
+                        error={clientErrorMsg && <LocaleString id={clientErrorMsg} />}
                     />
                     {isLoading && (
                         <span className={style.loader}>
@@ -113,9 +115,9 @@ export const SearchForm = () => {
                     <LocaleString id={'inputSubmit'} />
                 </Button>
             </div>
-            {errorMsg && (
+            {serverErrorMsg && (
                 <div className={style.error}>
-                    <LocaleString id={errorMsg} />
+                    <LocaleString id={serverErrorMsg} />
                 </div>
             )}
             {searchResult && (
