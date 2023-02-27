@@ -4,3 +4,5 @@ export type AppLocale = 'nb' | 'en';
 
 export type LocaleModule = typeof localeModuleNb;
 export type LocaleStringId = keyof LocaleModule;
+export type ErrorType = 'clientError' | 'serverError';
+export type SearchError = { id: LocaleStringId; type: ErrorType };

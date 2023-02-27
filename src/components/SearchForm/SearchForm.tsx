@@ -5,7 +5,10 @@ import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../../common/types/results';
 import { abortSearchClient, fetchSearchClient } from '../../utils/fetch';
-import { LocaleStringId } from '../../../common/localization/types';
+import {
+    LocaleStringId,
+    SearchError,
+} from '../../../common/localization/types';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
@@ -18,16 +21,20 @@ const isValidInput = (input?: string): input is string =>
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
-    const [serverErrorMsg, setServerErrorMsg] =
-        useState<LocaleStringId | null>();
-    const [clientErrorMsg, setClientErrorMsg] =
-        useState<LocaleStringId | null>();
+    const [error, setError] = useState<SearchError | null>();
     const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const resetErrors = () => {
-        setClientErrorMsg(null);
-        setServerErrorMsg(null);
+    const setClientError = (id: LocaleStringId) => {
+        setError({ id: id, type: 'clientError' });
+    };
+
+    const setServerError = (id: LocaleStringId) => {
+        setError({ id: id, type: 'serverError' });
+    };
+
+    const resetError = () => {
+        setError(null);
     };
 
     const handleInput = (submit: boolean) => {
@@ -38,9 +45,9 @@ export const SearchForm = () => {
 
         if (!isValidInput(input)) {
             if (submit) {
-                setClientErrorMsg('errorInputValidationLength');
+                setClientError('errorInputValidationLength');
             } else {
-                resetErrors();
+                resetError();
             }
             return;
         }
@@ -50,16 +57,16 @@ export const SearchForm = () => {
             return;
         } else if (!isNaN(Number(input))) {
             if (submit) {
-                setClientErrorMsg('errorInputValidationPostnr');
+                setClientError('errorInputValidationPostnr');
             } else {
-                resetErrors();
+                resetError();
             }
 
             return;
         }
 
         if (!isValidNameQuery(input)) {
-            setClientErrorMsg('errorInputValidationName');
+            setClientError('errorInputValidationName');
             return;
         }
 
@@ -68,7 +75,7 @@ export const SearchForm = () => {
 
     const runSearch = debounce((input: string) => {
         setIsLoading(true);
-        resetErrors();
+        resetError();
 
         fetchSearchClient(input).then((result) => {
             if (result.type === 'error') {
@@ -76,7 +83,7 @@ export const SearchForm = () => {
                     return;
                 }
                 setSearchResult(undefined);
-                setServerErrorMsg(result.messageId);
+                setServerError(result.messageId || 'errorServerError');
             } else {
                 setSearchResult(result);
             }
@@ -101,8 +108,8 @@ export const SearchForm = () => {
                             }
                         }}
                         error={
-                            clientErrorMsg && (
-                                <LocaleString id={clientErrorMsg} />
+                            error?.type === 'clientError' && (
+                                <LocaleString id={error.id} />
                             )
                         }
                     />
@@ -126,9 +133,9 @@ export const SearchForm = () => {
                     <LocaleString id={'inputSubmit'} />
                 </Button>
             </div>
-            {serverErrorMsg && (
+            {error?.type === 'serverError' && (
                 <div className={style.error}>
-                    <LocaleString id={serverErrorMsg} />
+                    <LocaleString id={error.id} />
                 </div>
             )}
             {searchResult && (
