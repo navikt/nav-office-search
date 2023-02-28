@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
-import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
+import { Search } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../../common/types/results';
@@ -22,7 +22,6 @@ const isValidInput = (input?: string): input is string =>
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const [error, setError] = useState<SearchError | null>();
-    const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const setClientError = (id: LocaleStringId) => {
@@ -40,7 +39,6 @@ export const SearchForm = () => {
     const handleInput = (submit: boolean) => {
         const input = inputRef.current?.value;
 
-        setIsLoading(false);
         abortSearchClient();
 
         if (!isValidInput(input)) {
@@ -74,7 +72,6 @@ export const SearchForm = () => {
     };
 
     const runSearch = debounce((input: string) => {
-        setIsLoading(true);
         resetError();
 
         fetchSearchClient(input).then((result) => {
@@ -87,51 +84,35 @@ export const SearchForm = () => {
             } else {
                 setSearchResult(result);
             }
-
-            setIsLoading(false);
         });
     }, 500);
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        handleInput(true);
+    };
 
     return (
         <div className={style.searchForm}>
             <div className={style.searchInput}>
                 <div className={style.searchFieldContainer}>
-                    <TextField
-                        label={<LocaleString id={'inputLabel'} />}
-                        id={'search-input'}
-                        className={style.searchField}
-                        ref={inputRef}
-                        onChange={() => handleInput(false)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleInput(true);
+                    <form onSubmit={handleSubmit}>
+                        <Search
+                            variant="primary"
+                            hideLabel={false}
+                            label={<LocaleString id={'inputLabel'} />}
+                            id={'search-input'}
+                            className={style.searchField}
+                            ref={inputRef}
+                            onChange={() => handleInput(false)}
+                            error={
+                                error?.type === 'clientError' && (
+                                    <LocaleString id={error.id} />
+                                )
                             }
-                        }}
-                        error={
-                            error?.type === 'clientError' && (
-                                <LocaleString id={error.id} />
-                            )
-                        }
-                    />
-                    {isLoading && (
-                        <span className={style.loader}>
-                            <BodyShort className={style.loaderText}>
-                                {'Søker...'}
-                            </BodyShort>
-                            <Loader
-                                size={'large'}
-                                variant={'interaction'}
-                                title={'Søker...'}
-                            />
-                        </span>
-                    )}
+                        />
+                    </form>
                 </div>
-                <Button
-                    className={style.searchButton}
-                    onClick={() => handleInput(true)}
-                >
-                    <LocaleString id={'inputSubmit'} />
-                </Button>
             </div>
             {error?.type === 'serverError' && (
                 <div className={style.error}>
