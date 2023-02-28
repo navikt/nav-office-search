@@ -94,26 +94,21 @@ export const SearchForm = () => {
 
     return (
         <div className={style.searchForm}>
-            <div className={style.searchInput}>
-                <div className={style.searchFieldContainer}>
-                    <form onSubmit={handleSubmit}>
-                        <Search
-                            variant="primary"
-                            hideLabel={false}
-                            label={<LocaleString id={'inputLabel'} />}
-                            id={'search-input'}
-                            className={style.searchField}
-                            ref={inputRef}
-                            onChange={() => handleInput(false)}
-                            error={
-                                error?.type === 'clientError' && (
-                                    <LocaleString id={error.id} />
-                                )
-                            }
-                        />
-                    </form>
-                </div>
-            </div>
+            <form onSubmit={handleSubmit} className={style.searchField}>
+                <Search
+                    variant="primary"
+                    hideLabel={false}
+                    label={<LocaleString id={'inputLabel'} />}
+                    id={'search-input'}
+                    ref={inputRef}
+                    onChange={() => handleInput(false)}
+                    error={
+                        error?.type === 'clientError' && (
+                            <LocaleString id={error.id} />
+                        )
+                    }
+                />
+            </form>
             {error?.type === 'serverError' && (
                 <div className={style.error}>
                     <LocaleString id={error.id} />

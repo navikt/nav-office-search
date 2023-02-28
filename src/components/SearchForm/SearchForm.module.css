@@ -5,13 +5,9 @@
     max-width: 100%;
 }
 
-.searchInput {
+.searchField {
     display: flex;
     justify-content: flex-end;
-    position: relative;
-}
-
-.searchFieldContainer {
     position: relative;
     width: 100%;
 }
