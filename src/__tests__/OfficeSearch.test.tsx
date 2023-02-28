@@ -189,7 +189,7 @@ const getLinkByName = (name: string) => {
 
 const searchForText = (text: string) => {
     fireEvent.input(
-        screen.getByRole('textbox', {
+        screen.getByRole('searchbox', {
             name: 'Skriv inn et postnummer eller stedsnavn:',
         }),
         {
