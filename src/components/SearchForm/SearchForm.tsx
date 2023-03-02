@@ -1,11 +1,14 @@
 import React, { useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
-import { BodyShort, Button, Loader, TextField } from '@navikt/ds-react';
+import { Search } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
 import { SearchResultProps } from '../../../common/types/results';
 import { abortSearchClient, fetchSearchClient } from '../../utils/fetch';
-import { LocaleStringId } from '../../../common/localization/types';
+import {
+    LocaleStringId,
+    SearchError,
+} from '../../../common/localization/types';
 import {
     isValidNameQuery,
     isValidPostnrQuery,
@@ -18,21 +21,31 @@ const isValidInput = (input?: string): input is string =>
 
 export const SearchForm = () => {
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
-    const [errorMsg, setErrorMsg] = useState<LocaleStringId | null>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<SearchError | null>();
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const setClientError = (id: LocaleStringId) => {
+        setError({ id: id, type: 'clientError' });
+    };
+
+    const setServerError = (id: LocaleStringId) => {
+        setError({ id: id, type: 'serverError' });
+    };
+
+    const resetError = () => {
+        setError(null);
+    };
 
     const handleInput = (submit: boolean) => {
         const input = inputRef.current?.value;
 
-        setIsLoading(false);
         abortSearchClient();
 
         if (!isValidInput(input)) {
             if (submit) {
-                setErrorMsg('errorInputValidationLength');
+                setClientError('errorInputValidationLength');
             } else {
-                setErrorMsg(null);
+                resetError();
             }
             return;
         }
@@ -42,16 +55,16 @@ export const SearchForm = () => {
             return;
         } else if (!isNaN(Number(input))) {
             if (submit) {
-                setErrorMsg('errorInputValidationPostnr');
+                setClientError('errorInputValidationPostnr');
             } else {
-                setErrorMsg(null);
+                resetError();
             }
 
             return;
         }
 
         if (!isValidNameQuery(input)) {
-            setErrorMsg('errorInputValidationName');
+            setClientError('errorInputValidationName');
             return;
         }
 
@@ -59,8 +72,7 @@ export const SearchForm = () => {
     };
 
     const runSearch = debounce((input: string) => {
-        setIsLoading(true);
-        setErrorMsg(null);
+        resetError();
 
         fetchSearchClient(input).then((result) => {
             if (result.type === 'error') {
@@ -68,54 +80,38 @@ export const SearchForm = () => {
                     return;
                 }
                 setSearchResult(undefined);
-                setErrorMsg(result.messageId);
+                setServerError(result.messageId || 'errorServerError');
             } else {
                 setSearchResult(result);
             }
-
-            setIsLoading(false);
         });
     }, 500);
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        handleInput(true);
+    };
+
     return (
         <div className={style.searchForm}>
-            <div className={style.searchInput}>
-                <div className={style.searchFieldContainer}>
-                    <TextField
-                        label={<LocaleString id={'inputLabel'} />}
-                        id={'search-input'}
-                        className={style.searchField}
-                        ref={inputRef}
-                        onChange={() => handleInput(false)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleInput(true);
-                            }
-                        }}
-                    />
-                    {isLoading && (
-                        <span className={style.loader}>
-                            <BodyShort className={style.loaderText}>
-                                {'Søker...'}
-                            </BodyShort>
-                            <Loader
-                                size={'large'}
-                                variant={'interaction'}
-                                title={'Søker...'}
-                            />
-                        </span>
-                    )}
-                </div>
-                <Button
-                    className={style.searchButton}
-                    onClick={() => handleInput(true)}
-                >
-                    <LocaleString id={'inputSubmit'} />
-                </Button>
-            </div>
-            {errorMsg && (
+            <form onSubmit={handleSubmit} className={style.searchField}>
+                <Search
+                    variant="primary"
+                    hideLabel={false}
+                    label={<LocaleString id={'inputLabel'} />}
+                    id={'search-input'}
+                    ref={inputRef}
+                    onChange={() => handleInput(false)}
+                    error={
+                        error?.type === 'clientError' && (
+                            <LocaleString id={error.id} />
+                        )
+                    }
+                />
+            </form>
+            {error?.type === 'serverError' && (
                 <div className={style.error}>
-                    <LocaleString id={errorMsg} />
+                    <LocaleString id={error.id} />
                 </div>
             )}
             {searchResult && (
