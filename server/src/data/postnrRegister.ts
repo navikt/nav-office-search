@@ -1,8 +1,6 @@
-import fs from 'fs';
 import { PostnrKategori } from '../../../common/types/data';
 import { serverUrls } from '../urls';
 
-const localFallbackPath = './rawdata/postnummerregister-ansi.txt';
 const charEncodeFormat = 'windows-1252';
 
 type PostnrRegisterItemRaw = [
@@ -65,22 +63,16 @@ export const loadPostnrRegister = async () => {
     if (postnrRegisterDataRaw) {
         console.log('Refreshed postnr register');
         postnrRegisterData = transformPostnrRegisterData(postnrRegisterDataRaw);
+    } else if (postnrRegisterData.length > 0) {
+        console.error(
+            'Failed to fetch from postnr-register, keeping currently cached data'
+        );
     } else {
-        if (postnrRegisterData.length > 0) {
-            console.error(
-                'Failed to fetch from postnr-register, keeping currently cached data'
-            );
-        } else {
-            console.error(
-                'Failed to fetch from postnr-register - no cached data exists, using local fallback'
-            );
+        const msg =
+            'Failed to fetch from postnr-register and no previously cached data exists!';
+        console.error(msg);
 
-            const fallbackData = fs.readFileSync(localFallbackPath, {
-                encoding: 'latin1',
-            });
-
-            postnrRegisterData = transformPostnrRegisterData(fallbackData);
-        }
+        throw new Error(msg);
     }
 };
 

@@ -4,8 +4,6 @@ import { normalizeString } from '../../../common/normalizeString';
 import { fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
-import fallbackData from '../_mock/data/bydeler.json';
-
 const invalidName = 'Uoppgitt';
 
 type SSB_BydelData = {
@@ -138,22 +136,20 @@ const fetchBydelerRawData = async () => {
 };
 
 export const loadBydelerData = async () => {
-    console.log('Loading data for bydeler...');
-
     const bydelerRawData = await fetchBydelerRawData();
 
     if (bydelerRawData) {
+        console.log('Refreshed data for bydeler');
         await populateBydelerCache(bydelerRawData);
+    } else if (bydelerData.bydelerArray.length >= 0) {
+        console.error(
+            'Failed to load bydeler from SSB - keeping current data for this cycle'
+        );
     } else {
-        if (bydelerData.bydelerArray.length === 0) {
-            console.error(
-                'Failed to load bydeler from SSB - falling back to local data'
-            );
-            await populateBydelerCache(fallbackData);
-        } else {
-            console.error(
-                'Failed to load bydeler from SSB - keeping current data for this cycle'
-            );
-        }
+        const msg =
+            'Failed to load bydeler from SSB and no previously cached data exists!';
+
+        console.error(msg);
+        throw new Error(msg);
     }
 };
