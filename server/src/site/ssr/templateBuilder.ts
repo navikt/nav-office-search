@@ -2,20 +2,21 @@ import path from 'path';
 import fs from 'fs';
 import {
     injectDecoratorServerSide,
-    Params,
+    DecoratorParams,
+    DecoratorEnvProps,
 } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { getDecoratorParams } from '../../../../common/decoratorParams';
 import { AppLocale } from '../../../../common/localization/types';
 import { serverUrls } from '../../urls';
 
 const decoratorEnv = process.env.ENV || 'prod';
-const decoratorLocalPort = process.env.DECORATOR_LOCAL_PORT || 8100;
+const decoratorLocalPort = process.env.DECORATOR_LOCAL_URL;
 
-const envProps =
+const envProps: DecoratorEnvProps =
     decoratorEnv === 'localhost'
         ? {
               env: decoratorEnv,
-              port: decoratorLocalPort,
+              localUrl: decoratorLocalPort,
           }
         : { env: decoratorEnv };
 
@@ -28,14 +29,14 @@ const getUndecoratedTemplate = () =>
     fs.readFileSync(templatePath, { encoding: 'utf-8' });
 
 const injectWithDecorator = async (
-    params: Params,
+    params: DecoratorParams,
     retries = 3
 ): Promise<string> => {
     try {
         return await injectDecoratorServerSide({
-            ...params,
             ...envProps,
             filePath: templatePath,
+            params,
         });
     } catch (e) {
         if (retries > 0) {

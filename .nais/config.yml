@@ -37,6 +37,8 @@ spec:
       {{#each outboundExternalHosts as |host|}}
         - host: {{host}}
       {{/each}}
+      rules:
+        - application: nav-dekoratoren
   resources:
     limits:
       cpu: 1000m
