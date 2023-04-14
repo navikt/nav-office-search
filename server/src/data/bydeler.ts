@@ -141,7 +141,7 @@ export const loadBydelerData = async () => {
     if (bydelerRawData) {
         console.log('Refreshed data for bydeler');
         await populateBydelerCache(bydelerRawData);
-    } else if (bydelerData.bydelerArray.length >= 0) {
+    } else if (bydelerData.bydelerArray.length > 0) {
         console.error(
             'Failed to load bydeler from SSB - keeping current data for this cycle'
         );
