@@ -40,8 +40,10 @@ spec:
       rules:
         - application: nav-dekoratoren
   resources:
-    limits:
-      memory: 1000Mi
+  {{#with resources}}
     requests:
-      cpu: 200m
-      memory: 256Mi
+      cpu: {{requests.cpu}}
+      memory: {{requests.memory}}
+    limits:
+      memory: {{limits.memory}}
+  {{/with}}
