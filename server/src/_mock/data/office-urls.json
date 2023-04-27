@@ -1,1704 +1,1704 @@
 {
-  "offices": [
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-forvaltning",
-      "enhetNr": "4525"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-vestland",
-      "enhetNr": "1287"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordland",
-      "enhetNr": "1800"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-vest",
-      "enhetNr": "4511"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-lonnsgaranti",
-      "enhetNr": "4425"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-rogaland",
-      "enhetNr": "1187"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ost-viken",
-      "enhetNr": "0200"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-vest-viken",
-      "enhetNr": "0687"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-analyse-vaga",
-      "enhetNr": "4560"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-farskap",
-      "enhetNr": "4860"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-analyse-oslo",
-      "enhetNr": "4550"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-vestfold",
-      "enhetNr": "4707"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-aust-agder",
-      "enhetNr": "4709"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-hedmark",
-      "enhetNr": "4704"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-vest-agder",
-      "enhetNr": "4710"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-oppland",
-      "enhetNr": "4705"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stranda",
-      "enhetNr": "1525"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-telemark",
-      "enhetNr": "4708"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-buskerud",
-      "enhetNr": "4706"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hammerfest",
-      "enhetNr": "2004"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-mosjoen",
-      "enhetNr": "1824"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-averoy",
-      "enhetNr": "1554"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bardu",
-      "enhetNr": "1922"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ostensjo",
-      "enhetNr": "0321"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-st.hanshaugen",
-      "enhetNr": "0313"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ullern",
-      "enhetNr": "0335"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bjerke",
-      "enhetNr": "0330"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestre-aker",
-      "enhetNr": "0334"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordre-aker",
-      "enhetNr": "0331"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-alna",
-      "enhetNr": "0326"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-grorud",
-      "enhetNr": "0328"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hoyanger",
-      "enhetNr": "1416"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelmeland",
-      "enhetNr": "1133"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tysvaer",
-      "enhetNr": "1146"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sondre-nordstrand",
-      "enhetNr": "0319"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-naeroysund",
-      "enhetNr": "1751"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-steinkjer",
-      "enhetNr": "4817"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-fauske",
-      "enhetNr": "1841"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-melhus",
-      "enhetNr": "1653"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-aukra",
-      "enhetNr": "1547"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-surnadal",
-      "enhetNr": "1566"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-narvik",
-      "enhetNr": "1805"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nord-fosen",
-      "enhetNr": "1630"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-heim",
-      "enhetNr": "1612"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hustadvika",
-      "enhetNr": "1548"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestnes",
-      "enhetNr": "1535"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-orsta-volda",
-      "enhetNr": "1520"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-smola",
-      "enhetNr": "1573"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-midtre-gauldal",
-      "enhetNr": "1648"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rauma",
-      "enhetNr": "1539"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-haegebostad",
-      "enhetNr": "1034"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lindesnes",
-      "enhetNr": "1002"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kristiansand",
-      "enhetNr": "1001"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sokndal",
-      "enhetNr": "1111"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-raelingen",
-      "enhetNr": "0228"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-eigersund-bjerkreim",
-      "enhetNr": "1101"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gjesdal",
-      "enhetNr": "1122"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-strand",
-      "enhetNr": "1130"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-askoy",
-      "enhetNr": "1247"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bjornafjorden",
-      "enhetNr": "1243"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kvinnherad",
-      "enhetNr": "1224"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sveio",
-      "enhetNr": "1216"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-samnanger",
-      "enhetNr": "1242"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kvam",
-      "enhetNr": "1238"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tysnes",
-      "enhetNr": "1223"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-austevoll",
-      "enhetNr": "1244"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-voss",
-      "enhetNr": "1235"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-osteroy",
-      "enhetNr": "1253"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vaksdal",
-      "enhetNr": "1251"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klepp-time",
-      "enhetNr": "1120"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sauda",
-      "enhetNr": "1135"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-suldal",
-      "enhetNr": "1134"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hillevag-og-hinna",
-      "enhetNr": "1164"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vindafjord",
-      "enhetNr": "1160"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hundvag-og-storhaug",
-      "enhetNr": "1162"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-as",
-      "enhetNr": "0214"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-enebakk",
-      "enhetNr": "0229"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gjerdrum",
-      "enhetNr": "0234"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nesodden",
-      "enhetNr": "0216"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-frogn",
-      "enhetNr": "0215"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-halden-aremark",
-      "enhetNr": "0101"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rade",
-      "enhetNr": "0135"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordre-follo",
-      "enhetNr": "0213"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hvaler",
-      "enhetNr": "0111"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-baerum",
-      "enhetNr": "0219"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-orkland",
-      "enhetNr": "1638"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-grane",
-      "enhetNr": "1825"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kristiansund",
-      "enhetNr": "1505"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hareid-ulstein-sande",
-      "enhetNr": "1517"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-roros-os-og-holtalen",
-      "enhetNr": "1640"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-oppdal-og-rennebu",
-      "enhetNr": "1634"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-heroy",
-      "enhetNr": "1818"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-alstahaug",
-      "enhetNr": "1820"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-indre-fosen",
-      "enhetNr": "5703"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sunnfjord",
-      "enhetNr": "1432"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stad",
-      "enhetNr": "1443"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-luster",
-      "enhetNr": "1426"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ardal",
-      "enhetNr": "1424"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-askvoll",
-      "enhetNr": "1428"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bremanger",
-      "enhetNr": "1438"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gloppen",
-      "enhetNr": "1445"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-fjaler",
-      "enhetNr": "1429"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-solund",
-      "enhetNr": "1412"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-falkenborg",
-      "enhetNr": "5701"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rana",
-      "enhetNr": "1833"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-flakstad",
-      "enhetNr": "1859"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kvaefjord",
-      "enhetNr": "1911"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-malselv",
-      "enhetNr": "1924"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lyngen",
-      "enhetNr": "1938"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vaeroy",
-      "enhetNr": "1857"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-traena",
-      "enhetNr": "1835"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-karlsoy",
-      "enhetNr": "1936"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-andoy",
-      "enhetNr": "1871"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vadso",
-      "enhetNr": "2003"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-steigen",
-      "enhetNr": "1848"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rost",
-      "enhetNr": "1856"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-salangen-lavangen-dyroy",
-      "enhetNr": "1923"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tromso",
-      "enhetNr": "1902"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-balsfjord-storfjord",
-      "enhetNr": "1933"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vardo",
-      "enhetNr": "2002"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sortland",
-      "enhetNr": "1870"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-senja-sorreisa",
-      "enhetNr": "1931"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-berlevag",
-      "enhetNr": "2024"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sor-varanger",
-      "enhetNr": "2030"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-deatnu-tana",
-      "enhetNr": "2025"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gamvik",
-      "enhetNr": "2023"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-guovdageaidnu-kautokeino",
-      "enhetNr": "2011"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-batsfjord",
-      "enhetNr": "2028"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordkapp",
-      "enhetNr": "2019"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lebesby",
-      "enhetNr": "2022"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-porsanger",
-      "enhetNr": "2020"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-karasjohka-karasjok",
-      "enhetNr": "2021"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hattfjelldal",
-      "enhetNr": "1826"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-moss",
-      "enhetNr": "0104"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stryn",
-      "enhetNr": "1449"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stovner",
-      "enhetNr": "0327"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordreisa",
-      "enhetNr": "1942"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-skjervoy",
-      "enhetNr": "1941"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kongsvinger",
-      "enhetNr": "0402"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-trysil",
-      "enhetNr": "0428"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestre-toten",
-      "enhetNr": "0529"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-oyer",
-      "enhetNr": "0521"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sondre-land",
-      "enhetNr": "0536"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-amot",
-      "enhetNr": "0429"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nittedal",
-      "enhetNr": "0233"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-valdres",
-      "enhetNr": "0542"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hadeland",
-      "enhetNr": "0534"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-valer-i-hedmark",
-      "enhetNr": "0426"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-midt-gudbrandsdal",
-      "enhetNr": "0516"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nes-i-akershus",
-      "enhetNr": "0236"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordre-land",
-      "enhetNr": "0538"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-asnes",
-      "enhetNr": "0425"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arendal",
-      "enhetNr": "0906"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lillesand",
-      "enhetNr": "0926"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-larvik",
-      "enhetNr": "5303"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-evje-og-hornnes",
-      "enhetNr": "0937"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vegarshei",
-      "enhetNr": "0912"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-grimstad",
-      "enhetNr": "0904"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-froland",
-      "enhetNr": "0919"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gjerstad",
-      "enhetNr": "0911"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kragero",
-      "enhetNr": "0815"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tvedestrand",
-      "enhetNr": "0914"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-siljan",
-      "enhetNr": "0811"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ovre-eiker",
-      "enhetNr": "0624"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-faerder",
-      "enhetNr": "5302"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ringerike",
-      "enhetNr": "0605"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kongsberg",
-      "enhetNr": "0604"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-numedal",
-      "enhetNr": "0632"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-ost-viken",
-      "enhetNr": "0287"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-midt-norge",
-      "enhetNr": "4292"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-vest",
-      "enhetNr": "4294"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-innlandet",
-      "enhetNr": "0400"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-porsgrunn",
-      "enhetNr": "4808"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-bergen",
-      "enhetNr": "4812"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vega",
-      "enhetNr": "1815"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-somna",
-      "enhetNr": "1812"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivning-rogaland",
-      "enhetNr": "1196"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-tromso",
-      "enhetNr": "4849"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestland",
-      "enhetNr": "1200"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-helse-vestfold-og-telemark",
-      "enhetNr": "0896"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-sor",
-      "enhetNr": "4250"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-nordland-mo",
-      "enhetNr": "4121"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-nord",
-      "enhetNr": "4295"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-nordland",
-      "enhetNr": "4718"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-nordland",
-      "enhetNr": "1891"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgiving-nordland",
-      "enhetNr": "1893"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-oslo",
-      "enhetNr": "0387"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-innlandet",
-      "enhetNr": "0491"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-rogaland",
-      "enhetNr": "1191"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-ost-viken",
-      "enhetNr": "0291"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-trondelag",
-      "enhetNr": "5700"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-agder",
-      "enhetNr": "1000"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-vestland",
-      "enhetNr": "1291"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-rogaland",
-      "enhetNr": "4711"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-registerforvaltning",
-      "enhetNr": "4534"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-finnmark",
-      "enhetNr": "4720"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivningstjeneste-trondelag",
-      "enhetNr": "5773"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-nord",
-      "enhetNr": "4519"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-more-og-romsdal",
-      "enhetNr": "1591"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-agder",
-      "enhetNr": "1087"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-agder",
-      "enhetNr": "1091"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-vestland-forde",
-      "enhetNr": "4714"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-hordaland",
-      "enhetNr": "4712"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivning-innlandet",
-      "enhetNr": "0496"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-vest-viken",
-      "enhetNr": "0691"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-vestfold-og-telemark",
-      "enhetNr": "0891"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-oslo-1",
-      "enhetNr": "4833"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivningskontor-troms-og-finnmark",
-      "enhetNr": "2096"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivning-ost-viken",
-      "enhetNr": "0296"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivning-vest-viken",
-      "enhetNr": "0696"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivsenter-rogaland-haugesund",
-      "enhetNr": "1192"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-radgivende-legetjeneste",
-      "enhetNr": "4480"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-sarpsborg",
-      "enhetNr": "4401"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-oslo-og-akershus",
-      "enhetNr": "4291"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-romerike",
-      "enhetNr": "4402"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-oslo",
-      "enhetNr": "4403"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-lillehammer",
-      "enhetNr": "4405"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-tonsberg",
-      "enhetNr": "4407"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-skien",
-      "enhetNr": "4408"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-innlandet",
-      "enhetNr": "0587"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vest-viken",
-      "enhetNr": "0600"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestfold-og-telemark",
-      "enhetNr": "0800"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-intro-kristiansand",
-      "enhetNr": "1084"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-sandnes",
-      "enhetNr": "4811"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-troms-og-finnmark",
-      "enhetNr": "1900"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-styringsenhet",
-      "enhetNr": "4200"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-styringsenhet",
-      "enhetNr": "4400"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-fauske",
-      "enhetNr": "4418"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-styringsenhet",
-      "enhetNr": "4500"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-styringsenhet-hjelpemiddelsentr.spes.enheter",
-      "enhetNr": "4700"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-medlemskap-og-avgift",
-      "enhetNr": "4530"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-oppfolging-utland",
-      "enhetNr": "0393"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rogaland",
-      "enhetNr": "1100"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-styringsenhet-kontaktsenter",
-      "enhetNr": "4100"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-okonomi-stonad",
-      "enhetNr": "4151"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-more-og-romsdal",
-      "enhetNr": "1500"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/fagsenter-for-nav-hjelpemidler-og-tilrettelegging",
-      "enhetNr": "4750"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-oslo-2",
-      "enhetNr": "4803"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-stord",
-      "enhetNr": "4842"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sentralt-yrkessykdomskontor",
-      "enhetNr": "4540"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-kristiansand",
-      "enhetNr": "4410"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-karmoy",
-      "enhetNr": "4411"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-trondheim",
-      "enhetNr": "4416"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-vadso",
-      "enhetNr": "4820"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-okonomi-pensjon",
-      "enhetNr": "4819"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-styringsenhet",
-      "enhetNr": "4800"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-troms-og-finnmark",
-      "enhetNr": "1987"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-drammen",
-      "enhetNr": "4806"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-alesund",
-      "enhetNr": "4815"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-familie-og-pensjonsytelser-utland-alesund",
-      "enhetNr": "4862"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-spesialtjenester-agder",
-      "enhetNr": "1096"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-troms",
-      "enhetNr": "4719"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-troms-og-finnmark",
-      "enhetNr": "1991"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivning-oslo",
-      "enhetNr": "0396"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-rogaland",
-      "enhetNr": "4111"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-nordland-bodo",
-      "enhetNr": "4118"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-molde",
-      "enhetNr": "4415"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-oslo-og-vest-viken",
-      "enhetNr": "4106"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-troms-og-finnmark",
-      "enhetNr": "4119"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-vestland",
-      "enhetNr": "4112"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-ost-viken",
-      "enhetNr": "4101"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-luroy",
-      "enhetNr": "1834"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-sogn",
-      "enhetNr": "4414"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tiltak-trondelag",
-      "enhetNr": "5771"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-telemark",
-      "enhetNr": "4108"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-vest-agder",
-      "enhetNr": "4110"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-trondelag-trondheim",
-      "enhetNr": "4116"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-vestfold",
-      "enhetNr": "4107"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-sogn-og-fjordane",
-      "enhetNr": "4114"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tinn",
-      "enhetNr": "0826"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-unjarga-nesseby",
-      "enhetNr": "2027"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sykkylven",
-      "enhetNr": "1528"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-donna",
-      "enhetNr": "1827"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hasvik",
-      "enhetNr": "2015"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-more-og-romsdal",
-      "enhetNr": "4115"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-aust-agder",
-      "enhetNr": "4109"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-trondelag-namsos",
-      "enhetNr": "4117"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lorenskog",
-      "enhetNr": "0230"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ha",
-      "enhetNr": "1119"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lier",
-      "enhetNr": "0626"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-fredrikstad",
-      "enhetNr": "0106"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-madla",
-      "enhetNr": "1165"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-levanger",
-      "enhetNr": "1719"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ullensaker",
-      "enhetNr": "0235"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-malvik",
-      "enhetNr": "1663"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gaivuotna-kafjord",
-      "enhetNr": "1940"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bodo",
-      "enhetNr": "1804"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hallingdal",
-      "enhetNr": "0617"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-giske",
-      "enhetNr": "1532"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-elverum",
-      "enhetNr": "0427"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-marked-sor-rogaland",
-      "enhetNr": "1194"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-marked-nord-rogaland",
-      "enhetNr": "1193"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-trondelag",
-      "enhetNr": "5772"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-inn-trondelag",
-      "enhetNr": "1702"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arstad",
-      "enhetNr": "1208"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bergen-nord",
-      "enhetNr": "1203"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bergen-vest",
-      "enhetNr": "1206"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-oygarden",
-      "enhetNr": "1246"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidsradgivning-vestland",
-      "enhetNr": "1296"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontaktsenter-innlandet",
-      "enhetNr": "4105"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-orland",
-      "enhetNr": "1621"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sarpsborg",
-      "enhetNr": "0105"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lillehammer-gausdal",
-      "enhetNr": "0501"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stord",
-      "enhetNr": "1221"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-porsgrunn",
-      "enhetNr": "0805"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hole",
-      "enhetNr": "0612"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestby",
-      "enhetNr": "0211"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-drangedal",
-      "enhetNr": "0817"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-meloy",
-      "enhetNr": "1837"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gildeskal",
-      "enhetNr": "1838"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-indre-ostfold",
-      "enhetNr": "0124"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sula",
-      "enhetNr": "1531"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-fensfjorden",
-      "enhetNr": "1266"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-marker",
-      "enhetNr": "0119"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-heroy-og-vanylven",
-      "enhetNr": "1515"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lom-skjak",
-      "enhetNr": "0513"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nannestad",
-      "enhetNr": "0238"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vik",
-      "enhetNr": "1417"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-akershus",
-      "enhetNr": "4702"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sel",
-      "enhetNr": "0517"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-jevnaker",
-      "enhetNr": "0532"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-skaun",
-      "enhetNr": "1657"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kinn",
-      "enhetNr": "1401"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-more-og-romsdal",
-      "enhetNr": "4715"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeidslivssenter-oslo",
-      "enhetNr": "0391"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bamble",
-      "enhetNr": "0814"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-harstad",
-      "enhetNr": "1903"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-midtre-namdal",
-      "enhetNr": "1703"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-horten",
-      "enhetNr": "0701"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lesja-dovre",
-      "enhetNr": "0511"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tjeldsund",
-      "enhetNr": "1913"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ullensvang",
-      "enhetNr": "1228"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-skien",
-      "enhetNr": "0806"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sandnes",
-      "enhetNr": "1102"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vaga",
-      "enhetNr": "0515"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nord-osterdal",
-      "enhetNr": "0437"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stor-elvdal",
-      "enhetNr": "0430"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-frogner",
-      "enhetNr": "0312"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gjovik",
-      "enhetNr": "0502"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bergenhus",
-      "enhetNr": "1209"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gjemnes",
-      "enhetNr": "1557"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-fitjar",
-      "enhetNr": "1222"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-oslo",
-      "enhetNr": "0300"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rodoy",
-      "enhetNr": "1836"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kontroll-ost",
-      "enhetNr": "4503"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-asker",
-      "enhetNr": "0220"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rakkestad",
-      "enhetNr": "0128"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-grunerlokka",
-      "enhetNr": "0315"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bronnoy",
-      "enhetNr": "1813"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-loten",
-      "enhetNr": "0415"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hamar",
-      "enhetNr": "0403"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-rennesoy-og-finnoy",
-      "enhetNr": "1169"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lodingen",
-      "enhetNr": "1851"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-birkenes",
-      "enhetNr": "0928"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-alesund",
-      "enhetNr": "1504"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-notodden",
-      "enhetNr": "0807"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vest-telemark",
-      "enhetNr": "0833"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lillestrom",
-      "enhetNr": "0231"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-engerdal",
-      "enhetNr": "0434"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bergen-sor",
-      "enhetNr": "1202"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bomlo",
-      "enhetNr": "1219"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-alver",
-      "enhetNr": "1263"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-midt-telemark",
-      "enhetNr": "0821"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lerkendal",
-      "enhetNr": "5702"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-ostfold",
-      "enhetNr": "4701"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-drammen",
-      "enhetNr": "0602"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-aurskog-holand",
-      "enhetNr": "0221"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-aurland",
-      "enhetNr": "1421"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-laerdal",
-      "enhetNr": "1422"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-amli",
-      "enhetNr": "0929"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-stange",
-      "enhetNr": "0417"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lund",
-      "enhetNr": "1112"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ibestad",
-      "enhetNr": "1917"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hitra-froya",
-      "enhetNr": "1620"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bo",
-      "enhetNr": "1867"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-svolvaer",
-      "enhetNr": "1865"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-gamle-oslo",
-      "enhetNr": "0316"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nesna",
-      "enhetNr": "1828"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hemnes",
-      "enhetNr": "1832"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ringsaker",
-      "enhetNr": "0412"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-oksnes",
-      "enhetNr": "1868"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-grong",
-      "enhetNr": "1742"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sola",
-      "enhetNr": "1124"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-aure",
-      "enhetNr": "1576"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-molde",
-      "enhetNr": "1502"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-eiganes-og-tasta",
-      "enhetNr": "1161"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sor-odal",
-      "enhetNr": "0419"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hadsel",
-      "enhetNr": "1866"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-risor",
-      "enhetNr": "0901"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sagene",
-      "enhetNr": "0314"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-eidfjord",
-      "enhetNr": "1232"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-valer",
-      "enhetNr": "0137"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-arbeid-og-ytelser-lonnsgaranti-vardo",
-      "enhetNr": "4426"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ulvik",
-      "enhetNr": "1233"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-haugesund-utsira",
-      "enhetNr": "1106"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-grue",
-      "enhetNr": "0423"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-moskenes",
-      "enhetNr": "1874"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-lister",
-      "enhetNr": "1037"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-ostre-toten",
-      "enhetNr": "0528"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-eidskog",
-      "enhetNr": "0420"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-randaberg-kvitsoy",
-      "enhetNr": "1127"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-leirfjord",
-      "enhetNr": "1822"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-kvaenangen",
-      "enhetNr": "1943"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vestvagoy",
-      "enhetNr": "1860"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-alta",
-      "enhetNr": "2012"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-loppa",
-      "enhetNr": "2014"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-verdal",
-      "enhetNr": "1721"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hyllestad",
-      "enhetNr": "1413"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sogndal",
-      "enhetNr": "1420"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-trondelag",
-      "enhetNr": "4716"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hurdal",
-      "enhetNr": "0239"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sunndal",
-      "enhetNr": "1563"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-sandefjord",
-      "enhetNr": "0710"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-modum",
-      "enhetNr": "0623"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-vaernes",
-      "enhetNr": "1783"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-holmestrand",
-      "enhetNr": "5301"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-klageinstans-ost",
-      "enhetNr": "4293"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-karmoy-bokn",
-      "enhetNr": "1149"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tingvoll",
-      "enhetNr": "1560"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjartdal",
-      "enhetNr": "0827"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-hjelpemiddelsentral-oslo",
-      "enhetNr": "4703"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-nordstrand",
-      "enhetNr": "0318"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-midt-agder",
-      "enhetNr": "1014"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-eidsvoll",
-      "enhetNr": "0237"
-    },
-    {
-      "path": "/no/nav-og-samfunn/kontakt-nav/kontorer/nav-tonsberg",
-      "enhetNr": "0704"
-    }
-  ]
+    "offices": [
+        {
+            "path": "/kontor/nav-kontroll-forvaltning",
+            "enhetNr": "4525"
+        },
+        {
+            "path": "/kontor/nav-tiltak-vestland",
+            "enhetNr": "1287"
+        },
+        {
+            "path": "/kontor/nav-nordland",
+            "enhetNr": "1800"
+        },
+        {
+            "path": "/kontor/nav-kontroll-vest",
+            "enhetNr": "4511"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-lonnsgaranti",
+            "enhetNr": "4425"
+        },
+        {
+            "path": "/kontor/nav-tiltak-rogaland",
+            "enhetNr": "1187"
+        },
+        {
+            "path": "/kontor/nav-ost-viken",
+            "enhetNr": "0200"
+        },
+        {
+            "path": "/kontor/nav-tiltak-vest-viken",
+            "enhetNr": "0687"
+        },
+        {
+            "path": "/kontor/nav-kontroll-analyse-vaga",
+            "enhetNr": "4560"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-farskap",
+            "enhetNr": "4860"
+        },
+        {
+            "path": "/kontor/nav-kontroll-analyse-oslo",
+            "enhetNr": "4550"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-vestfold",
+            "enhetNr": "4707"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-aust-agder",
+            "enhetNr": "4709"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-hedmark",
+            "enhetNr": "4704"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-vest-agder",
+            "enhetNr": "4710"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-oppland",
+            "enhetNr": "4705"
+        },
+        {
+            "path": "/kontor/nav-stranda",
+            "enhetNr": "1525"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-telemark",
+            "enhetNr": "4708"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-buskerud",
+            "enhetNr": "4706"
+        },
+        {
+            "path": "/kontor/nav-hammerfest",
+            "enhetNr": "2004"
+        },
+        {
+            "path": "/kontor/nav-mosjoen",
+            "enhetNr": "1824"
+        },
+        {
+            "path": "/kontor/nav-averoy",
+            "enhetNr": "1554"
+        },
+        {
+            "path": "/kontor/nav-bardu",
+            "enhetNr": "1922"
+        },
+        {
+            "path": "/kontor/nav-ostensjo",
+            "enhetNr": "0321"
+        },
+        {
+            "path": "/kontor/nav-st.hanshaugen",
+            "enhetNr": "0313"
+        },
+        {
+            "path": "/kontor/nav-ullern",
+            "enhetNr": "0335"
+        },
+        {
+            "path": "/kontor/nav-bjerke",
+            "enhetNr": "0330"
+        },
+        {
+            "path": "/kontor/nav-vestre-aker",
+            "enhetNr": "0334"
+        },
+        {
+            "path": "/kontor/nav-nordre-aker",
+            "enhetNr": "0331"
+        },
+        {
+            "path": "/kontor/nav-alna",
+            "enhetNr": "0326"
+        },
+        {
+            "path": "/kontor/nav-grorud",
+            "enhetNr": "0328"
+        },
+        {
+            "path": "/kontor/nav-hoyanger",
+            "enhetNr": "1416"
+        },
+        {
+            "path": "/kontor/nav-hjelmeland",
+            "enhetNr": "1133"
+        },
+        {
+            "path": "/kontor/nav-tysvaer",
+            "enhetNr": "1146"
+        },
+        {
+            "path": "/kontor/nav-sondre-nordstrand",
+            "enhetNr": "0319"
+        },
+        {
+            "path": "/kontor/nav-naeroysund",
+            "enhetNr": "1751"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-steinkjer",
+            "enhetNr": "4817"
+        },
+        {
+            "path": "/kontor/nav-fauske",
+            "enhetNr": "1841"
+        },
+        {
+            "path": "/kontor/nav-melhus",
+            "enhetNr": "1653"
+        },
+        {
+            "path": "/kontor/nav-aukra",
+            "enhetNr": "1547"
+        },
+        {
+            "path": "/kontor/nav-surnadal",
+            "enhetNr": "1566"
+        },
+        {
+            "path": "/kontor/nav-narvik",
+            "enhetNr": "1805"
+        },
+        {
+            "path": "/kontor/nav-nord-fosen",
+            "enhetNr": "1630"
+        },
+        {
+            "path": "/kontor/nav-heim",
+            "enhetNr": "1612"
+        },
+        {
+            "path": "/kontor/nav-hustadvika",
+            "enhetNr": "1548"
+        },
+        {
+            "path": "/kontor/nav-vestnes",
+            "enhetNr": "1535"
+        },
+        {
+            "path": "/kontor/nav-orsta-volda",
+            "enhetNr": "1520"
+        },
+        {
+            "path": "/kontor/nav-smola",
+            "enhetNr": "1573"
+        },
+        {
+            "path": "/kontor/nav-midtre-gauldal",
+            "enhetNr": "1648"
+        },
+        {
+            "path": "/kontor/nav-rauma",
+            "enhetNr": "1539"
+        },
+        {
+            "path": "/kontor/nav-haegebostad",
+            "enhetNr": "1034"
+        },
+        {
+            "path": "/kontor/nav-lindesnes",
+            "enhetNr": "1002"
+        },
+        {
+            "path": "/kontor/nav-kristiansand",
+            "enhetNr": "1001"
+        },
+        {
+            "path": "/kontor/nav-sokndal",
+            "enhetNr": "1111"
+        },
+        {
+            "path": "/kontor/nav-raelingen",
+            "enhetNr": "0228"
+        },
+        {
+            "path": "/kontor/nav-eigersund-bjerkreim",
+            "enhetNr": "1101"
+        },
+        {
+            "path": "/kontor/nav-gjesdal",
+            "enhetNr": "1122"
+        },
+        {
+            "path": "/kontor/nav-strand",
+            "enhetNr": "1130"
+        },
+        {
+            "path": "/kontor/nav-askoy",
+            "enhetNr": "1247"
+        },
+        {
+            "path": "/kontor/nav-bjornafjorden",
+            "enhetNr": "1243"
+        },
+        {
+            "path": "/kontor/nav-kvinnherad",
+            "enhetNr": "1224"
+        },
+        {
+            "path": "/kontor/nav-sveio",
+            "enhetNr": "1216"
+        },
+        {
+            "path": "/kontor/nav-samnanger",
+            "enhetNr": "1242"
+        },
+        {
+            "path": "/kontor/nav-kvam",
+            "enhetNr": "1238"
+        },
+        {
+            "path": "/kontor/nav-tysnes",
+            "enhetNr": "1223"
+        },
+        {
+            "path": "/kontor/nav-austevoll",
+            "enhetNr": "1244"
+        },
+        {
+            "path": "/kontor/nav-voss",
+            "enhetNr": "1235"
+        },
+        {
+            "path": "/kontor/nav-osteroy",
+            "enhetNr": "1253"
+        },
+        {
+            "path": "/kontor/nav-vaksdal",
+            "enhetNr": "1251"
+        },
+        {
+            "path": "/kontor/nav-klepp-time",
+            "enhetNr": "1120"
+        },
+        {
+            "path": "/kontor/nav-sauda",
+            "enhetNr": "1135"
+        },
+        {
+            "path": "/kontor/nav-suldal",
+            "enhetNr": "1134"
+        },
+        {
+            "path": "/kontor/nav-hillevag-og-hinna",
+            "enhetNr": "1164"
+        },
+        {
+            "path": "/kontor/nav-vindafjord",
+            "enhetNr": "1160"
+        },
+        {
+            "path": "/kontor/nav-hundvag-og-storhaug",
+            "enhetNr": "1162"
+        },
+        {
+            "path": "/kontor/nav-as",
+            "enhetNr": "0214"
+        },
+        {
+            "path": "/kontor/nav-enebakk",
+            "enhetNr": "0229"
+        },
+        {
+            "path": "/kontor/nav-gjerdrum",
+            "enhetNr": "0234"
+        },
+        {
+            "path": "/kontor/nav-nesodden",
+            "enhetNr": "0216"
+        },
+        {
+            "path": "/kontor/nav-frogn",
+            "enhetNr": "0215"
+        },
+        {
+            "path": "/kontor/nav-halden-aremark",
+            "enhetNr": "0101"
+        },
+        {
+            "path": "/kontor/nav-rade",
+            "enhetNr": "0135"
+        },
+        {
+            "path": "/kontor/nav-nordre-follo",
+            "enhetNr": "0213"
+        },
+        {
+            "path": "/kontor/nav-hvaler",
+            "enhetNr": "0111"
+        },
+        {
+            "path": "/kontor/nav-baerum",
+            "enhetNr": "0219"
+        },
+        {
+            "path": "/kontor/nav-orkland",
+            "enhetNr": "1638"
+        },
+        {
+            "path": "/kontor/nav-grane",
+            "enhetNr": "1825"
+        },
+        {
+            "path": "/kontor/nav-kristiansund",
+            "enhetNr": "1505"
+        },
+        {
+            "path": "/kontor/nav-hareid-ulstein-sande",
+            "enhetNr": "1517"
+        },
+        {
+            "path": "/kontor/nav-roros-os-og-holtalen",
+            "enhetNr": "1640"
+        },
+        {
+            "path": "/kontor/nav-oppdal-og-rennebu",
+            "enhetNr": "1634"
+        },
+        {
+            "path": "/kontor/nav-heroy",
+            "enhetNr": "1818"
+        },
+        {
+            "path": "/kontor/nav-alstahaug",
+            "enhetNr": "1820"
+        },
+        {
+            "path": "/kontor/nav-indre-fosen",
+            "enhetNr": "5703"
+        },
+        {
+            "path": "/kontor/nav-sunnfjord",
+            "enhetNr": "1432"
+        },
+        {
+            "path": "/kontor/nav-stad",
+            "enhetNr": "1443"
+        },
+        {
+            "path": "/kontor/nav-luster",
+            "enhetNr": "1426"
+        },
+        {
+            "path": "/kontor/nav-ardal",
+            "enhetNr": "1424"
+        },
+        {
+            "path": "/kontor/nav-askvoll",
+            "enhetNr": "1428"
+        },
+        {
+            "path": "/kontor/nav-bremanger",
+            "enhetNr": "1438"
+        },
+        {
+            "path": "/kontor/nav-gloppen",
+            "enhetNr": "1445"
+        },
+        {
+            "path": "/kontor/nav-fjaler",
+            "enhetNr": "1429"
+        },
+        {
+            "path": "/kontor/nav-solund",
+            "enhetNr": "1412"
+        },
+        {
+            "path": "/kontor/nav-falkenborg",
+            "enhetNr": "5701"
+        },
+        {
+            "path": "/kontor/nav-rana",
+            "enhetNr": "1833"
+        },
+        {
+            "path": "/kontor/nav-flakstad",
+            "enhetNr": "1859"
+        },
+        {
+            "path": "/kontor/nav-kvaefjord",
+            "enhetNr": "1911"
+        },
+        {
+            "path": "/kontor/nav-malselv",
+            "enhetNr": "1924"
+        },
+        {
+            "path": "/kontor/nav-lyngen",
+            "enhetNr": "1938"
+        },
+        {
+            "path": "/kontor/nav-vaeroy",
+            "enhetNr": "1857"
+        },
+        {
+            "path": "/kontor/nav-traena",
+            "enhetNr": "1835"
+        },
+        {
+            "path": "/kontor/nav-karlsoy",
+            "enhetNr": "1936"
+        },
+        {
+            "path": "/kontor/nav-andoy",
+            "enhetNr": "1871"
+        },
+        {
+            "path": "/kontor/nav-vadso",
+            "enhetNr": "2003"
+        },
+        {
+            "path": "/kontor/nav-steigen",
+            "enhetNr": "1848"
+        },
+        {
+            "path": "/kontor/nav-rost",
+            "enhetNr": "1856"
+        },
+        {
+            "path": "/kontor/nav-salangen-lavangen-dyroy",
+            "enhetNr": "1923"
+        },
+        {
+            "path": "/kontor/nav-tromso",
+            "enhetNr": "1902"
+        },
+        {
+            "path": "/kontor/nav-balsfjord-storfjord",
+            "enhetNr": "1933"
+        },
+        {
+            "path": "/kontor/nav-vardo",
+            "enhetNr": "2002"
+        },
+        {
+            "path": "/kontor/nav-sortland",
+            "enhetNr": "1870"
+        },
+        {
+            "path": "/kontor/nav-senja-sorreisa",
+            "enhetNr": "1931"
+        },
+        {
+            "path": "/kontor/nav-berlevag",
+            "enhetNr": "2024"
+        },
+        {
+            "path": "/kontor/nav-sor-varanger",
+            "enhetNr": "2030"
+        },
+        {
+            "path": "/kontor/nav-deatnu-tana",
+            "enhetNr": "2025"
+        },
+        {
+            "path": "/kontor/nav-gamvik",
+            "enhetNr": "2023"
+        },
+        {
+            "path": "/kontor/nav-guovdageaidnu-kautokeino",
+            "enhetNr": "2011"
+        },
+        {
+            "path": "/kontor/nav-batsfjord",
+            "enhetNr": "2028"
+        },
+        {
+            "path": "/kontor/nav-nordkapp",
+            "enhetNr": "2019"
+        },
+        {
+            "path": "/kontor/nav-lebesby",
+            "enhetNr": "2022"
+        },
+        {
+            "path": "/kontor/nav-porsanger",
+            "enhetNr": "2020"
+        },
+        {
+            "path": "/kontor/nav-karasjohka-karasjok",
+            "enhetNr": "2021"
+        },
+        {
+            "path": "/kontor/nav-hattfjelldal",
+            "enhetNr": "1826"
+        },
+        {
+            "path": "/kontor/nav-moss",
+            "enhetNr": "0104"
+        },
+        {
+            "path": "/kontor/nav-stryn",
+            "enhetNr": "1449"
+        },
+        {
+            "path": "/kontor/nav-stovner",
+            "enhetNr": "0327"
+        },
+        {
+            "path": "/kontor/nav-nordreisa",
+            "enhetNr": "1942"
+        },
+        {
+            "path": "/kontor/nav-skjervoy",
+            "enhetNr": "1941"
+        },
+        {
+            "path": "/kontor/nav-kongsvinger",
+            "enhetNr": "0402"
+        },
+        {
+            "path": "/kontor/nav-trysil",
+            "enhetNr": "0428"
+        },
+        {
+            "path": "/kontor/nav-vestre-toten",
+            "enhetNr": "0529"
+        },
+        {
+            "path": "/kontor/nav-oyer",
+            "enhetNr": "0521"
+        },
+        {
+            "path": "/kontor/nav-sondre-land",
+            "enhetNr": "0536"
+        },
+        {
+            "path": "/kontor/nav-amot",
+            "enhetNr": "0429"
+        },
+        {
+            "path": "/kontor/nav-nittedal",
+            "enhetNr": "0233"
+        },
+        {
+            "path": "/kontor/nav-valdres",
+            "enhetNr": "0542"
+        },
+        {
+            "path": "/kontor/nav-hadeland",
+            "enhetNr": "0534"
+        },
+        {
+            "path": "/kontor/nav-valer-i-hedmark",
+            "enhetNr": "0426"
+        },
+        {
+            "path": "/kontor/nav-midt-gudbrandsdal",
+            "enhetNr": "0516"
+        },
+        {
+            "path": "/kontor/nav-nes-i-akershus",
+            "enhetNr": "0236"
+        },
+        {
+            "path": "/kontor/nav-nordre-land",
+            "enhetNr": "0538"
+        },
+        {
+            "path": "/kontor/nav-asnes",
+            "enhetNr": "0425"
+        },
+        {
+            "path": "/kontor/nav-arendal",
+            "enhetNr": "0906"
+        },
+        {
+            "path": "/kontor/nav-lillesand",
+            "enhetNr": "0926"
+        },
+        {
+            "path": "/kontor/nav-larvik",
+            "enhetNr": "5303"
+        },
+        {
+            "path": "/kontor/nav-evje-og-hornnes",
+            "enhetNr": "0937"
+        },
+        {
+            "path": "/kontor/nav-vegarshei",
+            "enhetNr": "0912"
+        },
+        {
+            "path": "/kontor/nav-grimstad",
+            "enhetNr": "0904"
+        },
+        {
+            "path": "/kontor/nav-froland",
+            "enhetNr": "0919"
+        },
+        {
+            "path": "/kontor/nav-gjerstad",
+            "enhetNr": "0911"
+        },
+        {
+            "path": "/kontor/nav-kragero",
+            "enhetNr": "0815"
+        },
+        {
+            "path": "/kontor/nav-tvedestrand",
+            "enhetNr": "0914"
+        },
+        {
+            "path": "/kontor/nav-siljan",
+            "enhetNr": "0811"
+        },
+        {
+            "path": "/kontor/nav-ovre-eiker",
+            "enhetNr": "0624"
+        },
+        {
+            "path": "/kontor/nav-faerder",
+            "enhetNr": "5302"
+        },
+        {
+            "path": "/kontor/nav-ringerike",
+            "enhetNr": "0605"
+        },
+        {
+            "path": "/kontor/nav-kongsberg",
+            "enhetNr": "0604"
+        },
+        {
+            "path": "/kontor/nav-numedal",
+            "enhetNr": "0632"
+        },
+        {
+            "path": "/kontor/nav-tiltak-ost-viken",
+            "enhetNr": "0287"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-midt-norge",
+            "enhetNr": "4292"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-vest",
+            "enhetNr": "4294"
+        },
+        {
+            "path": "/kontor/nav-innlandet",
+            "enhetNr": "0400"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-porsgrunn",
+            "enhetNr": "4808"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-bergen",
+            "enhetNr": "4812"
+        },
+        {
+            "path": "/kontor/nav-vega",
+            "enhetNr": "1815"
+        },
+        {
+            "path": "/kontor/nav-somna",
+            "enhetNr": "1812"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivning-rogaland",
+            "enhetNr": "1196"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-tromso",
+            "enhetNr": "4849"
+        },
+        {
+            "path": "/kontor/nav-vestland",
+            "enhetNr": "1200"
+        },
+        {
+            "path": "/kontor/nav-helse-vestfold-og-telemark",
+            "enhetNr": "0896"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-sor",
+            "enhetNr": "4250"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-nordland-mo",
+            "enhetNr": "4121"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-nord",
+            "enhetNr": "4295"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-nordland",
+            "enhetNr": "4718"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-nordland",
+            "enhetNr": "1891"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgiving-nordland",
+            "enhetNr": "1893"
+        },
+        {
+            "path": "/kontor/nav-tiltak-oslo",
+            "enhetNr": "0387"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-innlandet",
+            "enhetNr": "0491"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-rogaland",
+            "enhetNr": "1191"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-ost-viken",
+            "enhetNr": "0291"
+        },
+        {
+            "path": "/kontor/nav-trondelag",
+            "enhetNr": "5700"
+        },
+        {
+            "path": "/kontor/nav-agder",
+            "enhetNr": "1000"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-vestland",
+            "enhetNr": "1291"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-rogaland",
+            "enhetNr": "4711"
+        },
+        {
+            "path": "/kontor/nav-registerforvaltning",
+            "enhetNr": "4534"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-finnmark",
+            "enhetNr": "4720"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivningstjeneste-trondelag",
+            "enhetNr": "5773"
+        },
+        {
+            "path": "/kontor/nav-kontroll-nord",
+            "enhetNr": "4519"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-more-og-romsdal",
+            "enhetNr": "1591"
+        },
+        {
+            "path": "/kontor/nav-tiltak-agder",
+            "enhetNr": "1087"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-agder",
+            "enhetNr": "1091"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-vestland-forde",
+            "enhetNr": "4714"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-hordaland",
+            "enhetNr": "4712"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivning-innlandet",
+            "enhetNr": "0496"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-vest-viken",
+            "enhetNr": "0691"
+        },
+        {
+            "path": "/kontor/nav-arbeid-vestfold-og-telemark",
+            "enhetNr": "0891"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-oslo-1",
+            "enhetNr": "4833"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivningskontor-troms-og-finnmark",
+            "enhetNr": "2096"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivning-ost-viken",
+            "enhetNr": "0296"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivning-vest-viken",
+            "enhetNr": "0696"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivsenter-rogaland-haugesund",
+            "enhetNr": "1192"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-radgivende-legetjeneste",
+            "enhetNr": "4480"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-sarpsborg",
+            "enhetNr": "4401"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-oslo-og-akershus",
+            "enhetNr": "4291"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-romerike",
+            "enhetNr": "4402"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-oslo",
+            "enhetNr": "4403"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-lillehammer",
+            "enhetNr": "4405"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-tonsberg",
+            "enhetNr": "4407"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-skien",
+            "enhetNr": "4408"
+        },
+        {
+            "path": "/kontor/nav-tiltak-innlandet",
+            "enhetNr": "0587"
+        },
+        {
+            "path": "/kontor/nav-vest-viken",
+            "enhetNr": "0600"
+        },
+        {
+            "path": "/kontor/nav-vestfold-og-telemark",
+            "enhetNr": "0800"
+        },
+        {
+            "path": "/kontor/nav-intro-kristiansand",
+            "enhetNr": "1084"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-sandnes",
+            "enhetNr": "4811"
+        },
+        {
+            "path": "/kontor/nav-troms-og-finnmark",
+            "enhetNr": "1900"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-styringsenhet",
+            "enhetNr": "4200"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-styringsenhet",
+            "enhetNr": "4400"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-fauske",
+            "enhetNr": "4418"
+        },
+        {
+            "path": "/kontor/nav-kontroll-styringsenhet",
+            "enhetNr": "4500"
+        },
+        {
+            "path": "/kontor/nav-styringsenhet-hjelpemiddelsentr.spes.enheter",
+            "enhetNr": "4700"
+        },
+        {
+            "path": "/kontor/nav-medlemskap-og-avgift",
+            "enhetNr": "4530"
+        },
+        {
+            "path": "/kontor/nav-oppfolging-utland",
+            "enhetNr": "0393"
+        },
+        {
+            "path": "/kontor/nav-rogaland",
+            "enhetNr": "1100"
+        },
+        {
+            "path": "/kontor/nav-styringsenhet-kontaktsenter",
+            "enhetNr": "4100"
+        },
+        {
+            "path": "/kontor/nav-okonomi-stonad",
+            "enhetNr": "4151"
+        },
+        {
+            "path": "/kontor/nav-more-og-romsdal",
+            "enhetNr": "1500"
+        },
+        {
+            "path": "/kontor/fagsenter-for-nav-hjelpemidler-og-tilrettelegging",
+            "enhetNr": "4750"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-oslo-2",
+            "enhetNr": "4803"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-stord",
+            "enhetNr": "4842"
+        },
+        {
+            "path": "/kontor/nav-sentralt-yrkessykdomskontor",
+            "enhetNr": "4540"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-kristiansand",
+            "enhetNr": "4410"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-karmoy",
+            "enhetNr": "4411"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-trondheim",
+            "enhetNr": "4416"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-vadso",
+            "enhetNr": "4820"
+        },
+        {
+            "path": "/kontor/nav-okonomi-pensjon",
+            "enhetNr": "4819"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-styringsenhet",
+            "enhetNr": "4800"
+        },
+        {
+            "path": "/kontor/nav-tiltak-troms-og-finnmark",
+            "enhetNr": "1987"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-drammen",
+            "enhetNr": "4806"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-alesund",
+            "enhetNr": "4815"
+        },
+        {
+            "path": "/kontor/nav-familie-og-pensjonsytelser-utland-alesund",
+            "enhetNr": "4862"
+        },
+        {
+            "path": "/kontor/nav-spesialtjenester-agder",
+            "enhetNr": "1096"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-troms",
+            "enhetNr": "4719"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-troms-og-finnmark",
+            "enhetNr": "1991"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivning-oslo",
+            "enhetNr": "0396"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-rogaland",
+            "enhetNr": "4111"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-nordland-bodo",
+            "enhetNr": "4118"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-molde",
+            "enhetNr": "4415"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-oslo-og-vest-viken",
+            "enhetNr": "4106"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-troms-og-finnmark",
+            "enhetNr": "4119"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-vestland",
+            "enhetNr": "4112"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-ost-viken",
+            "enhetNr": "4101"
+        },
+        {
+            "path": "/kontor/nav-luroy",
+            "enhetNr": "1834"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-sogn",
+            "enhetNr": "4414"
+        },
+        {
+            "path": "/kontor/nav-tiltak-trondelag",
+            "enhetNr": "5771"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-telemark",
+            "enhetNr": "4108"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-vest-agder",
+            "enhetNr": "4110"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-trondelag-trondheim",
+            "enhetNr": "4116"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-vestfold",
+            "enhetNr": "4107"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-sogn-og-fjordane",
+            "enhetNr": "4114"
+        },
+        {
+            "path": "/kontor/nav-tinn",
+            "enhetNr": "0826"
+        },
+        {
+            "path": "/kontor/nav-unjarga-nesseby",
+            "enhetNr": "2027"
+        },
+        {
+            "path": "/kontor/nav-sykkylven",
+            "enhetNr": "1528"
+        },
+        {
+            "path": "/kontor/nav-donna",
+            "enhetNr": "1827"
+        },
+        {
+            "path": "/kontor/nav-hasvik",
+            "enhetNr": "2015"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-more-og-romsdal",
+            "enhetNr": "4115"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-aust-agder",
+            "enhetNr": "4109"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-trondelag-namsos",
+            "enhetNr": "4117"
+        },
+        {
+            "path": "/kontor/nav-lorenskog",
+            "enhetNr": "0230"
+        },
+        {
+            "path": "/kontor/nav-ha",
+            "enhetNr": "1119"
+        },
+        {
+            "path": "/kontor/nav-lier",
+            "enhetNr": "0626"
+        },
+        {
+            "path": "/kontor/nav-fredrikstad",
+            "enhetNr": "0106"
+        },
+        {
+            "path": "/kontor/nav-madla",
+            "enhetNr": "1165"
+        },
+        {
+            "path": "/kontor/nav-levanger",
+            "enhetNr": "1719"
+        },
+        {
+            "path": "/kontor/nav-ullensaker",
+            "enhetNr": "0235"
+        },
+        {
+            "path": "/kontor/nav-malvik",
+            "enhetNr": "1663"
+        },
+        {
+            "path": "/kontor/nav-gaivuotna-kafjord",
+            "enhetNr": "1940"
+        },
+        {
+            "path": "/kontor/nav-bodo",
+            "enhetNr": "1804"
+        },
+        {
+            "path": "/kontor/nav-hallingdal",
+            "enhetNr": "0617"
+        },
+        {
+            "path": "/kontor/nav-giske",
+            "enhetNr": "1532"
+        },
+        {
+            "path": "/kontor/nav-elverum",
+            "enhetNr": "0427"
+        },
+        {
+            "path": "/kontor/nav-marked-sor-rogaland",
+            "enhetNr": "1194"
+        },
+        {
+            "path": "/kontor/nav-marked-nord-rogaland",
+            "enhetNr": "1193"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-trondelag",
+            "enhetNr": "5772"
+        },
+        {
+            "path": "/kontor/nav-inn-trondelag",
+            "enhetNr": "1702"
+        },
+        {
+            "path": "/kontor/nav-arstad",
+            "enhetNr": "1208"
+        },
+        {
+            "path": "/kontor/nav-bergen-nord",
+            "enhetNr": "1203"
+        },
+        {
+            "path": "/kontor/nav-bergen-vest",
+            "enhetNr": "1206"
+        },
+        {
+            "path": "/kontor/nav-oygarden",
+            "enhetNr": "1246"
+        },
+        {
+            "path": "/kontor/nav-arbeidsradgivning-vestland",
+            "enhetNr": "1296"
+        },
+        {
+            "path": "/kontor/nav-kontaktsenter-innlandet",
+            "enhetNr": "4105"
+        },
+        {
+            "path": "/kontor/nav-orland",
+            "enhetNr": "1621"
+        },
+        {
+            "path": "/kontor/nav-sarpsborg",
+            "enhetNr": "0105"
+        },
+        {
+            "path": "/kontor/nav-lillehammer-gausdal",
+            "enhetNr": "0501"
+        },
+        {
+            "path": "/kontor/nav-stord",
+            "enhetNr": "1221"
+        },
+        {
+            "path": "/kontor/nav-porsgrunn",
+            "enhetNr": "0805"
+        },
+        {
+            "path": "/kontor/nav-hole",
+            "enhetNr": "0612"
+        },
+        {
+            "path": "/kontor/nav-vestby",
+            "enhetNr": "0211"
+        },
+        {
+            "path": "/kontor/nav-drangedal",
+            "enhetNr": "0817"
+        },
+        {
+            "path": "/kontor/nav-meloy",
+            "enhetNr": "1837"
+        },
+        {
+            "path": "/kontor/nav-gildeskal",
+            "enhetNr": "1838"
+        },
+        {
+            "path": "/kontor/nav-indre-ostfold",
+            "enhetNr": "0124"
+        },
+        {
+            "path": "/kontor/nav-sula",
+            "enhetNr": "1531"
+        },
+        {
+            "path": "/kontor/nav-fensfjorden",
+            "enhetNr": "1266"
+        },
+        {
+            "path": "/kontor/nav-marker",
+            "enhetNr": "0119"
+        },
+        {
+            "path": "/kontor/nav-heroy-og-vanylven",
+            "enhetNr": "1515"
+        },
+        {
+            "path": "/kontor/nav-lom-skjak",
+            "enhetNr": "0513"
+        },
+        {
+            "path": "/kontor/nav-nannestad",
+            "enhetNr": "0238"
+        },
+        {
+            "path": "/kontor/nav-vik",
+            "enhetNr": "1417"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-akershus",
+            "enhetNr": "4702"
+        },
+        {
+            "path": "/kontor/nav-sel",
+            "enhetNr": "0517"
+        },
+        {
+            "path": "/kontor/nav-jevnaker",
+            "enhetNr": "0532"
+        },
+        {
+            "path": "/kontor/nav-skaun",
+            "enhetNr": "1657"
+        },
+        {
+            "path": "/kontor/nav-kinn",
+            "enhetNr": "1401"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-more-og-romsdal",
+            "enhetNr": "4715"
+        },
+        {
+            "path": "/kontor/nav-arbeidslivssenter-oslo",
+            "enhetNr": "0391"
+        },
+        {
+            "path": "/kontor/nav-bamble",
+            "enhetNr": "0814"
+        },
+        {
+            "path": "/kontor/nav-harstad",
+            "enhetNr": "1903"
+        },
+        {
+            "path": "/kontor/nav-midtre-namdal",
+            "enhetNr": "1703"
+        },
+        {
+            "path": "/kontor/nav-horten",
+            "enhetNr": "0701"
+        },
+        {
+            "path": "/kontor/nav-lesja-dovre",
+            "enhetNr": "0511"
+        },
+        {
+            "path": "/kontor/nav-tjeldsund",
+            "enhetNr": "1913"
+        },
+        {
+            "path": "/kontor/nav-ullensvang",
+            "enhetNr": "1228"
+        },
+        {
+            "path": "/kontor/nav-skien",
+            "enhetNr": "0806"
+        },
+        {
+            "path": "/kontor/nav-sandnes",
+            "enhetNr": "1102"
+        },
+        {
+            "path": "/kontor/nav-vaga",
+            "enhetNr": "0515"
+        },
+        {
+            "path": "/kontor/nav-nord-osterdal",
+            "enhetNr": "0437"
+        },
+        {
+            "path": "/kontor/nav-stor-elvdal",
+            "enhetNr": "0430"
+        },
+        {
+            "path": "/kontor/nav-frogner",
+            "enhetNr": "0312"
+        },
+        {
+            "path": "/kontor/nav-gjovik",
+            "enhetNr": "0502"
+        },
+        {
+            "path": "/kontor/nav-bergenhus",
+            "enhetNr": "1209"
+        },
+        {
+            "path": "/kontor/nav-gjemnes",
+            "enhetNr": "1557"
+        },
+        {
+            "path": "/kontor/nav-fitjar",
+            "enhetNr": "1222"
+        },
+        {
+            "path": "/kontor/nav-oslo",
+            "enhetNr": "0300"
+        },
+        {
+            "path": "/kontor/nav-rodoy",
+            "enhetNr": "1836"
+        },
+        {
+            "path": "/kontor/nav-kontroll-ost",
+            "enhetNr": "4503"
+        },
+        {
+            "path": "/kontor/nav-asker",
+            "enhetNr": "0220"
+        },
+        {
+            "path": "/kontor/nav-rakkestad",
+            "enhetNr": "0128"
+        },
+        {
+            "path": "/kontor/nav-grunerlokka",
+            "enhetNr": "0315"
+        },
+        {
+            "path": "/kontor/nav-bronnoy",
+            "enhetNr": "1813"
+        },
+        {
+            "path": "/kontor/nav-loten",
+            "enhetNr": "0415"
+        },
+        {
+            "path": "/kontor/nav-hamar",
+            "enhetNr": "0403"
+        },
+        {
+            "path": "/kontor/nav-rennesoy-og-finnoy",
+            "enhetNr": "1169"
+        },
+        {
+            "path": "/kontor/nav-lodingen",
+            "enhetNr": "1851"
+        },
+        {
+            "path": "/kontor/nav-birkenes",
+            "enhetNr": "0928"
+        },
+        {
+            "path": "/kontor/nav-alesund",
+            "enhetNr": "1504"
+        },
+        {
+            "path": "/kontor/nav-notodden",
+            "enhetNr": "0807"
+        },
+        {
+            "path": "/kontor/nav-vest-telemark",
+            "enhetNr": "0833"
+        },
+        {
+            "path": "/kontor/nav-lillestrom",
+            "enhetNr": "0231"
+        },
+        {
+            "path": "/kontor/nav-engerdal",
+            "enhetNr": "0434"
+        },
+        {
+            "path": "/kontor/nav-bergen-sor",
+            "enhetNr": "1202"
+        },
+        {
+            "path": "/kontor/nav-bomlo",
+            "enhetNr": "1219"
+        },
+        {
+            "path": "/kontor/nav-alver",
+            "enhetNr": "1263"
+        },
+        {
+            "path": "/kontor/nav-midt-telemark",
+            "enhetNr": "0821"
+        },
+        {
+            "path": "/kontor/nav-lerkendal",
+            "enhetNr": "5702"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-ostfold",
+            "enhetNr": "4701"
+        },
+        {
+            "path": "/kontor/nav-drammen",
+            "enhetNr": "0602"
+        },
+        {
+            "path": "/kontor/nav-aurskog-holand",
+            "enhetNr": "0221"
+        },
+        {
+            "path": "/kontor/nav-aurland",
+            "enhetNr": "1421"
+        },
+        {
+            "path": "/kontor/nav-laerdal",
+            "enhetNr": "1422"
+        },
+        {
+            "path": "/kontor/nav-amli",
+            "enhetNr": "0929"
+        },
+        {
+            "path": "/kontor/nav-stange",
+            "enhetNr": "0417"
+        },
+        {
+            "path": "/kontor/nav-lund",
+            "enhetNr": "1112"
+        },
+        {
+            "path": "/kontor/nav-ibestad",
+            "enhetNr": "1917"
+        },
+        {
+            "path": "/kontor/nav-hitra-froya",
+            "enhetNr": "1620"
+        },
+        {
+            "path": "/kontor/nav-bo",
+            "enhetNr": "1867"
+        },
+        {
+            "path": "/kontor/nav-svolvaer",
+            "enhetNr": "1865"
+        },
+        {
+            "path": "/kontor/nav-gamle-oslo",
+            "enhetNr": "0316"
+        },
+        {
+            "path": "/kontor/nav-nesna",
+            "enhetNr": "1828"
+        },
+        {
+            "path": "/kontor/nav-hemnes",
+            "enhetNr": "1832"
+        },
+        {
+            "path": "/kontor/nav-ringsaker",
+            "enhetNr": "0412"
+        },
+        {
+            "path": "/kontor/nav-oksnes",
+            "enhetNr": "1868"
+        },
+        {
+            "path": "/kontor/nav-grong",
+            "enhetNr": "1742"
+        },
+        {
+            "path": "/kontor/nav-sola",
+            "enhetNr": "1124"
+        },
+        {
+            "path": "/kontor/nav-aure",
+            "enhetNr": "1576"
+        },
+        {
+            "path": "/kontor/nav-molde",
+            "enhetNr": "1502"
+        },
+        {
+            "path": "/kontor/nav-eiganes-og-tasta",
+            "enhetNr": "1161"
+        },
+        {
+            "path": "/kontor/nav-sor-odal",
+            "enhetNr": "0419"
+        },
+        {
+            "path": "/kontor/nav-hadsel",
+            "enhetNr": "1866"
+        },
+        {
+            "path": "/kontor/nav-risor",
+            "enhetNr": "0901"
+        },
+        {
+            "path": "/kontor/nav-sagene",
+            "enhetNr": "0314"
+        },
+        {
+            "path": "/kontor/nav-eidfjord",
+            "enhetNr": "1232"
+        },
+        {
+            "path": "/kontor/nav-valer",
+            "enhetNr": "0137"
+        },
+        {
+            "path": "/kontor/nav-arbeid-og-ytelser-lonnsgaranti-vardo",
+            "enhetNr": "4426"
+        },
+        {
+            "path": "/kontor/nav-ulvik",
+            "enhetNr": "1233"
+        },
+        {
+            "path": "/kontor/nav-haugesund-utsira",
+            "enhetNr": "1106"
+        },
+        {
+            "path": "/kontor/nav-grue",
+            "enhetNr": "0423"
+        },
+        {
+            "path": "/kontor/nav-moskenes",
+            "enhetNr": "1874"
+        },
+        {
+            "path": "/kontor/nav-lister",
+            "enhetNr": "1037"
+        },
+        {
+            "path": "/kontor/nav-ostre-toten",
+            "enhetNr": "0528"
+        },
+        {
+            "path": "/kontor/nav-eidskog",
+            "enhetNr": "0420"
+        },
+        {
+            "path": "/kontor/nav-randaberg-kvitsoy",
+            "enhetNr": "1127"
+        },
+        {
+            "path": "/kontor/nav-leirfjord",
+            "enhetNr": "1822"
+        },
+        {
+            "path": "/kontor/nav-kvaenangen",
+            "enhetNr": "1943"
+        },
+        {
+            "path": "/kontor/nav-vestvagoy",
+            "enhetNr": "1860"
+        },
+        {
+            "path": "/kontor/nav-alta",
+            "enhetNr": "2012"
+        },
+        {
+            "path": "/kontor/nav-loppa",
+            "enhetNr": "2014"
+        },
+        {
+            "path": "/kontor/nav-verdal",
+            "enhetNr": "1721"
+        },
+        {
+            "path": "/kontor/nav-hyllestad",
+            "enhetNr": "1413"
+        },
+        {
+            "path": "/kontor/nav-sogndal",
+            "enhetNr": "1420"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-trondelag",
+            "enhetNr": "4716"
+        },
+        {
+            "path": "/kontor/nav-hurdal",
+            "enhetNr": "0239"
+        },
+        {
+            "path": "/kontor/nav-sunndal",
+            "enhetNr": "1563"
+        },
+        {
+            "path": "/kontor/nav-sandefjord",
+            "enhetNr": "0710"
+        },
+        {
+            "path": "/kontor/nav-modum",
+            "enhetNr": "0623"
+        },
+        {
+            "path": "/kontor/nav-vaernes",
+            "enhetNr": "1783"
+        },
+        {
+            "path": "/kontor/nav-holmestrand",
+            "enhetNr": "5301"
+        },
+        {
+            "path": "/kontor/nav-klageinstans-ost",
+            "enhetNr": "4293"
+        },
+        {
+            "path": "/kontor/nav-karmoy-bokn",
+            "enhetNr": "1149"
+        },
+        {
+            "path": "/kontor/nav-tingvoll",
+            "enhetNr": "1560"
+        },
+        {
+            "path": "/kontor/nav-hjartdal",
+            "enhetNr": "0827"
+        },
+        {
+            "path": "/kontor/nav-hjelpemiddelsentral-oslo",
+            "enhetNr": "4703"
+        },
+        {
+            "path": "/kontor/nav-nordstrand",
+            "enhetNr": "0318"
+        },
+        {
+            "path": "/kontor/nav-midt-agder",
+            "enhetNr": "1014"
+        },
+        {
+            "path": "/kontor/nav-eidsvoll",
+            "enhetNr": "0237"
+        },
+        {
+            "path": "/kontor/nav-tonsberg",
+            "enhetNr": "0704"
+        }
+    ]
 }

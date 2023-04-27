@@ -1,33 +1,33 @@
 {
-  "postnr": "0354",
-  "poststed": "OSLO",
-  "poststedNormalized": "oslo",
-  "kommuneNavn": "OSLO",
-  "kommunenr": "0301",
-  "kategori": "G",
-  "officeInfo": [
-    {
-      "name": "NAV Alna",
-      "url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/kontorer/nav-alna",
-      "geoId": "030112",
-      "enhetNr": "0326",
-      "hitString": ""
-    },
-    {
-      "name": "NAV Bjerke",
-      "url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/kontorer/nav-bjerke",
-      "geoId": "030109",
-      "enhetNr": "0330",
-      "hitString": ""
-    },
-    {
-      "name": "NAV Frogner",
-      "url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/kontorer/nav-frogner",
-      "geoId": "030105",
-      "enhetNr": "0312",
-      "hitString": ""
-    }
-  ],
-  "type": "postnr",
-  "withAllBydeler": true
+    "postnr": "0354",
+    "poststed": "OSLO",
+    "poststedNormalized": "oslo",
+    "kommuneNavn": "OSLO",
+    "kommunenr": "0301",
+    "kategori": "G",
+    "officeInfo": [
+        {
+            "name": "NAV Alna",
+            "url": "https://www.nav.no/kontor/nav-alna",
+            "geoId": "030112",
+            "enhetNr": "0326",
+            "hitString": ""
+        },
+        {
+            "name": "NAV Bjerke",
+            "url": "https://www.nav.no/kontor/nav-bjerke",
+            "geoId": "030109",
+            "enhetNr": "0330",
+            "hitString": ""
+        },
+        {
+            "name": "NAV Frogner",
+            "url": "https://www.nav.no/kontor/nav-frogner",
+            "geoId": "030105",
+            "enhetNr": "0312",
+            "hitString": ""
+        }
+    ],
+    "type": "postnr",
+    "withAllBydeler": true
 }
