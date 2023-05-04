@@ -1,18 +1,18 @@
 {
-  "hits": [
-    {
-      "name": "EVJE OG HORNNES",
-      "officeHits": [
+    "hits": [
         {
-          "name": "NAV Evje og Hornnes",
-          "url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/kontorer/nav-evje-og-hornnes",
-          "geoId": "4219",
-          "enhetNr": "0937",
-          "hitString": "EVJE OG HORNNES"
+            "name": "EVJE OG HORNNES",
+            "officeHits": [
+                {
+                    "name": "NAV Evje og Hornnes",
+                    "url": "https://www.nav.no/kontor/nav-evje-og-hornnes",
+                    "geoId": "4219",
+                    "enhetNr": "0937",
+                    "hitString": "EVJE OG HORNNES"
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "type": "name",
-  "input": "evje og hornnes"
+    ],
+    "type": "name",
+    "input": "evje og hornnes"
 }

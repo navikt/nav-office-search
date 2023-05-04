@@ -1,18 +1,18 @@
 {
-  "postnr": "4737",
-  "poststed": "HORNNES",
-  "poststedNormalized": "hornnes",
-  "kommuneNavn": "EVJE OG HORNNES",
-  "kommunenr": "4219",
-  "kategori": "G",
-  "officeInfo": [
-    {
-      "name": "NAV Evje og Hornnes",
-      "url": "https://www.nav.no/no/nav-og-samfunn/kontakt-nav/kontorer/nav-evje-og-hornnes",
-      "geoId": "4219",
-      "enhetNr": "0937",
-      "hitString": ""
-    }
-  ],
-  "type": "postnr"
+    "postnr": "4737",
+    "poststed": "HORNNES",
+    "poststedNormalized": "hornnes",
+    "kommuneNavn": "EVJE OG HORNNES",
+    "kommunenr": "4219",
+    "kategori": "G",
+    "officeInfo": [
+        {
+            "name": "NAV Evje og Hornnes",
+            "url": "https://www.nav.no/kontor/nav-evje-og-hornnes",
+            "geoId": "4219",
+            "enhetNr": "0937",
+            "hitString": ""
+        }
+    ],
+    "type": "postnr"
 }
