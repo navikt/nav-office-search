@@ -11,6 +11,7 @@ declare global {
             VITE_APP_BASEPATH: string;
             VITE_APP_ORIGIN: string;
             VITE_XP_ORIGIN: string;
+            VITE_NAVNO_ORIGIN: string;
             NODE_ENV: 'development' | 'production';
         }
     }

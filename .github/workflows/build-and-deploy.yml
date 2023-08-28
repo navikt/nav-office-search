@@ -14,6 +14,9 @@ on:
       XP_ORIGIN:
         required: true
         type: string
+      NAVNO_ORIGIN:
+        required: true
+        type: string
     secrets:
       NAIS_DEPLOY_APIKEY:
         required: true
@@ -43,6 +46,7 @@ jobs:
           VITE_APP_ORIGIN=${{ inputs.APP_ORIGIN }}
           VITE_APP_BASEPATH=${{ env.basePath }}
           VITE_XP_ORIGIN=${{ inputs.XP_ORIGIN }}
+          VITE_NAVNO_ORIGIN=${{ inputs.NAVNO_ORIGIN }}
           API_ORIGIN=${{ inputs.API_ORIGIN }}
           ENV=${{ inputs.environment }}
           EOF
