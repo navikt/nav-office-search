@@ -44,5 +44,5 @@ export const getOfficeUrl = (enhetNr: string) => {
         return null;
     }
 
-    return `${process.env.VITE_XP_ORIGIN}${path}`;
+    return `${process.env.VITE_NAVNO_ORIGIN}${path}`;
 };

@@ -16,6 +16,7 @@ jobs:
       APP_ORIGIN: https://www.nav.no
       API_ORIGIN: https://nav-office-search-api.prod-fss-pub.nais.io
       XP_ORIGIN: https://www.nav.no
+      NAVNO_ORIGIN: https://www.nav.no
     secrets:
       NAIS_DEPLOY_APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
       READER_TOKEN: ${{ secrets.READER_TOKEN }}

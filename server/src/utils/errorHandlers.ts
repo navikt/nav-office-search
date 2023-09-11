@@ -2,7 +2,7 @@ import { ErrorRequestHandler, Express, RequestHandler } from 'express';
 
 const createNotFoundHandler = async (): Promise<RequestHandler> => {
     // Fetch static 404-page from the nav.no frontend
-    const notFoundHtml = await fetch(`${process.env.VITE_XP_ORIGIN}/404`)
+    const notFoundHtml = await fetch(`${process.env.VITE_NAVNO_ORIGIN}/404`)
         .then((res) => {
             if (res.status === 404) {
                 return res.text();
