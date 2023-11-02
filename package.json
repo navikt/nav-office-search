@@ -17,6 +17,7 @@
     },
     "workspaces": ["server"],
     "dependencies": {
+        "@navikt/ds-icons": "3.0.0",
         "@navikt/ds-css": "3.0.0",
         "@navikt/ds-react": "3.0.0",
         "@navikt/nav-dekoratoren-moduler": "2.1.3",
