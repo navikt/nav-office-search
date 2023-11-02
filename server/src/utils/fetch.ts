@@ -79,6 +79,7 @@ export const fetchJson = async <T = any>(
 
         return fetchErrorResponse(res.status, errorMsg);
     } catch (e: any) {
+        console.error(`Error fetching from url ${url}: ${e?.toString()}`);
         return fetchErrorResponse(500, e?.toString());
     }
 };
