@@ -17,8 +17,8 @@
     },
     "workspaces": ["server"],
     "dependencies": {
-        "@navikt/ds-css": "3.4.2",
-        "@navikt/ds-react": "3.4.2",
+        "@navikt/ds-css": "2.9.8",
+        "@navikt/ds-react": "2.9.8",
         "@navikt/nav-dekoratoren-moduler": "2.1.3",
         "@preact/compat": "17.1.2",
         "lodash.debounce": "4.0.8",
