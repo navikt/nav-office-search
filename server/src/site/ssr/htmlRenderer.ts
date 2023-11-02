@@ -19,8 +19,13 @@ const processTemplate = async (
 
 export const prodRender: HtmlRenderer = async (locale: AppLocale) => {
     const template = await getTemplateWithDecorator(locale);
-    const appHtml = render(locale);
-    return processTemplate(locale, template, appHtml);
+    try {
+        const appHtml = await render(locale);
+        return processTemplate(locale, template, appHtml);
+    } catch (e) {
+        console.error(`Error occured while server rendering app! - ${e}`);
+        return processTemplate(locale, template, '');
+    }
 };
 
 export const devRender =
