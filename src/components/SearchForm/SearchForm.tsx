@@ -99,7 +99,8 @@ export const SearchForm = () => {
                     variant="primary"
                     hideLabel={false}
                     label={<LocaleString id={'inputLabel'} />}
-                    id={'search-input'}
+                    id="search-input"
+                    autoComplete="off"
                     ref={inputRef}
                     onChange={() => handleInput(false)}
                     error={
