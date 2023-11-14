@@ -7,7 +7,7 @@ import style from './OfficeSearch.module.css';
 
 export const OfficeSearch = () => {
     return (
-        <div role={'main'} className={style.appContainer}>
+        <div className={style.appContainer}>
             <Heading size={'xlarge'} className={style.title}>
                 <LocaleString id={'pageTitle'} />
             </Heading>
