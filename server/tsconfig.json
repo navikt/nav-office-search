@@ -20,6 +20,8 @@
     "resolveJsonModule": true
   },
   "include": [
-    "**/*.ts"
+    "src/**/*.ts",
+    "../common/**/*.ts",
+    "global.d.ts"
   ]
 }
