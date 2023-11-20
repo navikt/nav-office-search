@@ -4,7 +4,7 @@ import { App } from './App';
 import { AppLocale } from '../common/localization/types';
 
 ReactDOM.hydrateRoot(
-    document.getElementById('app') as HTMLElement,
+    document.getElementById('maincontent') as HTMLElement,
     <React.StrictMode>
         <App locale={document.documentElement.lang as AppLocale} />
     </React.StrictMode>
