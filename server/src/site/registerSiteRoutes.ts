@@ -4,6 +4,7 @@ import { HtmlRenderer, devRender, prodRender } from './ssr/htmlRenderer';
 import { createCacheMiddleware } from '../utils/cacheMiddleware';
 
 const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
+const favicon = `${process.cwd()}/frontendDist/client/favicon.ico`;
 
 const isProd = process.env.NODE_ENV !== 'development';
 
@@ -16,6 +17,14 @@ export const registerSiteRoutes = async (router: Router) => {
         router.use(
             '/assets',
             express.static(assetsDir, {
+                maxAge: '1y',
+                index: 'false',
+            })
+        );
+
+        router.use(
+            '/favicon.ico',
+            express.static(favicon, {
                 maxAge: '1y',
                 index: 'false',
             })
