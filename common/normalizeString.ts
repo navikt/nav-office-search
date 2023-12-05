@@ -30,10 +30,17 @@ const replaceSpecialCharFunc = (match: string) => {
 
 const removeNavAtStartRegex = new RegExp(`^(nav)(.{3,})$`, 'i');
 
-export const normalizeString = (str: string) =>
-    str
-        ? str
-              .toLowerCase()
-              .replace(replaceSpecialCharPattern, replaceSpecialCharFunc)
-              .replace(removeNavAtStartRegex, '')
-        : '';
+export const normalizeString = (str: string) => {
+    if (!str) {
+        return '';
+    }
+
+    const navMatch = str.match(removeNavAtStartRegex) || '';
+
+    const normalized = str
+        .toLowerCase()
+        .replace(replaceSpecialCharPattern, replaceSpecialCharFunc)
+        .replace(navMatch[0], navMatch[2]);
+
+    return normalized;
+};
