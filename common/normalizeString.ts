@@ -28,7 +28,7 @@ const replaceSpecialCharFunc = (match: string) => {
     return newChar !== undefined ? newChar : match;
 };
 
-const removeNavAtStartRegex = new RegExp(`^(nav)(.{3,})$`, 'i');
+const removeNavAtStartRegex = /^(nav)(.{3,})$/i;
 
 export const normalizeString = (str: string) => {
     if (!str) {
