@@ -115,9 +115,9 @@ export const nameSearchHandler = async (req: Request, res: Response) => {
     const removeNavAtStartRegex = /^(nav )(.{3,})$/i;
     const navMatch = query.match(removeNavAtStartRegex) || '';
 
-    const normalizedQuery = normalizeString(
-        query.replace(navMatch[0], navMatch[2])
-    );
+    const queryWithoutNAVPrefix = query.replace(navMatch[0], navMatch[2]);
+
+    const normalizedQuery = normalizeString(queryWithoutNAVPrefix);
 
     const poststederHits = findPoststeder(normalizedQuery);
 
