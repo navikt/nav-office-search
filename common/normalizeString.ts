@@ -28,14 +28,9 @@ const replaceSpecialCharFunc = (match: string) => {
     return newChar !== undefined ? newChar : match;
 };
 
-export const normalizeString = (str: string) => {
-    if (!str) {
-        return '';
-    }
-
-    const normalized = str
-        .toLowerCase()
-        .replace(replaceSpecialCharPattern, replaceSpecialCharFunc);
-
-    return normalized;
-};
+export const normalizeString = (str: string) =>
+    str
+        ? str
+              .toLowerCase()
+              .replace(replaceSpecialCharPattern, replaceSpecialCharFunc)
+        : '';
