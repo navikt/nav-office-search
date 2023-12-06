@@ -28,19 +28,14 @@ const replaceSpecialCharFunc = (match: string) => {
     return newChar !== undefined ? newChar : match;
 };
 
-const removeNavAtStartRegex = /^(nav)(.{3,})$/i;
-
 export const normalizeString = (str: string) => {
     if (!str) {
         return '';
     }
 
-    const navMatch = str.match(removeNavAtStartRegex) || '';
-
     const normalized = str
         .toLowerCase()
-        .replace(replaceSpecialCharPattern, replaceSpecialCharFunc)
-        .replace(navMatch[0], navMatch[2]);
+        .replace(replaceSpecialCharPattern, replaceSpecialCharFunc);
 
     return normalized;
 };
