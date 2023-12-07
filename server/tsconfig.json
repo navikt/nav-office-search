@@ -9,11 +9,10 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "lib": [
-      "es2021",
-      "dom"
+      "es2021"
     ],
     "moduleResolution": "node",
-    "module": "NodeNext",
+    "module": "CommonJS",
     "outDir": "./dist",
     "strict": true,
     "target": "ES2021",
