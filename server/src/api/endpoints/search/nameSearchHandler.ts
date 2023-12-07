@@ -112,7 +112,7 @@ export const nameSearchHandler = async (req: Request, res: Response) => {
         return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
     }
 
-    const queryWithoutNAVPrefix = query.replace(/^nav /i, "");
+    const queryWithoutNAVPrefix = query.trim().replace(/^nav /i, '');
 
     const normalizedQuery = normalizeString(queryWithoutNAVPrefix);
 
