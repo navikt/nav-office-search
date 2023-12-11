@@ -9,6 +9,20 @@ import { normalizeString } from '../../../../../common/normalizeString';
 import { norskSort, sortOfficeNames } from '../../../utils/sort';
 import { apiErrorResponse } from '../../../utils/fetch';
 
+const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
+    return getKommunerArray().reduce((matches, kommune) => {
+        const isMatch = kommune.officeInfo?.name
+            .toLowerCase()
+            .includes(normalizedQuery);
+        if (!isMatch) {
+            return matches;
+        }
+
+        const officeInfo: OfficeInfo = (kommune.officeInfo || {}) as OfficeInfo;
+        return [...matches, officeInfo];
+    }, [] as OfficeInfo[]);
+};
+
 const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
     const bydelerMatches = getBydelerArray().filter((bydel) =>
         bydel.navnNormalized.includes(normalizedQuery)
@@ -122,9 +136,16 @@ export const nameSearchHandler = async (req: Request, res: Response) => {
 
     const bydelerHits = findBydeler(normalizedQuery);
 
+    const officeNameHits = findOfficeName(normalizedQuery);
+
     return res.status(200).send({
         hits: transformHits(
-            [...poststederHits, ...kommunerHits, ...bydelerHits],
+            [
+                ...poststederHits,
+                ...kommunerHits,
+                ...bydelerHits,
+                ...officeNameHits,
+            ],
             normalizedQuery
         ),
         type: 'name',
