@@ -10,16 +10,20 @@ import { norskSort, sortOfficeNames } from '../../../utils/sort';
 import { apiErrorResponse } from '../../../utils/fetch';
 
 const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
-    return getKommunerArray().reduce((matches, kommune) => {
+    // The office names is buried in the kommuner array,
+    // so start from there
+    return getKommunerArray().reduce((acc, kommune) => {
         const isMatch = kommune.officeInfo?.name
             .toLowerCase()
             .includes(normalizedQuery);
         if (!isMatch) {
-            return matches;
+            return acc;
         }
 
         const officeInfo: OfficeInfo = (kommune.officeInfo || {}) as OfficeInfo;
-        return [...matches, officeInfo];
+        const hitString = kommune.officeInfo?.name || '';
+
+        return [...acc, { ...officeInfo, hitString }];
     }, [] as OfficeInfo[]);
 };
 
@@ -99,7 +103,12 @@ const transformHits = (
 ): NameHit[] => {
     const hitsMap: { [name: string]: OfficeInfo[] } = {};
 
-    for (const officeHit of officeHits) {
+    const officeHitsWithoutDuplicates = removeDuplicates(
+        officeHits,
+        (a, b) => a.enhetNr === b.enhetNr
+    );
+
+    for (const officeHit of officeHitsWithoutDuplicates) {
         const name = officeHit.hitString;
         if (!hitsMap[name]) {
             hitsMap[name] = [];
