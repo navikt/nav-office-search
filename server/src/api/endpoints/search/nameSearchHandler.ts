@@ -120,10 +120,7 @@ const transformHits = (
     return Object.entries(hitsMap)
         .map(([name, hits]) => ({
             name: name,
-            officeHits: removeDuplicates(
-                hits,
-                (a, b) => a.enhetNr === b.enhetNr
-            ).sort(sortOfficeNames),
+            officeHits: hits.sort(sortOfficeNames),
         }))
         .sort(sortNamesWithQueryFirstBias(normalizedQuery));
 };
