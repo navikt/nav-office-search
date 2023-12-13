@@ -118,10 +118,14 @@ const transformHits = (
     }
 
     return Object.entries(hitsMap)
-        .map(([name, hits]) => ({
-            name: name,
-            officeHits: hits.sort(sortOfficeNames),
-        }))
+        .map(([name, hits]) => {
+            const officeHits = [...hits].sort(sortOfficeNames);
+
+            return {
+                name: name,
+                officeHits,
+            };
+        })
         .sort(sortNamesWithQueryFirstBias(normalizedQuery));
 };
 
