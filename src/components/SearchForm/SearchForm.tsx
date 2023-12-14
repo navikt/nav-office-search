@@ -16,6 +16,9 @@ import {
 
 import style from './SearchForm.module.css';
 
+const isEmptyInput = (input?: string): input is string =>
+    typeof input === 'string' && input.length === 0;
+
 const isValidInput = (input?: string): input is string =>
     typeof input === 'string' && input.length >= 2;
 
@@ -40,6 +43,13 @@ export const SearchForm = () => {
         const input = inputRef.current?.value;
 
         abortSearchClient();
+        runSearch.cancel();
+
+        if (isEmptyInput(input)) {
+            setSearchResult(undefined);
+            resetError();
+            return;
+        }
 
         if (!isValidInput(input)) {
             if (submit) {
