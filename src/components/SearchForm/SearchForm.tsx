@@ -43,12 +43,13 @@ export const SearchForm = () => {
         const input = inputRef.current?.value;
 
         abortSearchClient();
-        runSearch.cancel();
+
+        if (runSearch.cancel) {
+            runSearch.cancel();
+        }
 
         if (isEmptyInput(input)) {
             setSearchResult(undefined);
-            resetError();
-            return;
         }
 
         if (!isValidInput(input)) {
