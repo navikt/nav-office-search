@@ -50,8 +50,6 @@ const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
                 ? buildOfficeHit(kommune.officeInfo, kommune.kommuneNavn)
                 : null;
 
-        officeHits.concat(bydelerOfficeHits);
-
         officeHits = officeHit
             ? [...officeHits, ...bydelerOfficeHits, officeHit]
             : [...officeHits, ...bydelerOfficeHits];
