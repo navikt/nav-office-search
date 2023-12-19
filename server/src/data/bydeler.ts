@@ -121,9 +121,8 @@ const fetchBydelerRawData = async () => {
         return null;
     }
 
-    const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(
-        currentVersionUrl
-    );
+    const currentBydelerVersion =
+        await fetchJson<SSB_VersionResponse>(currentVersionUrl);
 
     if (currentBydelerVersion.error) {
         console.error(

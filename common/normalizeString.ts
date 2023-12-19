@@ -14,7 +14,6 @@ const charMap: { [key: string]: string } = {
     ã: 'a',
     ä: 'a',
     '.': '-',
-    ' ': '-',
 };
 
 const charsToReplace = Object.keys(charMap).reduce((acc, char) => {
