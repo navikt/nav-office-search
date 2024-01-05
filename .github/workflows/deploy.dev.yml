@@ -16,5 +16,4 @@ jobs:
       XP_ORIGIN: https://portal-admin-dev.oera.no
       NAVNO_ORIGIN: https://www.ekstern.dev.nav.no
     secrets:
-      NAIS_DEPLOY_APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
       READER_TOKEN: ${{ secrets.READER_TOKEN }}

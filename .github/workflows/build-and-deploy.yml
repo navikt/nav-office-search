@@ -18,8 +18,6 @@ on:
         required: true
         type: string
     secrets:
-      NAIS_DEPLOY_APIKEY:
-        required: true
       READER_TOKEN:
         required: true
 
@@ -71,7 +69,6 @@ jobs:
       - uses: nais/deploy/actions/deploy@master
         env:
           CLUSTER: ${{ inputs.environment }}-gcp
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: .nais/config.yml
           VAR: image=${{ env.image }},basePath=${{ env.basePath }}
           VARS: .nais/vars-${{ inputs.environment }}.yml
