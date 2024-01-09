@@ -52,6 +52,11 @@ export const registerSiteRoutes = async (router: Router) => {
         return res.status(200).send(html);
     });
 
+    router.get('/nn', async (req, res) => {
+        const html = await render('nn', req.originalUrl);
+        return res.status(200).send(html);
+    });
+
     router.get('/en', async (req, res) => {
         const html = await render('en', req.originalUrl);
         return res.status(200).send(html);
