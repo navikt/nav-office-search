@@ -20,6 +20,7 @@ export const getDecoratorParams = (
     ],
     availableLanguages: [
         { locale: 'nb', handleInApp: true },
+        { locale: 'nn', handleInApp: true },
         { locale: 'en', handleInApp: true },
     ],
 });

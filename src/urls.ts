@@ -1,6 +1,7 @@
 export const clientUrls = {
     appPath: {
         nb: import.meta.env.VITE_APP_BASEPATH,
+        nn: `${import.meta.env.VITE_APP_BASEPATH}/nn`,
         en: `${import.meta.env.VITE_APP_BASEPATH}/en`,
     },
     searchApi: `${import.meta.env.VITE_APP_ORIGIN}${
