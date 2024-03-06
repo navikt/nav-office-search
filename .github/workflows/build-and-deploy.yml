@@ -5,6 +5,9 @@ on:
       environment:
         required: true
         type: string
+      imageSuffix:
+        required: true
+        type: string
       APP_ORIGIN:
         required: true
         type: string
@@ -19,6 +22,8 @@ on:
         type: string
     secrets:
       READER_TOKEN:
+        required: true
+      NAIS_WORKLOAD_IDENTITY_PROVIDER:
         required: true
 
 jobs:
@@ -66,9 +71,17 @@ jobs:
         run: |
           docker build -t ${{ env.image }} .
           docker push ${{ env.image }}
+      - name: Build and push docker image
+        uses: nais/docker-build-push@v0
+        id: docker-push
+        with:
+          team: personbruker
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          image_suffix: ${{ inputs.imageSuffix }}
       - uses: nais/deploy/actions/deploy@master
         env:
           CLUSTER: ${{ inputs.environment }}-gcp
           RESOURCE: .nais/config.yml
-          VAR: image=${{ env.image }},basePath=${{ env.basePath }}
+          VAR: image=${{ steps.docker-push.outputs.image }},basePath=${{ env.basePath }}
           VARS: .nais/vars-${{ inputs.environment }}.yml

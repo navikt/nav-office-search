@@ -13,9 +13,11 @@ jobs:
       packages: "write"
     with:
       environment: prod
+      imageSuffix: release-${{ github.ref_name }}
       APP_ORIGIN: https://www.nav.no
       API_ORIGIN: https://nav-office-search-api.prod-fss-pub.nais.io
       XP_ORIGIN: https://www.nav.no
       NAVNO_ORIGIN: https://www.nav.no
     secrets:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
+      NAIS_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}

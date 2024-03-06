@@ -11,9 +11,11 @@ jobs:
       packages: "write"
     with:
       environment: dev
+      imageSuffix: dev-deploy
       APP_ORIGIN: https://www.intern.dev.nav.no
       API_ORIGIN: https://nav-office-search-api.dev-fss-pub.nais.io
       XP_ORIGIN: https://portal-admin-dev.oera.no
       NAVNO_ORIGIN: https://www.ekstern.dev.nav.no
     secrets:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
+      NAIS_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
