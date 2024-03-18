@@ -19,9 +19,9 @@
         "server"
     ],
     "dependencies": {
-        "@navikt/ds-css": "6.1.1",
+        "@navikt/ds-css": "6.2.0",
         "@navikt/ds-icons": "3.4.3",
-        "@navikt/ds-react": "6.1.1",
+        "@navikt/ds-react": "6.2.0",
         "@navikt/nav-dekoratoren-moduler": "2.1.6",
         "@preact/compat": "17.1.2",
         "lodash.debounce": "4.0.8",
@@ -31,18 +31,18 @@
         "@babel/preset-react": "7.23.3",
         "@octokit/core": "6.0.1",
         "@originjs/vite-plugin-commonjs": "1.0.3",
-        "@preact/preset-vite": "2.8.1",
+        "@preact/preset-vite": "2.8.2",
         "@testing-library/jest-dom": "6.4.2",
         "@testing-library/react": "14.2.1",
         "@types/jest": "29.5.12",
         "@types/lodash.debounce": "4.0.9",
-        "@types/react": "18.2.61",
-        "@types/react-dom": "18.2.19",
+        "@types/react": "18.2.66",
+        "@types/react-dom": "18.2.22",
         "@types/react-test-renderer": "18.0.7",
-        "@typescript-eslint/eslint-plugin": "7.1.0",
-        "@typescript-eslint/parser": "7.1.0",
+        "@typescript-eslint/eslint-plugin": "7.2.0",
+        "@typescript-eslint/parser": "7.2.0",
         "eslint": "8.57.0",
-        "eslint-plugin-react": "7.34.0",
+        "eslint-plugin-react": "7.34.1",
         "fetch-mock": "9.11.0",
         "husky": "9.0.11",
         "identity-obj-proxy": "3.0.0",
@@ -54,8 +54,8 @@
         "prettier": "3.2.5",
         "react-test-renderer": "18.2.0",
         "ts-jest": "29.1.2",
-        "typescript": "5.3.3",
-        "vite": "5.1.4"
+        "typescript": "5.4.2",
+        "vite": "5.1.6"
     },
     "browserslist": {
         "production": [
