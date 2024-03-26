@@ -32,7 +32,10 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
         return localData;
     }
 
-    const adresseSokResponse = await fetchTpsAdresseSok(postnr);
+    const adresseSokResponse = await fetchTpsAdresseSok(
+        postnr,
+        localData.kommunenr
+    );
 
     if (!adresseSokResponse.error) {
         const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse);
