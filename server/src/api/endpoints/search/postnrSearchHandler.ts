@@ -74,6 +74,7 @@ export const postnrSearchHandler = async (req: Request, res: Response) => {
 
     const adresseSokResponse = await fetchTpsAdresseSok(
         postnr,
+        poststedData.kommunenr,
         gatenavn,
         husnr
     );

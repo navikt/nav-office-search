@@ -58,6 +58,7 @@ export const officeInfoFromAdresseSokResponse = (
 
 export const fetchTpsAdresseSok = async (
     postnr: string,
+    kommunenr: string,
     gatenavn?: string,
     husnr?: string
 ): Promise<AdresseSokResponse | FetchErrorResponse> => {
@@ -71,6 +72,7 @@ export const fetchTpsAdresseSok = async (
         serverUrls.postnrApi,
         {
             postnr,
+            kommunenr,
             ...(gatenavn
                 ? { adresse: gatenavn, ...(husnr && { husnr }) }
                 : { husnr: '0001' }),
