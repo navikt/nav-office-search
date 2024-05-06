@@ -1,4 +1,4 @@
-ingress: https://www.intern.dev.nav.no/sok-nav-kontor
+ingress: https://www.ansatt.dev.nav.no/sok-nav-kontor
 outboundExternalHosts:
   - portal-admin-dev.oera.no
   - nav-office-search-api.dev-fss-pub.nais.io
