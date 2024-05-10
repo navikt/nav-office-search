@@ -14,6 +14,6 @@ jobs:
       APP_ORIGIN: https://www.ansatt.dev.nav.no
       API_ORIGIN: https://nav-office-search-api.dev-fss-pub.nais.io
       XP_ORIGIN: https://portal-admin-dev.oera.no
-      NAVNO_ORIGIN: https://www.ekstern.dev.nav.no
+      NAVNO_ORIGIN: https://www.ansatt.dev.nav.no
     secrets:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
