@@ -33,13 +33,13 @@ Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
 [Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow
 
-Ingress for dev-miljø: https://www.intern.dev.nav.no/sok-nav-kontor
+Ingress for dev-miljø: https://www.ansatt.dev.nav.no/sok-nav-kontor
 
 ## Prodsetting
 
-- Lag en PR til master, og merge inn etter godkjenning
-- Lag en release på master med versjon-bump, beskrivende tittel og oppsummering av endringene dine
-- Publiser release'en for å starte deploy til prod
+-   Lag en PR til master, og merge inn etter godkjenning
+-   Lag en release på master med versjon-bump, beskrivende tittel og oppsummering av endringene dine
+-   Publiser release'en for å starte deploy til prod
 
 # Henvendelser
 
