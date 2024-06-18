@@ -8,9 +8,6 @@ on:
       APP_ORIGIN:
         required: true
         type: string
-      API_ORIGIN:
-        required: true
-        type: string
       XP_ORIGIN:
         required: true
         type: string
@@ -49,7 +46,6 @@ jobs:
           VITE_APP_BASEPATH=${{ env.basePath }}
           VITE_XP_ORIGIN=${{ inputs.XP_ORIGIN }}
           VITE_NAVNO_ORIGIN=${{ inputs.NAVNO_ORIGIN }}
-          API_ORIGIN=${{ inputs.API_ORIGIN }}
           ENV=${{ inputs.environment }}
           EOF
       - name: Install dependencies
