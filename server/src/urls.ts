@@ -1,7 +1,7 @@
 export const serverUrls = {
     searchApi: `${process.env.VITE_APP_ORIGIN}${process.env.VITE_APP_BASEPATH}/api/search`,
     kontaktOss: `${process.env.VITE_NAVNO_ORIGIN}/person/kontakt-oss`,
-    azureAdTokenApi: `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID}/oauth2/v2.0/token`,
+    azureAdTokenApi: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
     postnrApi: `${process.env.API_ORIGIN}/postnr`,
     officeInfoApi: `${process.env.API_ORIGIN}/geoid`,
     xpOfficeInfoApi: `${process.env.VITE_XP_ORIGIN}/_/service/no.nav.navno/officeInfo`,
