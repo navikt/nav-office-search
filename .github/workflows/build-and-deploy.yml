@@ -20,22 +20,26 @@ on:
     secrets:
       READER_TOKEN:
         required: true
+      NAIS_WORKLOAD_IDENTITY_PROVIDER:
+        required: true
 
 jobs:
   build-and-deploy:
     name: Build docker image and deploy to nais k8s
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    permissions:
+      contents: "read"
+      id-token: "write"
     env:
-      image: ghcr.io/${{ github.repository }}:deploy-${{ inputs.environment }}-${{ github.sha }}
       basePath: /sok-nav-kontor
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
           cache: 'npm'
       - name: Define app environmment
@@ -56,19 +60,17 @@ jobs:
         run: npm run build
       - name: Run tests
         run: npm test
-      - name: Login to Docker registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push docker image
-        run: |
-          docker build -t ${{ env.image }} .
-          docker push ${{ env.image }}
-      - uses: nais/deploy/actions/deploy@master
+        uses: nais/docker-build-push@v0
+        id: docker-push
+        with:
+          team: personbruker
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          image_suffix: ${{ inputs.environment }}
+      - uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: ${{ inputs.environment }}-gcp
           RESOURCE: .nais/config.yml
-          VAR: image=${{ env.image }},basePath=${{ env.basePath }}
+          VAR: image=${{ steps.docker-push.outputs.image }},basePath=${{ env.basePath }}
           VARS: .nais/vars-${{ inputs.environment }}.yml

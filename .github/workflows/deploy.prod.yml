@@ -10,7 +10,6 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
-      packages: "write"
     with:
       environment: prod
       APP_ORIGIN: https://www.nav.no
@@ -19,3 +18,4 @@ jobs:
       NAVNO_ORIGIN: https://www.nav.no
     secrets:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
+      NAIS_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}

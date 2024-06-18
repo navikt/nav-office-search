@@ -13,8 +13,6 @@ Kjør `npm run build` før første kjøring.
 
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
-Obs: Appen krever node.js versjon 18 eller nyere.
-
 #### Start i development mode:
 
 `npm run dev`
