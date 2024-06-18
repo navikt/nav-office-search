@@ -1,7 +1,6 @@
 ingress: https://www.nav.no/sok-nav-kontor
 outboundExternalHosts:
   - www.nav.no
-  - nav-office-search-api.intern.nav.no
   - www.bring.no
   - data.ssb.no
 replicas:

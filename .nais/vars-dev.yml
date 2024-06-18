@@ -1,7 +1,6 @@
 ingress: https://www.ansatt.dev.nav.no/sok-nav-kontor
 outboundExternalHosts:
   - portal-admin-dev.oera.no
-  - nav-office-search-api.intern.dev.nav.no
   - www.bring.no
   - data.ssb.no
 replicas:

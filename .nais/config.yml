@@ -20,6 +20,8 @@ spec:
   env:
     - name: NPM_CONFIG_CACHE
       value: /tmp/npm-cache
+    - name: API_ORIGIN
+      value: http://nav-office-search-api
   replicas:
   {{#with replicas}}
     min: {{min}}
@@ -38,6 +40,7 @@ spec:
       {{/each}}
       rules:
         - application: nav-dekoratoren
+        - application: nav-office-search-api
   resources:
   {{#with resources}}
     requests:
