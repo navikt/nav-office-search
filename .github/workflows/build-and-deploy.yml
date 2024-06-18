@@ -58,10 +58,6 @@ jobs:
       - name: Run tests
         run: npm test
       - name: Build and push docker image
-        run: |
-          docker build -t ${{ env.image }} .
-          docker push ${{ env.image }}
-      - name: Build and push docker image
         uses: nais/docker-build-push@v0
         id: docker-push
         with:
