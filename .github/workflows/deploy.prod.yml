@@ -10,12 +10,12 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
-      packages: "write"
     with:
       environment: prod
       APP_ORIGIN: https://www.nav.no
-      API_ORIGIN: https://nav-office-search-api.prod-fss-pub.nais.io
+      API_ORIGIN: https://nav-office-search-api.intern.nav.no
       XP_ORIGIN: https://www.nav.no
       NAVNO_ORIGIN: https://www.nav.no
     secrets:
       READER_TOKEN: ${{ secrets.READER_TOKEN }}
+      NAIS_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
