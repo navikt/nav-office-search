@@ -7,7 +7,7 @@ import { getDecoratorParams } from '../../../../common/decoratorParams';
 import { AppLocale } from '../../../../common/localization/types';
 import { serverUrls } from '../../urls';
 
-const decoratorEnv = process.env.ENV || 'prod';
+const decoratorEnv = process.env.ENV === 'prod' ? 'prodNext' : (process.env.ENV || 'prod');
 const decoratorLocalUrl = process.env.DECORATOR_LOCAL_URL;
 
 const envProps: DecoratorEnvProps =
