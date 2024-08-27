@@ -1,4 +1,8 @@
-import { fetchJson, objectToQueryString } from '../utils/fetch';
+import {
+    FetchErrorResponse,
+    fetchJson,
+    objectToQueryString,
+} from '../utils/fetch';
 import Cache from 'node-cache';
 import { serverUrls } from '../urls';
 
@@ -16,26 +20,36 @@ type TokenResponse = {
     access_token: string;
 };
 
-const fetchAccessToken = async (): Promise<TokenResponse | null> => {
+function isTokenResponse(obj: unknown): obj is TokenResponse {
+    return (obj as TokenResponse).token_type !== undefined;
+}
+
+const fetchAccessToken = async (): Promise<
+    TokenResponse | FetchErrorResponse | null
+> => {
     console.log('Refreshing access token...');
 
-    const response = await fetchJson(serverUrls.azureAdTokenApi, undefined, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: objectToQueryString(
-            {
-                grant_type: 'client_credentials',
-                client_id: process.env.AZURE_APP_CLIENT_ID,
-                client_secret: process.env.AZURE_APP_CLIENT_SECRET,
-                scope: `api://${process.env.API_CLIENT_ID}/.default`,
+    const response = await fetchJson<TokenResponse>(
+        serverUrls.azureAdTokenApi,
+        undefined,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            ''
-        ),
-    });
+            body: objectToQueryString(
+                {
+                    grant_type: 'client_credentials',
+                    client_id: process.env.AZURE_APP_CLIENT_ID,
+                    client_secret: process.env.AZURE_APP_CLIENT_SECRET,
+                    scope: `api://${process.env.API_CLIENT_ID}/.default`,
+                },
+                ''
+            ),
+        }
+    );
 
-    if (!response.access_token) {
+    if (isTokenResponse(response) && !response.access_token) {
         console.error('Bad response from token service', response);
         return null;
     }
@@ -43,14 +57,19 @@ const fetchAccessToken = async (): Promise<TokenResponse | null> => {
     return response;
 };
 
-export const getAuthorizationHeader = async () => {
+export const getAuthorizationHeader = async (): Promise<string | undefined> => {
     if (cache.has(cacheKey)) {
         return cache.get(cacheKey);
     }
 
     const accessToken = await fetchAccessToken();
+
     if (!accessToken) {
-        return null;
+        return;
+    }
+
+    if (!isTokenResponse(accessToken)) {
+        return;
     }
 
     const b64BearerToken = `Bearer ${encodeBase64(accessToken.access_token)}`;

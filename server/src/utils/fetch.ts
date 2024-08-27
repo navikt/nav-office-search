@@ -2,6 +2,12 @@ import { fetchMock } from '../_mock/fetchMock';
 import { LocaleStringId } from '../../../common/localization/types';
 import { SearchResultErrorProps } from '../../../common/types/results';
 
+type JsonArray = JsonObject[];
+
+type JsonObject = {
+    [key: string]: string | number | boolean | JsonObject | JsonArray;
+};
+
 const fetchOrMock = process.env.ENV === 'localhost' ? fetchMock : fetch;
 
 export const apiErrorResponse = (
@@ -39,10 +45,10 @@ export const fetchErrorResponse = (
     message: `Error code ${code} - ${message}`,
 });
 
-export const fetchJson = async <T = any>(
+export const fetchJson = async <T = JsonObject>(
     url: string,
     params?: Record<string, string>,
-    options?: Record<string, any>
+    options?: RequestInit
 ): Promise<T | FetchErrorResponse> => {
     const urlWithQuery = `${url}${params ? objectToQueryString(params) : ''}`;
 
@@ -78,8 +84,11 @@ export const fetchJson = async <T = any>(
             errorJson.message || errorJson.error_description || res.statusText;
 
         return fetchErrorResponse(res.status, errorMsg);
-    } catch (e: any) {
-        console.error(`Error fetching from url ${url}: ${e?.toString()}`);
-        return fetchErrorResponse(500, e?.toString());
+    } catch (e: unknown) {
+        const typedError = e as Error;
+        console.error(
+            `Error fetching from url ${url}: ${typedError?.toString()}`
+        );
+        return fetchErrorResponse(500, typedError?.toString());
     }
 };
