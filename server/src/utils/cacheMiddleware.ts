@@ -8,7 +8,7 @@ type CacheMiddlewareOptions = {
 };
 
 type ResponseCacheEntry = {
-    sentData: any;
+    sentData: unknown;
     statusCode: number;
 };
 
