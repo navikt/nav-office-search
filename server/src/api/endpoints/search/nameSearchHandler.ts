@@ -39,8 +39,6 @@ const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
     getKommunerArray().forEach((kommune) => {
         const bydelerOfficeHits = getBydelFromKommune(kommune, normalizedQuery);
 
-        console.log(`Found ${bydelerOfficeHits.length} bydeler hits`);
-
         const isMatch = kommune.officeInfo?.name
             .toLowerCase()
             .includes(normalizedQuery);
