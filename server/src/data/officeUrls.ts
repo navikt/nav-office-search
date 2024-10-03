@@ -14,15 +14,15 @@ type EnhetNrToOfficePathMap = { [enhetNr: string]: string };
 let enhetsNrToOfficePathMap: EnhetNrToOfficePathMap = {};
 
 export const loadOfficeUrls = async () => {
-    console.log('Loading office URLs');
+    console.log(`Loading office URLs from ${serverUrls.xpOfficeInfoApi}`);
 
     const officeUrls = await fetchJson<OfficeInfoResponse>(
         serverUrls.xpOfficeInfoApi
     );
 
     if (officeUrls?.error || !officeUrls?.offices) {
-        console.error('Failed to load office urls, retrying in 10 minutes');
-        return;
+        console.error(`Failed to load office urls! - ${JSON.stringify(officeUrls)}`);
+        return false;
     }
 
     const newOfficePathMap = officeUrls.offices.reduce(
@@ -34,6 +34,7 @@ export const loadOfficeUrls = async () => {
     );
 
     enhetsNrToOfficePathMap = newOfficePathMap;
+    return true;
 };
 
 export const getOfficeUrl = (enhetNr: string) => {
