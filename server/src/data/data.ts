@@ -14,21 +14,24 @@ export const loadData = async () => {
     }
 
     isLoading = true;
-
     console.log('Started loading data!');
 
-    await loadOfficeUrls();
-    await loadBydelerData();
-    await loadPostnrRegister();
+    try {
+        await loadOfficeUrls();
+        await loadBydelerData();
+        await loadPostnrRegister();
 
-    const postnrRegister = getPostnrRegister();
-    await loadKommuneData(postnrRegister);
-    await loadPoststederData(postnrRegister);
-
-    isLoaded = true;
-    isLoading = false;
-
-    console.log('Finished loading data!');
+        const postnrRegister = getPostnrRegister();
+        await loadKommuneData(postnrRegister);
+        await loadPoststederData(postnrRegister);
+        console.log('Finished loading data!');
+    } catch (e) {
+        console.error(`Error loading data - ${e}`);
+        throw e;
+    } finally {
+        isLoaded = true;
+        isLoading = false;
+    }
 };
 
 export const loadDataAndStartSchedule = () =>

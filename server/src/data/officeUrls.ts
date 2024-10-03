@@ -2,14 +2,14 @@ import { fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
 type OfficeInfoResponse = {
-    offices: {
+    offices: Array<{
         enhetNr: string;
         path: string;
-    }[];
+    }>;
     error: undefined;
 };
 
-type EnhetNrToOfficePathMap = { [enhetNr: string]: string };
+type EnhetNrToOfficePathMap = Record<string, string>;
 
 let enhetsNrToOfficePathMap: EnhetNrToOfficePathMap = {};
 
@@ -21,8 +21,14 @@ export const loadOfficeUrls = async () => {
     );
 
     if (officeUrls?.error || !officeUrls?.offices) {
-        console.error(`Failed to load office urls! - ${JSON.stringify(officeUrls)}`);
-        return false;
+        const msg = `Failed to load office urls! - ${JSON.stringify(officeUrls)}`;
+
+        if (Object.keys(enhetsNrToOfficePathMap).length === 0) {
+            throw new Error(msg);
+        }
+
+        console.error(`${msg} - keepings current data`);
+        return;
     }
 
     const newOfficePathMap = officeUrls.offices.reduce(
@@ -34,7 +40,6 @@ export const loadOfficeUrls = async () => {
     );
 
     enhetsNrToOfficePathMap = newOfficePathMap;
-    return true;
 };
 
 export const getOfficeUrl = (enhetNr: string) => {
