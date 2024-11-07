@@ -1,14 +1,14 @@
 import React from 'react';
 
 export const localeModuleNb = {
-    documentTitle: 'Søk opp NAV-kontor - nav.no',
-    pageTitle: 'Søk opp NAV-kontor',
+    documentTitle: 'Søk opp Nav-kontor - nav.no',
+    pageTitle: 'Søk opp Nav-kontor',
     breadcrumb1: 'Kontakt oss',
-    breadcrumb2: 'Søk opp NAV-kontor',
+    breadcrumb2: 'Søk opp Nav-kontor',
     ingressLine1:
-        'Mangler du elektronisk ID? Eller skal du finne NAV-kontor på vegne av noen andre?',
+        'Mangler du elektronisk ID? Eller skal du finne Nav-kontor på vegne av noen andre?',
     ingressLine2:
-        'Da kan du søke opp NAV-kontor ved hjelp av postnummer eller sted/by.',
+        'Da kan du søke opp Nav-kontor ved hjelp av postnummer eller sted/by.',
     inputLabel: 'Skriv inn et postnummer eller stedsnavn:',
     inputSubmit: 'Søk',
     errorMissingQuery: 'Mangler søke-streng',
@@ -23,14 +23,14 @@ export const localeModuleNb = {
     nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed: string, adresseQuery: string) => (
         <>
-            {`Ingen NAV-kontor funnet for `}
+            {`Ingen Nav-kontor funnet for `}
             <strong>{postnrOgPoststed}</strong>
             {adresseQuery && ` med gatenavn ${adresseQuery}`}
         </>
     ),
     postnrResultOne: (postnrOgPoststed: string) => (
         <>
-            {'NAV-kontor for '}
+            {'Nav-kontor for '}
             <strong>{postnrOgPoststed}</strong>
             {':'}
         </>
@@ -54,7 +54,7 @@ export const localeModuleNb = {
         <>
             {`${postnr} er et postnummer for postbokser i `}
             <strong>{kommuneNavn}</strong>
-            {` kommune. Kommunens NAV-kontor${
+            {` kommune. Kommunens Nav-kontor${
                 Number(numHits) > 1 ? 'er' : ''
             }:`}
         </>
@@ -67,7 +67,7 @@ export const localeModuleNb = {
         <>
             {`${postnr} er et servicepostnummer i `}
             <strong>{kommuneNavn}</strong>
-            {` kommune. Kommunens NAV-kontor${
+            {` kommune. Kommunens Nav-kontor${
                 Number(numHits) > 1 ? 'er' : ''
             }:`}
         </>
@@ -84,7 +84,7 @@ export const localeModuleNb = {
             <strong>{kommuneNavn}</strong>
             {` kommune. ${
                 Number(numHits) > 1 ? 'Alle k' : 'K'
-            }ommunens NAV-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
+            }ommunens Nav-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
         </>
     ),
     nameResultNone: (input: string) => `Ingen resultater for "${input}"`,

@@ -2,14 +2,14 @@ import React from 'react';
 import { LocaleModule } from '../types';
 
 export const localeModuleEn: LocaleModule = {
-    documentTitle: 'Find a NAV office - nav.no',
-    pageTitle: 'Find a NAV office',
+    documentTitle: 'Find a Nav office - nav.no',
+    pageTitle: 'Find a Nav office',
     breadcrumb1: 'Contact us',
-    breadcrumb2: 'Find a NAV office',
+    breadcrumb2: 'Find a Nav office',
     ingressLine1:
-        'Do you not have electronic ID? Or are you trying to find the NAV office on behalf of someone else?',
+        'Do you not have electronic ID? Or are you trying to find the Nav office on behalf of someone else?',
     ingressLine2:
-        'If so, you can find a NAV office using a post code or town/city.',
+        'If so, you can find a Nav office using a post code or town/city.',
     inputLabel: 'Enter a post code or town/city:',
     inputSubmit: 'Search',
     errorMissingQuery: 'Missing search query',
@@ -24,14 +24,14 @@ export const localeModuleEn: LocaleModule = {
     nameResultHeader: 'Search results for ',
     postnrResultNone: (postnrOgPoststed, adresseQuery) => (
         <>
-            {`No NAV office found for `}
+            {`No Nav office found for `}
             <strong>{postnrOgPoststed}</strong>
             {adresseQuery && ` with street name ${adresseQuery}`}
         </>
     ),
     postnrResultOne: (postnrOgPoststed) => (
         <>
-            {'NAV office for '}
+            {'Nav office for '}
             <strong>{postnrOgPoststed}</strong>
             {':'}
         </>
@@ -47,7 +47,7 @@ export const localeModuleEn: LocaleModule = {
         <>
             {`${postnr} is a post code for PO boxes in `}
             <strong>{kommuneNavn}</strong>
-            {`. NAV office${
+            {`. Nav office${
                 Number(numHits) > 1 ? 's' : ''
             } for this town/city:`}
         </>
@@ -56,7 +56,7 @@ export const localeModuleEn: LocaleModule = {
         <>
             {`${postnr} is a service post code in `}
             <strong>{kommuneNavn}</strong>
-            {`. NAV office${
+            {`. Nav office${
                 Number(numHits) > 1 ? 's' : ''
             } for this town/city:`}
         </>
@@ -67,7 +67,7 @@ export const localeModuleEn: LocaleModule = {
             <strong>{postnr}</strong>
             {' in '}
             <strong>{kommuneNavn}</strong>
-            {`. ${Number(numHits) > 1 ? 'All ' : ''}NAV office${
+            {`. ${Number(numHits) > 1 ? 'All ' : ''}Nav office${
                 Number(numHits) > 1 ? 's' : ''
             } for this town/city:`}
         </>
