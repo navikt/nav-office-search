@@ -7,21 +7,21 @@
     "kategori": "G",
     "officeInfo": [
         {
-            "name": "NAV Alna",
+            "name": "Nav Alna",
             "url": "https://www.nav.no/kontor/nav-alna",
             "geoId": "030112",
             "enhetNr": "0326",
             "hitString": ""
         },
         {
-            "name": "NAV Bjerke",
+            "name": "Nav Bjerke",
             "url": "https://www.nav.no/kontor/nav-bjerke",
             "geoId": "030109",
             "enhetNr": "0330",
             "hitString": ""
         },
         {
-            "name": "NAV Frogner",
+            "name": "Nav Frogner",
             "url": "https://www.nav.no/kontor/nav-frogner",
             "geoId": "030105",
             "enhetNr": "0312",

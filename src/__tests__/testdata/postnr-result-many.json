@@ -7,14 +7,14 @@
     "kategori": "G",
     "officeInfo": [
         {
-            "name": "NAV Evje og Hornnes",
+            "name": "Nav Evje og Hornnes",
             "url": "https://www.nav.no/kontor/nav-evje-og-hornnes",
             "geoId": "4219",
             "enhetNr": "0937",
             "hitString": ""
         },
         {
-            "name": "NAV Testkontor",
+            "name": "Nav Testkontor",
             "url": "https://www.nav.no/kontor/nav-testkontor",
             "geoId": "1234",
             "enhetNr": "1234",
