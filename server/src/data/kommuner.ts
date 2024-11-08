@@ -18,7 +18,7 @@ const kommunerData: KommunerData = {
 };
 
 // Svalbard (2100) and Jan Mayen (2211) do not have their own offices
-// These are served by NAV Tromsø (5401)
+// These are served by Nav Tromsø (5401)
 const kommunenrExceptionsMap: { [key: string]: string } = {
     '2100': '5401',
     '2211': '5401',
