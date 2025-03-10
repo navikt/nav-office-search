@@ -15,6 +15,10 @@ spec:
   readiness:
     path: {{basePath}}/api/internal/isReady
     initialDelay: 10
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   envFrom:
     - secret: nav-office-search
   env:
