@@ -39,7 +39,7 @@ jobs:
             - name: Setup node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 22
                   registry-url: 'https://npm.pkg.github.com'
                   cache: 'npm'
             - name: Define app environmment
@@ -60,6 +60,8 @@ jobs:
               run: npm run build
             - name: Run tests
               run: npm test
+            - name: Prune dependencies
+              run: npm prune --production
             - name: Build and push docker image
               uses: nais/docker-build-push@v0
               id: docker-push
