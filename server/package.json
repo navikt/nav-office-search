@@ -10,12 +10,13 @@
         "dev": "cp .env.development .env && npm run start-local"
     },
     "dependenciesComments": {
-        "@types/express": "Holdes uendret 4.17.21 --> 5.0.1"
+        "@types/express": "Holdes uendret 4.17.21 --> 5.1.0",
+        "express": "Holdes uendret 4.21.2 --> 5.1.0"
     },
     "dependencies": {
         "compression": "1.8.0",
         "dotenv": "16.5.0",
-        "express": "5.1.0",
+        "express": "4.21.2",
         "lodash.debounce": "4.0.8",
         "lru-cache": "11.1.0",
         "node-cache": "5.1.2",
