@@ -19,10 +19,10 @@
         "server"
     ],
     "dependenciesComments": {
-        "fetch-mock": "Holdes uendret 11.1.15 --> 12.5.2",
-        "@types/react": "Holdes uendret 18.3.12 --> 19.1.2",
-        "@types/react-dom": "Holdes uendret 18.3.1 --> 19.1.2",
-        "@types/react-test-renderer": "Holdes uendret 18.3.1 --> 19.1.0"
+        "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.5.2",
+        "@types/react": "Holdes på versjon 18.3.12. Nyeste versjon 19.1.2",
+        "@types/react-dom": "Holdes på versjon 18.3.1. Nyeste versjon 19.1.2",
+        "@types/react-test-renderer": "Holdes på versjon 18.3.0. Nyeste versjon 19.1.0"
     },
     "dependencies": {
         "@navikt/ds-css": "7.20.0",
