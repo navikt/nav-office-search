@@ -10,8 +10,9 @@
         "dev": "cp .env.development .env && npm run start-local"
     },
     "dependenciesComments": {
-        "@types/express": "Holdes på versjon 4.17.21. Nyeste versjon 5.0.2",
-        "express": "Holdes på versjon 4.21.2. Nyeste versjon 5.1.0"
+        "@types/express": "Holdes på versjon 4.17.21. Nyeste versjon 5.0.3",
+        "express": "Holdes på versjon 4.21.2. Nyeste versjon 5.1.0",
+        "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.0.0"
     },
     "dependencies": {
         "compression": "1.8.0",
