@@ -1,15 +1,15 @@
-ingress: https://www.ansatt.dev.nav.no/sok-nav-kontor
+ingress: https://www.ansatt.dev.nav.no/sok-nav-kontor-temp
 outboundExternalHosts:
-  - www.dev.nav.no
-  - nav-office-search-api.dev-fss-pub.nais.io
-  - www.bring.no
-  - data.ssb.no
+    - www.dev.nav.no
+    - nav-office-search-api.dev-fss-pub.nais.io
+    - www.bring.no
+    - data.ssb.no
 replicas:
-  min: 1
-  max: 2
+    min: 1
+    max: 2
 resources:
-  limits:
-    memory: 1024Mi
-  requests:
-    cpu: 50m
-    memory: 256Mi
+    limits:
+        memory: 1024Mi
+    requests:
+        cpu: 50m
+        memory: 256Mi
