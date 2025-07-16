@@ -94,6 +94,9 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 };
 
 const fetchBydelerRawData = async () => {
+    console.log(
+        `Fetching SSB classification for bydeler from ${serverUrls.ssbBydelerClassification}`
+    );
     const bydelerClassification = await fetchJson<SSB_ClassificationResponse>(
         serverUrls.ssbBydelerClassification
     );
