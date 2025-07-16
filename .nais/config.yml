@@ -42,6 +42,7 @@ spec:
       {{/each}}
       rules:
         - application: nav-dekoratoren
+          namespace: personbruker
   resources:
   {{#with resources}}
     requests:
