@@ -14,32 +14,42 @@ type EnhetNrToOfficePathMap = Record<string, string>;
 let enhetsNrToOfficePathMap: EnhetNrToOfficePathMap = {};
 
 export const loadOfficeUrls = async () => {
-    console.log(`Loading office URLs from ${serverUrls.xpOfficeInfoApi}`);
+    try {
+        console.log(`Loading office URLs from ${serverUrls.xpOfficeInfoApi}`);
 
-    const officeUrls = await fetchJson<OfficeInfoResponse>(
-        serverUrls.xpOfficeInfoApi
-    );
+        const officeUrls = await fetchJson<OfficeInfoResponse>(
+            serverUrls.xpOfficeInfoApi
+        );
 
-    if (officeUrls?.error || !officeUrls?.offices) {
-        const msg = `Failed to load office urls! - ${JSON.stringify(officeUrls)}`;
+        if (officeUrls?.error || !officeUrls?.offices) {
+            const msg = `Failed to load office urls! - ${JSON.stringify(officeUrls)}`;
+
+            if (Object.keys(enhetsNrToOfficePathMap).length === 0) {
+                throw new Error(msg);
+            }
+
+            console.error(`${msg} - keepings current data`);
+            return;
+        }
+
+        const newOfficePathMap = officeUrls.offices.reduce(
+            (acc, office) => ({
+                ...acc,
+                [office.enhetNr]: office.path,
+            }),
+            {} as EnhetNrToOfficePathMap
+        );
+
+        enhetsNrToOfficePathMap = newOfficePathMap;
+    } catch (error) {
+        const msg = `Error loading office URLs: ${error instanceof Error ? error.message : String(error)}`;
 
         if (Object.keys(enhetsNrToOfficePathMap).length === 0) {
             throw new Error(msg);
         }
 
-        console.error(`${msg} - keepings current data`);
-        return;
+        console.error(`${msg} - keeping current data`);
     }
-
-    const newOfficePathMap = officeUrls.offices.reduce(
-        (acc, office) => ({
-            ...acc,
-            [office.enhetNr]: office.path,
-        }),
-        {} as EnhetNrToOfficePathMap
-    );
-
-    enhetsNrToOfficePathMap = newOfficePathMap;
 };
 
 export const getOfficeUrl = (enhetNr: string) => {

@@ -8,7 +8,7 @@ type PostnrRegisterItemRaw = [
     poststed: string,
     kommunenr: string,
     kommune: string,
-    kategori: PostnrKategori
+    kategori: PostnrKategori,
 ];
 
 export type PostnrRegisterItem = {
@@ -39,6 +39,7 @@ const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
 };
 
 const fetchPostnrRegister = async (): Promise<string | null> => {
+    console.log(`Fetching postnr register from ${serverUrls.postnrRegister}`);
     try {
         return await fetch(serverUrls.postnrRegister)
             .then((res) => {
