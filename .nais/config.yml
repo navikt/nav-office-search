@@ -16,6 +16,10 @@ spec:
     path: {{basePath}}/api/internal/isReady
     initialDelay: 10
   observability:
+    logging:
+      destinations:
+        - id: elastic
+        - id: loki
     autoInstrumentation:
       enabled: true
       runtime: nodejs
