@@ -12,14 +12,14 @@
     "dependenciesComments": {
         "@types/express": "Holdes på versjon 4.17.21. Nyeste versjon 5.0.3",
         "express": "Holdes på versjon 4.21.2. Nyeste versjon 5.1.0",
-        "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.1.5"
+        "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.1.10"
     },
     "dependencies": {
         "compression": "1.8.1",
-        "dotenv": "17.2.2",
+        "dotenv": "17.2.3",
         "express": "4.21.2",
         "lodash.debounce": "4.0.8",
-        "lru-cache": "11.2.1",
+        "lru-cache": "11.2.2",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
         "vite": "6.3.5"
@@ -27,7 +27,7 @@
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/express": "4.17.21",
-        "@types/node": "24.5.1",
+        "@types/node": "24.7.2",
         "@types/node-schedule": "2.1.8",
         "concurrently": "9.2.1",
         "nodemon": "3.1.10"
