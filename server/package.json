@@ -22,7 +22,7 @@
         "lru-cache": "11.2.2",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
-        "vite": "6.3.5"
+        "vite": "6.4.1"
     },
     "devDependencies": {
         "@types/compression": "1.8.1",
