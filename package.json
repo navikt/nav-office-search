@@ -19,27 +19,27 @@
         "server"
     ],
     "dependenciesComments": {
-        "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.5.4",
-        "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.1.10"
+        "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.6.0",
+        "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.2.2"
     },
     "dependencies": {
-        "@navikt/ds-css": "7.32.2",
+        "@navikt/ds-css": "7.33.2",
         "@navikt/ds-icons": "3.4.3",
-        "@navikt/ds-react": "7.32.2",
-        "@navikt/nav-dekoratoren-moduler": "3.4.0",
+        "@navikt/ds-react": "7.33.2",
+        "@navikt/nav-dekoratoren-moduler": "3.5.0",
         "fetch-mock": "11.1.5",
         "lodash.debounce": "4.0.8",
-        "preact-render-to-string": "6.6.2"
+        "preact-render-to-string": "6.6.3"
     },
     "devDependencies": {
-        "@babel/preset-react": "7.27.1",
+        "@babel/preset-react": "7.28.5",
         "@preact/preset-vite": "2.10.2",
         "@testing-library/jest-dom": "6.9.1",
         "@testing-library/react": "16.3.0",
         "@types/jest": "30.0.0",
         "@types/lodash.debounce": "4.0.9",
-        "@typescript-eslint/parser": "8.46.1",
-        "eslint": "9.37.0",
+        "@typescript-eslint/parser": "8.46.4",
+        "eslint": "9.39.1",
         "eslint-plugin-react": "7.37.5",
         "identity-obj-proxy": "3.0.0",
         "jest": "30.2.0",
