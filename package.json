@@ -23,7 +23,7 @@
         "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.2.2"
     },
     "dependencies": {
-        "@navikt/ds-css": "7.33.2",
+        "@navikt/ds-css": "7.34.0",
         "@navikt/ds-icons": "3.4.3",
         "@navikt/ds-react": "7.33.2",
         "@navikt/nav-dekoratoren-moduler": "3.5.0",
