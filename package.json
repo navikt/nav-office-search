@@ -27,7 +27,7 @@
         "@navikt/ds-icons": "3.4.3",
         "@navikt/ds-react": "7.33.2",
         "@navikt/nav-dekoratoren-moduler": "3.5.0",
-        "fetch-mock": "11.1.5",
+        "fetch-mock": "12.6.0",
         "lodash.debounce": "4.0.8",
         "preact-render-to-string": "6.6.3"
     },
