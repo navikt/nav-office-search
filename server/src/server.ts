@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import compression from 'compression';
 import { registerSiteRoutes } from './site/registerSiteRoutes.js';
 import { registerApiRoutes } from './api/registerApiRoutes';
 import { loadDataAndStartSchedule } from './data/data';
@@ -17,7 +16,6 @@ const app = express();
 const siteRouter = express.Router();
 const apiRouter = express.Router();
 
-app.use('*', compression());
 app.use(basePath, siteRouter);
 siteRouter.use('/api', apiRouter);
 
