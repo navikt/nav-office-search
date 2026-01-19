@@ -29,7 +29,7 @@
         "@navikt/nav-dekoratoren-moduler": "3.5.0",
         "fetch-mock": "11.1.5",
         "lodash.debounce": "4.0.8",
-        "preact-render-to-string": "6.6.3"
+        "preact-render-to-string": "6.6.5"
     },
     "devDependencies": {
         "@babel/preset-react": "7.28.5",
