@@ -10,22 +10,23 @@
         "dev": "cp .env.development .env && npm run start-local"
     },
     "dependenciesComments": {
-        "@types/express": "Holdes på versjon 4.17.21. Nyeste versjon 5.0.5",
-        "express": "Holdes på versjon 4.21.2. Nyeste versjon 5.1.0",
-        "vite": "Holdes på versjon 6.3.5. Nyeste versjon 7.2.2"
+        "@types/express": "Holdes på versjon 4.17.21 ellers brekker det. Nyeste versjon 5.0.6",
+        "express": "Holdes på versjon 4.22.1 ellers brekker det. Nyeste versjon 5.1.0",
+        "@types/node": "Holdes på versjon 24.10.1 ellers brekker det. Nyeste versjon 25.0.6",
+        "compression": "Holdes på versjon 1.7.5 frem til vi går over til Express 5"
     },
     "dependencies": {
-        "compression": "1.8.1",
+        "compression": "1.7.5",
         "dotenv": "17.2.3",
-        "express": "4.21.2",
+        "express": "4.22.1",
         "lodash.debounce": "4.0.8",
-        "lru-cache": "11.2.2",
+        "lru-cache": "11.2.4",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
-        "vite": "6.3.5"
+        "vite": "7.3.1"
     },
     "devDependencies": {
-        "@types/compression": "1.8.1",
+        "@types/compression": "1.7.5",
         "@types/express": "4.17.21",
         "@types/node": "24.10.1",
         "@types/node-schedule": "2.1.8",
