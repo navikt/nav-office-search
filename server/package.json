@@ -15,6 +15,7 @@
         "@types/node": "Holdes på versjon 24.10.1 ellers brekker det. Nyeste versjon 25.0.6"
     },
     "dependencies": {
+        "compression": "1.8.1",
         "dotenv": "17.2.3",
         "express": "4.22.1",
         "lodash.debounce": "4.0.8",
@@ -24,6 +25,7 @@
         "vite": "7.3.1"
     },
     "devDependencies": {
+        "@types/compression": "1.8.1",
         "@types/express": "4.17.21",
         "@types/node": "24.10.1",
         "@types/node-schedule": "2.1.8",

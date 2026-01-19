@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
+import compression from 'compression';
 import express from 'express';
 import { registerSiteRoutes } from './site/registerSiteRoutes.js';
 import { registerApiRoutes } from './api/registerApiRoutes';
