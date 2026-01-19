@@ -16,6 +16,7 @@ const app = express();
 const siteRouter = express.Router();
 const apiRouter = express.Router();
 
+app.use(compression());
 app.use(basePath, siteRouter);
 siteRouter.use('/api', apiRouter);
 
