@@ -2,7 +2,7 @@ import { AppLocale } from '../../../../common/localization/types';
 import { getTemplateWithDecorator } from './templateBuilder';
 import { ViteDevServer } from 'vite';
 import { localeString } from '../../../../common/localization/localeString';
-import { render } from '../../../frontendDist/ssr/main-server.js';
+import { render } from '../../../../src/main-server';
 
 export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
