@@ -1,26 +1,21 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "jsx": "react",
-    "allowJs": true,
-    "baseUrl": "src",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "lib": [
-      "es2021"
-    ],
-    "moduleResolution": "node",
-    "module": "ESNext",
-    "outDir": "./dist",
-    "strict": true,
-    "target": "ES2021",
-    "resolveJsonModule": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "../common/**/*.ts",
-    "global.d.ts"
-  ]
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "compilerOptions": {
+        "jsx": "react",
+        "allowJs": true,
+        "baseUrl": "src",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        "skipLibCheck": true,
+        "lib": ["es2021"],
+        "moduleResolution": "Node",
+        "module": "ESNext",
+        "outDir": "./dist",
+        "strict": true,
+        "target": "ES2021",
+        "resolveJsonModule": true,
+        "types": ["vite/client"]
+    },
+    "include": ["src/**/*.ts", "../common/**/*.ts", "global.d.ts", "src"]
 }
