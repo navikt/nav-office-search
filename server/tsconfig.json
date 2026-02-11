@@ -8,7 +8,7 @@
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "skipLibCheck": true,
-        "lib": ["es2021"],
+        "lib": ["es2021", "dom", "dom.iterable"],
         "moduleResolution": "Node",
         "module": "ESNext",
         "outDir": "./dist",
@@ -17,5 +17,14 @@
         "resolveJsonModule": true,
         "types": ["vite/client"]
     },
-    "include": ["src/**/*.ts", "../common/**/*.ts", "global.d.ts", "src"]
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "../common/**/*.ts",
+        "../common/**/*.tsx",
+        "../server/**/*.ts",
+        "../server/**/*.tsx",
+        "src/global.d.ts",
+        "src"
+    ]
 }
