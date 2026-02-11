@@ -21,7 +21,7 @@ const envProps: DecoratorEnvProps =
 const templatePath =
     process.env.NODE_ENV === 'development'
         ? path.resolve(process.cwd(), '..', 'index.html')
-        : path.resolve(process.cwd(), 'server', 'frontendDist', 'client', 'index.html');
+        : path.resolve(process.cwd(), 'frontendDist', 'client', 'index.html');
 
 export const getTemplateWithDecorator = async (locale: AppLocale) => {
     const params = getDecoratorParams(locale, serverUrls.kontaktOss);

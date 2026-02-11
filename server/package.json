@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "build": "rm -fr dist && tsc",
-        "start": "node -r dotenv/config dist/server/src/server.js dotenv_config_path=../.env",
+        "start": "node dist/server/src/server.js",
         "start-local": "npm run build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",
         "prod-local": "cp .env.local-prod .env && npm run start-local",
         "dev": "cp .env.development .env && npm run start-local"
