@@ -1,3 +1,8 @@
+declare module '*.module.css' {
+    const classes: { [key: string]: string };
+    export default classes;
+}
+
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
@@ -14,6 +19,16 @@ declare global {
             VITE_NAVNO_ORIGIN: string;
             NODE_ENV: 'development' | 'production';
         }
+    }
+
+    interface ImportMeta {
+        env: {
+            VITE_API_CLIENT_ID: string;
+            VITE_APP_BASEPATH: string;
+            VITE_APP_ORIGIN: string;
+            VITE_XP_ORIGIN: string;
+            VITE_NAVNO_ORIGIN: string;
+        };
     }
 }
 
