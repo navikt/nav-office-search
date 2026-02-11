@@ -1,3 +1,8 @@
+declare module '*.module.css' {
+    const classes: { [key: string]: string };
+    export default classes;
+}
+
 declare global {
     interface ImportMeta {
         env: {
@@ -5,6 +10,7 @@ declare global {
             VITE_APP_BASEPATH: string;
             VITE_APP_ORIGIN: string;
             VITE_XP_ORIGIN: string;
+            VITE_NAVNO_ORIGIN: string;
         };
     }
 }
