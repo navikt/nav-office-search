@@ -23,7 +23,7 @@ const createNotFoundHandler = async (): Promise<RequestHandler> => {
 export const registerErrorHandlers = async (expressApp: Express) => {
     const notFoundHandler = await createNotFoundHandler();
 
-    expressApp.use('*', notFoundHandler);
+    expressApp.use(notFoundHandler);
 
     expressApp.use(((err, req, res, next) => {
         const { path } = req;

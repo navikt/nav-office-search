@@ -34,7 +34,11 @@ loadDataAndStartSchedule()
         throw e;
     })
     .then(() => {
-        const server = app.listen(PORT, () => {
+        const server = app.listen(PORT, (error) => {
+            if (error) {
+                console.error(`Failed to start server on port ${PORT}:`, error);
+                throw error; // e.g. EADDRINUSE
+            }
             console.log(`Server starting on port ${PORT}`);
         });
 
