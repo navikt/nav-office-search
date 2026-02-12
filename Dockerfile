@@ -6,6 +6,7 @@ COPY server/package.json /app/package.json
 COPY .env /app/.env
 COPY node_modules /app/node_modules/
 COPY server/dist /app/server/dist/
+COPY server/frontendDist /app/frontendDist/
 COPY server/node_modules* /app/server/node_modules/
 
 EXPOSE 3005
