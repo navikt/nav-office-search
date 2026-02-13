@@ -2,7 +2,6 @@ import React from 'react';
 import { BodyShort, Link } from '@navikt/ds-react';
 import { OfficeInfo } from '../../../common/types/data';
 import { OfficeLinkChevron } from './OfficeLinkChevron';
-
 import style from './OfficeLink.module.css';
 
 type Props = {
