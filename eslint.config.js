@@ -1,23 +1,22 @@
-import js from '@eslint/js';
+import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
-import globals from 'globals';
 
-export default [
+export default tseslint.config(
     {
         ignores: [
             '**/node_modules/**',
             '**/dist/**',
             '**/build/**',
-            '**/server/frontendDist/**',
+            'server/frontendDist/**',
             '**/*.config.js',
             '**/*.config.ts',
         ],
     },
-    js.configs.recommended,
+    eslint.configs.recommended,
     ...tseslint.configs.recommended,
     {
-        files: ['**/*.{js,jsx,ts,tsx}'],
+        files: ['**/*.{ts,tsx,js,jsx}'],
         plugins: {
             react,
         },
@@ -28,16 +27,10 @@ export default [
                     jsx: true,
                 },
             },
-            globals: {
-                ...globals.browser,
-                ...globals.node,
-                ...globals.es2021,
-            },
         },
         settings: {
             react: {
                 version: 'detect',
-                runtime: 'automatic',
             },
         },
         rules: {
@@ -51,5 +44,5 @@ export default [
             ],
             '@typescript-eslint/no-explicit-any': 'off',
         },
-    },
-];
+    }
+);
