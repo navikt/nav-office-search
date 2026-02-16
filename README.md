@@ -9,21 +9,21 @@ Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-
 
 ## Lokal utvikling
 
-Kjør `npm run build` før første kjøring.
+Prosjektet bruker **pnpm** som pakkebehandler. Kjør `pnpm install` og `pnpm build` før første kjøring.
 
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
 #### Start i development mode:
 
-`npm run dev`
+`pnpm dev`
 
 #### Start i production mode:
 
-`npm run prod-local`
+`pnpm prod-local`
 
 #### Start dekoratøren lokalt:
 
-`npm run decorator`
+`pnpm decorator`
 
 Benytter prod-dekoratøren dersom den ikke kjører lokalt
 

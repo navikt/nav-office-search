@@ -3,11 +3,12 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "build": "rm -fr dist && tsc",
         "start": "node dist/server/src/server.js",
-        "start-local": "npm run build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",
-        "prod-local": "cp .env.local-prod .env && npm run start-local",
-        "dev": "cp .env.development .env && npm run start-local"
+        "start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",
+        "prod-local": "cp .env.local-prod .env && pnpm start-local",
+        "dev": "cp .env.development .env && pnpm start-local"
     },
     "dependenciesComments": {
         "@types/express": "Holdes på versjon 4.17.21 ellers brekker det. Nyeste versjon 5.0.6",
