@@ -11,16 +11,12 @@
         "dev": "cp .env.development .env && pnpm start-local"
     },
     "dependenciesComments": {
-        "@types/express": "Holdes på versjon 4.17.21 ellers brekker det. Nyeste versjon 5.0.6",
-        "express": "Holdes på versjon 4.22.1 ellers brekker det. Nyeste versjon 5.1.0",
-        "@types/node": "Holdes på versjon 24.10.1 ellers brekker det. Nyeste versjon 25.0.6",
-        "compression": "Holdes på versjon 1.7.5 frem til vi går over til Express 5"
+        "@types/node": "Holdes på versjon 24.10.1 ellers brekker det. Nyeste versjon 25.0.6"
     },
     "dependencies": {
         "compression": "1.8.1",
         "dotenv": "17.2.3",
         "express": "5.2.1",
-        "lodash.debounce": "4.0.8",
         "lru-cache": "11.2.5",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",

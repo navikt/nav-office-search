@@ -1,16 +1,19 @@
-FROM node:24-alpine
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24-slim
 
 # Enable corepack for pnpm
 RUN corepack enable
 
 WORKDIR /app
 
-# Copy package files and lockfile
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .env ./
-COPY server/package.json ./server/
-COPY server/dist app/server/dist
-COPY server/frontendDist app/server/frontendDist
+# Copy package files FIRST
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .env /app/
+COPY server/package.json /app/server/
 
+# Copy build artifacts
+COPY server/dist /app/server/dist/
+COPY server/frontendDist /app/frontendDist/
+
+# NOW run pnpm install
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
   NODE_AUTH_TOKEN=$(cat /run/secrets/NODE_AUTH_TOKEN) \
   pnpm install --frozen-lockfile --prod --ignore-scripts
@@ -22,5 +25,4 @@ USER appuser
 
 EXPOSE 3005
 WORKDIR /app/server
-
-CMD ["node", "dist/server/src/server.js"]
+CMD ["node", "server/dist/server/src/server.js"]

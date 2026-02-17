@@ -59,6 +59,8 @@ jobs:
               run: pnpm install --frozen-lockfile --ignore-scripts
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - name: Lint
+              run: npm run lint
             - name: Build application
               run: pnpm build
             - name: Run tests
