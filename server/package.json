@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "preinstall": "npx only-allow pnpm",
         "build": "rm -fr dist && tsc",
         "start": "node dist/server/src/server.js",
         "start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",

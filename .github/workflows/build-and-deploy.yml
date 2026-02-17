@@ -65,6 +65,12 @@ jobs:
               run: pnpm build
             - name: Run tests
               run: pnpm test
+            - name: Delete node_modules to avoid copying them into the docker image
+              run: rm -rf node_modules server/node_modules
+            - name: Install production dependencies
+              run: pnpm install --frozen-lockfile --prod
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
             - name: Build and push docker image
               uses: nais/docker-build-push@v0
               id: docker-push
