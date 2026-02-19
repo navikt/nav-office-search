@@ -9,7 +9,7 @@
         "build:ssr": "vite build --outDir server/frontendDist/ssr --ssr src/main-server.tsx",
         "build:server": "pnpm --filter nav-office-search-server build",
         "start": "pnpm --filter nav-office-search-server start",
-        "lint": "eslint .",
+        "lint": "eslint . && tsc --noemit",
         "decorator": "docker compose up",
         "dev": "pnpm --filter nav-office-search-server dev",
         "prod-local": "cp .env.local-prod .env && pnpm --filter nav-office-search-server prod-local",
