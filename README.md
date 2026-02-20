@@ -17,11 +17,9 @@ Dette prosjektet bruker **pnpm** som package manager. Node.js kommer med Corepac
 corepack enable
 ```
 
-Corepack leser `packageManager`-feltet i `package.json` og installerer riktig versjon automatisk.
+Corepack leser `packageManager`-feltet i `package.json` og installerer riktig versjon automatisk.<<>>
 
 **Merk:** Når Corepack er aktivert, vil `npm`-kommandoer ikke fungere.
-
-Prosjektet bruker **pnpm** som pakkebehandler. Kjør `pnpm install` og `pnpm build` før første kjøring.
 
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
