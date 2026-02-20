@@ -4,6 +4,9 @@
 /node_modules
 /server/node_modules/
 
+# pnpm
+.pnpm-debug.log
+
 # misc
 .DS_Store
 *.pem

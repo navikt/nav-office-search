@@ -9,21 +9,31 @@ Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-
 
 ## Lokal utvikling
 
-Kjør `npm run build` før første kjøring.
+### Installere pnpm
+
+Dette prosjektet bruker **pnpm** som package manager. Node.js kommer med Corepack som automatisk bruker riktig pnpm-versjon:
+
+```bash
+corepack enable
+```
+
+Corepack leser `packageManager`-feltet i `package.json` og installerer riktig versjon automatisk.<<>>
+
+**Merk:** Når Corepack er aktivert, vil `npm`-kommandoer ikke fungere.
 
 Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
 #### Start i development mode:
 
-`npm run dev`
+`pnpm dev`
 
 #### Start i production mode:
 
-`npm run prod-local`
+`pnpm prod-local`
 
 #### Start dekoratøren lokalt:
 
-`npm run decorator`
+`pnpm decorator`
 
 Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
