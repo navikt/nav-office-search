@@ -27,8 +27,8 @@
         "@navikt/nav-dekoratoren-moduler": "3.6.2",
         "fetch-mock": "11.1.5",
         "lodash.debounce": "4.0.8",
-        "preact": "10.28.3",
-        "preact-render-to-string": "6.6.5",
+        "preact": "10.28.4",
+        "preact-render-to-string": "6.6.6",
         "react": "18.3.1",
         "react-dom": "18.3.1"
     },
@@ -53,7 +53,7 @@
         "prettier": "3.8.1",
         "ts-jest": "29.4.6",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.56.0",
+        "typescript-eslint": "8.56.1",
         "vite": "7.3.1"
     },
     "lint-staged": {
