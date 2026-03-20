@@ -33,13 +33,13 @@ runs:
   using: composite
   steps:
     - name: Setup node.js
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
       with:
         node-version: 24
         registry-url: 'https://npm.pkg.github.com'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
 
     - name: Define app environment
       shell: bash
@@ -89,7 +89,7 @@ runs:
         NODE_AUTH_TOKEN: ${{ inputs.READER_TOKEN }}
 
     - name: Build and push docker image
-      uses: nais/docker-build-push@v0
+      uses: nais/docker-build-push@078e460885ed0424b60d45ce9220b4be1748be9d # v0
       id: docker-push
       with:
         team: navno
@@ -100,7 +100,7 @@ runs:
           NODE_AUTH_TOKEN=${{ inputs.READER_TOKEN }}
 
     - name: Deploy to NAIS
-      uses: nais/deploy/actions/deploy@v2
+      uses: nais/deploy/actions/deploy@fa754451577294aae42872a69b888b3470478ec1 # v2
       env:
         CLUSTER: ${{ inputs.environment }}-gcp
         RESOURCE: .nais/config.yml
