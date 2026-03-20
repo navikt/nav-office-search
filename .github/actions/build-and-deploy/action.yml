@@ -43,15 +43,22 @@ runs:
 
     - name: Define app environment
       shell: bash
+      env:
+        VITE_APP_ORIGIN: ${{ inputs.APP_ORIGIN }}
+        VITE_APP_BASEPATH: ${{ inputs.basePath }}
+        VITE_XP_ORIGIN: ${{ inputs.XP_ORIGIN }}
+        VITE_NAVNO_ORIGIN: ${{ inputs.NAVNO_ORIGIN }}
+        API_ORIGIN: ${{ inputs.API_ORIGIN }}
+        ENV: ${{ inputs.environment }}
       run: |
-        cat > .env <<EOF
-        VITE_APP_ORIGIN=${{ inputs.APP_ORIGIN }}
-        VITE_APP_BASEPATH=${{ inputs.basePath }}
-        VITE_XP_ORIGIN=${{ inputs.XP_ORIGIN }}
-        VITE_NAVNO_ORIGIN=${{ inputs.NAVNO_ORIGIN }}
-        API_ORIGIN=${{ inputs.API_ORIGIN }}
-        ENV=${{ inputs.environment }}
-        EOF
+        {
+          printf 'VITE_APP_ORIGIN=%s\n' "$VITE_APP_ORIGIN"
+          printf 'VITE_APP_BASEPATH=%s\n' "$VITE_APP_BASEPATH"
+          printf 'VITE_XP_ORIGIN=%s\n' "$VITE_XP_ORIGIN"
+          printf 'VITE_NAVNO_ORIGIN=%s\n' "$VITE_NAVNO_ORIGIN"
+          printf 'API_ORIGIN=%s\n' "$API_ORIGIN"
+          printf 'ENV=%s\n' "$ENV"
+        } > .env
 
     - name: Install dependencies
       shell: bash
