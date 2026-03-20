@@ -1,0 +1,101 @@
+name: Build and deploy
+
+inputs:
+  environment:
+    description: Target environment
+    required: true
+  APP_ORIGIN:
+    description: App origin
+    required: true
+  API_ORIGIN:
+    description: API origin
+    required: true
+  XP_ORIGIN:
+    description: XP origin
+    required: true
+  NAVNO_ORIGIN:
+    description: NAVNO origin
+    required: true
+  READER_TOKEN:
+    description: Token for reading private packages
+    required: true
+  basePath:
+    description: Base path for the app
+    required: false
+    default: /sok-nav-kontor
+
+outputs:
+  image:
+    description: Built Docker image
+    value: ${{ steps.docker-push.outputs.image }}
+
+runs:
+  using: composite
+  steps:
+    - name: Setup node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        registry-url: 'https://npm.pkg.github.com'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Define app environment
+      shell: bash
+      run: |
+        cat > .env <<EOF
+        VITE_APP_ORIGIN=${{ inputs.APP_ORIGIN }}
+        VITE_APP_BASEPATH=${{ inputs.basePath }}
+        VITE_XP_ORIGIN=${{ inputs.XP_ORIGIN }}
+        VITE_NAVNO_ORIGIN=${{ inputs.NAVNO_ORIGIN }}
+        API_ORIGIN=${{ inputs.API_ORIGIN }}
+        ENV=${{ inputs.environment }}
+        EOF
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.READER_TOKEN }}
+
+    - name: Lint
+      shell: bash
+      run: npm run lint
+
+    - name: Build application
+      shell: bash
+      run: pnpm build
+
+    - name: Run tests
+      shell: bash
+      run: pnpm test
+
+    - name: Delete node_modules to avoid copying them into the docker image
+      shell: bash
+      run: rm -rf node_modules server/node_modules
+
+    - name: Install production dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile --prod
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.READER_TOKEN }}
+
+    - name: Build and push docker image
+      uses: nais/docker-build-push@v0
+      id: docker-push
+      with:
+        team: navno
+        project_id: ${{ inputs.NAIS_MANAGEMENT_PROJECT_ID }}
+        identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+        image_suffix: ${{ inputs.environment }}
+        build_args: |
+          NODE_AUTH_TOKEN=${{ inputs.READER_TOKEN }}
+
+    - name: Deploy to NAIS
+      uses: nais/deploy/actions/deploy@v2
+      env:
+        CLUSTER: ${{ inputs.environment }}-gcp
+        RESOURCE: .nais/config.yml
+        VAR: image=${{ steps.docker-push.outputs.image }},basePath=${{ inputs.basePath }}
+        VARS: .nais/vars-${{ inputs.environment }}.yml
