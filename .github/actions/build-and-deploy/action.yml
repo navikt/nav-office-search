@@ -1,5 +1,5 @@
 name: Build and deploy
-
+description: Build and deploy the application to NAIS
 inputs:
   environment:
     description: Target environment
@@ -23,6 +23,12 @@ inputs:
     description: Base path for the app
     required: false
     default: /sok-nav-kontor
+  project_id:
+    description: NAIS management project id
+    required: true
+  identity_provider:
+    description: NAIS workload identity provider
+    required: true
 
 outputs:
   image:
@@ -93,8 +99,8 @@ runs:
       id: docker-push
       with:
         team: navno
-        project_id: ${{ inputs.NAIS_MANAGEMENT_PROJECT_ID }}
-        identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+        project_id: ${{ inputs.project_id }}
+        identity_provider: ${{ inputs.identity_provider }}
         image_suffix: ${{ inputs.environment }}
         build_args: |
           NODE_AUTH_TOKEN=${{ inputs.READER_TOKEN }}
