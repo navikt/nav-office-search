@@ -9,7 +9,16 @@ import { getBydelerArray } from '../data/bydeler';
 export const registerApiRoutes = async (router: Router) => {
     router.get('/internal/isAlive', isAliveHandler);
     router.get('/internal/isReady', isReadyHandler);
-    router.get('/search', searchHandler);
+    router.get(
+        '/search',
+        (req, res, next) => {
+            if (!req.headers['nav-office-search-client']) {
+                return res.status(403).send({ error: 'Forbidden' });
+            }
+            next();
+        },
+        searchHandler
+    );
 
     router.get('/data/kommuner', (req, res) => {
         res.status(200).json(getKommunerArray());
