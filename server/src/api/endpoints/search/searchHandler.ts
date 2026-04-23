@@ -7,8 +7,10 @@ import {
     isValidNameQuery,
     isValidPostnrQuery,
 } from '../../../../../common/validateInput';
+import { addressSearchHandler } from './addressSearchHandler';
 
 export const searchHandler: RequestHandler = async (req, res) => {
+    console.log('Received search request');
     if (!isDataLoaded()) {
         console.log('Application not ready');
         await loadData();
@@ -17,8 +19,14 @@ export const searchHandler: RequestHandler = async (req, res) => {
     try {
         const { query } = req.query;
 
+        console.log(`Received search query: ${query}`);
+
         if (typeof query !== 'string') {
             return res.status(400).send(apiErrorResponse('errorMissingQuery'));
+        }
+
+        if (query) {
+            return addressSearchHandler(req, res);
         }
 
         if (isValidPostnrQuery(query)) {

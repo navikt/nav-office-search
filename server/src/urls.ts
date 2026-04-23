@@ -3,6 +3,7 @@ export const serverUrls = {
     kontaktOss: `${process.env.VITE_NAVNO_ORIGIN}/person/kontakt-oss`,
     azureAdTokenApi: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
     postnrApi: `${process.env.API_ORIGIN}/postnr`,
+    adresseApi: `${process.env.API_ORIGIN}/adresse`,
     officeInfoApi: `${process.env.API_ORIGIN}/geoid`,
     xpOfficeInfoApi: `${process.env.VITE_XP_ORIGIN}/_/service/no.nav.navno/officeInfo`,
     postnrRegister: 'https://www.bring.no/postnummerregister-ansi.txt',
