@@ -17,7 +17,6 @@ export const fetchSearchClient = (
 
     return fetch(`${clientUrls.searchApi}?query=${query}`, {
         signal: abortController.signal,
-        headers: { 'Nav-Office-Search-Client': '1' },
     })
         .then((res) => res.json())
         .catch((e): SearchResultErrorProps => {
