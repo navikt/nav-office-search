@@ -12,9 +12,6 @@ export const registerApiRoutes = async (router: Router) => {
     router.get(
         '/search',
         (req, res, next) => {
-            if (!req.headers['nav-office-search-client']) {
-                return res.status(403).send({ error: 'Forbidden' });
-            }
             next();
         },
         searchHandler
