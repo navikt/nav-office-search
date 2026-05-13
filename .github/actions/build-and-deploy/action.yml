@@ -45,7 +45,7 @@ runs:
         registry-url: 'https://npm.pkg.github.com'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6
 
     - name: Define app environment
       shell: bash
