@@ -1,0 +1,114 @@
+name: Build and deploy
+description: Build and deploy the application to NAIS
+inputs:
+  environment:
+    description: Target environment
+    required: true
+  APP_ORIGIN:
+    description: App origin
+    required: true
+  API_ORIGIN:
+    description: API origin
+    required: true
+  XP_ORIGIN:
+    description: XP origin
+    required: true
+  NAVNO_ORIGIN:
+    description: NAVNO origin
+    required: true
+  READER_TOKEN:
+    description: Token for reading private packages
+    required: true
+  basePath:
+    description: Base path for the app
+    required: false
+    default: /sok-nav-kontor
+  project_id:
+    description: NAIS management project id
+    required: true
+  identity_provider:
+    description: NAIS workload identity provider
+    required: true
+
+outputs:
+  image:
+    description: Built Docker image
+    value: ${{ steps.docker-push.outputs.image }}
+
+runs:
+  using: composite
+  steps:
+    - name: Setup node.js
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      with:
+        node-version: 24
+        registry-url: 'https://npm.pkg.github.com'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6
+
+    - name: Define app environment
+      shell: bash
+      env:
+        VITE_APP_ORIGIN: ${{ inputs.APP_ORIGIN }}
+        VITE_APP_BASEPATH: ${{ inputs.basePath }}
+        VITE_XP_ORIGIN: ${{ inputs.XP_ORIGIN }}
+        VITE_NAVNO_ORIGIN: ${{ inputs.NAVNO_ORIGIN }}
+        API_ORIGIN: ${{ inputs.API_ORIGIN }}
+        ENV: ${{ inputs.environment }}
+      run: |
+        {
+          printf 'VITE_APP_ORIGIN=%s\n' "$VITE_APP_ORIGIN"
+          printf 'VITE_APP_BASEPATH=%s\n' "$VITE_APP_BASEPATH"
+          printf 'VITE_XP_ORIGIN=%s\n' "$VITE_XP_ORIGIN"
+          printf 'VITE_NAVNO_ORIGIN=%s\n' "$VITE_NAVNO_ORIGIN"
+          printf 'API_ORIGIN=%s\n' "$API_ORIGIN"
+          printf 'ENV=%s\n' "$ENV"
+        } > .env
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.READER_TOKEN }}
+
+    - name: Lint
+      shell: bash
+      run: npm run lint
+
+    - name: Build application
+      shell: bash
+      run: pnpm build
+
+    - name: Run tests
+      shell: bash
+      run: pnpm test
+
+    - name: Delete node_modules to avoid copying them into the docker image
+      shell: bash
+      run: rm -rf node_modules server/node_modules
+
+    - name: Install production dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile --prod
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.READER_TOKEN }}
+
+    - name: Build and push docker image
+      uses: nais/docker-build-push@078e460885ed0424b60d45ce9220b4be1748be9d # v0
+      id: docker-push
+      with:
+        team: navno
+        project_id: ${{ inputs.project_id }}
+        identity_provider: ${{ inputs.identity_provider }}
+        image_suffix: ${{ inputs.environment }}
+        build_args: |
+          NODE_AUTH_TOKEN=${{ inputs.READER_TOKEN }}
+
+    - name: Deploy to NAIS
+      uses: nais/deploy/actions/deploy@fa754451577294aae42872a69b888b3470478ec1 # v2
+      env:
+        CLUSTER: ${{ inputs.environment }}-gcp
+        RESOURCE: .nais/config.yml
+        VAR: image=${{ steps.docker-push.outputs.image }},basePath=${{ inputs.basePath }}
+        VARS: .nais/vars-${{ inputs.environment }}.yml
