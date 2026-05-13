@@ -128,7 +128,7 @@ importers:
         version: 2.1.1
       vite:
         specifier: 7.3.2
-        version: 7.3.2(@types/node@24.10.1)(yaml@2.8.2)
+        version: 7.3.2(@types/node@25.3.3)(yaml@2.8.2)
     devDependencies:
       '@types/compression':
         specifier: 1.8.1
@@ -779,6 +779,9 @@ packages:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   '@navikt/ds-tokens@8.10.4':
     resolution: {integrity: sha512-mtqGpM/7+xOq0f0mJPP6/0Nxb8ye/F5x9g+LUYqpVa5ppY9F+gudhR+km70xQHkYr3vl1Ob3nwAaK6UAUE+D1w==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.10.4/d707d19503f39451e30e3ad204912fa34170ca44}
@@ -4395,11 +4398,12 @@ snapshots:
       '@floating-ui/react-dom': 2.1.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@navikt/aksel-icons': 8.10.4
       '@navikt/ds-tokens': 8.10.4
-      '@types/react': 18.3.28
       date-fns: 4.1.0
       react: 18.3.1
       react-day-picker: 9.7.0(react@18.3.1)
       react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.28
 
   '@navikt/ds-tokens@8.10.4': {}
 
@@ -7563,7 +7567,7 @@ snapshots:
       fsevents: 2.3.3
       yaml: 2.8.2
 
-  vite@7.3.2(@types/node@24.10.1)(yaml@2.8.2):
+  vite@7.3.2(@types/node@25.3.3)(yaml@2.8.2):
     dependencies:
       esbuild: 0.27.3
       fdir: 6.5.0(picomatch@4.0.3)
@@ -7572,7 +7576,7 @@ snapshots:
       rollup: 4.57.1
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 24.10.1
+      '@types/node': 25.3.3
       fsevents: 2.3.3
       yaml: 2.8.2
 
