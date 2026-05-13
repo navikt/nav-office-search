@@ -1,1 +1,1 @@
-pnpm run lint
+CI=true pnpm run lint
