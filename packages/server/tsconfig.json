@@ -12,6 +12,7 @@
         "moduleResolution": "node",
         "module": "CommonJS",
         "outDir": "./dist",
+        "rootDir": "..",
         "strict": true,
         "target": "ES2021",
         "resolveJsonModule": true,
