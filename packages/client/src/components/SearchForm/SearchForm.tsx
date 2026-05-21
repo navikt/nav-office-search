@@ -33,7 +33,7 @@ export const SearchForm = () => {
 
     const handleInput = (submit: boolean, input: string) => {
         abortSearchClient();
-        runSearch.cancel();
+        runSearch.cancel?.();
 
         if (isEmptyInput(input)) {
             setSearchResult(undefined);
@@ -97,7 +97,7 @@ export const SearchForm = () => {
         const label = `${adressenavn} ${husnummer}${husbokstav ?? ''}, ${postnummer} ${poststed}`;
 
         setInputValue(label);
-        runSearch.cancel();
+        runSearch.cancel?.();
         abortSearchClient();
         resetError();
 
