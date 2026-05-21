@@ -4,6 +4,18 @@ Web-app for å søke etter NAV-kontor med postnummer eller by/stedsnavn.
 
 Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
 
+## Monorepo-struktur
+
+```
+nav-office-search/
+├── packages/
+│   ├── client/     # Vite/Preact-frontend (SSR + klient)
+│   ├── server/     # Express-server (frackend, API-proxy, SSR-hosting)
+│   └── common/     # Delt kode: typer, lokalisering, validering
+├── package.json    # Root: monorepo-scripts og verktøy
+└── pnpm-workspace.yaml
+```
+
 ## Lokal utvikling
 
 ### Installere pnpm
@@ -14,7 +26,7 @@ Dette prosjektet bruker **pnpm** som package manager. Node.js kommer med Corepac
 corepack enable
 ```
 
-Corepack leser `packageManager`-feltet i `package.json` og installerer riktig versjon automatisk.<<>>
+Corepack leser `packageManager`-feltet i `package.json` og installerer riktig versjon automatisk.
 
 **Merk:** Når Corepack er aktivert, vil `npm`-kommandoer ikke fungere.
 
@@ -23,6 +35,8 @@ Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 #### Start i development mode:
 
 `pnpm dev`
+
+Starter både server og klient i watch-modus parallelt.
 
 #### Start i production mode:
 
