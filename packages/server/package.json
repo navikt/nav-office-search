@@ -20,12 +20,12 @@
         "lru-cache": "11.2.6",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
-        "vite": "7.3.1"
+        "vite": "7.3.2"
     },
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/express": "5.0.6",
-        "@types/node": "24.10.1",
+        "@types/node": "25.3.3",
         "@types/node-schedule": "2.1.8",
         "concurrently": "9.2.1",
         "fetch-mock": "11.1.5",
