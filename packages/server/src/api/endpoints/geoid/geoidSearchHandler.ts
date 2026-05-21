@@ -10,10 +10,12 @@ export const geoidSearchHandler = async (req: Request, res: Response) => {
         return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
     }
 
-    const officeInfo = await fetchOfficeInfoByGeoId(id.trim());
+    const trimmedId = id.trim();
+    const safeIdForLog = trimmedId.replace(/[\r\n]/g, '');
+    const officeInfo = await fetchOfficeInfoByGeoId(trimmedId);
 
     if (officeInfo.error) {
-        console.error(`Error fetching office info for geoid ${id}: ${officeInfo.message}`);
+        console.error(`Error fetching office info for geoid ${safeIdForLog}: ${officeInfo.message}`);
         return res.status(officeInfo.statusCode).send(apiErrorResponse('errorServerError'));
     }
 
@@ -23,7 +25,7 @@ export const geoidSearchHandler = async (req: Request, res: Response) => {
         poststed: officeInfo.name,
         poststedNormalized: '',
         kommuneNavn: '',
-        kommunenr: id.trim(),
+        kommunenr: trimmedId,
         kategori: PostnrKategori.Gateadresser,
         officeInfo: [officeInfo],
     });
