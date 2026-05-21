@@ -49,7 +49,8 @@ export const registerSiteRoutes = async (router: Router) => {
 
     router.get('/', async (req, res) => {
         const html = await render('nb', req.originalUrl);
-        console.log(`Rendered HTML for ${req.originalUrl}`);
+        const sanitizedOriginalUrl = req.originalUrl.replace(/[\r\n]/g, '');
+        console.log(`Rendered HTML for ${sanitizedOriginalUrl}`);
         return res.status(200).send(html);
     });
 
