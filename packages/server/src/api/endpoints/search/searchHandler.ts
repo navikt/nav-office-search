@@ -1,12 +1,9 @@
-import { postnrSearchHandler } from './postnrSearchHandler';
-import { nameSearchHandler } from './nameSearchHandler';
+import { getNameSearchResult } from './nameSearchHandler';
 import { isDataLoaded, loadData } from '../../../data/data';
 import { RequestHandler } from 'express';
 import { apiErrorResponse } from '../../../utils/fetch';
-import {
-    isValidNameQuery,
-    isValidPostnrQuery,
-} from '../../../../../common/validateInput';
+import { isValidPostnrQuery } from '../../../../../common/validateInput';
+import { postnrSearchHandler } from './postnrSearchHandler';
 import { addressSearchHandler } from './addressSearchHandler';
 
 export const searchHandler: RequestHandler = async (req, res) => {
@@ -21,23 +18,20 @@ export const searchHandler: RequestHandler = async (req, res) => {
 
         console.log(`Received search query: ${query}`);
 
-        if (typeof query !== 'string') {
+        if (typeof query !== 'string' || !query.trim()) {
             return res.status(400).send(apiErrorResponse('errorMissingQuery'));
-        }
-
-        if (query) {
-            return addressSearchHandler(req, res);
         }
 
         if (isValidPostnrQuery(query)) {
             return postnrSearchHandler(req, res);
         }
 
-        if (isValidNameQuery(query)) {
-            return nameSearchHandler(req, res);
+        const nameResult = getNameSearchResult(query);
+        if (nameResult.hits.length > 0) {
+            return res.status(200).send(nameResult);
         }
 
-        return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
+        return addressSearchHandler(req, res);
     } catch (e) {
         console.error(`Search api error: ${e}`);
         return res.status(500).send(apiErrorResponse('errorServerError'));

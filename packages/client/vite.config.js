@@ -6,9 +6,7 @@ var __assign =
             function (t) {
                 for (var s, i = 1, n = arguments.length; i < n; i++) {
                     s = arguments[i];
-                    for (var p in s)
-                        if (Object.prototype.hasOwnProperty.call(s, p))
-                            t[p] = s[p];
+                    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
                 }
                 return t;
             };
@@ -19,10 +17,7 @@ import preact from '@preact/preset-vite';
 // https://vitejs.dev/config/
 export default defineConfig(function (_a) {
     var mode = _a.mode;
-    process.env = __assign(
-        __assign({}, process.env),
-        loadEnv(mode, process.cwd())
-    );
+    process.env = __assign(__assign({}, process.env), loadEnv(mode, process.cwd()));
     return {
         plugins: [preact()],
         esbuild: {
@@ -31,11 +26,7 @@ export default defineConfig(function (_a) {
         ssr: {
             // React modules from node_modules must not be externalized
             // in order to work with preact/compat
-            noExternal: [
-                '@navikt/ds-react',
-                '@navikt/ds-icons',
-                '@navikt/aksel-icons',
-            ],
+            noExternal: ['@navikt/ds-react', '@navikt/aksel-icons'],
         },
         base: process.env.VITE_APP_BASEPATH,
     };

@@ -1,31 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import debounce from 'lodash.debounce';
 import { Search } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
-import { SearchResultProps } from '../../../../common/types/results';
-import { abortSearchClient, fetchSearchClient } from '../../utils/fetch';
-import {
-    LocaleStringId,
-    SearchError,
-} from '../../../../common/localization/types';
-import {
-    isValidNameQuery,
-    isValidPostnrQuery,
-} from '../../../../common/validateInput';
+import { Adresse, SearchResultProps } from '../../../../common/types/results';
+import { abortSearchClient, fetchGeoidClient, fetchSearchClient } from '../../utils/fetch';
+import { LocaleStringId, SearchError } from '../../../../common/localization/types';
+import { isValidNameQuery, isValidPostnrQuery } from '../../../../common/validateInput';
 
 import style from './SearchForm.module.css';
 
-const isEmptyInput = (input?: string): input is string =>
-    typeof input === 'string' && input.length === 0;
+const isEmptyInput = (input: string): boolean => input.length === 0;
 
-const isValidInput = (input?: string): input is string =>
-    typeof input === 'string' && input.length >= 2;
+const isValidInput = (input: string): boolean => input.length >= 2;
 
 export const SearchForm = () => {
+    const [inputValue, setInputValue] = useState('');
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const [error, setError] = useState<SearchError | null>();
-    const inputRef = useRef<HTMLInputElement>(null);
 
     const setClientError = (id: LocaleStringId) => {
         setError({ id: id, type: 'clientError' });
@@ -39,14 +31,9 @@ export const SearchForm = () => {
         setError(null);
     };
 
-    const handleInput = (submit: boolean) => {
-        const input = inputRef.current?.value;
-
+    const handleInput = (submit: boolean, input: string) => {
         abortSearchClient();
-
-        if (runSearch.cancel) {
-            runSearch.cancel();
-        }
+        runSearch.cancel();
 
         if (isEmptyInput(input)) {
             setSearchResult(undefined);
@@ -70,12 +57,6 @@ export const SearchForm = () => {
             } else {
                 resetError();
             }
-
-            return;
-        }
-
-        if (!isValidNameQuery(input)) {
-            setClientError('errorInputValidationName');
             return;
         }
 
@@ -100,7 +81,35 @@ export const SearchForm = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        handleInput(true);
+        handleInput(true, inputValue);
+    };
+
+    const handleAddressSelect = (adresse: Adresse) => {
+        const {
+            adressenavn,
+            husnummer,
+            husbokstav,
+            postnummer,
+            poststed,
+            bydelsnummer,
+            kommunenummer,
+        } = adresse.vegadresse;
+        const label = `${adressenavn} ${husnummer}${husbokstav ?? ''}, ${postnummer} ${poststed}`;
+
+        setInputValue(label);
+        runSearch.cancel();
+        abortSearchClient();
+        resetError();
+
+        const geoid = bydelsnummer ?? kommunenummer;
+        fetchGeoidClient(geoid).then((result) => {
+            if (result.type === 'error') {
+                setSearchResult(undefined);
+                setServerError(result.messageId || 'errorServerError');
+            } else {
+                setSearchResult(result);
+            }
+        });
     };
 
     return (
@@ -112,13 +121,17 @@ export const SearchForm = () => {
                     label={<LocaleString id={'inputLabel'} />}
                     id="search-input"
                     autoComplete="off"
-                    ref={inputRef}
-                    onChange={() => handleInput(false)}
-                    error={
-                        error?.type === 'clientError' && (
-                            <LocaleString id={error.id} />
-                        )
-                    }
+                    value={inputValue}
+                    onChange={(val) => {
+                        setInputValue(val);
+                        handleInput(false, val);
+                    }}
+                    onClear={() => {
+                        setInputValue('');
+                        setSearchResult(undefined);
+                        resetError();
+                    }}
+                    error={error?.type === 'clientError' && <LocaleString id={error.id} />}
                 />
             </form>
             {error?.type === 'serverError' && (
@@ -128,7 +141,10 @@ export const SearchForm = () => {
             )}
             {searchResult && (
                 <div className={style.searchResult}>
-                    <SearchResult searchResult={searchResult} />
+                    <SearchResult
+                        searchResult={searchResult}
+                        onAddressSelect={handleAddressSelect}
+                    />
                 </div>
             )}
         </div>

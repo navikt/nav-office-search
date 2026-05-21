@@ -1,23 +1,16 @@
-import {
-    SearchResultErrorProps,
-    SearchResultProps,
-} from '../../../common/types/results';
+import { SearchResultErrorProps, SearchResultProps } from '../../../common/types/results';
 import { clientUrls } from '../urls';
 
-let abortController =
-    typeof window !== 'undefined' ? new AbortController() : null;
+let abortController = typeof window !== 'undefined' ? new AbortController() : null;
 
 export const abortSearchClient = () => abortController?.abort();
 
-export const fetchSearchClient = (
-    query: string
-): Promise<SearchResultProps> => {
+export const fetchSearchClient = (query: string): Promise<SearchResultProps> => {
     abortSearchClient();
     abortController = new AbortController();
 
     return fetch(`${clientUrls.searchApi}?query=${query}`, {
         signal: abortController.signal,
-        headers: { 'Nav-Office-Search-Client': '1' },
     })
         .then((res) => res.json())
         .catch((e): SearchResultErrorProps => {
@@ -27,3 +20,8 @@ export const fetchSearchClient = (
             return { type: 'error', messageId: 'errorServerError' };
         });
 };
+
+export const fetchGeoidClient = (id: string): Promise<SearchResultProps> =>
+    fetch(`${clientUrls.geoidApi}?id=${encodeURIComponent(id)}`, {})
+        .then((res) => res.json())
+        .catch((): SearchResultErrorProps => ({ type: 'error', messageId: 'errorServerError' }));

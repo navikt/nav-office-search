@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { isReadyHandler } from './endpoints/isReady/isReadyHandler';
 import { isAliveHandler } from './endpoints/isAlive/isAliveHandler';
 import { searchHandler } from './endpoints/search/searchHandler';
+import { geoidSearchHandler } from './endpoints/geoid/geoidSearchHandler';
 import { getKommunerArray } from '../data/kommuner';
 import { getPoststedArray } from '../data/poststeder';
 import { getBydelerArray } from '../data/bydeler';
@@ -12,12 +13,17 @@ export const registerApiRoutes = async (router: Router) => {
     router.get(
         '/search',
         (req, res, next) => {
-            if (!req.headers['nav-office-search-client']) {
-                return res.status(403).send({ error: 'Forbidden' });
-            }
             next();
         },
         searchHandler
+    );
+
+    router.get(
+        '/geoid',
+        (req, res, next) => {
+            next();
+        },
+        geoidSearchHandler
     );
 
     router.get('/data/kommuner', (req, res) => {
