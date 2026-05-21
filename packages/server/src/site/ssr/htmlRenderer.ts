@@ -3,9 +3,9 @@ import { getTemplateWithDecorator } from './templateBuilder';
 import { ViteDevServer } from 'vite';
 import { localeString } from '../../../../common/localization/localeString';
 
-type RenderFn = (locale: AppLocale) => Promise<string>;
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { render } = require('../../../frontendDist/ssr/main-server.js') as { render: RenderFn };
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - build artifact, only exists post-build
+import { render } from '../../../frontendDist/ssr/main-server.js';
 
 export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
