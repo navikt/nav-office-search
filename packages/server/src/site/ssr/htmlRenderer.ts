@@ -6,11 +6,7 @@ import { render } from '../../../frontendDist/ssr/main-server.js';
 
 export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
-const processTemplate = async (
-    locale: AppLocale,
-    templateHtml: string,
-    appHtml: string
-) => {
+const processTemplate = async (locale: AppLocale, templateHtml: string, appHtml: string) => {
     return templateHtml
         .replace('%%LANG%%', locale)
         .replace('%%TITLE%%', localeString('documentTitle', locale) as string)
