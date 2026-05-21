@@ -3,8 +3,9 @@ import { getTemplateWithDecorator } from './templateBuilder';
 import { ViteDevServer } from 'vite';
 import { localeString } from '../../../../common/localization/localeString';
 
-// @ts-expect-error - Only available after actual build
-import { render } from '../../../frontendDist/ssr/main-server.js';
+type RenderFn = (locale: AppLocale) => Promise<string>;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { render } = require('../../../frontendDist/ssr/main-server.js') as { render: RenderFn };
 
 export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
