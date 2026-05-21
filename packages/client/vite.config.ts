@@ -14,9 +14,9 @@ export default defineConfig(({ mode }) => {
             dedupe: ['react', 'react-dom', 'preact', 'preact/compat'],
         },
         ssr: {
-            // React modules from node_modules must not be externalized
-            // in order to work with preact/compat
-            noExternal: ['@navikt/ds-react', '@navikt/aksel-icons'],
+            // Bundle all dependencies into the SSR bundle so it is self-contained
+            // and does not depend on server node_modules for client packages.
+            noExternal: true,
         },
         base: process.env.VITE_APP_BASEPATH,
     };

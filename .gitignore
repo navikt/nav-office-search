@@ -3,6 +3,7 @@
 # dependencies
 **/node_modules
 **/dist
+**/frontendDist
 /server/node_modules/
 package-lock.json
 
