@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => {
     const rootDir = resolve(__dirname, '../..');
     const env = loadEnv(mode, rootDir);
 
+    // Merge loaded env into process.env so Vite exposes VITE_* vars
+    // to client code via import.meta.env
+    Object.assign(process.env, env);
+
     return {
         plugins: [preact()],
         esbuild: {
