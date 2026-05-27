@@ -11,9 +11,9 @@
     border: none;
     cursor: pointer;
     justify-content: flex-start;
-    font-size: var(--a-font-size-medium, 1rem);
+    font-size: var(--ax-font-size-medium, 1rem);
     font-family: inherit;
-    color: var(--a-text-action);
+    color: var(--ax-text-accent-subtle);
     text-align: left;
     position: relative;
     text-decoration: transparent;
@@ -29,6 +29,6 @@
 }
 
 .item:focus-visible {
-    outline: 3px solid var(--a-border-focus);
+    outline: 3px solid var(--ax-border-focus);
     outline-offset: 2px;
 }
