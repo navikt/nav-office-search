@@ -2,13 +2,15 @@ import React from 'react';
 import { Adresse, SearchResultAdresseProps } from 'nav-office-search-common/types/results';
 import style from './SearchResultAdresse.module.css';
 import { Button } from '@navikt/ds-react';
+import { HighlightedText } from '../../HighlightedText/HighlightedText';
 
 type Props = {
     result: SearchResultAdresseProps;
     onAddressSelect: (adresse: Adresse) => void;
+    input: string;
 };
 
-export const SearchResultAdresse = ({ result, onAddressSelect }: Props) => {
+export const SearchResultAdresse = ({ result, onAddressSelect, input }: Props) => {
     return (
         <div className={style.list}>
             {result.sokAdresse.hits.map((adresse) => {
@@ -21,7 +23,7 @@ export const SearchResultAdresse = ({ result, onAddressSelect }: Props) => {
                         onClick={() => onAddressSelect(adresse)}
                         type="button"
                     >
-                        {label}
+                        <HighlightedText text={label} input={input} />
                     </Button>
                 );
             })}

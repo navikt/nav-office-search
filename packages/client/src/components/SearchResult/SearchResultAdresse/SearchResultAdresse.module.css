@@ -13,6 +13,7 @@
     justify-content: flex-start;
     font-size: var(--ax-font-size-medium, 1rem);
     font-family: inherit;
+    font-weight: normal;
     color: var(--ax-text-accent-subtle);
     text-align: left;
     position: relative;

@@ -1,47 +1,19 @@
 import React, { Fragment } from 'react';
 import { SearchResultNameProps } from '../../../../../common/types/results';
-import { normalizeString } from '../../../../../common/normalizeString';
 import { LocaleString } from '../../../localization/LocaleString';
 import { BodyShort } from '@navikt/ds-react';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
+import { HighlightedText } from '../../HighlightedText/HighlightedText';
 
 import style from './SearchResultName.module.css';
 
-const NameWithHighlightedInput = ({
-    name,
-    normalizedInput,
-}: {
-    name: string;
-    normalizedInput: string;
-}) => {
-    const normalizedName = normalizeString(name);
-    const startIndex = normalizedName.indexOf(normalizedInput);
-    if (startIndex === -1) {
-        return <>{name}</>;
-    }
-
-    const preMatch = name.slice(0, startIndex);
-    const inputMatch = name.slice(
-        startIndex,
-        startIndex + normalizedInput.length
-    );
-    const postMatch = name.slice(startIndex + normalizedInput.length);
-
-    return (
-        <>
-            {preMatch}
-            <strong>{inputMatch}</strong>
-            {postMatch}
-        </>
-    );
-};
-
 type Props = {
     result: SearchResultNameProps;
+    input: string;
 };
 
-export const SearchResultName = ({ result }: Props) => {
-    const { input, hits } = result;
+export const SearchResultName = ({ result, input }: Props) => {
+    const { input: resultInput, hits } = result;
 
     if (!hits) {
         return (
@@ -51,28 +23,21 @@ export const SearchResultName = ({ result }: Props) => {
         );
     }
 
-    const normalizedInput = normalizeString(input);
     const numHits = hits.length;
 
     return (
         <div>
             <div className={style.header}>
                 {numHits === 0 ? (
-                    <LocaleString id={'nameResultNone'} args={[input]} />
+                    <LocaleString id={'nameResultNone'} args={[resultInput]} />
                 ) : (
-                    <LocaleString
-                        id={'nameResultFound'}
-                        args={[input, numHits.toString()]}
-                    />
+                    <LocaleString id={'nameResultFound'} args={[resultInput, numHits.toString()]} />
                 )}
             </div>
             {hits.map((nameHit) => (
                 <Fragment key={nameHit.name}>
                     <BodyShort size={'medium'} className={style.hitname}>
-                        <NameWithHighlightedInput
-                            name={nameHit.name.toUpperCase()}
-                            normalizedInput={normalizedInput}
-                        />
+                        <HighlightedText text={nameHit.name.toUpperCase()} input={input} />
                     </BodyShort>
                     {nameHit.officeHits.map((office) => (
                         <OfficeLink officeInfo={office} key={office.enhetNr} />

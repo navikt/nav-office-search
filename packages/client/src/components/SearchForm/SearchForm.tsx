@@ -6,7 +6,7 @@ import { SearchResult } from '../SearchResult/SearchResult';
 import { Adresse, SearchResultProps } from '../../../../common/types/results';
 import { abortSearchClient, fetchGeoidClient, fetchSearchClient } from '../../utils/fetch';
 import { LocaleStringId, SearchError } from '../../../../common/localization/types';
-import { isValidNameQuery, isValidPostnrQuery } from '../../../../common/validateInput';
+import { isValidPostnrQuery } from '../../../../common/validateInput';
 
 import style from './SearchForm.module.css';
 
@@ -144,6 +144,7 @@ export const SearchForm = () => {
                     <SearchResult
                         searchResult={searchResult}
                         onAddressSelect={handleAddressSelect}
+                        input={inputValue}
                     />
                 </div>
             )}

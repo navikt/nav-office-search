@@ -21,6 +21,10 @@
     padding: 0.75rem;
     border-radius: var(--ax-radius-4);
     background-color: var(--ax-neutral-200);
+
+    :global(.aksel-label) {
+        font-weight: normal;
+    }
 }
 
 .error {

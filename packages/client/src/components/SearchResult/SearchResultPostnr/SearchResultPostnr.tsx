@@ -4,6 +4,7 @@ import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { BodyLong, BodyShort } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../../../common/types/data';
 import { LocaleString } from '../../../localization/LocaleString';
+import { HighlightedText } from '../../HighlightedText/HighlightedText';
 
 import style from './SearchResultPostnr.module.css';
 
@@ -23,12 +24,7 @@ const HeaderText = (result: SearchResultPostnrProps) => {
     const numHits = officeInfo.length;
 
     if (numHits === 0) {
-        return (
-            <LocaleString
-                id={'postnrResultNone'}
-                args={[postnrOgPoststed, adresseQuery]}
-            />
-        );
+        return <LocaleString id={'postnrResultNone'} args={[postnrOgPoststed, adresseQuery]} />;
     }
 
     if (numHits > 1) {
@@ -72,9 +68,10 @@ const HeaderText = (result: SearchResultPostnrProps) => {
 
 type Props = {
     result: SearchResultPostnrProps;
+    input: string;
 };
 
-export const SearchResultPostnr = ({ result }: Props) => {
+export const SearchResultPostnr = ({ result, input }: Props) => {
     const { officeInfo, adresseQuery } = result;
 
     if (!officeInfo) {
@@ -93,9 +90,9 @@ export const SearchResultPostnr = ({ result }: Props) => {
             {officeInfo.map((hit) => (
                 <Fragment key={hit.enhetNr}>
                     {adresseQuery && (
-                        <BodyShort
-                            size={'small'}
-                        >{`${hit.hitString}:`}</BodyShort>
+                        <BodyShort size={'small'}>
+                            <HighlightedText text={`${hit.hitString}:`} input={input} />
+                        </BodyShort>
                     )}
                     <OfficeLink officeInfo={hit} />
                 </Fragment>
