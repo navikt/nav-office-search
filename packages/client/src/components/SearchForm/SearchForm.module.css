@@ -1,0 +1,35 @@
+.searchForm {
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+    max-width: 100%;
+}
+
+.searchField {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+}
+
+.searchField input {
+    height: 3rem;
+}
+
+.searchResult {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--ax-radius-4);
+    background-color: var(--ax-neutral-200);
+
+    :global(.aksel-label) {
+        font-weight: normal;
+    }
+}
+
+.error {
+    margin-top: 0.05rem;
+    padding: 0.5rem;
+    border-radius: var(--ax-radius-4);
+    color: var(--ax-text-danger-subtle);
+}

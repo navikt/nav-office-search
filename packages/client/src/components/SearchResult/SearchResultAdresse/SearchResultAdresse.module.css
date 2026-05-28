@@ -1,0 +1,35 @@
+.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    justify-content: flex-start;
+    font-size: var(--ax-font-size-medium, 1rem);
+    font-family: inherit;
+    font-weight: normal;
+    color: var(--ax-text-accent-subtle);
+    text-align: left;
+    position: relative;
+    text-decoration: transparent;
+    border-radius: 6px;
+}
+
+.item:not(:last-child) {
+    margin-bottom: 0.25rem;
+}
+
+.item:hover {
+    background-color: var(--ax-bg-accent-softA);
+}
+
+.item:focus-visible {
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: 2px;
+}

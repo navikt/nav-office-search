@@ -1,7 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules
+**/dist
+**/frontendDist
 /server/node_modules/
 package-lock.json
 
@@ -19,11 +21,13 @@ npm-debug.log*
 .env
 .env.local
 .env.development.local
+.env.development
 .env.test.local
 .env.production.local
 /server/.env
 /server/.env.local
 /server/.env.development.local
+/server/.env.development
 /server/.env.test.local
 /server/.env.production.local
 
