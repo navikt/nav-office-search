@@ -16,7 +16,7 @@
 .title {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 1px var(--a-gray-400) solid;
+    border-bottom: 1px var(--ax-neutral-500) solid;
 }
 
 .ingress {

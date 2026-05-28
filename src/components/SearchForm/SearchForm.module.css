@@ -19,15 +19,13 @@
 .searchResult {
     margin-top: 1rem;
     padding: 0.75rem;
-
-    border-radius: var(--a-border-radius-medium);
-    background-color: var(--a-gray-100);
+    border-radius: var(--ax-radius-4);
+    background-color: var(--ax-neutral-200);
 }
 
 .error {
     margin-top: 0.05rem;
     padding: 0.5rem;
-
-    border-radius: var(--a-border-radius-medium);
-    color: var(--a-text-danger);
+    border-radius: var(--ax-radius-4);
+    color: var(--ax-text-danger-subtle);
 }
