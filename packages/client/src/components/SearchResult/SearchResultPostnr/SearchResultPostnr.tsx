@@ -72,9 +72,10 @@ const HeaderText = (result: SearchResultPostnrProps) => {
 
 type Props = {
     result: SearchResultPostnrProps;
+    resultInput?: string | null;
 };
 
-export const SearchResultPostnr = ({ result }: Props) => {
+export const SearchResultPostnr = ({ result, resultInput }: Props) => {
     const { officeInfo, adresseQuery } = result;
 
     if (!officeInfo) {
@@ -88,7 +89,14 @@ export const SearchResultPostnr = ({ result }: Props) => {
     return (
         <div>
             <BodyLong className={style.header}>
-                <HeaderText {...result} />
+                {resultInput ? (
+                    <LocaleString
+                        id={officeInfo.length === 0 ? 'nameResultNone' : 'nameResultFound'}
+                        args={[resultInput, officeInfo.length.toString()]}
+                    />
+                ) : (
+                    <HeaderText {...result} />
+                )}
             </BodyLong>
             {officeInfo.map((hit) => (
                 <Fragment key={hit.enhetNr}>

@@ -21,6 +21,13 @@ export const localeModuleEn: LocaleModule = {
         'Enter at least two letters or a valid post code',
     errorInputValidationPostnr: 'Post code search must be four digits',
     errorInputValidationName: 'Invalid characters in search',
+    searchLoading: 'Searching...',
+    addressSuggestionsAvailable: (numHits) =>
+        `${numHits} address suggestions available. Use the arrow keys to choose.`,
+    addressSuggestionsLabel: 'Address suggestions',
+    addressSuggestionSelected: (address) => `Address selected: ${address}`,
+    addressSuggestionsRefine: (visibleHits, totalHits) =>
+        `Showing ${visibleHits} of ${totalHits} address suggestions. Enter more of the address to narrow the search.`,
     nameResultHeader: 'Search results for ',
     postnrResultNone: (postnrOgPoststed, adresseQuery) => (
         <>

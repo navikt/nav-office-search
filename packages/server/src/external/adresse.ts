@@ -3,6 +3,7 @@ import { getKommune } from '../data/kommuner';
 import { getBydel } from '../data/bydeler';
 import { removeDuplicates } from '../utils/removeDuplicates';
 import { OfficeInfo } from '../../../common/types/data';
+import { Adresse } from '../../../common/types/results';
 import {
     fetchErrorResponse,
     FetchErrorResponse,
@@ -25,7 +26,11 @@ export type AdresseSokHit = {
 
 export type AdresseSokResponse = {
     error?: undefined;
-    hits: AdresseSokHit[];
+    hits?: AdresseSokHit[];
+    sokAdresse?: {
+        hits: Adresse[];
+        totalHits: number;
+    };
 };
 
 const removeLeadingZeros = (str: string) => str.replace(/^0+/, '');
@@ -33,7 +38,7 @@ const removeLeadingZeros = (str: string) => str.replace(/^0+/, '');
 export const officeInfoFromAdresseSokResponse = (
     adresseSokResponse: AdresseSokResponse
 ): OfficeInfo[] => {
-    const officeInfo = adresseSokResponse.hits.reduce((acc, hit) => {
+    const officeInfo = (adresseSokResponse.hits ?? []).reduce((acc, hit) => {
         const geoId = hit.geografiskTilknytning;
         const officeInfo = (getKommune(geoId) || getBydel(geoId))?.officeInfo;
 

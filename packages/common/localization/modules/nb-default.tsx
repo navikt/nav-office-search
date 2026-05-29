@@ -20,6 +20,13 @@ export const localeModuleNb = {
         'Skriv inn minst to bokstaver eller et postnummer',
     errorInputValidationPostnr: 'Postnummer-søk må være fire siffer',
     errorInputValidationName: 'Søket inneholder ugyldige tegn',
+    searchLoading: 'Søker...',
+    addressSuggestionsAvailable: (numHits: string) =>
+        `${numHits} adresseforslag tilgjengelig. Bruk piltastene for å velge.`,
+    addressSuggestionsLabel: 'Adresseforslag',
+    addressSuggestionSelected: (address: string) => `Adresse valgt: ${address}`,
+    addressSuggestionsRefine: (visibleHits: string, totalHits: string) =>
+        `Viser ${visibleHits} av ${totalHits} adresseforslag. Skriv mer av adressen for å avgrense søket.`,
     nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed: string, adresseQuery: string) => (
         <>

@@ -6,6 +6,9 @@ import { getPoststedArray } from '../../../data/poststeder';
 import { Kommune, OfficeInfo } from '../../../../../common/types/data';
 import { normalizeString } from '../../../../../common/normalizeString';
 import { norskSort, sortOfficeNames } from '../../../utils/sort';
+import { RequestHandler } from 'express';
+import { isDataLoaded, loadData } from '../../../data/data';
+import { apiErrorResponse } from '../../../utils/fetch';
 
 const buildOfficeHit = (officeInfo: OfficeInfo, hitString: string): OfficeInfo => ({
     ...officeInfo,
@@ -148,4 +151,23 @@ export const getNameSearchResult = (query: string) => {
     );
 
     return { hits, type: 'name' as const, input: query };
+};
+
+export const nameSearchHandler: RequestHandler = async (req, res) => {
+    try {
+        if (!isDataLoaded()) {
+            await loadData();
+        }
+
+        const { query } = req.query;
+
+        if (typeof query !== 'string' || !query.trim()) {
+            return res.status(400).send(apiErrorResponse('errorMissingQuery'));
+        }
+
+        return res.status(200).send(getNameSearchResult(query));
+    } catch (e) {
+        console.error(`Name search api error: ${e}`);
+        return res.status(500).send(apiErrorResponse('errorServerError'));
+    }
 };
