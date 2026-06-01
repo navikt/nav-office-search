@@ -21,7 +21,7 @@ import {
     formatAddressLabel,
     getAddressOptionId,
     getAddressSuggestionsStatusMessage,
-} from '../SearchResult/SearchResultAdresse/addressOptions';
+} from '../SearchResult/SearchResultAdresse/addressSuggestions';
 
 import style from './SearchForm.module.css';
 
