@@ -29,16 +29,25 @@ const isEmptyInput = (input: string): boolean => input.trim().length === 0;
 
 const isValidInput = (input: string): boolean => input.trim().length >= 2;
 
+const focusScrollOffset = 16;
+const focusScrollDelayMs = 300;
+
+const shouldAdjustMobileFocusScroll = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(max-width: 768px) and (pointer: coarse)').matches;
+
 export const SearchForm = () => {
     const [inputValue, setInputValue] = useState('');
     const [searchResult, setSearchResult] = useState<SearchResultProps>();
     const [error, setError] = useState<SearchError | null>();
     const [isLoading, setIsLoading] = useState(false);
+    const [isAddressPopupOpen, setIsAddressPopupOpen] = useState(false);
     const [activeAddressIndex, setActiveAddressIndex] = useState<number | null>(null);
     const [statusMessage, setStatusMessage] = useState('');
     const [addressLoadingHeight, setAddressLoadingHeight] = useState<number | null>(null);
     const [addressResultInput, setAddressResultInput] = useState<string | null>(null);
     const activeSearchId = useRef(0);
+    const searchFormRef = useRef<HTMLDivElement>(null);
     const addressDropdownRef = useRef<HTMLDivElement>(null);
     const activeAddressNavigationSource = useRef<'keyboard' | 'mouse' | null>(null);
     const addressListboxId = useId();
@@ -48,9 +57,14 @@ export const SearchForm = () => {
     const isAddressResult = searchResult?.type === 'adresse';
     const addressSuggestions = isAddressResult ? searchResult.sokAdresse.hits : [];
     const hasAddressSuggestions = addressSuggestions.length > 0;
-    const isAddressDropdownOpen = isLoading || isAddressResult;
+    const hasAddressPopup = isLoading || isAddressResult;
+    const isAddressDropdownOpen = isAddressPopupOpen && hasAddressPopup;
+    const hasFreshSingleAddressSuggestion =
+        isAddressResult &&
+        addressSuggestions.length === 1 &&
+        inputValue.trim() === searchResult.adresseQuery.trim();
     const activeAddressOptionId =
-        activeAddressIndex !== null && hasAddressSuggestions
+        isAddressDropdownOpen && activeAddressIndex !== null && hasAddressSuggestions
             ? getAddressOptionId(addressListboxId, activeAddressIndex)
             : undefined;
     const loadingStyle: CSSProperties | undefined =
@@ -76,6 +90,7 @@ export const SearchForm = () => {
     }, []);
 
     const clearSearchResult = useCallback(() => {
+        setIsAddressPopupOpen(false);
         setSearchResult(undefined);
         resetAddressState();
     }, [resetAddressState]);
@@ -105,6 +120,7 @@ export const SearchForm = () => {
                             setAddressLoadingHeight(currentDropdownHeight || null);
                             setSearchResult(undefined);
                             setIsLoading(true);
+                            setIsAddressPopupOpen(true);
                             setActiveAddressIndex(null);
                             setStatusMessage(searchLoadingText);
                         }
@@ -126,9 +142,11 @@ export const SearchForm = () => {
                     } else {
                         setSearchResult(result);
                         if (result.type === 'adresse') {
+                            setIsAddressPopupOpen(true);
                             setActiveAddressIndex(null);
                             setStatusMessage(getAddressSuggestionsStatusMessage(result, locale));
                         } else {
+                            setIsAddressPopupOpen(false);
                             setActiveAddressIndex(null);
                             setStatusMessage('');
                         }
@@ -148,8 +166,20 @@ export const SearchForm = () => {
 
     const closeAddressDropdown = useCallback(() => {
         cancelPendingSearch();
+        setIsAddressPopupOpen(false);
         setSearchResult(undefined);
     }, [cancelPendingSearch]);
+
+    const hideAddressPopup = useCallback(() => {
+        if (isLoading) {
+            cancelPendingSearch();
+            setIsAddressPopupOpen(false);
+            return;
+        }
+
+        setIsAddressPopupOpen(false);
+        setActiveAddressIndex(null);
+    }, [cancelPendingSearch, isLoading]);
 
     const handleInput = (submit: boolean, input: string) => {
         cancelPendingSearch();
@@ -202,9 +232,18 @@ export const SearchForm = () => {
             setStatusMessage(localeString('addressSuggestionSelected', locale, [label]) as string);
 
             const geoid = bydelsnummer ?? kommunenummer;
+            if (!geoid) {
+                setSearchResult(undefined);
+                setAddressResultInput(null);
+                setStatusMessage('');
+                setServerError('errorServerError');
+                return;
+            }
+
+            const officeSearch = fetchGeoidClient(geoid);
             const searchId = activeSearchId.current + 1;
             activeSearchId.current = searchId;
-            fetchGeoidClient(geoid).then((result) => {
+            officeSearch.then((result) => {
                 if (searchId !== activeSearchId.current) {
                     return;
                 }
@@ -214,6 +253,7 @@ export const SearchForm = () => {
                 if (result.type === 'error') {
                     setSearchResult(undefined);
                     setAddressResultInput(null);
+                    setStatusMessage('');
                     setServerError(result.messageId || 'errorServerError');
                 } else {
                     setAddressResultInput(label);
@@ -233,12 +273,22 @@ export const SearchForm = () => {
         if (event.key === 'Escape' && isAddressDropdownOpen) {
             event.preventDefault();
             event.stopPropagation();
-            closeAddressDropdown();
+            hideAddressPopup();
             return;
         }
 
         if (event.key === 'Tab' && isAddressDropdownOpen) {
-            closeAddressDropdown();
+            hideAddressPopup();
+            return;
+        }
+
+        if (event.key === 'Enter' && isAddressDropdownOpen) {
+            event.preventDefault();
+            if (activeAddressIndex !== null && hasAddressSuggestions) {
+                selectAddress(addressSuggestions[activeAddressIndex]);
+            } else if (hasFreshSingleAddressSuggestion) {
+                selectAddress(addressSuggestions[0]);
+            }
             return;
         }
 
@@ -263,12 +313,6 @@ export const SearchForm = () => {
             );
             return;
         }
-
-        if (event.key === 'Enter' && activeAddressIndex !== null) {
-            event.preventDefault();
-            selectAddress(addressSuggestions[activeAddressIndex]);
-            return;
-        }
     };
 
     const handleAddressSelect = useCallback(
@@ -283,21 +327,56 @@ export const SearchForm = () => {
         setActiveAddressIndex(index);
     }, []);
 
+    const scrollSearchFormToViewportTop = useCallback(() => {
+        if (!shouldAdjustMobileFocusScroll()) {
+            return;
+        }
+
+        window.setTimeout(() => {
+            const searchForm = searchFormRef.current;
+            if (!searchForm) {
+                return;
+            }
+
+            const top = searchForm.getBoundingClientRect().top + window.scrollY - focusScrollOffset;
+            window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+        }, focusScrollDelayMs);
+    }, []);
+
+    const handleSearchFocus = useCallback(() => {
+        scrollSearchFormToViewportTop();
+        if (isAddressResult) {
+            setIsAddressPopupOpen(true);
+        }
+    }, [isAddressResult, scrollSearchFormToViewportTop]);
+
     return (
-        <div className={style.searchForm}>
-            <form onSubmit={handleSubmit} className={style.searchField}>
+        <div
+            className={style.searchForm}
+            ref={searchFormRef}
+            onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                    hideAddressPopup();
+                }
+            }}
+        >
+            <form onSubmit={handleSubmit} className={style.searchField} autoComplete="off">
                 <Search
                     variant="primary"
                     hideLabel={false}
                     label={<LocaleString id={'inputLabel'} />}
                     id="search-input"
                     autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="none"
+                    spellCheck={false}
                     value={inputValue}
                     role="combobox"
                     aria-autocomplete="list"
                     aria-expanded={isAddressDropdownOpen}
                     aria-controls={isAddressDropdownOpen ? addressListboxId : undefined}
                     aria-activedescendant={activeAddressOptionId}
+                    onFocus={handleSearchFocus}
                     onKeyDown={handleSearchKeyDown}
                     onChange={(val) => {
                         setInputValue(val);
@@ -316,7 +395,8 @@ export const SearchForm = () => {
                     <LocaleString id={error.id} />
                 </div>
             )}
-            {(isLoading || searchResult) && (
+            {((isLoading && isAddressDropdownOpen) ||
+                (searchResult && (!isAddressResult || isAddressDropdownOpen))) && (
                 <div
                     ref={
                         searchResult?.type === 'adresse' || isLoading

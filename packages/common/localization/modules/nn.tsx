@@ -7,8 +7,7 @@ export const localeModuleNn = {
     breadcrumb2: 'Søk opp Nav-kontor',
     ingressLine1:
         'Manglar du elektronisk ID? Eller skal du finne Nav-kontor på vegne av nokon andre?',
-    ingressLine2:
-        'Då kan du søke opp Nav-kontor ved hjelp av postnummer eller stad/by.',
+    ingressLine2: 'Då kan du søke opp Nav-kontor ved hjelp av postnummer eller stad/by.',
     inputLabel: 'Skriv inn eit postnummer eller stadnamn:',
     inputSubmit: 'Søk',
     errorMissingQuery: 'Manglar søke-streng',
@@ -16,8 +15,7 @@ export const localeModuleNn = {
     errorInvalidPostnr: 'Postnummeret finns ikkje',
     errorServerError: 'Ukjent server-feil',
     errorInvalidResult: 'Server-feil: Feil i søke-resultatet',
-    errorInputValidationLength:
-        'Skriv inn minst to bokstavar eller eit postnummer',
+    errorInputValidationLength: 'Skriv inn minst to bokstavar eller eit postnummer',
     errorInputValidationPostnr: 'Postnummer-søk må vere fire siffer',
     errorInputValidationName: 'Søket inneheld ugyldige teikn',
     searchLoading: 'Søker...',
@@ -26,7 +24,7 @@ export const localeModuleNn = {
     addressSuggestionsLabel: 'Adresseforslag',
     addressSuggestionSelected: (address: string) => `Adresse valt: ${address}`,
     addressSuggestionsRefine: (visibleHits: string, totalHits: string) =>
-        `Viser ${visibleHits} av ${totalHits} adresseforslag. Skriv meir av adressa for å avgrense søket.`,
+        `Viser ${visibleHits} av ${totalHits} treff. Skriv meir av adressa for å avgrense søket.`,
     nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed: string, adresseQuery: string) => (
         <>
@@ -42,48 +40,28 @@ export const localeModuleNn = {
             {':'}
         </>
     ),
-    postnrResultMany: (
-        numHits: string,
-        postnrOgPoststed: string,
-        postnr: string
-    ) => (
+    postnrResultMany: (numHits: string, postnrOgPoststed: string, postnr: string) => (
         <>
             {`${numHits} kontor dekker `}
             <strong>{postnrOgPoststed}</strong>
             {`. Du kan legge til gatenamn og husnummer for å spisse søket, t.d. ${postnr} Eksempelgata 12`}
         </>
     ),
-    postnrResultPostbox: (
-        postnr: string,
-        kommuneNavn: string,
-        numHits: string
-    ) => (
+    postnrResultPostbox: (postnr: string, kommuneNavn: string, numHits: string) => (
         <>
             {`${postnr} er eit postnummer for postboksar i `}
             <strong>{kommuneNavn}</strong>
-            {` kommune. Kommunens Nav-kontor${
-                Number(numHits) > 1 ? 'er' : ''
-            }:`}
+            {` kommune. Kommunens Nav-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
         </>
     ),
-    postnrResultServiceBox: (
-        postnr: string,
-        kommuneNavn: string,
-        numHits: string
-    ) => (
+    postnrResultServiceBox: (postnr: string, kommuneNavn: string, numHits: string) => (
         <>
             {`${postnr} er eit servicepostnummer i `}
             <strong>{kommuneNavn}</strong>
-            {` kommune. Kommunens Nav-kontor${
-                Number(numHits) > 1 ? 'er' : ''
-            }:`}
+            {` kommune. Kommunens Nav-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
         </>
     ),
-    postnrResultBydeler: (
-        postnr: string,
-        kommuneNavn: string,
-        numHits: string
-    ) => (
+    postnrResultBydeler: (postnr: string, kommuneNavn: string, numHits: string) => (
         <>
             {'Fant ingen kontor spesifikt knytta til '}
             <strong>{postnr}</strong>

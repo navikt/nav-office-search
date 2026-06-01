@@ -1,6 +1,7 @@
 .searchForm {
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 480px;
     max-width: 100%;
 }
@@ -29,7 +30,17 @@
 }
 
 .searchResult[data-result-type='adresse'] {
-    margin-top: var(--ax-space-8);
+    --address-dropdown-max-height: min(
+        24rem,
+        calc(100dvh - 10rem - env(safe-area-inset-bottom, 0px))
+    );
+
+    position: absolute;
+    z-index: 10;
+    inset-inline: 0;
+    top: calc(100% + var(--ax-space-8));
+    max-height: var(--address-dropdown-max-height);
+    margin-top: 0;
     padding: 0;
     background-color: transparent;
 }
@@ -49,6 +60,7 @@
 
 .searchResult[data-result-type='adresse'] .loading {
     box-sizing: border-box;
+    max-height: var(--address-dropdown-max-height);
     padding: var(--ax-space-12);
     background-color: var(--ax-bg-raised);
     border: 1px solid var(--ax-border-neutral-subtle);
