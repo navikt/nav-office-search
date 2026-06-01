@@ -5,6 +5,8 @@ export const clientUrls = {
         en: `${import.meta.env.VITE_APP_BASEPATH}/en`,
     },
     searchApi: `${import.meta.env.VITE_APP_ORIGIN}${import.meta.env.VITE_APP_BASEPATH}/api/search`,
+    searchNameApi: `${import.meta.env.VITE_APP_ORIGIN}${import.meta.env.VITE_APP_BASEPATH}/api/search/name`,
+    searchAddressApi: `${import.meta.env.VITE_APP_ORIGIN}${import.meta.env.VITE_APP_BASEPATH}/api/search/address`,
     geoidApi: `${import.meta.env.VITE_APP_ORIGIN}${import.meta.env.VITE_APP_BASEPATH}/api/geoid`,
     kontaktOss: `${import.meta.env.VITE_NAVNO_ORIGIN}/person/kontakt-oss`,
 };

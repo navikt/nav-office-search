@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Adresse, SearchResultProps } from '../../../../common/types/results';
 import { SearchResultPostnr } from './SearchResultPostnr/SearchResultPostnr';
 import { SearchResultName } from './SearchResultName/SearchResultName';
@@ -7,12 +7,26 @@ import { SearchResultAdresse } from './SearchResultAdresse/SearchResultAdresse';
 type Props = {
     searchResult: SearchResultProps;
     onAddressSelect: (adresse: Adresse) => void;
+    onAddressMouseEnter: (index: number) => void;
+    activeAddressIndex: number | null;
+    addressListboxId: string;
+    addressSuggestionsLabel: string;
+    addressResultInput?: string | null;
     input: string;
 };
 
-export const SearchResult = ({ searchResult, onAddressSelect, input }: Props) => {
+export const SearchResult = React.memo(function SearchResult({
+    searchResult,
+    onAddressSelect,
+    onAddressMouseEnter,
+    activeAddressIndex,
+    addressListboxId,
+    addressSuggestionsLabel,
+    addressResultInput,
+    input,
+}: Props) {
     if (searchResult.type === 'postnr') {
-        return <SearchResultPostnr result={searchResult} input={input} />;
+        return <SearchResultPostnr result={searchResult} resultInput={addressResultInput} />;
     }
 
     if (searchResult.type === 'name') {
@@ -24,10 +38,13 @@ export const SearchResult = ({ searchResult, onAddressSelect, input }: Props) =>
             <SearchResultAdresse
                 result={searchResult}
                 onAddressSelect={onAddressSelect}
-                input={input}
+                onAddressMouseEnter={onAddressMouseEnter}
+                activeIndex={activeAddressIndex}
+                listboxId={addressListboxId}
+                listboxLabel={addressSuggestionsLabel}
             />
         );
     }
 
     return null;
-};
+});
