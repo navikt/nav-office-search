@@ -5,9 +5,7 @@ export const isValidPostnrQuery = (query: string) => {
         return false;
     }
 
-    const postnr = query.split(' ')[0];
-
-    return postnr && postnrQueryRegex.test(postnr);
+    return postnrQueryRegex.test(query.trim());
 };
 
 const nameQueryRegex = /^[\p{Letter}\d., -]+$/u;

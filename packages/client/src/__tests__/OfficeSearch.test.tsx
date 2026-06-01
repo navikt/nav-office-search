@@ -99,15 +99,32 @@ describe('OfficeSearch', () => {
         await waitFor(() => {
             expect(screen.getByText('2 kontorer dekker', { exact: false })).toBeInTheDocument();
             expect(screen.getByText('4737 HORNNES')).toBeInTheDocument();
-            expect(
-                screen.getByText(
-                    'Du kan legge til gatenavn og husnummer for å spisse søket, f.eks. 4737 Eksempelgata 12',
-                    { exact: false }
-                )
-            ).toBeInTheDocument();
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
             expect(getLinkByName('Nav Testkontor')).toBeInTheDocument();
         });
+    });
+
+    test('bruker adressesøk for postnummer med gatenavn', async () => {
+        mockAddressSuggestionSearch(undefined, 1, '4737 storgata 1');
+        searchForText('4737 storgata 1');
+
+        await waitFor(() => {
+            expect(
+                screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })
+            ).toBeInTheDocument();
+        });
+        expect(fetch).toHaveBeenCalledWith(
+            expect.stringContaining('/api/search/name?query=4737%20storgata%201'),
+            expect.anything()
+        );
+        expect(fetch).toHaveBeenCalledWith(
+            expect.stringContaining('/api/search/address?query=4737%20storgata%201'),
+            expect.anything()
+        );
+        expect(fetch).not.toHaveBeenCalledWith(
+            expect.stringContaining('/api/search?query=4737%20storgata%201'),
+            expect.anything()
+        );
     });
 
     test('gir riktig respons ved søk på postnummer for postbokser', async () => {

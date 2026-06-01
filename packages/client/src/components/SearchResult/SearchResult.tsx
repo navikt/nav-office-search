@@ -26,13 +26,7 @@ export const SearchResult = React.memo(function SearchResult({
     input,
 }: Props) {
     if (searchResult.type === 'postnr') {
-        return (
-            <SearchResultPostnr
-                result={searchResult}
-                resultInput={addressResultInput}
-                input={input}
-            />
-        );
+        return <SearchResultPostnr result={searchResult} resultInput={addressResultInput} />;
     }
 
     if (searchResult.type === 'name') {

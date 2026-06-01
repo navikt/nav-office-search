@@ -26,11 +26,10 @@ export const localeModuleNb = {
     addressSuggestionsRefine: (visibleHits: string, totalHits: string) =>
         `Viser ${visibleHits} av ${totalHits} treff. Skriv mer av adressen for å avgrense søket.`,
     nameResultHeader: 'Søkeresultat for ',
-    postnrResultNone: (postnrOgPoststed: string, adresseQuery: string) => (
+    postnrResultNone: (postnrOgPoststed: string) => (
         <>
             {`Ingen Nav-kontor funnet for `}
             <strong>{postnrOgPoststed}</strong>
-            {adresseQuery && ` med gatenavn ${adresseQuery}`}
         </>
     ),
     postnrResultOne: (postnrOgPoststed: string) => (
@@ -40,11 +39,10 @@ export const localeModuleNb = {
             {':'}
         </>
     ),
-    postnrResultMany: (numHits: string, postnrOgPoststed: string, postnr: string) => (
+    postnrResultMany: (numHits: string, postnrOgPoststed: string) => (
         <>
             {`${numHits} kontorer dekker `}
             <strong>{postnrOgPoststed}</strong>
-            {`. Du kan legge til gatenavn og husnummer for å spisse søket, f.eks. ${postnr} Eksempelgata 12`}
         </>
     ),
     postnrResultPostbox: (postnr: string, kommuneNavn: string, numHits: string) => (

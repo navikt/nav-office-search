@@ -27,11 +27,10 @@ export const localeModuleEn: LocaleModule = {
     addressSuggestionsRefine: (visibleHits, totalHits) =>
         `Showing ${visibleHits} of ${totalHits} matches. Enter more of the address to narrow the search.`,
     nameResultHeader: 'Search results for ',
-    postnrResultNone: (postnrOgPoststed, adresseQuery) => (
+    postnrResultNone: (postnrOgPoststed) => (
         <>
             {`No Nav office found for `}
             <strong>{postnrOgPoststed}</strong>
-            {adresseQuery && ` with street name ${adresseQuery}`}
         </>
     ),
     postnrResultOne: (postnrOgPoststed) => (
@@ -41,11 +40,10 @@ export const localeModuleEn: LocaleModule = {
             {':'}
         </>
     ),
-    postnrResultMany: (numHits, postnrOgPoststed, postnr) => (
+    postnrResultMany: (numHits, postnrOgPoststed) => (
         <>
             {`${numHits} offices cover `}
             <strong>{postnrOgPoststed}</strong>
-            {`. You can add a street name and building number to narrow the search, e.g. ${postnr} Example-street 12`}
         </>
     ),
     postnrResultPostbox: (postnr, kommuneNavn, numHits) => (
