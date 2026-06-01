@@ -1,4 +1,12 @@
-import React, { CSSProperties, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, {
+    CSSProperties,
+    useCallback,
+    useEffect,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import debounce from 'lodash.debounce';
 import { Loader, Search } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
@@ -38,8 +46,7 @@ export const SearchForm = () => {
     const searchLoadingText = localeString('searchLoading', locale) as string;
     const addressSuggestionsLabel = localeString('addressSuggestionsLabel', locale) as string;
     const isAddressResult = searchResult?.type === 'adresse';
-    const addressSuggestions =
-        isAddressResult ? searchResult.sokAdresse.hits : [];
+    const addressSuggestions = isAddressResult ? searchResult.sokAdresse.hits : [];
     const hasAddressSuggestions = addressSuggestions.length > 0;
     const isAddressDropdownOpen = isLoading || isAddressResult;
     const activeAddressOptionId =
@@ -78,9 +85,7 @@ export const SearchForm = () => {
             return;
         }
 
-        document
-            .getElementById(activeAddressOptionId)
-            ?.scrollIntoView?.({ block: 'nearest' });
+        document.getElementById(activeAddressOptionId)?.scrollIntoView?.({ block: 'nearest' });
     }, [activeAddressOptionId]);
 
     const runSearch = useMemo(
@@ -186,37 +191,38 @@ export const SearchForm = () => {
         runSearch(input);
     };
 
-    const selectAddress = useCallback((adresse: Adresse) => {
-        const label = formatAddressLabel(adresse);
-        const { bydelsnummer, kommunenummer } = adresse.vegadresse;
+    const selectAddress = useCallback(
+        (adresse: Adresse) => {
+            const label = formatAddressLabel(adresse);
+            const { bydelsnummer, kommunenummer } = adresse.vegadresse;
 
-        setInputValue(label);
-        closeAddressDropdown();
-        resetError();
-        setStatusMessage(
-            localeString('addressSuggestionSelected', locale, [label]) as string
-        );
+            setInputValue(label);
+            closeAddressDropdown();
+            resetError();
+            setStatusMessage(localeString('addressSuggestionSelected', locale, [label]) as string);
 
-        const geoid = bydelsnummer ?? kommunenummer;
-        const searchId = activeSearchId.current + 1;
-        activeSearchId.current = searchId;
-        fetchGeoidClient(geoid).then((result) => {
-            if (searchId !== activeSearchId.current) {
-                return;
-            }
+            const geoid = bydelsnummer ?? kommunenummer;
+            const searchId = activeSearchId.current + 1;
+            activeSearchId.current = searchId;
+            fetchGeoidClient(geoid).then((result) => {
+                if (searchId !== activeSearchId.current) {
+                    return;
+                }
 
-            setIsLoading(false);
+                setIsLoading(false);
 
-            if (result.type === 'error') {
-                setSearchResult(undefined);
-                setAddressResultInput(null);
-                setServerError(result.messageId || 'errorServerError');
-            } else {
-                setAddressResultInput(label);
-                setSearchResult(result);
-            }
-        });
-    }, [closeAddressDropdown, locale, setServerError]);
+                if (result.type === 'error') {
+                    setSearchResult(undefined);
+                    setAddressResultInput(null);
+                    setServerError(result.messageId || 'errorServerError');
+                } else {
+                    setAddressResultInput(label);
+                    setSearchResult(result);
+                }
+            });
+        },
+        [closeAddressDropdown, locale, setServerError]
+    );
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -263,12 +269,14 @@ export const SearchForm = () => {
             selectAddress(addressSuggestions[activeAddressIndex]);
             return;
         }
-
     };
 
-    const handleAddressSelect = useCallback((adresse: Adresse) => {
-        selectAddress(adresse);
-    }, [selectAddress]);
+    const handleAddressSelect = useCallback(
+        (adresse: Adresse) => {
+            selectAddress(adresse);
+        },
+        [selectAddress]
+    );
 
     const handleAddressMouseEnter = useCallback((index: number) => {
         activeAddressNavigationSource.current = 'mouse';
@@ -310,7 +318,11 @@ export const SearchForm = () => {
             )}
             {(isLoading || searchResult) && (
                 <div
-                    ref={searchResult?.type === 'adresse' || isLoading ? addressDropdownRef : undefined}
+                    ref={
+                        searchResult?.type === 'adresse' || isLoading
+                            ? addressDropdownRef
+                            : undefined
+                    }
                     className={style.searchResult}
                     data-result-type={isLoading ? 'adresse' : searchResult?.type}
                 >
@@ -344,6 +356,7 @@ export const SearchForm = () => {
                                 addressListboxId={addressListboxId}
                                 addressSuggestionsLabel={addressSuggestionsLabel}
                                 addressResultInput={addressResultInput}
+                                input={inputValue}
                             />
                         )
                     )}

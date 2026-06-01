@@ -12,6 +12,7 @@ type Props = {
     addressListboxId: string;
     addressSuggestionsLabel: string;
     addressResultInput?: string | null;
+    input: string;
 };
 
 export const SearchResult = React.memo(function SearchResult({
@@ -22,13 +23,20 @@ export const SearchResult = React.memo(function SearchResult({
     addressListboxId,
     addressSuggestionsLabel,
     addressResultInput,
+    input,
 }: Props) {
     if (searchResult.type === 'postnr') {
-        return <SearchResultPostnr result={searchResult} resultInput={addressResultInput} />;
+        return (
+            <SearchResultPostnr
+                result={searchResult}
+                resultInput={addressResultInput}
+                input={input}
+            />
+        );
     }
 
     if (searchResult.type === 'name') {
-        return <SearchResultName result={searchResult} />;
+        return <SearchResultName result={searchResult} input={input} />;
     }
 
     if (searchResult.type === 'adresse') {

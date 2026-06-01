@@ -22,6 +22,10 @@
 
     border-radius: var(--ax-radius-4);
     background-color: var(--ax-neutral-200);
+
+    :global(.aksel-label) {
+        font-weight: normal;
+    }
 }
 
 .searchResult[data-result-type='adresse'] {
