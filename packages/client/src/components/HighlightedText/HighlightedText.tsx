@@ -18,6 +18,8 @@ type TextWord = MatchRange & {
 type TextSegment = {
     text: string;
     isMatch: boolean;
+    start: number;
+    end: number;
 };
 
 const wordPattern = /[\p{L}\p{N}]+/gu;
@@ -116,9 +118,15 @@ const findFuzzyWordRange = (textWords: TextWord[], token: string, selectedRanges
     );
 };
 
-const addSegment = (segments: TextSegment[], text: string, isMatch: boolean) => {
+const addSegment = (
+    segments: TextSegment[],
+    text: string,
+    start: number,
+    end: number,
+    isMatch: boolean
+) => {
     if (text.length > 0) {
-        segments.push({ text, isMatch });
+        segments.push({ text, start, end, isMatch });
     }
 };
 
@@ -126,7 +134,7 @@ const getTextSegments = (text: string, input: string): TextSegment[] => {
     const inputTokens = getInputTokens(input);
 
     if (inputTokens.length === 0) {
-        return [{ text, isMatch: false }];
+        return [{ text, start: 0, end: text.length, isMatch: false }];
     }
 
     const textWords = getTextWords(text);
@@ -138,7 +146,7 @@ const getTextSegments = (text: string, input: string): TextSegment[] => {
     }, []);
 
     if (selectedRanges.length === 0) {
-        return [{ text, isMatch: false }];
+        return [{ text, start: 0, end: text.length, isMatch: false }];
     }
 
     return [...selectedRanges]
@@ -147,11 +155,17 @@ const getTextSegments = (text: string, input: string): TextSegment[] => {
             const previousRange = ranges[index - 1];
             const previousEnd = previousRange?.end ?? 0;
 
-            addSegment(segments, text.slice(previousEnd, range.start), false);
-            addSegment(segments, text.slice(range.start, range.end), true);
+            addSegment(
+                segments,
+                text.slice(previousEnd, range.start),
+                previousEnd,
+                range.start,
+                false
+            );
+            addSegment(segments, text.slice(range.start, range.end), range.start, range.end, true);
 
             if (index === ranges.length - 1) {
-                addSegment(segments, text.slice(range.end), false);
+                addSegment(segments, text.slice(range.end), range.end, text.length, false);
             }
 
             return segments;
@@ -163,11 +177,11 @@ export const HighlightedText = ({ text, input }: Props) => {
 
     return (
         <span>
-            {segments.map((segment, index) =>
+            {segments.map((segment) =>
                 segment.isMatch ? (
-                    <strong key={index}>{segment.text}</strong>
+                    <strong key={`${segment.start}-${segment.end}`}>{segment.text}</strong>
                 ) : (
-                    <Fragment key={index}>{segment.text}</Fragment>
+                    <Fragment key={`${segment.start}-${segment.end}`}>{segment.text}</Fragment>
                 )
             )}
         </span>

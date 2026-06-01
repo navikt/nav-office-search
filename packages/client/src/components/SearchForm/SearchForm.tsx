@@ -68,7 +68,7 @@ export const SearchForm = () => {
             ? getAddressOptionId(addressListboxId, activeAddressIndex)
             : undefined;
     const loadingStyle: CSSProperties | undefined =
-        addressLoadingHeight !== null ? { height: `${addressLoadingHeight}px` } : undefined;
+        addressLoadingHeight === null ? undefined : { height: `${addressLoadingHeight}px` };
 
     const setClientError = (id: LocaleStringId) => {
         setError({ id: id, type: 'clientError' });
@@ -311,7 +311,6 @@ export const SearchForm = () => {
             setActiveAddressIndex((current) =>
                 current === null ? addressSuggestions.length - 1 : Math.max(current - 1, 0)
             );
-            return;
         }
     };
 

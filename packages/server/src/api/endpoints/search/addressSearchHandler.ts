@@ -9,7 +9,8 @@ const removeLeadingZeros = (str: string) => str.replace(/^0+/, '');
 const legacyAddressHitToAdresse = (hit: AdresseSokHit): Adresse => {
     const husnummer = Number(removeLeadingZeros(hit.husnummerFra));
     const bydelsnummer =
-        hit.bydel ?? (hit.geografiskTilknytning !== hit.kommunenummer ? hit.geografiskTilknytning : null);
+        hit.bydel ??
+        (hit.geografiskTilknytning === hit.kommunenummer ? null : hit.geografiskTilknytning);
 
     return {
         vegadresse: {
@@ -71,7 +72,9 @@ export const addressSearchHandler = async (req: Request, res: Response) => {
                 `Address search failed for query ${query.replace(/[\r\n]/g, '')}: ${adresseSokResponse.message}`
             );
 
-            return res.status(adresseSokResponse.statusCode).send(apiErrorResponse('errorServerError'));
+            return res
+                .status(adresseSokResponse.statusCode)
+                .send(apiErrorResponse('errorServerError'));
         }
 
         const searchResult = toAddressSearchResult(query, adresseSokResponse);
