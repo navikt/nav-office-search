@@ -1,7 +1,4 @@
-import {
-    fetchTpsAdresseSok,
-    officeInfoFromAdresseSokResponse,
-} from '../external/postnr';
+import { fetchTpsAdresseSok, officeInfoFromAdresseSokResponse } from '../external/postnr';
 import { getKommune } from './kommuner';
 import { PostnrRegisterItem } from './postnrRegister';
 import { Poststed } from '../../../common/types/data';
@@ -32,10 +29,9 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
         return localData;
     }
 
-    const adresseSokResponse = await fetchTpsAdresseSok(
-        postnr,
-        localData.kommunenr
-    );
+    const adresseSokResponse = await fetchTpsAdresseSok(postnr, localData.kommunenr);
+
+    console.log(adresseSokResponse);
 
     if (!adresseSokResponse.error) {
         const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse);
@@ -45,9 +41,7 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
     return localData;
 };
 
-export const loadPoststederData = async (
-    postnrRegister: PostnrRegisterItem[]
-) => {
+export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) => {
     console.log('Loading data for poststeder...');
 
     const newMap: PoststederMap = {};
@@ -77,7 +71,5 @@ export const loadPoststederData = async (
     poststederData.poststederMap = newMap;
     poststederData.poststederArray = newArray;
 
-    console.log(
-        `Finished loading data for poststeder! (${newArray.length} entries)`
-    );
+    console.log(`Finished loading data for poststeder! (${newArray.length} entries)`);
 };

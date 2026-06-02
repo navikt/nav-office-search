@@ -6,10 +6,7 @@ import { sortOfficeNames } from '../../../utils/sort';
 import { Request, Response } from 'express';
 import { getPoststed } from '../../../data/poststeder';
 import { apiErrorResponse } from '../../../utils/fetch';
-import {
-    fetchTpsAdresseSok,
-    officeInfoFromAdresseSokResponse,
-} from '../../../external/postnr';
+import { fetchTpsAdresseSok, officeInfoFromAdresseSokResponse } from '../../../external/postnr';
 
 const getGatenavnAndHusnr = (adresseSegments: string[]) => {
     const husnrSegment = adresseSegments.slice(-1)[0];
@@ -25,9 +22,7 @@ const getGatenavnAndHusnr = (adresseSegments: string[]) => {
     return [adresseSegments.slice(0, -1).join(' '), husnr];
 };
 
-const responseDataWithBydeler = (
-    poststedData: Poststed
-): SearchResultPostnrProps => {
+const responseDataWithBydeler = (poststedData: Poststed): SearchResultPostnrProps => {
     const bydeler = getBydelerForKommune(poststedData.kommunenr);
 
     if (!bydeler) {
@@ -58,11 +53,14 @@ export const postnrSearchHandler = async (req: Request, res: Response) => {
 
     const poststedData = await getPoststed(postnr);
 
+    console.log(poststedData);
+
     if (!poststedData) {
         return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));
     }
 
     if (adresseSegments.length === 0) {
+        console.log('No address segments provided, returning poststed data without address search');
         if (poststedData.officeInfo.length > 0) {
             return res.status(200).send({ ...poststedData, type: 'postnr' });
         }
@@ -102,10 +100,7 @@ export const postnrSearchHandler = async (req: Request, res: Response) => {
         }
     }
 
-    const officeInfo =
-        officeInfoFromAdresseSokResponse(adresseSokResponse).sort(
-            sortOfficeNames
-        );
+    const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse).sort(sortOfficeNames);
 
     return res.status(200).send({
         ...poststedData,
