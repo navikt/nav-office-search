@@ -1,7 +1,7 @@
 import fetchMockLib from 'fetch-mock';
 import { getOfficeUrl } from '../data/officeUrls';
-import { FetchErrorResponse, fetchErrorResponse } from '../utils/fetch';
-import { Bydel, Kommune, OfficeInfo } from '../../../common/types/data';
+import { fetchErrorResponse } from '../utils/fetch';
+import { Bydel, Kommune } from '../../../common/types/data';
 import { serverUrls } from '../urls';
 
 import jsonData from './data/data.json';
@@ -23,33 +23,30 @@ export const fetchMock = fetchMockLib
         expires_in: 3600,
         access_token: 'dummy-token',
     })
-    .mock(
-        `begin:${serverUrls.officeInfoApi}`,
-        async (url: string): Promise<OfficeInfo | FetchErrorResponse> => {
-            const id = new URL(url).searchParams.get('id');
-            if (!id) {
-                return fetchErrorResponse(500, 'Missing id-parameter');
-            }
-
-            const data =
-                mockData.kommuner.find((item) => item.kommunenr === id) ||
-                mockData.bydeler.find((item) => item.bydelsnr === id);
-
-            if (data?.officeInfo) {
-                const url = getOfficeUrl(data.officeInfo.enhetNr);
-
-                if (url) {
-                    return {
-                        ...data.officeInfo,
-                        hitString: 'mock',
-                        url,
-                    };
-                }
-            }
-
-            return fetchErrorResponse(500, 'Mock error');
+    .mock(`begin:${serverUrls.officeInfoApi}`, async (url: string) => {
+        const id = new URL(url).searchParams.get('id');
+        if (!id) {
+            return fetchErrorResponse(500, 'Missing id-parameter');
         }
-    )
+
+        const data =
+            mockData.kommuner.find((item) => item.kommunenr === id) ||
+            mockData.bydeler.find((item) => item.bydelsnr === id);
+
+        if (data?.officeInfo) {
+            const url = getOfficeUrl(data.officeInfo.enhetNr);
+
+            if (url) {
+                return {
+                    ...data.officeInfo,
+                    hitString: 'mock',
+                    url,
+                };
+            }
+        }
+
+        return fetch(url);
+    })
     .mock(serverUrls.xpOfficeInfoApi, async () => {
         return officeUrlData;
     });

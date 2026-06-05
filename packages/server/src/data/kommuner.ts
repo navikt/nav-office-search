@@ -24,10 +24,12 @@ const kommunenrExceptionsMap: { [key: string]: string } = {
     '2211': '5401',
 };
 
+export const getOfficeInfoGeoIdForKommune = (kommunenr: string) =>
+    kommunenrExceptionsMap[kommunenr] || kommunenr;
+
 export const getKommunerArray = () => kommunerData.kommunerArray;
 
-export const getKommune = (kommunenr: string) =>
-    kommunerData.kommunerMap[kommunenr];
+export const getKommune = (kommunenr: string) => kommunerData.kommunerMap[kommunenr];
 
 export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
     console.log('Loading data for kommuner...');
@@ -57,7 +59,7 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
             };
         } else {
             const officeInfo = await fetchOfficeInfoByGeoId(
-                kommunenrExceptionsMap[kommunenr] || kommunenr
+                getOfficeInfoGeoIdForKommune(kommunenr)
             );
 
             if (!officeInfo.error) {
@@ -74,7 +76,5 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
     kommunerData.kommunerMap = newMap;
     kommunerData.kommunerArray = newArray;
 
-    console.log(
-        `Finished loading data for kommuner! (${newArray.length} entries)`
-    );
+    console.log(`Finished loading data for kommuner! (${newArray.length} entries)`);
 };
