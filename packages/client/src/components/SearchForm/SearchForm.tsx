@@ -188,7 +188,14 @@ export const SearchForm = () => {
             clearSearchResult();
         }
 
+        if (!isValidNameQuery(input) && !isValidPostnrQuery(input) && isNaN(Number(input))) {
+            setClientError('errorInputValidationName');
+            clearSearchResult();
+            return;
+        }
+
         if (!isValidInput(input)) {
+            clearSearchResult();
             if (submit) {
                 setClientError('errorInputValidationLength');
             } else {

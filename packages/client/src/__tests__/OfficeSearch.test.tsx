@@ -74,6 +74,25 @@ describe('OfficeSearch', () => {
         expect(fetch).not.toHaveBeenCalled();
     });
 
+    test('viser valideringsfeil for ugyldige tegn mens brukeren skriver', async () => {
+        inputSearchText('@');
+
+        expect(screen.getByText('Søket inneholder ugyldige tegn')).toBeInTheDocument();
+        expect(fetch).not.toHaveBeenCalled();
+    });
+
+    test('fjerner gamle søkeresultater når input blir for kort', async () => {
+        fetch.mockResponse(JSON.stringify(stedsnavnResultWithHits));
+        searchForText('evje og hornnes');
+        await waitFor(() => {
+            expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
+        });
+
+        inputSearchText('e');
+
+        expect(screen.queryByRole('link', { name: 'Nav Evje og Hornnes' })).not.toBeInTheDocument();
+    });
+
     test('gir riktig respons ved søk på postnr uten kontorer', async () => {
         fetch.mockResponse(JSON.stringify(postnrResultNone));
         searchForText('4737');
