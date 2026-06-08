@@ -188,7 +188,7 @@ export const SearchForm = () => {
             clearSearchResult();
         }
 
-        if (!isValidNameQuery(input) && !isValidPostnrQuery(input) && isNaN(Number(input))) {
+        if (!isValidNameQuery(input) && !isValidPostnrQuery(input) && Number.isNaN(Number(input))) {
             setClientError('errorInputValidationName');
             clearSearchResult();
             return;
@@ -207,7 +207,7 @@ export const SearchForm = () => {
         if (isValidPostnrQuery(input)) {
             runSearch(input);
             return;
-        } else if (!isNaN(Number(input))) {
+        } else if (!Number.isNaN(Number(input))) {
             if (submit) {
                 setClientError('errorInputValidationPostnr');
             } else {
