@@ -54,7 +54,7 @@
         "ts-jest": "29.4.6",
         "typescript": "6.0.3",
         "typescript-eslint": "8.56.1",
-        "vite": "7.3.2"
+        "vite": "7.3.5"
     },
     "lint-staged": {
         "*.{js,jsx,json,md,ts,tsx,scss,css}": "prettier --write"
