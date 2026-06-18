@@ -15,22 +15,17 @@
     "dependencies": {
         "@navikt/nav-dekoratoren-moduler": "3.6.2",
         "compression": "1.8.1",
-        "dotenv": "17.3.1",
+        "dotenv": "17.4.2",
         "express": "5.2.1",
-        "lodash.debounce": "4.0.8",
-        "lru-cache": "11.2.6",
+        "lru-cache": "11.5.1",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
-        "preact": "10.28.4",
-        "preact-render-to-string": "6.6.6",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
-        "vite": "7.3.2"
+        "vite": "7.3.5"
     },
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/express": "5.0.6",
-        "@types/node": "25.3.3",
+        "@types/node": "25.9.3",
         "@types/node-schedule": "2.1.8",
         "concurrently": "9.2.1",
         "fetch-mock": "11.1.5",

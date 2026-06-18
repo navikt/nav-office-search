@@ -36,7 +36,6 @@ npm-debug.log*
 /.idea/
 
 # build dirs
-/server/dist/
-/server/frontendDist/
-
+**/server/dist/
+**/server/frontendDist/
 /.github-token

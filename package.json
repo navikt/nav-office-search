@@ -3,7 +3,7 @@
     "version": "1.2.6",
     "private": true,
     "type": "module",
-    "packageManager": "pnpm@11.2.0+sha512.cdd7e34ea0d237bed3fa89e633185027e3ecdad98ce7453032f4d4d83c10cb7b85b9afe8534048ab0a3cc10228bdd5e32f5f622d05d66e58f46177fe5601eab1",
+    "packageManager": "pnpm@11.5.1+sha512.93f7b57422ea7068257235b4c16eb60762eb68e1dc23723199cc739043ea9be2c4143274a399d8c6defa2b1176226d9ca1c4b63482d6200c1a8fbaa78c1d1485",
     "scripts": {
         "build": "tsc --project packages/client/tsconfig.json --noEmit && pnpm --filter nav-office-search-client build:client && pnpm --filter nav-office-search-client build:ssr && pnpm --filter nav-office-search-server build",
         "start": "pnpm --filter nav-office-search-server start",
@@ -14,17 +14,44 @@
         "test": "pnpm --filter nav-office-search-client test",
         "prepare": "husky || true"
     },
+    "dependenciesComments": {
+        "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.6.0"
+    },
+    "dependencies": {
+        "@navikt/ds-css": "8.6.0",
+        "@navikt/ds-icons": "3.4.3",
+        "@navikt/ds-react": "8.6.0",
+        "@navikt/nav-dekoratoren-moduler": "4.2.2",
+        "fetch-mock": "11.1.5",
+        "lodash.debounce": "4.0.8",
+        "preact": "10.29.2",
+        "preact-render-to-string": "6.7.0",
+        "react": "18.3.1",
+        "react-dom": "18.3.1"
+    },
     "devDependencies": {
-        "@eslint/js": "9.39.3",
-        "concurrently": "9.2.1",
+        "@babel/preset-react": "7.29.7",
+        "@eslint/js": "9.39.4",
+        "@preact/preset-vite": "2.10.5",
+        "@testing-library/jest-dom": "6.9.1",
+        "@testing-library/react": "16.3.2",
+        "@types/jest": "30.0.0",
+        "@types/lodash.debounce": "4.0.9",
+        "@types/react": "18.3.28",
+        "@types/react-dom": "18.3.7",
         "eslint": "9.39.2",
         "eslint-plugin-react": "7.37.5",
         "husky": "9.1.7",
+        "identity-obj-proxy": "3.0.0",
+        "jest": "30.4.2",
+        "jest-environment-jsdom": "30.4.1",
+        "jest-fetch-mock": "3.0.3",
         "lint-staged": "16.3.1",
-        "prettier": "3.8.1",
-        "typescript": "5.9.3",
+        "prettier": "3.8.4",
+        "ts-jest": "29.4.11",
+        "typescript": "6.0.3",
         "typescript-eslint": "8.56.1",
-        "preact-render-to-string": "6.6.6"
+        "vite": "7.3.5"
     },
     "lint-staged": {
         "*.{js,jsx,json,md,ts,tsx,scss,css}": "prettier --write"
