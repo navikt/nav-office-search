@@ -1,8 +1,9 @@
-import { fetchTpsAdresseSok, officeInfoFromAdresseSokResponse } from '../external/postnr';
-import { getKommune } from './kommuner';
+import { getBydelerForKommune } from './bydeler';
+import { getKommune, getOfficeInfoGeoIdForKommune } from './kommuner';
 import { PostnrRegisterItem } from './postnrRegister';
 import { Poststed } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
+import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
 
 type PoststederMap = { [postnr: string]: Poststed };
 
@@ -25,17 +26,25 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
         return null;
     }
 
-    if (localData.officeInfo.length > 0) {
-        return localData;
-    }
+    if (localData.officeInfo.length === 0) {
+        if (getBydelerForKommune(localData.kommunenr)) {
+            return localData;
+        }
 
-    const adresseSokResponse = await fetchTpsAdresseSok(postnr, localData.kommunenr);
+        const officeInfo = await fetchOfficeInfoByGeoId(
+            getOfficeInfoGeoIdForKommune(localData.kommunenr)
+        );
 
-    console.log(adresseSokResponse);
+        if (!('error' in officeInfo)) {
+            const poststedWithOfficeInfo = {
+                ...localData,
+                officeInfo: [officeInfo],
+            };
 
-    if (!adresseSokResponse.error) {
-        const officeInfo = officeInfoFromAdresseSokResponse(adresseSokResponse);
-        return { ...localData, officeInfo };
+            poststederData.poststederMap[postnr] = poststedWithOfficeInfo;
+
+            return poststedWithOfficeInfo;
+        }
     }
 
     return localData;
@@ -51,10 +60,6 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
 
         const kommuneData = getKommune(kommunenr);
 
-        if (!kommuneData) {
-            continue;
-        }
-
         newMap[postnr] = {
             postnr,
             poststed,
@@ -62,7 +67,7 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
             kommuneNavn: kommune,
             kommunenr,
             kategori,
-            officeInfo: kommuneData.officeInfo ? [kommuneData.officeInfo] : [],
+            officeInfo: kommuneData?.officeInfo ? [kommuneData.officeInfo] : [],
         };
     }
 

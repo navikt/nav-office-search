@@ -1,6 +1,7 @@
 .searchForm {
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 480px;
     max-width: 100%;
 }
@@ -19,6 +20,7 @@
 .searchResult {
     margin-top: 1rem;
     padding: 0.75rem;
+
     border-radius: var(--ax-radius-4);
     background-color: var(--ax-neutral-200);
 
@@ -27,9 +29,49 @@
     }
 }
 
+.searchResult[data-result-type='adresse'] {
+    --address-dropdown-max-height: min(
+        24rem,
+        calc(100dvh - 10rem - env(safe-area-inset-bottom, 0px))
+    );
+
+    position: absolute;
+    z-index: 10;
+    inset-inline: 0;
+    top: calc(100% + var(--ax-space-8));
+    max-height: var(--address-dropdown-max-height);
+    margin-top: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingStatus {
+    display: flex;
+    align-items: center;
+    gap: var(--ax-space-8);
+    color: var(--ax-text-neutral-subtle);
+}
+
+.searchResult[data-result-type='adresse'] .loading {
+    box-sizing: border-box;
+    max-height: var(--address-dropdown-max-height);
+    padding: var(--ax-space-12);
+    background-color: var(--ax-bg-raised);
+    border: 1px solid var(--ax-border-neutral-subtle);
+    border-radius: var(--ax-radius-8);
+    box-shadow: 0 var(--ax-space-8) var(--ax-space-24) var(--ax-border-neutral-subtleA);
+}
+
 .error {
     margin-top: 0.05rem;
     padding: 0.5rem;
+
     border-radius: var(--ax-radius-4);
     color: var(--ax-text-danger-subtle);
 }

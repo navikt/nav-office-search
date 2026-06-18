@@ -1,13 +1,6 @@
 import { getAuthorizationHeader } from './auth';
-import { getKommune } from '../data/kommuner';
-import { getBydel } from '../data/bydeler';
-import { removeDuplicates } from '../utils/removeDuplicates';
-import { OfficeInfo } from '../../../common/types/data';
-import {
-    fetchErrorResponse,
-    FetchErrorResponse,
-    fetchJson,
-} from '../utils/fetch';
+import { Adresse } from '../../../common/types/results';
+import { fetchErrorResponse, FetchErrorResponse, fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
 export type AdresseSokHit = {
@@ -25,35 +18,11 @@ export type AdresseSokHit = {
 
 export type AdresseSokResponse = {
     error?: undefined;
-    hits: AdresseSokHit[];
-};
-
-const removeLeadingZeros = (str: string) => str.replace(/^0+/, '');
-
-export const officeInfoFromAdresseSokResponse = (
-    adresseSokResponse: AdresseSokResponse
-): OfficeInfo[] => {
-    const officeInfo = adresseSokResponse.hits.reduce((acc, hit) => {
-        const geoId = hit.geografiskTilknytning;
-        const officeInfo = (getKommune(geoId) || getBydel(geoId))?.officeInfo;
-
-        if (!officeInfo) {
-            console.error(`No office info found for geoid ${geoId}`);
-            return acc;
-        }
-
-        return [
-            ...acc,
-            {
-                ...officeInfo,
-                hitString: `${hit.adressenavn} ${removeLeadingZeros(
-                    hit.husnummerFra
-                )}-${removeLeadingZeros(hit.husnummerTil)}`,
-            },
-        ];
-    }, [] as OfficeInfo[]);
-
-    return removeDuplicates(officeInfo, (a, b) => a.enhetNr === b.enhetNr);
+    hits?: AdresseSokHit[];
+    sokAdresse?: {
+        hits: Adresse[];
+        totalHits: number;
+    };
 };
 
 export const fetchPdlAdresseSok = async (

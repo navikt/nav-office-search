@@ -5,13 +5,11 @@ export const isValidPostnrQuery = (query: string) => {
         return false;
     }
 
-    const postnr = query.split(' ')[0];
-
-    return postnr && postnrQueryRegex.test(postnr);
+    return postnrQueryRegex.test(query.trim());
 };
 
-const nameQueryRegex = /^(\p{Letter}|\.|-| ){2,}$/u;
+const nameQueryRegex = /^[\p{Letter}\d., -]+$/u;
 
 export const isValidNameQuery = (query: string) => {
-    return query && nameQueryRegex.test(query);
+    return Boolean(query.trim()) && nameQueryRegex.test(query);
 };
