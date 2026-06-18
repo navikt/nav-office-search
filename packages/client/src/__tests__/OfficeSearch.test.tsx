@@ -146,6 +146,29 @@ describe('OfficeSearch', () => {
         );
     });
 
+    test('tillater punktum i adressesøk og sender det videre', async () => {
+        const query = 'ole b. bergers veg';
+        const encodedQuery = encodeURIComponent(query);
+        mockAddressSuggestionSearch(undefined, 1, query);
+
+        searchForText(query);
+
+        await waitFor(() => {
+            expect(
+                screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })
+            ).toBeInTheDocument();
+        });
+        expect(screen.queryByText('Søket inneholder ugyldige tegn')).not.toBeInTheDocument();
+        expect(fetch).toHaveBeenCalledWith(
+            expect.stringContaining(`/api/search/name?query=${encodedQuery}`),
+            expect.anything()
+        );
+        expect(fetch).toHaveBeenCalledWith(
+            expect.stringContaining(`/api/search/address?query=${encodedQuery}`),
+            expect.anything()
+        );
+    });
+
     test('gir riktig respons ved søk på postnummer for postbokser', async () => {
         fetch.mockResponse(JSON.stringify(postnrResultPostbox));
         searchForText('0614');
@@ -299,7 +322,7 @@ describe('OfficeSearch', () => {
                 screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })
             ).toBeInTheDocument();
         });
-        expect(getHighlightedAddressParts('Storgata 1, 0184 OSLO')).toEqual(['Storgata', '1']);
+        expect(getHighlightedAddressParts('Storgata 1, 0184 OSLO')).toEqual(['Storgata', '1', '1']);
     });
 
     test('beholder mellomrom rundt uthevet ord i adresseforslag', async () => {
@@ -313,7 +336,7 @@ describe('OfficeSearch', () => {
         expect(option.querySelector('strong')).toHaveTextContent('Storgata');
     });
 
-    test('uthever fuzzy treff i adresseforslag', async () => {
+    test('uthever ikke ord som bare matcher fuzzy', async () => {
         fetch.mockResponses(
             [
                 JSON.stringify({
@@ -353,8 +376,52 @@ describe('OfficeSearch', () => {
 
         expect(getHighlightedAddressParts('Bull Aakranns vei 5, 7374 RØROS')).toEqual([
             'Bull',
-            'Aakranns',
             '5',
+        ]);
+    });
+
+    test('foretrekker lengre treff foran kortere overlappende treff i adresseforslag', async () => {
+        fetch.mockResponses(
+            [
+                JSON.stringify({
+                    hits: [],
+                    type: 'name',
+                    input: 'ole b berger',
+                }),
+                { status: 200 },
+            ],
+            [
+                JSON.stringify({
+                    type: 'adresse',
+                    adresseQuery: 'ole b berger',
+                    sokAdresse: {
+                        totalHits: 1,
+                        hits: [
+                            {
+                                vegadresse: {
+                                    adressenavn: 'Ole B. Bergers veg',
+                                    husnummer: 5,
+                                    husbokstav: null,
+                                    postnummer: '3520',
+                                    poststed: 'JEVNAKER',
+                                    kommunenummer: '3236',
+                                    bydelsnummer: null,
+                                },
+                            },
+                        ],
+                    },
+                }),
+                { status: 200 },
+            ]
+        );
+        searchForText('ole b berger');
+
+        await screen.findByRole('option', { name: 'Ole B. Bergers veg 5, 3520 JEVNAKER' });
+
+        expect(getHighlightedAddressParts('Ole B. Bergers veg 5, 3520 JEVNAKER')).toEqual([
+            'Ole',
+            'B',
+            'Berger',
         ]);
     });
 

@@ -11,10 +11,6 @@ type MatchRange = {
     end: number;
 };
 
-type TextWord = MatchRange & {
-    text: string;
-};
-
 type TextSegment = {
     text: string;
     isMatch: boolean;
@@ -24,152 +20,80 @@ type TextSegment = {
 
 const wordPattern = /[\p{L}\p{N}]+/gu;
 
+const getInputTokens = (input: string) =>
+    (input.match(wordPattern) ?? []).sort((left, right) => right.length - left.length);
+
 const overlaps = (range: MatchRange, ranges: MatchRange[]) =>
     ranges.some(
         (existingRange) => range.start < existingRange.end && range.end > existingRange.start
     );
 
-const getTextWords = (text: string): TextWord[] =>
-    Array.from(text.matchAll(wordPattern), (match) => ({
-        text: match[0],
-        start: match.index,
-        end: match.index + match[0].length,
-    }));
-
-const getInputTokens = (input: string) => input.match(wordPattern) ?? [];
-
-const findExactRange = (text: string, token: string, selectedRanges: MatchRange[]) => {
+const getMatchRanges = (text: string, input: string): MatchRange[] => {
     const normalizedText = normalizeString(text);
-    const normalizedToken = normalizeString(token);
-    let matchStart = normalizedText.indexOf(normalizedToken);
+    const ranges: MatchRange[] = [];
 
-    while (matchStart !== -1) {
-        const range = { start: matchStart, end: matchStart + normalizedToken.length };
+    for (const token of getInputTokens(input)) {
+        const normalizedToken = normalizeString(token);
 
-        if (!overlaps(range, selectedRanges)) {
-            return range;
+        if (!normalizedToken) {
+            continue;
         }
 
-        matchStart = normalizedText.indexOf(normalizedToken, matchStart + 1);
-    }
+        let matchStart = normalizedText.indexOf(normalizedToken);
 
-    return null;
-};
+        while (matchStart !== -1) {
+            const range = { start: matchStart, end: matchStart + normalizedToken.length };
 
-const levenshteinDistance = (left: string, right: string) => {
-    const distances = Array.from({ length: left.length + 1 }, (_, index) => index);
-
-    for (let rightIndex = 1; rightIndex <= right.length; rightIndex += 1) {
-        let previousDistance = distances[0];
-        distances[0] = rightIndex;
-
-        for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
-            const currentDistance = distances[leftIndex];
-            const substitutionCost = left[leftIndex - 1] === right[rightIndex - 1] ? 0 : 1;
-
-            distances[leftIndex] = Math.min(
-                distances[leftIndex] + 1,
-                distances[leftIndex - 1] + 1,
-                previousDistance + substitutionCost
-            );
-            previousDistance = currentDistance;
-        }
-    }
-
-    return distances[left.length];
-};
-
-const isSubsequence = (needle: string, haystack: string) => {
-    let needleIndex = 0;
-
-    for (const character of haystack) {
-        if (character === needle[needleIndex]) {
-            needleIndex += 1;
-        }
-
-        if (needleIndex === needle.length) {
-            return true;
-        }
-    }
-
-    return false;
-};
-
-const findFuzzyWordRange = (textWords: TextWord[], token: string, selectedRanges: MatchRange[]) => {
-    const normalizedToken = normalizeString(token);
-
-    if (normalizedToken.length < 4) {
-        return null;
-    }
-
-    return (
-        textWords.find((word) => {
-            if (overlaps(word, selectedRanges)) {
-                return false;
+            if (!overlaps(range, ranges)) {
+                ranges.push(range);
             }
 
-            const normalizedWord = normalizeString(word.text);
-
-            return (
-                levenshteinDistance(normalizedToken, normalizedWord) <= 1 ||
-                isSubsequence(normalizedToken, normalizedWord)
-            );
-        }) ?? null
-    );
-};
-
-const addSegment = (
-    segments: TextSegment[],
-    text: string,
-    start: number,
-    end: number,
-    isMatch: boolean
-) => {
-    if (text.length > 0) {
-        segments.push({ text, start, end, isMatch });
+            matchStart = normalizedText.indexOf(normalizedToken, matchStart + 1);
+        }
     }
+
+    return ranges.sort((left, right) => left.start - right.start);
 };
 
 const getTextSegments = (text: string, input: string): TextSegment[] => {
-    const inputTokens = getInputTokens(input);
+    const matchRanges = getMatchRanges(text, input);
 
-    if (inputTokens.length === 0) {
+    if (matchRanges.length === 0) {
         return [{ text, start: 0, end: text.length, isMatch: false }];
     }
 
-    const textWords = getTextWords(text);
-    const selectedRanges = inputTokens.reduce<MatchRange[]>((ranges, token) => {
-        const range =
-            findExactRange(text, token, ranges) ?? findFuzzyWordRange(textWords, token, ranges);
+    const segments = matchRanges.flatMap<TextSegment>((range, index) => {
+        const previousEnd = matchRanges[index - 1]?.end ?? 0;
+        const nonMatch =
+            previousEnd < range.start
+                ? [
+                      {
+                          text: text.slice(previousEnd, range.start),
+                          start: previousEnd,
+                          end: range.start,
+                          isMatch: false,
+                      },
+                  ]
+                : [];
 
-        return range ? [...ranges, range] : ranges;
-    }, []);
+        return [
+            ...nonMatch,
+            {
+                text: text.slice(range.start, range.end),
+                start: range.start,
+                end: range.end,
+                isMatch: true,
+            },
+        ];
+    });
+    const lastEnd = matchRanges[matchRanges.length - 1]?.end ?? 0;
 
-    if (selectedRanges.length === 0) {
-        return [{ text, start: 0, end: text.length, isMatch: false }];
-    }
-
-    return [...selectedRanges]
-        .sort((left, right) => left.start - right.start)
-        .reduce<TextSegment[]>((segments, range, index, ranges) => {
-            const previousRange = ranges[index - 1];
-            const previousEnd = previousRange?.end ?? 0;
-
-            addSegment(
-                segments,
-                text.slice(previousEnd, range.start),
-                previousEnd,
-                range.start,
-                false
-            );
-            addSegment(segments, text.slice(range.start, range.end), range.start, range.end, true);
-
-            if (index === ranges.length - 1) {
-                addSegment(segments, text.slice(range.end), range.end, text.length, false);
-            }
-
-            return segments;
-        }, []);
+    return lastEnd < text.length
+        ? [
+              ...segments,
+              { text: text.slice(lastEnd), start: lastEnd, end: text.length, isMatch: false },
+          ]
+        : segments;
 };
 
 export const HighlightedText = ({ text, input }: Props) => {
