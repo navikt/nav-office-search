@@ -1,11 +1,4 @@
-import { sortOfficeNames } from '../../../utils/sort';
 import { Request, Response } from 'express';
-import { getPoststed } from '../../../data/poststeder';
-import { apiErrorResponse } from '../../../utils/fetch';
-import {
-    fetchTpsAdresseSok,
-    officeInfoFromAdresseSokResponse,
-} from '../../../external/postnr';
 import { fetchPdlAdresseSok } from '../../../external/adresse';
 
 export const addressSearchHandler = async (req: Request, res: Response) => {
