@@ -5,7 +5,7 @@ import { Poststed } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
 import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
 
-type PoststederMap = { [postnr: string]: Poststed };
+type PoststederMap = Map<string, Poststed>;
 
 type PoststederData = {
     poststederMap: PoststederMap;
@@ -13,14 +13,14 @@ type PoststederData = {
 };
 
 const poststederData: PoststederData = {
-    poststederMap: {},
+    poststederMap: new Map(),
     poststederArray: [],
 };
 
 export const getPoststedArray = () => poststederData.poststederArray;
 
 export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
-    const localData = poststederData.poststederMap[postnr];
+    const localData = poststederData.poststederMap.get(postnr);
 
     if (!localData) {
         return null;
@@ -41,7 +41,7 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
                 officeInfo: [officeInfo],
             };
 
-            poststederData.poststederMap[postnr] = poststedWithOfficeInfo;
+            poststederData.poststederMap.set(postnr, poststedWithOfficeInfo);
 
             return poststedWithOfficeInfo;
         }
@@ -53,14 +53,14 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
 export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) => {
     console.log('Loading data for poststeder...');
 
-    const newMap: PoststederMap = {};
+    const newMap: PoststederMap = new Map();
 
     for (const item of postnrRegister) {
         const { postnr, poststed, kommunenr, kategori, kommune } = item;
 
         const kommuneData = getKommune(kommunenr);
 
-        newMap[postnr] = {
+        newMap.set(postnr, {
             postnr,
             poststed,
             poststedNormalized: normalizeString(poststed),
@@ -68,10 +68,10 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
             kommunenr,
             kategori,
             officeInfo: kommuneData?.officeInfo ? [kommuneData.officeInfo] : [],
-        };
+        });
     }
 
-    const newArray = Object.values(newMap);
+    const newArray = Array.from(newMap.values());
 
     poststederData.poststederMap = newMap;
     poststederData.poststederArray = newArray;
