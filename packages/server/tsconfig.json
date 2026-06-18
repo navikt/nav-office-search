@@ -3,20 +3,20 @@
     "compilerOptions": {
         "jsx": "react",
         "allowJs": true,
-        "baseUrl": "src",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "skipLibCheck": true,
-        "lib": ["es2021"],
+        "lib": ["es2022"],
         "moduleResolution": "node",
         "module": "CommonJS",
         "outDir": "./dist",
         "rootDir": "..",
         "strict": true,
-        "target": "ES2021",
+        "target": "ES2022",
+        "ignoreDeprecations": "6.0",
         "resolveJsonModule": true,
-        "types": ["vite/client"]
+        "types": ["node", "vite/client"]
     },
     "include": ["src/**/*.ts", "../common/**/*.ts", "global.d.ts"]
 }
