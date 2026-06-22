@@ -21,9 +21,9 @@
         "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.6.0"
     },
     "dependencies": {
-        "@navikt/ds-css": "8.6.0",
+        "@navikt/ds-css": "8.13.0",
         "@navikt/ds-icons": "3.4.3",
-        "@navikt/ds-react": "8.6.0",
+        "@navikt/ds-react": "8.13.0",
         "@navikt/nav-dekoratoren-moduler": "4.2.2",
         "fetch-mock": "11.1.5",
         "lodash.debounce": "4.0.8",
@@ -53,7 +53,7 @@
         "prettier": "3.8.4",
         "ts-jest": "29.4.11",
         "typescript": "6.0.3",
-        "typescript-eslint": "8.56.1",
+        "typescript-eslint": "8.61.1",
         "vite": "7.3.5"
     },
     "lint-staged": {
