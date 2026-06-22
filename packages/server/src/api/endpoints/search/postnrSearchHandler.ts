@@ -1,28 +1,50 @@
-import { Poststed } from '../../../../../common/types/data';
+import { OfficeInfo, Poststed } from '../../../../../common/types/data';
 import { SearchResultPostnrProps } from '../../../../../common/types/results';
-import { getBydelerForKommune } from '../../../data/bydeler';
 import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { sortOfficeNames } from '../../../utils/sort';
 import { Request, Response } from 'express';
 import { getPoststed } from '../../../data/poststeder';
 import { apiErrorResponse } from '../../../utils/fetch';
+import { fetchPdlBydelsok } from '../../../external/bydel';
+import { fetchOfficeInfoByGeoId } from '../../../external/officeInfo';
 
-const responseDataWithBydeler = (poststedData: Poststed): SearchResultPostnrProps => {
-    const bydeler = getBydelerForKommune(poststedData.kommunenr);
+const responseDataWithBydeler = async (
+    poststedData: Poststed
+): Promise<SearchResultPostnrProps> => {
+    const bydelResponse = await fetchPdlBydelsok(poststedData.postnr);
 
-    if (!bydeler) {
+    if (bydelResponse.error) {
+        console.error(
+            `Bydel search failed for postnr ${poststedData.postnr}: ${bydelResponse.message}`
+        );
         return { ...poststedData, type: 'postnr' };
     }
 
-    const officeInfo = removeDuplicates(
-        bydeler.map((bydel) => bydel.officeInfo),
-        (a, b) => a.enhetNr === b.enhetNr
-    ).sort(sortOfficeNames);
+    const bydelsnummerAggregation = bydelResponse.sokAdresse?.aggregations?.find(
+        (agg) => agg.fieldName === 'vegadresse.bydelsnummer'
+    );
+
+    const bydelsnumre = bydelsnummerAggregation?.values.map((v) => v.value) ?? [];
+
+    if (bydelsnumre.length === 0) {
+        return { ...poststedData, type: 'postnr' };
+    }
+
+    const officeResults = await Promise.all(
+        bydelsnumre.map((bydelsnr) => fetchOfficeInfoByGeoId(bydelsnr))
+    );
+
+    const offices: OfficeInfo[] = officeResults.filter(
+        (result): result is OfficeInfo => !result.error
+    );
+
+    const officeInfo = removeDuplicates(offices, (a, b) => a.enhetNr === b.enhetNr).sort(
+        sortOfficeNames
+    );
 
     return {
         ...poststedData,
         type: 'postnr',
-        withAllBydeler: true,
         officeInfo,
     };
 };
@@ -46,5 +68,5 @@ export const postnrSearchHandler = async (req: Request, res: Response) => {
         return res.status(200).send({ ...poststedData, type: 'postnr' });
     }
 
-    return res.status(200).send(responseDataWithBydeler(poststedData));
+    return res.status(200).send(await responseDataWithBydeler(poststedData));
 };

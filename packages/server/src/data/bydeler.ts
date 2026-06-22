@@ -43,10 +43,9 @@ const bydelerData: BydelerData = {
 
 export const getBydelerArray = () => bydelerData.bydelerArray;
 
-export const getBydel = (bydelnr: string) =>
-    bydelerData.bydelerByBydelsnr[bydelnr];
+export const getBydel = (bydelnr: string) => bydelerData.bydelerByBydelsnr[bydelnr];
 
-export const getBydelerForKommune = (kommunenr: string) =>
+export const getBydelerForKommune = (kommunenr: string): Bydel[] | undefined =>
     bydelerData.bydelerByKommunenr[kommunenr];
 
 const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
@@ -88,9 +87,7 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
     bydelerData.bydelerByKommunenr = newBydelerByKommunenrMap;
     bydelerData.bydelerArray = newArray;
 
-    console.log(
-        `Finished loading data for bydeler! (${newArray.length} entries)`
-    );
+    console.log(`Finished loading data for bydeler! (${newArray.length} entries)`);
 };
 
 const fetchBydelerRawData = async () => {
@@ -124,8 +121,7 @@ const fetchBydelerRawData = async () => {
         return null;
     }
 
-    const currentBydelerVersion =
-        await fetchJson<SSB_VersionResponse>(currentVersionUrl);
+    const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(currentVersionUrl);
 
     if (currentBydelerVersion.error) {
         console.error(
@@ -144,12 +140,9 @@ export const loadBydelerData = async () => {
         console.log('Refreshed data for bydeler');
         await populateBydelerCache(bydelerRawData);
     } else if (bydelerData.bydelerArray.length > 0) {
-        console.error(
-            'Failed to load bydeler from SSB - keeping current data for this cycle'
-        );
+        console.error('Failed to load bydeler from SSB - keeping current data for this cycle');
     } else {
-        const msg =
-            'Failed to load bydeler from SSB and no previously cached data exists!';
+        const msg = 'Failed to load bydeler from SSB and no previously cached data exists!';
 
         console.error(msg);
         throw new Error(msg);

@@ -55,6 +55,8 @@ export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[
             kommuneNavnNormalized: normalizeString(kommune),
         };
 
+        // Kommune has bydeler, so we have can't fetcch one
+        // single office info.
         if (bydeler) {
             kommuneMap[kommunenr] = {
                 ...kommuneDataPartial,
