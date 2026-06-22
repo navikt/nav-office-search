@@ -1,7 +1,7 @@
 import { loadBydelerData } from './bydeler';
 import { getPostnrRegister, loadPostnrRegister } from './postnrRegister';
-import { loadOfficeUrls } from './officeUrls';
-import { loadKommuneData } from './kommuner';
+import { loadOfficeUrlsFromXP } from './officeUrls';
+import { buildKommuneDictionary } from './kommuner';
 import { loadPoststederData } from './poststeder';
 import schedule from 'node-schedule';
 
@@ -17,12 +17,12 @@ export const loadData = async () => {
     console.log('Started loading data!');
 
     try {
-        await loadOfficeUrls();
+        await loadOfficeUrlsFromXP();
         await loadBydelerData();
         await loadPostnrRegister();
 
         const postnrRegister = getPostnrRegister();
-        await loadKommuneData(postnrRegister);
+        await buildKommuneDictionary(postnrRegister);
         await loadPoststederData(postnrRegister);
         console.log('Finished loading data!');
     } catch (e) {

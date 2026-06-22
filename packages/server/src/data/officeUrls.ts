@@ -13,13 +13,11 @@ type EnhetNrToOfficePathMap = Record<string, string>;
 
 let enhetsNrToOfficePathMap: EnhetNrToOfficePathMap = {};
 
-export const loadOfficeUrls = async () => {
+export const loadOfficeUrlsFromXP = async () => {
     try {
         console.log(`Loading office URLs from ${serverUrls.xpOfficeInfoApi}`);
 
-        const officeUrls = await fetchJson<OfficeInfoResponse>(
-            serverUrls.xpOfficeInfoApi
-        );
+        const officeUrls = await fetchJson<OfficeInfoResponse>(serverUrls.xpOfficeInfoApi);
 
         if (officeUrls?.error || !officeUrls?.offices) {
             const msg = `Failed to load office urls! - ${JSON.stringify(officeUrls)}`;

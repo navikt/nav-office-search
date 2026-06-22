@@ -22,10 +22,10 @@ export type PostnrRegisterItem = {
 let postnrRegisterData: PostnrRegisterItem[] = [];
 
 const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
-    const itemsRaw = rawText.split('\n');
+    const allRows = rawText.split('\n');
 
-    return itemsRaw.map((itemRaw) => {
-        const item = itemRaw.trim().split('\t') as PostnrRegisterItemRaw;
+    return allRows.map((stringRow) => {
+        const item = stringRow.trim().split('\t') as PostnrRegisterItemRaw;
         const [postnr, poststed, kommunenr, kommune, kategori] = item;
 
         return {
@@ -38,7 +38,8 @@ const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
     });
 };
 
-const fetchPostnrRegister = async (): Promise<string | null> => {
+// This fetches a raw tab separated txt file from posten.no
+const fetchPostnummerTxtFromPosten = async (): Promise<string | null> => {
     console.log(`Fetching postnr register from ${serverUrls.postnrRegister}`);
     try {
         return await fetch(serverUrls.postnrRegister)
@@ -59,18 +60,15 @@ const fetchPostnrRegister = async (): Promise<string | null> => {
 };
 
 export const loadPostnrRegister = async () => {
-    const postnrRegisterDataRaw = await fetchPostnrRegister();
+    const postnrRegisterDataRaw = await fetchPostnummerTxtFromPosten();
 
     if (postnrRegisterDataRaw) {
         console.log('Refreshed postnr register');
         postnrRegisterData = transformPostnrRegisterData(postnrRegisterDataRaw);
     } else if (postnrRegisterData.length > 0) {
-        console.error(
-            'Failed to fetch from postnr-register, keeping currently cached data'
-        );
+        console.error('Failed to fetch from postnr-register, keeping currently cached data');
     } else {
-        const msg =
-            'Failed to fetch from postnr-register and no previously cached data exists!';
+        const msg = 'Failed to fetch from postnr-register and no previously cached data exists!';
         console.error(msg);
 
         throw new Error(msg);

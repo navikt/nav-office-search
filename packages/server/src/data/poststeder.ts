@@ -22,10 +22,14 @@ export const getPoststedArray = () => poststederData.poststederArray;
 export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
     const localData = poststederData.poststederMap.get(postnr);
 
+    // Postnr was not found
     if (!localData) {
         return null;
     }
 
+    // For most postnr, the office info is already mapped (officeInfo)
+    // If the postnr is in a kommune with bydeler, we have to
+    // make some separate mapping.
     if (localData.officeInfo.length === 0) {
         if (getBydelerForKommune(localData.kommunenr)) {
             return localData;
@@ -50,17 +54,18 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
     return localData;
 };
 
+// This function is used at startup and data kept in memory
 export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) => {
     console.log('Loading data for poststeder...');
 
-    const newMap: PoststederMap = new Map();
+    const newPoststederMap: PoststederMap = new Map();
 
     for (const item of postnrRegister) {
         const { postnr, poststed, kommunenr, kategori, kommune } = item;
 
         const kommuneData = getKommune(kommunenr);
 
-        newMap.set(postnr, {
+        newPoststederMap.set(postnr, {
             postnr,
             poststed,
             poststedNormalized: normalizeString(poststed),
@@ -71,10 +76,10 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
         });
     }
 
-    const newArray = Array.from(newMap.values());
+    const newPoststederArray = Array.from(newPoststederMap.values());
 
-    poststederData.poststederMap = newMap;
-    poststederData.poststederArray = newArray;
+    poststederData.poststederMap = newPoststederMap;
+    poststederData.poststederArray = newPoststederArray;
 
-    console.log(`Finished loading data for poststeder! (${newArray.length} entries)`);
+    console.log(`Finished loading data for poststeder! (${newPoststederArray} entries)`);
 };

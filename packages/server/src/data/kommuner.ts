@@ -31,15 +31,18 @@ export const getKommunerArray = () => kommunerData.kommunerArray;
 
 export const getKommune = (kommunenr: string) => kommunerData.kommunerMap[kommunenr];
 
-export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
-    console.log('Loading data for kommuner...');
+// Takes all kommuner (from postnummerregister), and one by one
+// fetch the Nav-kontor from NORG via nav-office-search-api). This is the geoId endpoint
+// If the kommune has bydeler, we skip the office info fetch.
+export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[]) => {
+    console.log('Building kommune dictionary by loading offices one by one');
 
     const uniqueKommuneItems = removeDuplicates(
         postnrRegister,
         (a, b) => a.kommunenr === b.kommunenr
     );
 
-    const newMap: KommunerMap = {};
+    const kommuneMap: KommunerMap = {};
 
     for (const item of uniqueKommuneItems) {
         const { kommunenr, kommune } = item;
@@ -53,7 +56,7 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
         };
 
         if (bydeler) {
-            newMap[kommunenr] = {
+            kommuneMap[kommunenr] = {
                 ...kommuneDataPartial,
                 bydeler,
             };
@@ -63,7 +66,7 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
             );
 
             if (!officeInfo.error) {
-                newMap[kommunenr] = {
+                kommuneMap[kommunenr] = {
                     ...kommuneDataPartial,
                     officeInfo,
                 };
@@ -71,10 +74,10 @@ export const loadKommuneData = async (postnrRegister: PostnrRegisterItem[]) => {
         }
     }
 
-    const newArray = Object.values(newMap);
+    const kommuneArray = Object.values(kommuneMap);
 
-    kommunerData.kommunerMap = newMap;
-    kommunerData.kommunerArray = newArray;
+    kommunerData.kommunerMap = kommuneMap;
+    kommunerData.kommunerArray = kommuneArray;
 
-    console.log(`Finished loading data for kommuner! (${newArray.length} entries)`);
+    console.log(`Finished loading data for kommuner! (${kommuneArray.length} entries)`);
 };
