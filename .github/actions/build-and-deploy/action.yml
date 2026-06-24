@@ -16,6 +16,9 @@ inputs:
   NAVNO_ORIGIN:
     description: NAVNO origin
     required: true
+  LOGIN_SESSION_API_URL:
+    description: Login session API URL
+    required: true
   READER_TOKEN:
     description: Token for reading private packages
     required: true
@@ -55,6 +58,7 @@ runs:
         VITE_XP_ORIGIN: ${{ inputs.XP_ORIGIN }}
         VITE_NAVNO_ORIGIN: ${{ inputs.NAVNO_ORIGIN }}
         API_ORIGIN: ${{ inputs.API_ORIGIN }}
+        LOGIN_SESSION_API_URL: ${{ inputs.LOGIN_SESSION_API_URL }}
         ENV: ${{ inputs.environment }}
       run: |
         {
@@ -63,6 +67,7 @@ runs:
           printf 'VITE_XP_ORIGIN=%s\n' "$VITE_XP_ORIGIN"
           printf 'VITE_NAVNO_ORIGIN=%s\n' "$VITE_NAVNO_ORIGIN"
           printf 'API_ORIGIN=%s\n' "$API_ORIGIN"
+          printf 'LOGIN_SESSION_API_URL=%s\n' "$LOGIN_SESSION_API_URL"
           printf 'ENV=%s\n' "$ENV"
         } > .env
 
