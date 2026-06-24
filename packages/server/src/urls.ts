@@ -8,4 +8,5 @@ export const serverUrls = {
     xpOfficeInfoApi: `${process.env.VITE_XP_ORIGIN}/_/service/no.nav.navno/officeInfo`,
     postnrRegister: 'https://www.bring.no/postnummerregister-ansi.txt',
     ssbBydelerClassification: 'https://data.ssb.no/api/klass/v1/classifications/103',
+    loginSessionApi: process.env.LOGIN_SESSION_API_URL,
 };

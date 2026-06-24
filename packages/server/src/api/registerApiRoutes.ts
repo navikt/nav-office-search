@@ -5,6 +5,7 @@ import { searchHandler } from './endpoints/search/searchHandler';
 import { geoidSearchHandler } from './endpoints/geoid/geoidSearchHandler';
 import { nameSearchHandler } from './endpoints/search/nameSearchHandler';
 import { addressSearchHandler } from './endpoints/search/addressSearchHandler';
+import { loginStatusHandler } from './endpoints/loginstatus/loginStatusHandler';
 import { getKommunerArray } from '../data/kommuner';
 import { getPoststedArray } from '../data/poststeder';
 import { getBydelerArray } from '../data/bydeler';
@@ -18,6 +19,8 @@ export const registerApiRoutes = async (router: Router) => {
     router.get('/search/address', addressSearchHandler);
 
     router.get('/geoid', geoidSearchHandler);
+
+    router.get('/loginstatus', loginStatusHandler);
 
     router.get('/data/kommuner', (req, res) => {
         res.status(200).json(getKommunerArray());

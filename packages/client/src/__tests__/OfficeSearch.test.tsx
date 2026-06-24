@@ -19,6 +19,7 @@ jest.mock('../urls', () => ({
         searchNameApi: '/api/search/name',
         searchAddressApi: '/api/search/address',
         geoidApi: '/api/geoid',
+        loginStatusApi: '/api/loginstatus',
     },
 }));
 
@@ -32,6 +33,10 @@ enableFetchMocks();
 describe('OfficeSearch', () => {
     beforeEach(() => {
         fetch.resetMocks();
+        // Mock the initial login status check on mount
+        fetch.mockResponseOnce(JSON.stringify({ isUserLoggedIn: false }), {
+            status: 200,
+        });
         render(<OfficeSearch />);
     });
 
@@ -72,14 +77,14 @@ describe('OfficeSearch', () => {
         await waitFor(() => {
             expect(screen.getByText('Søket inneholder ugyldige tegn')).toBeInTheDocument();
         });
-        expect(fetch).not.toHaveBeenCalled();
+        expect(fetch).toHaveBeenCalledTimes(1);
     });
 
     test('viser valideringsfeil for ugyldige tegn mens brukeren skriver', async () => {
         inputSearchText('@');
 
         expect(screen.getByText('Søket inneholder ugyldige tegn')).toBeInTheDocument();
-        expect(fetch).not.toHaveBeenCalled();
+        expect(fetch).toHaveBeenCalledTimes(1);
     });
 
     test('fjerner gamle søkeresultater når input blir for kort', async () => {
@@ -510,11 +515,11 @@ describe('OfficeSearch', () => {
         const input = getSearchInput();
 
         await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
-        expect(fetch).toHaveBeenCalledTimes(2);
+        expect(fetch).toHaveBeenCalledTimes(3);
 
         fireEvent.keyDown(input, { key: 'Enter' });
 
-        expect(fetch).toHaveBeenCalledTimes(2);
+        expect(fetch).toHaveBeenCalledTimes(3);
         expect(screen.getByRole('listbox')).toBeInTheDocument();
     });
 
@@ -549,7 +554,7 @@ describe('OfficeSearch', () => {
         fireEvent.keyDown(input, { key: 'Enter' });
 
         expect(input).toHaveValue('storgata 1@');
-        expect(fetch).toHaveBeenCalledTimes(2);
+        expect(fetch).toHaveBeenCalledTimes(3);
         expect(
             screen.queryByText('Søkeresultat for "Storgata 1, 0184 OSLO" (1):')
         ).not.toBeInTheDocument();

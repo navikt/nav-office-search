@@ -50,3 +50,9 @@ export const fetchMock = fetchMockLib
     .mock(serverUrls.xpOfficeInfoApi, async () => {
         return officeUrlData;
     });
+
+if (serverUrls.loginSessionApi) {
+    fetchMock.mock(serverUrls.loginSessionApi, {
+        status: 200,
+    });
+}

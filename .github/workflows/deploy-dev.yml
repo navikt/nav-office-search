@@ -2,23 +2,24 @@ name: Deploy to dev
 on: workflow_dispatch
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            id-token: write
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-            - name: Build and deploy dev
-              uses: ./.github/actions/build-and-deploy
-              with:
-                  environment: dev
-                  APP_ORIGIN: https://www.ansatt.dev.nav.no
-                  API_ORIGIN: https://nav-office-search-api.dev-fss-pub.nais.io
-                  XP_ORIGIN: https://www.dev.nav.no
-                  NAVNO_ORIGIN: https://www.ansatt.dev.nav.no
-                  READER_TOKEN: ${{ secrets.READER_TOKEN }}
-                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+      - name: Build and deploy dev
+        uses: ./.github/actions/build-and-deploy
+        with:
+          environment: dev
+          APP_ORIGIN: https://www.ansatt.dev.nav.no
+          API_ORIGIN: https://nav-office-search-api.dev-fss-pub.nais.io
+          XP_ORIGIN: https://www.dev.nav.no
+          NAVNO_ORIGIN: https://www.ansatt.dev.nav.no
+          LOGIN_SESSION_API_URL: https://login.ekstern.dev.nav.no/oauth2/session
+          READER_TOKEN: ${{ secrets.READER_TOKEN }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
