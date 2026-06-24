@@ -10,15 +10,13 @@ export type SearchResultPostnrProps = {
 export type NameHit = { name: string; officeHits: OfficeInfo[] };
 
 export type Adresse = {
-    vegadresse: {
-        adressenavn: string;
-        husnummer: number;
-        husbokstav: string | null;
-        postnummer: string;
-        poststed: string;
-        kommunenummer: string;
-        bydelsnummer: string | null;
-    };
+    adressenavn: string;
+    husnummer: number;
+    husbokstav: string | null;
+    postnummer: string;
+    poststed: string;
+    kommunenummer: string;
+    bydelsnummer: string | null;
 };
 
 export type SearchResultNameProps = {
@@ -31,10 +29,8 @@ export type SearchResultNameProps = {
 export type SearchResultAdresseProps = {
     type: 'adresse';
     adresseQuery: string;
-    sokAdresse: {
-        hits: Adresse[];
-        totalHits: number;
-    };
+    adresser: Adresse[];
+    totalHits: number;
     error?: undefined;
 };
 

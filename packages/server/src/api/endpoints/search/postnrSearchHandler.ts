@@ -13,18 +13,14 @@ const responseDataWithBydeler = async (
 ): Promise<SearchResultPostnrProps> => {
     const bydelResponse = await fetchPdlBydelsok(poststedData.postnr);
 
-    if (bydelResponse.error) {
+    if ('error' in bydelResponse) {
         console.error(
             `Bydel search failed for postnr ${poststedData.postnr}: ${bydelResponse.message}`
         );
         return { ...poststedData, type: 'postnr' };
     }
 
-    const bydelsnummerAggregation = bydelResponse.sokAdresse?.aggregations?.find(
-        (agg) => agg.fieldName === 'vegadresse.bydelsnummer'
-    );
-
-    const bydelsnumre = bydelsnummerAggregation?.values.map((v) => v.value) ?? [];
+    const bydelsnumre = bydelResponse.bydeler;
 
     if (bydelsnumre.length === 0) {
         return { ...poststedData, type: 'postnr' };

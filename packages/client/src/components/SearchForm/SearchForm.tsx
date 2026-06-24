@@ -55,7 +55,7 @@ export const SearchForm = () => {
     const searchLoadingText = localeString('searchLoading', locale) as string;
     const addressSuggestionsLabel = localeString('addressSuggestionsLabel', locale) as string;
     const isAddressResult = searchResult?.type === 'adresse';
-    const addressSuggestions = isAddressResult ? searchResult.sokAdresse.hits : [];
+    const addressSuggestions = isAddressResult ? searchResult.adresser : [];
     const hasAddressSuggestions = addressSuggestions.length > 0;
     const hasAddressPopup = isLoading || isAddressResult;
     const isAddressDropdownOpen = isAddressPopupOpen && hasAddressPopup;
@@ -231,7 +231,7 @@ export const SearchForm = () => {
     const selectAddress = useCallback(
         (adresse: Adresse) => {
             const label = formatAddressLabel(adresse);
-            const { bydelsnummer, kommunenummer } = adresse.vegadresse;
+            const { bydelsnummer, kommunenummer } = adresse;
 
             setInputValue(label);
             closeAddressDropdown();

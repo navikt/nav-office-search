@@ -266,7 +266,8 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'evje og hornnes',
-                    sokAdresse: { hits: [], totalHits: 0 },
+                    adresser: [],
+                    totalHits: 0,
                 }),
                 { status: 200 },
             ]
@@ -293,7 +294,8 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'ukjent adresse 1',
-                    sokAdresse: { hits: [], totalHits: 0 },
+                    adresser: [],
+                    totalHits: 0,
                 }),
                 { status: 200 },
             ]
@@ -351,22 +353,18 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'bull aakrans 5',
-                    sokAdresse: {
-                        totalHits: 1,
-                        hits: [
-                            {
-                                vegadresse: {
-                                    adressenavn: 'Bull Aakranns vei',
-                                    husnummer: 5,
-                                    husbokstav: null,
-                                    postnummer: '7374',
-                                    poststed: 'RØROS',
-                                    kommunenummer: '5025',
-                                    bydelsnummer: null,
-                                },
-                            },
-                        ],
-                    },
+                    totalHits: 1,
+                    adresser: [
+                        {
+                            adressenavn: 'Bull Aakranns vei',
+                            husnummer: 5,
+                            husbokstav: null,
+                            postnummer: '7374',
+                            poststed: 'RØROS',
+                            kommunenummer: '5025',
+                            bydelsnummer: null,
+                        },
+                    ],
                 }),
                 { status: 200 },
             ]
@@ -395,22 +393,18 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'ole b berger',
-                    sokAdresse: {
-                        totalHits: 1,
-                        hits: [
-                            {
-                                vegadresse: {
-                                    adressenavn: 'Ole B. Bergers veg',
-                                    husnummer: 5,
-                                    husbokstav: null,
-                                    postnummer: '3520',
-                                    poststed: 'JEVNAKER',
-                                    kommunenummer: '3236',
-                                    bydelsnummer: null,
-                                },
-                            },
-                        ],
-                    },
+                    totalHits: 1,
+                    adresser: [
+                        {
+                            adressenavn: 'Ole B. Bergers veg',
+                            husnummer: 5,
+                            husbokstav: null,
+                            postnummer: '3520',
+                            poststed: 'JEVNAKER',
+                            kommunenummer: '3236',
+                            bydelsnummer: null,
+                        },
+                    ],
                 }),
                 { status: 200 },
             ]
@@ -631,7 +625,8 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'ukjent adresse 1',
-                    sokAdresse: { hits: [], totalHits: 0 },
+                    adresser: [],
+                    totalHits: 0,
                 }),
                 { status: 200 },
             ]
@@ -687,7 +682,8 @@ describe('OfficeSearch', () => {
             JSON.stringify({
                 type: 'adresse',
                 adresseQuery: 'ukjent adresse 1',
-                sokAdresse: { hits: [], totalHits: 0 },
+                adresser: [],
+                totalHits: 0,
             })
         );
 
@@ -752,22 +748,18 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'storgata 1',
-                    sokAdresse: {
-                        totalHits: 1,
-                        hits: [
-                            {
-                                vegadresse: {
-                                    adressenavn: 'Storgata',
-                                    husnummer: 1,
-                                    husbokstav: null,
-                                    postnummer: '0184',
-                                    poststed: 'OSLO',
-                                    kommunenummer: '0301',
-                                    bydelsnummer: '030102',
-                                },
-                            },
-                        ],
-                    },
+                    totalHits: 1,
+                    adresser: [
+                        {
+                            adressenavn: 'Storgata',
+                            husnummer: 1,
+                            husbokstav: null,
+                            postnummer: '0184',
+                            poststed: 'OSLO',
+                            kommunenummer: '0301',
+                            bydelsnummer: '030102',
+                        },
+                    ],
                 }),
                 { status: 200 },
             ],
@@ -797,22 +789,18 @@ describe('OfficeSearch', () => {
                 JSON.stringify({
                     type: 'adresse',
                     adresseQuery: 'tamburveien 1a',
-                    sokAdresse: {
-                        totalHits: 1,
-                        hits: [
-                            {
-                                vegadresse: {
-                                    adressenavn: 'Tamburveien',
-                                    husnummer: 1,
-                                    husbokstav: 'A',
-                                    postnummer: '1406',
-                                    poststed: 'SKI',
-                                    kommunenummer: '3218',
-                                    bydelsnummer: null,
-                                },
-                            },
-                        ],
-                    },
+                    totalHits: 1,
+                    adresser: [
+                        {
+                            adressenavn: 'Tamburveien',
+                            husnummer: 1,
+                            husbokstav: 'A',
+                            postnummer: '1406',
+                            poststed: 'SKI',
+                            kommunenummer: '3218',
+                            bydelsnummer: null,
+                        },
+                    ],
                 }),
                 { status: 200 },
             ],
@@ -888,7 +876,8 @@ describe('OfficeSearch', () => {
             JSON.stringify({
                 type: 'adresse',
                 adresseQuery: 'ukjent adresse 1',
-                sokAdresse: { hits: [], totalHits: 0 },
+                adresser: [],
+                totalHits: 0,
             })
         );
 
@@ -1026,15 +1015,13 @@ const mockAddressSuggestionSearch = (
     totalHits = suggestionCount
 ) => {
     const addressHits = Array.from({ length: suggestionCount }, (_, index) => ({
-        vegadresse: {
-            adressenavn: 'Storgata',
-            husnummer: index + 1,
-            husbokstav: null,
-            postnummer: '0184',
-            poststed: 'OSLO',
-            kommunenummer: '0301',
-            bydelsnummer: '030102',
-        },
+        adressenavn: 'Storgata',
+        husnummer: index + 1,
+        husbokstav: null,
+        postnummer: '0184',
+        poststed: 'OSLO',
+        kommunenummer: '0301',
+        bydelsnummer: '030102',
     }));
 
     const responses: Parameters<typeof fetch.mockResponses> = [
@@ -1050,10 +1037,8 @@ const mockAddressSuggestionSearch = (
             JSON.stringify({
                 type: 'adresse',
                 adresseQuery: addressQuery,
-                sokAdresse: {
-                    totalHits,
-                    hits: addressHits,
-                },
+                adresser: addressHits,
+                totalHits,
             }),
             { status: 200 },
         ],

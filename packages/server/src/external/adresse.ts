@@ -3,26 +3,9 @@ import { Adresse } from '../../../common/types/results';
 import { fetchErrorResponse, FetchErrorResponse, fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
-export type AdresseSokHit = {
-    kommunenummer: string;
-    kommunenavn: string;
-    adressenavn: string;
-    husnummerFra: string;
-    husnummerTil: string;
-    postnummer: string;
-    poststed: string;
-    geografiskTilknytning: string;
-    gatekode: string;
-    bydel?: string;
-};
-
 export type AdresseSokResponse = {
-    error?: undefined;
-    hits?: AdresseSokHit[];
-    sokAdresse?: {
-        hits: Adresse[];
-        totalHits: number;
-    };
+    adresser: Adresse[];
+    totalHits: number;
 };
 
 export const fetchPdlAdresseSok = async (

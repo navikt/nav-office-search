@@ -2,20 +2,8 @@ import { getAuthorizationHeader } from './auth';
 import { fetchErrorResponse, FetchErrorResponse, fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
-export type AggregationValue = {
-    value: string;
-};
-
-export type Aggregation = {
-    fieldName: 'vegadresse.kommunenummer' | 'vegadresse.bydelsnummer';
-    values: AggregationValue[];
-};
-
 export type BydelSokResponse = {
-    error?: undefined;
-    sokAdresse?: {
-        aggregations: Aggregation[];
-    };
+    bydeler: string[];
 };
 
 export const fetchPdlBydelsok = async (

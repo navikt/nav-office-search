@@ -5,7 +5,7 @@ import { Adresse, SearchResultAdresseProps } from '../../../../../common/types/r
 export const maxVisibleAddressOptions = 6;
 
 export const formatAddressLabel = (adresse: Adresse) => {
-    const { adressenavn, husnummer, husbokstav, postnummer, poststed } = adresse.vegadresse;
+    const { adressenavn, husnummer, husbokstav, postnummer, poststed } = adresse;
 
     return `${adressenavn} ${husnummer}${husbokstav ?? ''}, ${postnummer} ${poststed}`;
 };
@@ -14,8 +14,8 @@ export const getAddressOptionId = (listboxId: string, index: number) =>
     `${listboxId}-option-${index}`;
 
 export const getAddressSuggestionCounts = (result: SearchResultAdresseProps) => {
-    const visibleHits = result.sokAdresse.hits.length;
-    const totalHits = Math.max(result.sokAdresse.totalHits, visibleHits);
+    const visibleHits = result.adresser.length;
+    const totalHits = Math.max(result.totalHits, visibleHits);
 
     return {
         visibleHits,

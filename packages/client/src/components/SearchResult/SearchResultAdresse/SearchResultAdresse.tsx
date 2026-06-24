@@ -26,7 +26,7 @@ export const SearchResultAdresse = ({
     listboxId,
     listboxLabel,
 }: Props) => {
-    if (result.sokAdresse.hits.length === 0) {
+    if (result.adresser.length === 0) {
         return (
             <div className={style.dropdown} id={listboxId} role="listbox" aria-label={listboxLabel}>
                 <div
@@ -46,7 +46,7 @@ export const SearchResultAdresse = ({
     return (
         <div className={style.dropdown}>
             <div className={style.list} id={listboxId} role="listbox" aria-label={listboxLabel}>
-                {result.sokAdresse.hits.map((adresse, index) => {
+                {result.adresser.map((adresse, index) => {
                     const label = formatAddressLabel(adresse);
                     const isActive = activeIndex === index;
 
