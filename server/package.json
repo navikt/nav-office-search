@@ -10,7 +10,9 @@
         "dev": "cp .env.development .env && pnpm start-local"
     },
     "dependenciesComments": {
-        "@types/node": "Holdes på versjon 24.10.1 ellers brekker det. Nyeste versjon 25.0.6"
+        "@types/node": "Holdes på versjon 25.9.3 ellers brekker det. Nyeste versjon 26.0.1",
+        "concurrently": "Holdes på versjon 9.2.1. Nyeste versjon 10.0.3",
+        "vite": "Holdes på versjon 7.3.5. Nyeste versjon 8.1.0"
     },
     "dependencies": {
         "compression": "1.8.1",

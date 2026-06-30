@@ -18,16 +18,23 @@
         "prepare": "husky || true"
     },
     "dependenciesComments": {
-        "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.6.0"
+        "fetch-mock": "Holdes på versjon 11.1.15. Nyeste versjon 12.6.0",
+        "react": "Holdes på versjon 18.3.1. Nyeste versjon 19.2.7",
+        "react-dom": "Holdes på versjon 18.3.1. Nyeste versjon 19.2.7",
+        "vite": "Holdes på versjon 7.3.5. Nyeste versjon 8.1.0",
+        "eslint": "Holdes på versjon 9.39.2. Nyeste versjon 10.6.0",
+        "@eslint/js": "Holdes på versjon 9.39.4. Nyeste versjon 10.0.1",
+        "types/react": "Holdes på versjon 18.3.28. Nyeste versjon 19.2.17",
+        "types/react-dom": "Holdes på versjon 18.3.7. Nyeste versjon 19.2.3"
     },
     "dependencies": {
-        "@navikt/ds-css": "8.6.0",
+        "@navikt/ds-css": "8.13.1",
         "@navikt/ds-icons": "3.4.3",
-        "@navikt/ds-react": "8.6.0",
+        "@navikt/ds-react": "8.13.1",
         "@navikt/nav-dekoratoren-moduler": "4.2.2",
         "fetch-mock": "11.1.5",
         "lodash.debounce": "4.0.8",
-        "preact": "10.29.2",
+        "preact": "10.29.3",
         "preact-render-to-string": "6.7.0",
         "react": "18.3.1",
         "react-dom": "18.3.1"
@@ -53,7 +60,7 @@
         "prettier": "3.8.4",
         "ts-jest": "29.4.11",
         "typescript": "6.0.3",
-        "typescript-eslint": "8.56.1",
+        "typescript-eslint": "8.62.0",
         "vite": "7.3.5"
     },
     "lint-staged": {
