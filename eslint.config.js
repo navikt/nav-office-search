@@ -8,7 +8,7 @@ export default tseslint.config(
             '**/node_modules/**',
             '**/dist/**',
             '**/build/**',
-            'packages/server/frontendDist/**',
+            'server/frontendDist/**',
             '**/*.config.js',
             '**/*.config.ts',
         ],
