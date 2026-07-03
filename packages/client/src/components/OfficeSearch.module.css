@@ -1,25 +1,79 @@
 .appContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 1440px;
+    display: grid;
+    grid-template-columns: 75px minmax(0, 600px);
+    column-gap: var(--ax-space-24);
+    justify-content: center;
+    max-width: 731px;
     margin: 0 auto;
-    padding: 2rem 1rem 6rem 1rem;
+    padding: var(--ax-space-20) var(--ax-space-16) var(--ax-space-64) var(--ax-space-16);
 }
 
-@media (max-width: var(--desktop-min-width)) {
-    .appContainer {
-        padding: 3rem 3rem 6rem 3rem;
-    }
+.titleIllustration {
+    grid-column: 1;
+    grid-row: 1;
+    width: 75px;
+    height: 75px;
+}
+
+.titleContent {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    margin-bottom: 2rem;
 }
 
 .title {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px var(--ax-neutral-500) solid;
+    margin-bottom: var(--ax-space-12);
 }
 
 .ingress {
-    text-align: center;
-    margin-bottom: 2rem;
+    color: var(--ax-text-neutral);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    grid-column: 2;
+    width: 100%;
+    margin-bottom: var(--ax-space-48);
+}
+
+.section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.sectionTitle {
+    margin-bottom: var(--ax-space-4);
+}
+
+.sectionBody {
+    margin-bottom: var(--ax-space-12);
+}
+
+.loginButton {
+    margin-top: 0;
+}
+
+@media (max-width: 600px) {
+    .appContainer {
+        grid-template-columns: minmax(0, 1fr);
+        justify-content: stretch;
+    }
+
+    .titleIllustration {
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: var(--ax-space-20);
+    }
+
+    .titleContent {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .section {
+        grid-column: 1;
+    }
 }

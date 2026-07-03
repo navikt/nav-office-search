@@ -1,14 +1,19 @@
 import React from 'react';
 
 export const localeModuleNb = {
-    documentTitle: 'Søk opp Nav-kontor - nav.no',
-    pageTitle: 'Søk opp Nav-kontor',
+    documentTitle: 'Finn Nav-kontor - nav.no',
+    pageTitle: 'Finn Nav-kontor',
     breadcrumb1: 'Kontakt oss',
-    breadcrumb2: 'Søk opp Nav-kontor',
-    ingressLine1:
-        'Mangler du elektronisk ID? Eller skal du finne Nav-kontor på vegne av noen andre?',
+    breadcrumb2: 'Finn Nav-kontor',
+    ingressLine1: 'Finn ut hvilket kontor du tilhører, eller søk i listen over alle Nav-kontor.',
     ingressLine2: 'Da kan du søke opp Nav-kontor ved hjelp av postnummer eller sted/by.',
-    inputLabel: 'Skriv inn et postnummer eller stedsnavn:',
+    loginSectionTitle: 'Se hvilket Nav-kontor du tilhører',
+    loginSectionBody: 'For å se hvilket Nav-kontor du tilhører, må du logge inn.',
+    loginButtonText: 'Logg inn og se ditt Nav-kontor',
+    loggedInButtonText: 'Se ditt Nav-kontor',
+    searchSectionTitle: 'Søk opp Nav-kontor',
+    searchSectionBody: 'Du kan også bruke søket for å finne Nav-kontor.',
+    inputLabel: 'Skriv inn adresse, postnummer eller sted/by',
     inputSubmit: 'Søk',
     errorMissingQuery: 'Mangler søke-streng',
     errorInvalidQuery: 'Feil i søke-streng',
@@ -24,7 +29,7 @@ export const localeModuleNb = {
     addressSuggestionsLabel: 'Adresseforslag',
     addressSuggestionSelected: (address: string) => `Adresse valgt: ${address}`,
     addressSuggestionsRefine: (visibleHits: string, totalHits: string) =>
-        `Viser ${visibleHits} av ${totalHits} treff. Skriv mer av adressen for å avgrense søket.`,
+        `Viser ${visibleHits} av ${totalHits} adresseforslag. Skriv mer av adressen for å avgrense søket.`,
     nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed: string) => (
         <>
@@ -71,6 +76,5 @@ export const localeModuleNb = {
         </>
     ),
     nameResultNone: (input: string) => `Ingen resultater for "${input}"`,
-    nameResultFound: (input: string, numHits: string) =>
-        `Søkeresultat for "${input}" (${numHits}):`,
+    nameResultFound: (input: string, numHits: string) => `${numHits} treff for "${input}":`,
 };

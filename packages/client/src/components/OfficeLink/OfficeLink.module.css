@@ -1,26 +1,40 @@
-.link {
-    display: flex;
-    text-decoration: transparent underline;
-    padding: 0.5rem 0 0.5rem 1.25rem;
-    position: relative;
-    text-underline-offset: 0.5rem;
-    transition: text-decoration 0.2s ease-out;
+.card {
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    border-top: 1px solid var(--ax-border-neutral-subtleA);
+    border-bottom: 1px solid var(--ax-border-neutral-subtleA);
+    padding-block: var(--ax-space-16);
+    padding-inline: 0;
+    width: 100%;
 }
 
-.link:not(:last-child) {
-    margin-bottom: 0.25rem;
+.card + .card {
+    border-top: none;
 }
 
-.link:hover {
-    text-decoration: currentColor underline;
+.card:hover {
+    border-top-color: var(--ax-border-neutral-subtle);
+    border-bottom-color: var(--ax-border-neutral-subtle);
+    box-shadow: none;
+    background-color: transparent;
 }
 
-.chevron {
-    position: absolute;
-    left: -0.5rem;
-    transition: transform 0.2s ease-out;
+.card :global(.aksel-link-card__title) {
+    color: var(--ax-text-accent-subtle);
+    font-size: var(--ax-font-size-heading-small, 1.25rem);
+    font-weight: var(--ax-font-weight-semibold, 600);
+    letter-spacing: -0.1px;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
 }
 
-.link:hover > .chevron {
-    transform: translateX(0.3rem);
+.card :global(.aksel-link-card__arrow) {
+    align-self: start;
+    color: var(--ax-text-accent-subtle);
+}
+
+.card:hover :global(.aksel-link-card__title) {
+    text-decoration-color: currentColor;
 }
