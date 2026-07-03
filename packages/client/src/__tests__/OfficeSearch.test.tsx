@@ -20,6 +20,7 @@ jest.mock('../urls', () => ({
         searchAddressApi: '/api/search/address',
         geoidApi: '/api/geoid',
         loginStatusApi: '/api/loginstatus',
+        dittNavKontor: (locale: string) => `/person/personopplysninger/${locale}/#ditt-nav-kontor`,
     },
 }));
 
