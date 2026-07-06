@@ -14,6 +14,7 @@ type Props = { locale?: AppLocale };
 
 export const App = ({ locale = 'nb' }: Props) => {
     const [currentLocale, setCurrentLocale] = useState<AppLocale>(locale);
+    console.log('App.tsx: currentLocale', currentLocale);
 
     useEffect(() => {
         const updateLanguageState = (newLocale: AppLocale) => {
