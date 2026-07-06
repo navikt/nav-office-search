@@ -7,8 +7,10 @@ export default defineConfig(({ mode }) => {
 
     return {
         plugins: [preact()],
-        esbuild: {
-            legalComments: 'none',
+        oxc: {
+            transform: {
+                legalComments: 'none',
+            },
         },
         ssr: {
             // React modules from node_modules must not be externalized
