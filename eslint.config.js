@@ -21,6 +21,7 @@ export default tseslint.config(
         ...eslintReact.configs['recommended-typescript'],
         rules: {
             ...eslintReact.configs['recommended-typescript'].rules,
+            '@eslint-react/no-use-context': 'off',
             '@typescript-eslint/no-unused-vars': [
                 'warn',
                 {

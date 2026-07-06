@@ -1,10 +1,10 @@
-import React, { createContext, use } from 'react';
+import React, { createContext, useContext } from 'react';
 import { AppLocale } from '../../common/localization/types';
 
 const LocaleContext = createContext<AppLocale>('nb');
 
 export const useLocale = () => {
-    return use(LocaleContext);
+    return useContext(LocaleContext);
 };
 
 type LocaleProviderProps = { value: AppLocale; children: React.ReactNode };
