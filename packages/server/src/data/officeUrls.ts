@@ -43,7 +43,7 @@ export const loadOfficeUrlsFromXP = async () => {
         const msg = `Error loading office URLs: ${error instanceof Error ? error.message : String(error)}`;
 
         if (Object.keys(enhetsNrToOfficePathMap).length === 0) {
-            throw new Error(msg);
+            throw new Error(msg, { cause: error });
         }
 
         console.error(`${msg} - keeping current data`);

@@ -1,8 +1,5 @@
 import path from 'path';
-import {
-    injectDecoratorServerSide,
-    DecoratorEnvProps,
-} from '@navikt/nav-dekoratoren-moduler/ssr';
+import { injectDecoratorServerSide, DecoratorEnvProps } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { getDecoratorParams } from '../../../../common/decoratorParams';
 import { AppLocale } from '../../../../common/localization/types';
 import { serverUrls } from '../../urls';
@@ -26,9 +23,14 @@ const templatePath =
 export const getTemplateWithDecorator = async (locale: AppLocale) => {
     const params = getDecoratorParams(locale, serverUrls.kontaktOss);
 
-    return injectDecoratorServerSide({
+    const html = await injectDecoratorServerSide({
         ...envProps,
         filePath: templatePath,
         params,
     });
+
+    // The local decorator may inject <link> tags with an explicit closing tag
+    // (e.g. <link ...></link>), which is invalid HTML for void elements and
+    // causes parse5 (used by Vite's transformIndexHtml) to throw an error.
+    return html.replace(/<\/link>/gi, '');
 };

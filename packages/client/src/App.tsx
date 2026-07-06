@@ -14,15 +14,12 @@ type Props = { locale?: AppLocale };
 
 export const App = ({ locale = 'nb' }: Props) => {
     const [currentLocale, setCurrentLocale] = useState<AppLocale>(locale);
+    console.log('App.tsx: currentLocale', currentLocale);
 
     useEffect(() => {
         const updateLanguageState = (newLocale: AppLocale) => {
             setCurrentLocale(newLocale);
-            window.history.replaceState(
-                window.history.state,
-                '',
-                clientUrls.appPath[newLocale]
-            );
+            window.history.replaceState(window.history.state, '', clientUrls.appPath[newLocale]);
             document.documentElement.lang = newLocale;
             document.title = localeString('documentTitle', newLocale) as string;
             setParams(getDecoratorParams(newLocale, clientUrls.kontaktOss));

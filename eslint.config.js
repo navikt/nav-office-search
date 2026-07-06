@@ -1,12 +1,13 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import react from 'eslint-plugin-react';
+import eslintReact from '@eslint-react/eslint-plugin';
 
 export default tseslint.config(
     {
         ignores: [
             '**/node_modules/**',
             '**/dist/**',
+            '**/frontendDist/**',
             '**/build/**',
             '**/frontendDist/**',
             '**/*.config.js',
@@ -17,25 +18,10 @@ export default tseslint.config(
     ...tseslint.configs.recommended,
     {
         files: ['**/*.{ts,tsx,js,jsx}'],
-        plugins: {
-            react,
-        },
-        languageOptions: {
-            parser: tseslint.parser,
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true,
-                },
-            },
-        },
-        settings: {
-            react: {
-                version: 'detect',
-            },
-        },
+        ...eslintReact.configs['recommended-typescript'],
         rules: {
-            ...react.configs.recommended.rules,
-            'react/prop-types': 'off',
+            ...eslintReact.configs['recommended-typescript'].rules,
+            '@eslint-react/no-use-context': 'off',
             '@typescript-eslint/no-unused-vars': [
                 'warn',
                 {
