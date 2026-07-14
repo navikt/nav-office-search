@@ -6,10 +6,15 @@ export const localeModuleEn: LocaleModule = {
     pageTitle: 'Find a Nav office',
     breadcrumb1: 'Contact us',
     breadcrumb2: 'Find a Nav office',
-    ingressLine1:
-        'Do you not have electronic ID? Or are you trying to find the Nav office on behalf of someone else?',
+    ingressLine1: 'Find out which office you belong to, or search the list of all Nav offices.',
     ingressLine2: 'If so, you can find a Nav office using a post code or town/city.',
-    inputLabel: 'Enter a post code or town/city:',
+    loginSectionTitle: 'See which Nav office you belong to',
+    loginSectionBody: 'To see which Nav office you belong to, you need to log in.',
+    loginButtonText: 'Log in to see your Nav office',
+    loggedInButtonText: 'See your Nav office',
+    searchSectionTitle: 'Find a Nav office',
+    searchSectionBody: 'You can also use the search to find a Nav office.',
+    inputLabel: 'Enter address, post code or town/city',
     inputSubmit: 'Search',
     errorMissingQuery: 'Missing search query',
     errorInvalidQuery: 'Invalid search query',
@@ -25,7 +30,7 @@ export const localeModuleEn: LocaleModule = {
     addressSuggestionsLabel: 'Address suggestions',
     addressSuggestionSelected: (address) => `Address selected: ${address}`,
     addressSuggestionsRefine: (visibleHits, totalHits) =>
-        `Showing ${visibleHits} of ${totalHits} matches. Enter more of the address to narrow the search.`,
+        `Showing ${visibleHits} of ${totalHits} address suggestions. Enter more of the address to narrow the search.`,
     nameResultHeader: 'Search results for ',
     postnrResultNone: (postnrOgPoststed) => (
         <>
@@ -72,5 +77,5 @@ export const localeModuleEn: LocaleModule = {
         </>
     ),
     nameResultNone: (input) => `No results for "${input}"`,
-    nameResultFound: (input, numHits) => `Search results for "${input}" (${numHits}):`,
+    nameResultFound: (input, numHits) => `${numHits} results for "${input}":`,
 };

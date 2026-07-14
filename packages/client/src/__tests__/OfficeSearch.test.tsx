@@ -20,6 +20,7 @@ jest.mock('../urls', () => ({
         searchAddressApi: '/api/search/address',
         geoidApi: '/api/geoid',
         loginStatusApi: '/api/loginstatus',
+        dittNavKontor: (locale: string) => `/person/personopplysninger/${locale}/#ditt-nav-kontor`,
     },
 }));
 
@@ -242,7 +243,7 @@ describe('OfficeSearch', () => {
         fetch.mockResponse(JSON.stringify(stedsnavnResultWithHits));
         searchForText('evje og hornnes');
         await waitFor(() => {
-            expect(screen.getByText('Søkeresultat for "evje og hornnes" (1):')).toBeInTheDocument();
+            expect(screen.getByText('1 treff for "evje og hornnes":')).toBeInTheDocument();
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
         expect(fetch).not.toHaveBeenCalledWith(
@@ -432,15 +433,17 @@ describe('OfficeSearch', () => {
         await waitFor(() => {
             expect(
                 screen.getByText(
-                    'Viser 10 av 30 treff. Skriv mer av adressen for å avgrense søket.'
+                    'Viser 10 av 30 adresseforslag. Skriv mer av adressen for å avgrense søket.'
                 )
             ).toBeInTheDocument();
         });
         expect(screen.getByRole('listbox')).not.toContainElement(
-            screen.getByText('Viser 10 av 30 treff. Skriv mer av adressen for å avgrense søket.')
+            screen.getByText(
+                'Viser 10 av 30 adresseforslag. Skriv mer av adressen for å avgrense søket.'
+            )
         );
         expect(getLiveRegion()).toHaveTextContent(
-            '10 adresseforslag tilgjengelig. Bruk piltastene for å velge. Viser 10 av 30 treff. Skriv mer av adressen for å avgrense søket.'
+            '10 adresseforslag tilgjengelig. Bruk piltastene for å velge. Viser 10 av 30 adresseforslag. Skriv mer av adressen for å avgrense søket.'
         );
     });
 
@@ -451,7 +454,7 @@ describe('OfficeSearch', () => {
         await waitFor(() => {
             expect(
                 screen.getByText(
-                    'Viser 10 av 10 treff. Skriv mer av adressen for å avgrense søket.'
+                    'Viser 10 av 10 adresseforslag. Skriv mer av adressen for å avgrense søket.'
                 )
             ).toBeInTheDocument();
         });
@@ -467,7 +470,9 @@ describe('OfficeSearch', () => {
             ).toBeInTheDocument();
         });
         expect(
-            screen.queryByText('Viser 6 av 6 treff. Skriv mer av adressen for å avgrense søket.')
+            screen.queryByText(
+                'Viser 6 av 6 adresseforslag. Skriv mer av adressen for å avgrense søket.'
+            )
         ).not.toBeInTheDocument();
         expect(getLiveRegion()).toHaveTextContent(
             '6 adresseforslag tilgjengelig. Bruk piltastene for å velge.'
@@ -502,9 +507,7 @@ describe('OfficeSearch', () => {
 
         await waitFor(() => {
             expect(input).toHaveValue('Storgata 2, 0184 OSLO');
-            expect(
-                screen.getByText('Søkeresultat for "Storgata 2, 0184 OSLO" (1):')
-            ).toBeInTheDocument();
+            expect(screen.getByText('1 treff for "Storgata 2, 0184 OSLO":')).toBeInTheDocument();
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
     });
@@ -536,9 +539,7 @@ describe('OfficeSearch', () => {
 
         await waitFor(() => {
             expect(input).toHaveValue('Storgata 1, 0184 OSLO');
-            expect(
-                screen.getByText('Søkeresultat for "Storgata 1, 0184 OSLO" (1):')
-            ).toBeInTheDocument();
+            expect(screen.getByText('1 treff for "Storgata 1, 0184 OSLO":')).toBeInTheDocument();
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
     });
@@ -555,9 +556,7 @@ describe('OfficeSearch', () => {
 
         expect(input).toHaveValue('storgata 1@');
         expect(fetch).toHaveBeenCalledTimes(3);
-        expect(
-            screen.queryByText('Søkeresultat for "Storgata 1, 0184 OSLO" (1):')
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText('1 treff for "Storgata 1, 0184 OSLO":')).not.toBeInTheDocument();
     });
 
     test('musepeker over adresseforslag trigger ikke automatisk scrolling', async () => {
@@ -732,9 +731,7 @@ describe('OfficeSearch', () => {
 
         await waitFor(() => {
             expect(getSearchInput()).toHaveValue('Storgata 1, 0184 OSLO');
-            expect(
-                screen.getByText('Søkeresultat for "Storgata 1, 0184 OSLO" (1):')
-            ).toBeInTheDocument();
+            expect(screen.getByText('1 treff for "Storgata 1, 0184 OSLO":')).toBeInTheDocument();
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
     });
@@ -816,9 +813,7 @@ describe('OfficeSearch', () => {
         fireEvent.click(await screen.findByRole('option', { name: 'Tamburveien 1A, 1406 SKI' }));
 
         await waitFor(() => {
-            expect(
-                screen.getByText('Søkeresultat for "Tamburveien 1A, 1406 SKI" (1):')
-            ).toBeInTheDocument();
+            expect(screen.getByText('1 treff for "Tamburveien 1A, 1406 SKI":')).toBeInTheDocument();
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
         expect(fetch).toHaveBeenCalledWith(
@@ -996,7 +991,7 @@ const getHighlightedAddressParts = (name: string) =>
 
 const getSearchInput = () =>
     screen.getByRole('combobox', {
-        name: 'Skriv inn et postnummer eller stedsnavn:',
+        name: 'Skriv inn adresse, postnummer eller sted/by',
     });
 
 const getLiveRegion = () => document.querySelector('.aksel-sr-only') as HTMLElement;

@@ -24,10 +24,10 @@
         "@navikt/nav-dekoratoren-moduler": "4.2.2",
         "fetch-mock": "11.1.5",
         "lodash.debounce": "4.0.8",
-        "preact": "10.29.4",
-        "preact-render-to-string": "6.7.0",
-        "react": "19.2.7",
-        "react-dom": "19.2.7"
+        "preact": "catalog:",
+        "preact-render-to-string": "catalog:",
+        "react": "18.3.1",
+        "react-dom": "18.3.1"
     },
     "devDependencies": {
         "@eslint-react/eslint-plugin": "5.10.2",

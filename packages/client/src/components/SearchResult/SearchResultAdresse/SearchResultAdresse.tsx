@@ -45,6 +45,14 @@ export const SearchResultAdresse = ({
 
     return (
         <div className={style.dropdown}>
+            {hasMoreThanVisibleRows && (
+                <div className={style.hint} role="presentation">
+                    <LocaleString
+                        id={'addressSuggestionsRefine'}
+                        args={[visibleHits.toString(), totalHits.toString()]}
+                    />
+                </div>
+            )}
             <div className={style.list} id={listboxId} role="listbox" aria-label={listboxLabel}>
                 {result.adresser.map((adresse, index) => {
                     const label = formatAddressLabel(adresse);
@@ -68,14 +76,6 @@ export const SearchResultAdresse = ({
                     );
                 })}
             </div>
-            {hasMoreThanVisibleRows && (
-                <div className={style.hint} role="presentation">
-                    <LocaleString
-                        id={'addressSuggestionsRefine'}
-                        args={[visibleHits.toString(), totalHits.toString()]}
-                    />
-                </div>
-            )}
         </div>
     );
 };

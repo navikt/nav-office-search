@@ -1,3 +1,5 @@
+import { AppLocale } from '../../common/localization/types';
+
 export const clientUrls = {
     appPath: {
         nb: import.meta.env.VITE_APP_BASEPATH,
@@ -10,4 +12,6 @@ export const clientUrls = {
     geoidApi: `${import.meta.env.VITE_APP_ORIGIN}${import.meta.env.VITE_APP_BASEPATH}/api/geoid`,
     loginStatusApi: `${import.meta.env.VITE_APP_ORIGIN}${import.meta.env.VITE_APP_BASEPATH}/api/loginstatus`,
     kontaktOss: `${import.meta.env.VITE_NAVNO_ORIGIN}/person/kontakt-oss`,
+    dittNavKontor: (locale: AppLocale) =>
+        `${import.meta.env.VITE_NAVNO_ORIGIN}/person/personopplysninger/${locale}/#ditt-nav-kontor`,
 };

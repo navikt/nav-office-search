@@ -1,3 +1,7 @@
 .header:not(:last-child) {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--ax-space-16);
+}
+
+.error {
+    color: var(--ax-text-danger-subtle);
 }

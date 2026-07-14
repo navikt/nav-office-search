@@ -17,13 +17,13 @@ export const SearchResultName = ({ result, input }: Props) => {
 
     if (!hits) {
         return (
-            <div>
+            <div className={style.error}>
                 <LocaleString id={'errorInvalidResult'} />
             </div>
         );
     }
 
-    const numHits = hits.length;
+    const numHits = hits.reduce((sum, h) => sum + h.officeHits.length, 0);
 
     return (
         <div>
@@ -37,7 +37,7 @@ export const SearchResultName = ({ result, input }: Props) => {
             {hits.map((nameHit) => (
                 <Fragment key={nameHit.name}>
                     <BodyShort size={'medium'} className={style.hitname}>
-                        <HighlightedText text={nameHit.name.toUpperCase()} input={input} />
+                        <HighlightedText text={nameHit.name} input={input} />
                     </BodyShort>
                     {nameHit.officeHits.map((office) => (
                         <OfficeLink officeInfo={office} key={office.enhetNr} />

@@ -1,6 +1,8 @@
 packages:
   - packages/*
-
+catalog:
+  preact: 10.29.2
+  preact-render-to-string: 6.7.0
 allowBuilds:
   esbuild: true
   unrs-resolver: true

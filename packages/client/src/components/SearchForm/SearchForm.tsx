@@ -31,6 +31,7 @@ const isValidInput = (input: string): boolean => input.trim().length >= 2;
 
 const focusScrollOffset = 16;
 const focusScrollDelayMs = 300;
+const postnrLoadingSpinnerDelayMs = 250;
 
 const shouldAdjustMobileFocusScroll = () =>
     typeof window !== 'undefined' &&
@@ -48,7 +49,8 @@ export const SearchForm = () => {
     const [addressResultInput, setAddressResultInput] = useState<string | null>(null);
     const activeSearchId = useRef(0);
     const searchFormRef = useRef<HTMLDivElement>(null);
-    const addressDropdownRef = useRef<HTMLDivElement>(null);
+    const resultHeightRef = useRef<HTMLDivElement>(null);
+    const loadingDelayTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const activeAddressNavigationSource = useRef<'keyboard' | 'mouse' | null>(null);
     const addressListboxId = useId();
     const locale = useLocale();
@@ -82,6 +84,13 @@ export const SearchForm = () => {
         setError(null);
     };
 
+    const clearLoadingDelay = useCallback(() => {
+        if (loadingDelayTimeout.current !== null) {
+            clearTimeout(loadingDelayTimeout.current);
+            loadingDelayTimeout.current = null;
+        }
+    }, []);
+
     const resetAddressState = useCallback(() => {
         setActiveAddressIndex(null);
         setStatusMessage('');
@@ -94,6 +103,8 @@ export const SearchForm = () => {
         setSearchResult(undefined);
         resetAddressState();
     }, [resetAddressState]);
+
+    useEffect(() => clearLoadingDelay, [clearLoadingDelay]);
 
     useEffect(() => {
         if (!activeAddressOptionId || activeAddressNavigationSource.current !== 'keyboard') {
@@ -111,12 +122,31 @@ export const SearchForm = () => {
                 setError(null);
                 setIsLoading(false);
                 setAddressResultInput(null);
+                clearLoadingDelay();
+
+                if (isValidPostnrQuery(input)) {
+                    loadingDelayTimeout.current = setTimeout(() => {
+                        if (searchId === activeSearchId.current) {
+                            const currentResultHeight =
+                                resultHeightRef.current?.getBoundingClientRect().height;
+                            setAddressLoadingHeight(currentResultHeight || null);
+                            setSearchResult(undefined);
+                            setIsAddressPopupOpen(false);
+                            setActiveAddressIndex(null);
+                            setStatusMessage(searchLoadingText);
+                            setIsLoading(true);
+                        }
+                    }, postnrLoadingSpinnerDelayMs);
+                }
 
                 fetchSearchClient(input, {
                     onAddressSearchStart: () => {
                         if (searchId === activeSearchId.current) {
+                            const currentResultEl = resultHeightRef.current;
                             const currentDropdownHeight =
-                                addressDropdownRef.current?.getBoundingClientRect().height;
+                                currentResultEl?.getAttribute('data-result-type') === 'adresse'
+                                    ? currentResultEl.getBoundingClientRect().height
+                                    : undefined;
                             setAddressLoadingHeight(currentDropdownHeight || null);
                             setSearchResult(undefined);
                             setIsLoading(true);
@@ -130,6 +160,7 @@ export const SearchForm = () => {
                         return;
                     }
 
+                    clearLoadingDelay();
                     setIsLoading(false);
                     setAddressLoadingHeight(null);
 
@@ -153,16 +184,17 @@ export const SearchForm = () => {
                     }
                 });
             }, 500),
-        [clearSearchResult, locale, searchLoadingText, setServerError]
+        [clearLoadingDelay, clearSearchResult, locale, searchLoadingText, setServerError]
     );
 
     const cancelPendingSearch = useCallback(() => {
         activeSearchId.current += 1;
         abortSearchClient();
         runSearch.cancel?.();
+        clearLoadingDelay();
         setIsLoading(false);
         resetAddressState();
-    }, [resetAddressState, runSearch]);
+    }, [clearLoadingDelay, resetAddressState, runSearch]);
 
     const closeAddressDropdown = useCallback(() => {
         cancelPendingSearch();
@@ -396,58 +428,73 @@ export const SearchForm = () => {
                     error={error?.type === 'clientError' && <LocaleString id={error.id} />}
                 />
             </form>
-            {error?.type === 'serverError' && (
-                <div className={style.error}>
-                    <LocaleString id={error.id} />
-                </div>
-            )}
-            {((isLoading && isAddressDropdownOpen) ||
-                (searchResult && (!isAddressResult || isAddressDropdownOpen))) && (
-                <div
-                    ref={
-                        searchResult?.type === 'adresse' || isLoading
-                            ? addressDropdownRef
-                            : undefined
-                    }
-                    className={style.searchResult}
-                    data-result-type={isLoading ? 'adresse' : searchResult?.type}
-                >
-                    {isLoading ? (
+            <div className={style.resultRegion}>
+                {error?.type === 'serverError' && (
+                    <div className={style.error}>
+                        <LocaleString id={error.id} />
+                    </div>
+                )}
+                {isLoading && !isAddressDropdownOpen && (
+                    <div className={style.searchResult}>
                         <div
                             className={style.loading}
-                            id={addressListboxId}
-                            role="listbox"
-                            aria-label={addressSuggestionsLabel}
                             aria-busy="true"
+                            aria-label={searchLoadingText}
                             style={loadingStyle}
                         >
-                            <div
-                                className={style.loadingStatus}
-                                role="option"
-                                aria-disabled="true"
-                                aria-selected="false"
-                                aria-label={searchLoadingText}
-                            >
+                            <div className={style.loadingStatus}>
                                 <Loader size="small" title={searchLoadingText} />
                                 <span>{searchLoadingText}</span>
                             </div>
                         </div>
-                    ) : (
-                        searchResult && (
-                            <SearchResult
-                                searchResult={searchResult}
-                                onAddressSelect={handleAddressSelect}
-                                onAddressMouseEnter={handleAddressMouseEnter}
-                                activeAddressIndex={activeAddressIndex}
-                                addressListboxId={addressListboxId}
-                                addressSuggestionsLabel={addressSuggestionsLabel}
-                                addressResultInput={addressResultInput}
-                                input={inputValue}
-                            />
-                        )
-                    )}
-                </div>
-            )}
+                    </div>
+                )}
+                {((isLoading && isAddressDropdownOpen) ||
+                    (searchResult && (!isAddressResult || isAddressDropdownOpen))) && (
+                    <div
+                        ref={resultHeightRef}
+                        className={style.searchResult}
+                        data-result-type={
+                            isLoading && isAddressDropdownOpen ? 'adresse' : searchResult?.type
+                        }
+                    >
+                        {isLoading && isAddressDropdownOpen ? (
+                            <div
+                                className={style.loading}
+                                id={addressListboxId}
+                                role="listbox"
+                                aria-label={addressSuggestionsLabel}
+                                aria-busy="true"
+                                style={loadingStyle}
+                            >
+                                <div
+                                    className={style.loadingStatus}
+                                    role="option"
+                                    aria-disabled="true"
+                                    aria-selected="false"
+                                    aria-label={searchLoadingText}
+                                >
+                                    <Loader size="small" title={searchLoadingText} />
+                                    <span>{searchLoadingText}</span>
+                                </div>
+                            </div>
+                        ) : (
+                            searchResult && (
+                                <SearchResult
+                                    searchResult={searchResult}
+                                    onAddressSelect={handleAddressSelect}
+                                    onAddressMouseEnter={handleAddressMouseEnter}
+                                    activeAddressIndex={activeAddressIndex}
+                                    addressListboxId={addressListboxId}
+                                    addressSuggestionsLabel={addressSuggestionsLabel}
+                                    addressResultInput={addressResultInput}
+                                    input={inputValue}
+                                />
+                            )
+                        )}
+                    </div>
+                )}
+            </div>
             <div className="aksel-sr-only" aria-live="polite">
                 {statusMessage}
             </div>

@@ -64,7 +64,7 @@ export const SearchResultPostnr = ({ result, resultInput }: Props) => {
 
     if (!officeInfo) {
         return (
-            <div>
+            <div className={style.error}>
                 <LocaleString id={'errorInvalidResult'} />
             </div>
         );
