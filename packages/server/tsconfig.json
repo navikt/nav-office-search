@@ -8,7 +8,7 @@
         "isolatedModules": true,
         "skipLibCheck": true,
         "lib": ["es2022"],
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "module": "CommonJS",
         "outDir": "./dist",
         "rootDir": "..",
