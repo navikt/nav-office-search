@@ -30,6 +30,7 @@ export default tseslint.config(
         rules: {
             ...eslintReact.configs['recommended-typescript'].rules,
             '@eslint-react/no-use-context': 'off',
+            '@eslint-react/naming-convention-ref-name': 'off',
             '@typescript-eslint/no-unused-vars': [
                 'warn',
                 {

@@ -16,37 +16,6 @@ catalogs:
 importers:
 
   .:
-    dependencies:
-      '@navikt/ds-css':
-        specifier: 8.15.0
-        version: 8.15.0
-      '@navikt/ds-icons':
-        specifier: 3.4.3
-        version: 3.4.3(@types/react@19.2.17)(react@19.2.8)
-      '@navikt/ds-react':
-        specifier: 8.15.0
-        version: 8.15.0(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@navikt/nav-dekoratoren-moduler':
-        specifier: 4.2.2
-        version: 4.2.2(html-react-parser@6.1.2(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)
-      fetch-mock:
-        specifier: 11.1.5
-        version: 11.1.5
-      lodash.debounce:
-        specifier: 4.0.8
-        version: 4.0.8
-      preact:
-        specifier: 10.29.7
-        version: 10.29.7(preact-render-to-string@6.7.0)
-      preact-render-to-string:
-        specifier: 6.7.0
-        version: 6.7.0(preact@10.29.7)
-      react:
-        specifier: 19.2.8
-        version: 19.2.8
-      react-dom:
-        specifier: 19.2.8
-        version: 19.2.8(react@19.2.8)
     devDependencies:
       '@eslint-react/eslint-plugin':
         specifier: 5.18.0
@@ -54,9 +23,6 @@ importers:
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.7.0)
-      '@preact/preset-vite':
-        specifier: 2.10.6
-        version: 2.10.6(@babel/core@7.29.7)(preact@10.29.7)(rollup@4.62.0)(vite@8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0))
       '@testing-library/jest-dom':
         specifier: 6.9.1
         version: 6.9.1
@@ -1019,31 +985,11 @@ packages:
   '@navikt/aksel-icons@8.15.0':
     resolution: {integrity: sha512-+A/jWvZaMWkuG0SiG2GdJK0rlLTi/EIccV/3ax+y2hI9CmIqDzyUR9yflr24Q9wy2xwKY212kfrphSnVy1Zgiw==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.15.0/c8e11e3fe44d081727f36ec526b05f36859b8c4e}
 
-  '@navikt/analytics-types@0.0.9':
-    resolution: {integrity: sha512-bopCvqEogyFcmrJiBxK/Mr25d6yPKF7GR36MGrJqiHCPJYf1rDu6lK4cpooTG4Q//D/1xTkHRom8ZH5BI6dTew==, tarball: https://npm.pkg.github.com/download/@navikt/analytics-types/0.0.9/5919241a6dbb782eb101fff3234ce5c36d16e942}
-    engines: {node: '>=20.0.0', npm: '>=9.0.0'}
-
   '@navikt/ds-css@8.10.6':
     resolution: {integrity: sha512-ZoVz0CHluHor1q7AojDJ04Pj92YnWmnY43m91i32jGYiaIF0MNp9Qn0qr2GOm+1x50aGqtGx998TWj7ZYso1mw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.10.6/5a49d9b7c2bf0326289ff0a69505df89f36a3e68}
 
-  '@navikt/ds-css@8.15.0':
-    resolution: {integrity: sha512-eRrXG4qZ90M/SLp40URG81TWDXP7RTAYec5QdYMfJ/P55ahXBFI1fm2EyjWDGpEldGBOEdr/wPq57m6x01gcnA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.15.0/7241ddaf993ca7e42a23cdcfd6cb716c9105bb6e}
-
-  '@navikt/ds-icons@3.4.3':
-    resolution: {integrity: sha512-Ys25tnDUzS+AtagMMW4/154OCZy+pTxCv9uiV4YcZUeXMfjnMiRWx1dueyCODb7FF7Jd6TwELd3G6ieQt/rf+w==, tarball: https://npm.pkg.github.com/download/@navikt/ds-icons/3.4.3/eaa8fc38f6d184806d3405a5efbc9d137c2b8d27}
-    peerDependencies:
-      '@types/react': ^17.0.30 || ^18.0.0
-      react: ^17.0.0 || ^18.0.0
-
   '@navikt/ds-react@8.10.6':
     resolution: {integrity: sha512-XfuMhct9i6no6soZnvmzzn9CuqUDmk6FBQg0aNiKEpAkZUyp8l9AX1Hq2EQld3QTUEN9ldZDmoP8jBmtz7Kl3g==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.10.6/6b1f5751a41ab6025ac61a8375e9c59f8add65d7}
-    peerDependencies:
-      '@types/react': ^17.0.30 || ^18 || ^19
-      react: ^17 || ^18 || ^19
-      react-dom: ^17 || ^18 || ^19
-
-  '@navikt/ds-react@8.15.0':
-    resolution: {integrity: sha512-eArtTiUnPIlFMsuLdUUtyF4m5GtpiKzCNKBQXuSJ0glNRPROUYP4wXdGwGknYnhG+R/JIbjbf9u69laIRPxfNA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.15.0/b28729a9b637f8853bdb1239c4fa4d3f992d3e35}
     peerDependencies:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
@@ -1059,13 +1005,6 @@ packages:
       csp-header: '>=5.x'
       html-react-parser: '>=5.x'
       jsdom: '>=16.x'
-      react: '>=17.x'
-
-  '@navikt/nav-dekoratoren-moduler@4.2.2':
-    resolution: {integrity: sha512-1V/fOlgTNzTWRzIgtJwymamj6NgppZdcRTiy9OXO57PwEA6lCoWX9qXh82Zgxl0pOYQQ7QOUH9DOfKov18h3wQ==, tarball: https://npm.pkg.github.com/download/@navikt/nav-dekoratoren-moduler/4.2.2/9982b2b38e397df0e9b0cd886beb3d16d0b97a61}
-    engines: {node: 24.x}
-    peerDependencies:
-      html-react-parser: '>=5.x'
       react: '>=17.x'
 
   '@oxc-project/types@0.139.0':
@@ -1084,12 +1023,6 @@ packages:
     peerDependencies:
       '@babel/core': 7.x
       vite: 2.x || 3.x || 4.x || 5.x || 6.x || 7.x
-
-  '@preact/preset-vite@2.10.6':
-    resolution: {integrity: sha512-ZZ5RIT2ZVXg8UxRA8VZpoT8CdpDG7RFIqOT4bELqNBp85+HKvQBbgmh3gsoW1UOQXx26TLe+ZRNKI7q281Kckw==}
-    peerDependencies:
-      '@babel/core': 7.x
-      vite: 2.x || 3.x || 4.x || 5.x || 6.x || 7.x || 8.x
 
   '@prefresh/babel-plugin@0.5.3':
     resolution: {integrity: sha512-57LX2SHs4BX2s1IwCjNzTE2OJeEepRCNf1VTEpbNcUyHfMO68eeOWGDIt4ob9aYlW6PEWZ1SuwNikuoIXANDtQ==}
@@ -2898,10 +2831,6 @@ packages:
     resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
     engines: {node: '>=14'}
 
-  js-cookie@3.0.7:
-    resolution: {integrity: sha512-z/wZZgDrkNV1eA0ULjM/F9/50Ya8fbzgKneSpoPsXSGd0KnpdtHfOZWK+GcwLk+EZbS4F9RBhU+K2RgzuDaItw==}
-    engines: {node: '>=20'}
-
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -3323,14 +3252,6 @@ packages:
 
   preact@10.29.2:
     resolution: {integrity: sha512-7tNmwg/7mzzAoB/8kSg6Hl37JraAZw3Z3A0JSY7VXlZwo82Xn0G7wKbNNs2qoF4ZEEsQGTwDAroNdqKs1ofJxQ==}
-
-  preact@10.29.7:
-    resolution: {integrity: sha512-DCHYrK/B10yUD3ZjLfhZ3WIE/9Vf9VFUODcRE2dRomTYDpJk6z6L9wecSfhfE6M9ZTHUdyQkoC46arIDhEV84Q==}
-    peerDependencies:
-      preact-render-to-string: '>=5'
-    peerDependenciesMeta:
-      preact-render-to-string:
-        optional: true
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -4038,9 +3959,6 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zimmerframe@1.1.4:
-    resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
-
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
@@ -4564,26 +4482,12 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@floating-ui/react-dom@2.1.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
-    dependencies:
-      '@floating-ui/dom': 1.8.0
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
-
   '@floating-ui/react@0.27.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/react-dom': 2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@floating-ui/utils': 0.2.12
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      tabbable: 6.5.0
-
-  '@floating-ui/react@0.27.19(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
-    dependencies:
-      '@floating-ui/react-dom': 2.1.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@floating-ui/utils': 0.2.12
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
       tabbable: 6.5.0
 
   '@floating-ui/utils@0.2.12': {}
@@ -5029,16 +4933,7 @@ snapshots:
 
   '@navikt/aksel-icons@8.15.0': {}
 
-  '@navikt/analytics-types@0.0.9': {}
-
   '@navikt/ds-css@8.10.6': {}
-
-  '@navikt/ds-css@8.15.0': {}
-
-  '@navikt/ds-icons@3.4.3(@types/react@19.2.17)(react@19.2.8)':
-    dependencies:
-      '@types/react': 19.2.17
-      react: 19.2.8
 
   '@navikt/ds-react@8.10.6(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -5051,18 +4946,6 @@ snapshots:
       react: 18.3.1
       react-day-picker: 9.14.0(react@18.3.1)
       react-dom: 18.3.1(react@18.3.1)
-
-  '@navikt/ds-react@8.15.0(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
-    dependencies:
-      '@floating-ui/react': 0.27.19(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@floating-ui/react-dom': 2.1.9(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@navikt/aksel-icons': 8.15.0
-      '@navikt/ds-tokens': 8.15.0
-      '@types/react': 19.2.17
-      date-fns: 4.4.0
-      react: 19.2.8
-      react-day-picker: 9.14.0(react@19.2.8)
-      react-dom: 19.2.8(react@19.2.8)
 
   '@navikt/ds-tokens@8.15.0': {}
 
@@ -5080,14 +4963,6 @@ snapshots:
       html-react-parser: 6.1.2(@types/react@19.2.17)(react@19.2.8)
       js-cookie: 3.0.5
       jsdom: 26.1.0
-      react: 19.2.8
-
-  '@navikt/nav-dekoratoren-moduler@4.2.2(html-react-parser@6.1.2(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)':
-    dependencies:
-      '@navikt/analytics-types': 0.0.9
-      csp-header: 6.3.1
-      html-react-parser: 6.1.2(@types/react@19.2.17)(react@19.2.8)
-      js-cookie: 3.0.7
       react: 19.2.8
 
   '@oxc-project/types@0.139.0': {}
@@ -5114,34 +4989,11 @@ snapshots:
       - rollup
       - supports-color
 
-  '@preact/preset-vite@2.10.6(@babel/core@7.29.7)(preact@10.29.7)(rollup@4.62.0)(vite@8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0))':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/plugin-transform-react-jsx': 7.29.7(@babel/core@7.29.7)
-      '@babel/plugin-transform-react-jsx-development': 7.29.7(@babel/core@7.29.7)
-      '@prefresh/vite': 2.4.12(preact@10.29.7)(vite@8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0))
-      '@rollup/pluginutils': 5.4.0(rollup@4.62.0)
-      babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.29.7)
-      debug: 4.4.3(supports-color@5.5.0)
-      magic-string: 0.30.21
-      picocolors: 1.1.1
-      vite: 8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0)
-      vite-prerender-plugin: 0.5.13(vite@8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0))
-      zimmerframe: 1.1.4
-    transitivePeerDependencies:
-      - preact
-      - rollup
-      - supports-color
-
   '@prefresh/babel-plugin@0.5.3': {}
 
   '@prefresh/core@1.5.10(preact@10.29.2)':
     dependencies:
       preact: 10.29.2
-
-  '@prefresh/core@1.5.10(preact@10.29.7)':
-    dependencies:
-      preact: 10.29.7(preact-render-to-string@6.7.0)
 
   '@prefresh/utils@1.2.1': {}
 
@@ -5154,18 +5006,6 @@ snapshots:
       '@rollup/pluginutils': 4.2.1
       preact: 10.29.2
       vite: 7.3.1(@types/node@25.9.3)(lightningcss@1.32.0)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@prefresh/vite@2.4.12(preact@10.29.7)(vite@8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0))':
-    dependencies:
-      '@babel/core': 7.29.7
-      '@prefresh/babel-plugin': 0.5.3
-      '@prefresh/core': 1.5.10(preact@10.29.7)
-      '@prefresh/utils': 1.2.1
-      '@rollup/pluginutils': 4.2.1
-      preact: 10.29.7(preact-render-to-string@6.7.0)
-      vite: 8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -7374,8 +7214,6 @@ snapshots:
 
   js-cookie@3.0.5: {}
 
-  js-cookie@3.0.7: {}
-
   js-tokens@4.0.0: {}
 
   js-yaml@3.14.2:
@@ -7734,15 +7572,7 @@ snapshots:
     dependencies:
       preact: 10.29.2
 
-  preact-render-to-string@6.7.0(preact@10.29.7):
-    dependencies:
-      preact: 10.29.7(preact-render-to-string@6.7.0)
-
   preact@10.29.2: {}
-
-  preact@10.29.7(preact-render-to-string@6.7.0):
-    optionalDependencies:
-      preact-render-to-string: 6.7.0(preact@10.29.7)
 
   prelude-ls@1.2.1: {}
 
@@ -7800,14 +7630,6 @@ snapshots:
       date-fns: 4.4.0
       date-fns-jalali: 4.1.0-0
       react: 18.3.1
-
-  react-day-picker@9.14.0(react@19.2.8):
-    dependencies:
-      '@date-fns/tz': 1.5.0
-      '@tabby_ai/hijri-converter': 1.0.5
-      date-fns: 4.4.0
-      date-fns-jalali: 4.1.0-0
-      react: 19.2.8
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:
@@ -8298,16 +8120,6 @@ snapshots:
       stack-trace: 1.0.0
       vite: 7.3.1(@types/node@25.9.3)(lightningcss@1.32.0)(yaml@2.9.0)
 
-  vite-prerender-plugin@0.5.13(vite@8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0)):
-    dependencies:
-      kolorist: 1.8.0
-      magic-string: 0.30.21
-      node-html-parser: 6.1.13
-      simple-code-frame: 1.3.0
-      source-map: 0.7.6
-      stack-trace: 1.0.0
-      vite: 8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0)
-
   vite@7.3.1(@types/node@25.9.3)(lightningcss@1.32.0)(yaml@2.9.0):
     dependencies:
       esbuild: 0.27.7
@@ -8433,7 +8245,5 @@ snapshots:
       yargs-parser: 22.0.0
 
   yocto-queue@0.1.0: {}
-
-  zimmerframe@1.1.4: {}
 
   zod@4.4.3: {}
