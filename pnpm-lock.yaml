@@ -176,7 +176,7 @@ importers:
     dependencies:
       '@navikt/nav-dekoratoren-moduler':
         specifier: 3.6.2
-        version: 3.6.2(csp-header@6.3.1)(html-react-parser@6.1.2(@types/react@19.2.17)(react@19.2.8))(jsdom@26.1.0)(react@19.2.8)
+        version: 3.6.2(csp-header@6.3.1)(html-react-parser@6.1.2(@types/react@19.2.17)(react@18.3.1))(jsdom@26.1.0)(react@18.3.1)
       compression:
         specifier: 1.8.1
         version: 1.8.1
@@ -195,6 +195,9 @@ importers:
       node-schedule:
         specifier: 2.1.1
         version: 2.1.1
+      react:
+        specifier: 18.3.1
+        version: 18.3.1
       vite:
         specifier: 8.1.5
         version: 8.1.5(@types/node@25.9.3)(esbuild@0.27.7)(yaml@2.9.0)
@@ -4957,13 +4960,13 @@ snapshots:
       jsdom: 26.1.0
       react: 18.3.1
 
-  '@navikt/nav-dekoratoren-moduler@3.6.2(csp-header@6.3.1)(html-react-parser@6.1.2(@types/react@19.2.17)(react@19.2.8))(jsdom@26.1.0)(react@19.2.8)':
+  '@navikt/nav-dekoratoren-moduler@3.6.2(csp-header@6.3.1)(html-react-parser@6.1.2(@types/react@19.2.17)(react@18.3.1))(jsdom@26.1.0)(react@18.3.1)':
     dependencies:
       csp-header: 6.3.1
-      html-react-parser: 6.1.2(@types/react@19.2.17)(react@19.2.8)
+      html-react-parser: 6.1.2(@types/react@19.2.17)(react@18.3.1)
       js-cookie: 3.0.5
       jsdom: 26.1.0
-      react: 19.2.8
+      react: 18.3.1
 
   '@oxc-project/types@0.139.0': {}
 
@@ -6409,11 +6412,11 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.28
 
-  html-react-parser@6.1.2(@types/react@19.2.17)(react@19.2.8):
+  html-react-parser@6.1.2(@types/react@19.2.17)(react@18.3.1):
     dependencies:
       domhandler: 6.0.1
       html-dom-parser: 7.1.0
-      react: 19.2.8
+      react: 18.3.1
       react-property: 2.0.2
       style-to-js: 2.0.0
     optionalDependencies:

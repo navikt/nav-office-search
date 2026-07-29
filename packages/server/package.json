@@ -20,6 +20,7 @@
         "lru-cache": "11.5.2",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
+        "react": "18.3.1",
         "vite": "8.1.5"
     },
     "devDependencies": {
