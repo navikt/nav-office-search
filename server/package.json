@@ -24,7 +24,7 @@
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/express": "5.0.6",
-        "@types/node": "25.9.3",
+        "@types/node": "26.1.2",
         "@types/node-schedule": "2.1.8",
         "concurrently": "10.0.3",
         "nodemon": "3.1.14"
