@@ -19,14 +19,14 @@
         "lru-cache": "11.5.2",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
-        "vite": "8.1.5"
+        "vite": "8.2.1"
     },
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/express": "5.0.6",
         "@types/node": "25.9.3",
         "@types/node-schedule": "2.1.8",
-        "concurrently": "10.0.3",
+        "concurrently": "10.0.4",
         "nodemon": "3.1.14"
     }
 }
