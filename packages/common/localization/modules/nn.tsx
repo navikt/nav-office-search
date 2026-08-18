@@ -4,7 +4,7 @@ export const localeModuleNn = {
     documentTitle: 'Finn Nav-kontor - nav.no',
     pageTitle: 'Finn Nav-kontor',
     ingressLine1: 'Finn ut kva kontor du tilhøyrer, eller søk i lista over alle Nav-kontor.',
-    ingressLine2: 'Du finn Nav-kontoret ditt under personopplysningar på Min Side.',
+    ingressLine2: 'Du finn Nav-kontoret ditt under personopplysningar på Mi Side.',
     loginButtonText: 'Logg inn og sjå ditt Nav-kontor',
     loggedInButtonText: 'Sjå ditt Nav-kontor',
     searchSectionTitle: 'Søk opp Nav-kontor',

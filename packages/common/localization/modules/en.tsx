@@ -2,13 +2,13 @@ import React from 'react';
 import { LocaleModule } from '../types';
 
 export const localeModuleEn: LocaleModule = {
-    documentTitle: 'Find a Nav office - nav.no',
-    pageTitle: 'Find a Nav office',
+    documentTitle: 'Search for a Nav office - nav.no',
+    pageTitle: 'Search for a Nav office',
     ingressLine1: 'Find out which office you belong to, or search the list of all Nav offices.',
     ingressLine2: 'You can find your Nav office under personal information on My Page.',
     loginButtonText: 'Log in to see your Nav office',
     loggedInButtonText: 'See your Nav office',
-    searchSectionTitle: 'Find a Nav office',
+    searchSectionTitle: 'Search for a Nav office',
     searchSectionBody: 'The search works best if you enter the full address.',
     inputLabel: 'Enter address, post code or town/city',
     errorMissingQuery: 'Missing search query',
