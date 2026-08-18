@@ -400,7 +400,7 @@ export const SearchForm = () => {
         >
             <form onSubmit={handleSubmit} className={style.searchField} autoComplete="off">
                 <Search
-                    variant="primary"
+                    variant="simple"
                     hideLabel={false}
                     label={<LocaleString id={'inputLabel'} />}
                     id="search-input"

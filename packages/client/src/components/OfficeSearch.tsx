@@ -22,20 +22,14 @@ export const OfficeSearch = () => {
                 <Heading size={'xlarge'} level={'1'} className={style.title}>
                     <LocaleString id={'pageTitle'} />
                 </Heading>
-                <BodyLong className={style.ingress}>
+                <BodyLong spacing className={style.ingress}>
                     <LocaleString id={'ingressLine1'} />
                 </BodyLong>
-            </div>
-
-            <div className={style.section}>
-                <Heading size={'medium'} level={'2'} className={style.sectionTitle}>
-                    <LocaleString id={'loginSectionTitle'} />
-                </Heading>
-                <BodyLong className={style.sectionBody}>
-                    <LocaleString id={'loginSectionBody'} />
+                <BodyLong className={style.ingress}>
+                    <LocaleString id={'ingressLine2'} />
                 </BodyLong>
                 <Button
-                    variant={'primary'}
+                    variant={'secondary'}
                     as={'a'}
                     href={clientUrls.dittNavKontor(locale)}
                     className={style.loginButton}

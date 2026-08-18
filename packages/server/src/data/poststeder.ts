@@ -81,5 +81,5 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
     poststederData.poststederMap = newPoststederMap;
     poststederData.poststederArray = newPoststederArray;
 
-    console.log(`Finished loading data for poststeder! (${newPoststederArray} entries)`);
+    console.log(`Finished loading data for poststeder! (${newPoststederArray.length} entries)`);
 };

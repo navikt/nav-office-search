@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { SearchResultNameProps } from '../../../../../common/types/results';
 import { LocaleString } from '../../../localization/LocaleString';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, VStack } from '@navikt/ds-react';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { HighlightedText } from '../../HighlightedText/HighlightedText';
 
@@ -39,9 +39,11 @@ export const SearchResultName = ({ result, input }: Props) => {
                     <BodyShort size={'medium'} className={style.hitname}>
                         <HighlightedText text={nameHit.name} input={input} />
                     </BodyShort>
-                    {nameHit.officeHits.map((office) => (
-                        <OfficeLink officeInfo={office} key={office.enhetNr} />
-                    ))}
+                    <VStack gap="space-12">
+                        {nameHit.officeHits.map((office) => (
+                            <OfficeLink officeInfo={office} key={office.enhetNr} />
+                        ))}
+                    </VStack>
                 </Fragment>
             ))}
         </div>

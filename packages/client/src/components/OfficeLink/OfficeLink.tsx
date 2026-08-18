@@ -11,7 +11,7 @@ export const OfficeLink = ({ officeInfo }: Props) => {
     const { url, name } = officeInfo;
 
     return (
-        <LinkCard className={style.card}>
+        <LinkCard data-color="accent" className={style.card}>
             <LinkCard.Title as={'span'}>
                 <LinkCard.Anchor href={url}>{name}</LinkCard.Anchor>
             </LinkCard.Title>

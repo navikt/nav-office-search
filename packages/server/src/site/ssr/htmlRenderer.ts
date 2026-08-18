@@ -1,7 +1,7 @@
 import { AppLocale } from '../../../../common/localization/types';
 import { getTemplateWithDecorator } from './templateBuilder';
 import { ViteDevServer } from 'vite';
-import { localeString } from '../../../../common/localization/localeString';
+import { buildMetaTags } from './metaTags';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - build artifact, only exists post-build
@@ -9,10 +9,18 @@ import { render } from '../../../frontendDist/ssr/main-server.js';
 
 export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
+const metaPlaceholder = '<!--ssr-meta-->';
+
 const processTemplate = async (locale: AppLocale, templateHtml: string, appHtml: string) => {
+    if (!templateHtml.includes(metaPlaceholder)) {
+        console.error(
+            `Meta tag placeholder "${metaPlaceholder}" not found in template - page will render without title and social meta tags!`
+        );
+    }
+
     return templateHtml
         .replace('%%LANG%%', locale)
-        .replace('%%TITLE%%', localeString('documentTitle', locale) as string)
+        .replace(metaPlaceholder, buildMetaTags(locale))
         .replace('<!--ssr-app-html-->', appHtml);
 };
 

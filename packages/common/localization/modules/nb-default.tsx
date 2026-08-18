@@ -3,18 +3,13 @@ import React from 'react';
 export const localeModuleNb = {
     documentTitle: 'Finn Nav-kontor - nav.no',
     pageTitle: 'Finn Nav-kontor',
-    breadcrumb1: 'Kontakt oss',
-    breadcrumb2: 'Finn Nav-kontor',
     ingressLine1: 'Finn ut hvilket kontor du tilhører, eller søk i listen over alle Nav-kontor.',
-    ingressLine2: 'Da kan du søke opp Nav-kontor ved hjelp av postnummer eller sted/by.',
-    loginSectionTitle: 'Se hvilket Nav-kontor du tilhører',
-    loginSectionBody: 'For å se hvilket Nav-kontor du tilhører, må du logge inn.',
+    ingressLine2: 'Du finner ditt Nav-kontor under personopplysninger på Min Side.',
     loginButtonText: 'Logg inn og se ditt Nav-kontor',
     loggedInButtonText: 'Se ditt Nav-kontor',
     searchSectionTitle: 'Søk opp Nav-kontor',
-    searchSectionBody: 'Du kan også bruke søket for å finne Nav-kontor.',
+    searchSectionBody: 'Søket gir best resultater hvis du skriver hele adressen.',
     inputLabel: 'Skriv inn adresse, postnummer eller sted/by',
-    inputSubmit: 'Søk',
     errorMissingQuery: 'Mangler søke-streng',
     errorInvalidQuery: 'Feil i søke-streng',
     errorInvalidPostnr: 'Postnummeret finnes ikke',
@@ -30,7 +25,6 @@ export const localeModuleNb = {
     addressSuggestionSelected: (address: string) => `Adresse valgt: ${address}`,
     addressSuggestionsRefine: (visibleHits: string, totalHits: string) =>
         `Viser ${visibleHits} av ${totalHits} adresseforslag. Skriv mer av adressen for å avgrense søket.`,
-    nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed: string) => (
         <>
             {`Ingen Nav-kontor funnet for `}
@@ -76,5 +70,11 @@ export const localeModuleNb = {
         </>
     ),
     nameResultNone: (input: string) => `Ingen resultater for "${input}"`,
-    nameResultFound: (input: string, numHits: string) => `${numHits} treff for "${input}":`,
+    nameResultFound: (input: string, numHits: string) => (
+        <>
+            {`${numHits} treff for "`}
+            <strong>{input}</strong>
+            {'":'}
+        </>
+    ),
 };

@@ -3,18 +3,13 @@ import React from 'react';
 export const localeModuleNn = {
     documentTitle: 'Finn Nav-kontor - nav.no',
     pageTitle: 'Finn Nav-kontor',
-    breadcrumb1: 'Kontakt oss',
-    breadcrumb2: 'Finn Nav-kontor',
     ingressLine1: 'Finn ut kva kontor du tilhøyrer, eller søk i lista over alle Nav-kontor.',
-    ingressLine2: 'Då kan du søke opp Nav-kontor ved hjelp av postnummer eller stad/by.',
-    loginSectionTitle: 'Sjå kva Nav-kontor du tilhøyrer',
-    loginSectionBody: 'For å sjå kva Nav-kontor du tilhøyrer, må du logge inn.',
+    ingressLine2: 'Du finn Nav-kontoret ditt under personopplysningar på Min Side.',
     loginButtonText: 'Logg inn og sjå ditt Nav-kontor',
     loggedInButtonText: 'Sjå ditt Nav-kontor',
     searchSectionTitle: 'Søk opp Nav-kontor',
-    searchSectionBody: 'Du kan også bruke søket for å finne Nav-kontor.',
+    searchSectionBody: 'Søket gir best resultat dersom du skriv heile adressa.',
     inputLabel: 'Skriv inn adresse, postnummer eller stad/by',
-    inputSubmit: 'Søk',
     errorMissingQuery: 'Manglar søke-streng',
     errorInvalidQuery: 'Feil i søke-streng',
     errorInvalidPostnr: 'Postnummeret finns ikkje',
@@ -30,7 +25,6 @@ export const localeModuleNn = {
     addressSuggestionSelected: (address: string) => `Adresse valt: ${address}`,
     addressSuggestionsRefine: (visibleHits: string, totalHits: string) =>
         `Viser ${visibleHits} av ${totalHits} adresseforslag. Skriv meir av adressa for å avgrense søket.`,
-    nameResultHeader: 'Søkeresultat for ',
     postnrResultNone: (postnrOgPoststed: string) => (
         <>
             {`Ingen Nav-kontor funne for `}
@@ -76,5 +70,11 @@ export const localeModuleNn = {
         </>
     ),
     nameResultNone: (input: string) => `Ingen resultat for "${input}"`,
-    nameResultFound: (input: string, numHits: string) => `${numHits} treff for "${input}":`,
+    nameResultFound: (input: string, numHits: string) => (
+        <>
+            {`${numHits} treff for "`}
+            <strong>{input}</strong>
+            {'":'}
+        </>
+    ),
 };

@@ -4,18 +4,13 @@ import { LocaleModule } from '../types';
 export const localeModuleEn: LocaleModule = {
     documentTitle: 'Find a Nav office - nav.no',
     pageTitle: 'Find a Nav office',
-    breadcrumb1: 'Contact us',
-    breadcrumb2: 'Find a Nav office',
     ingressLine1: 'Find out which office you belong to, or search the list of all Nav offices.',
-    ingressLine2: 'If so, you can find a Nav office using a post code or town/city.',
-    loginSectionTitle: 'See which Nav office you belong to',
-    loginSectionBody: 'To see which Nav office you belong to, you need to log in.',
+    ingressLine2: 'You can find your Nav office under personal information on My Page.',
     loginButtonText: 'Log in to see your Nav office',
     loggedInButtonText: 'See your Nav office',
     searchSectionTitle: 'Find a Nav office',
-    searchSectionBody: 'You can also use the search to find a Nav office.',
+    searchSectionBody: 'The search works best if you enter the full address.',
     inputLabel: 'Enter address, post code or town/city',
-    inputSubmit: 'Search',
     errorMissingQuery: 'Missing search query',
     errorInvalidQuery: 'Invalid search query',
     errorInvalidPostnr: 'The post code does not exist',
@@ -31,7 +26,6 @@ export const localeModuleEn: LocaleModule = {
     addressSuggestionSelected: (address) => `Address selected: ${address}`,
     addressSuggestionsRefine: (visibleHits, totalHits) =>
         `Showing ${visibleHits} of ${totalHits} address suggestions. Enter more of the address to narrow the search.`,
-    nameResultHeader: 'Search results for ',
     postnrResultNone: (postnrOgPoststed) => (
         <>
             {`No Nav office found for `}
@@ -77,5 +71,11 @@ export const localeModuleEn: LocaleModule = {
         </>
     ),
     nameResultNone: (input) => `No results for "${input}"`,
-    nameResultFound: (input, numHits) => `${numHits} results for "${input}":`,
+    nameResultFound: (input, numHits) => (
+        <>
+            {`${numHits} results for "`}
+            <strong>{input}</strong>
+            {'":'}
+        </>
+    ),
 };

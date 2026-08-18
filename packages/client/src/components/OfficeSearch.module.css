@@ -1,9 +1,9 @@
 .appContainer {
     display: grid;
     grid-template-columns: 75px minmax(0, 600px);
-    column-gap: var(--ax-space-24);
+    column-gap: var(--ax-space-40);
     justify-content: center;
-    max-width: 731px;
+    max-width: 747px;
     margin: 0 auto;
     padding: var(--ax-space-20) var(--ax-space-16) var(--ax-space-64) var(--ax-space-16);
 }
@@ -11,6 +11,7 @@
 .titleIllustration {
     grid-column: 1;
     grid-row: 1;
+    margin-top: var(--ax-space-8);
     width: 75px;
     height: 75px;
 }
@@ -19,7 +20,7 @@
     grid-column: 2;
     grid-row: 1;
     min-width: 0;
-    margin-bottom: 2rem;
+    margin-bottom: var(--ax-space-40);
 }
 
 .title {
@@ -45,7 +46,7 @@
 }
 
 .sectionTitle {
-    margin-bottom: var(--ax-space-4);
+    margin-bottom: var(--ax-space-12);
 }
 
 .sectionBody {
@@ -53,7 +54,7 @@
 }
 
 .loginButton {
-    margin-top: 0;
+    margin-top: var(--ax-space-12);
 }
 
 @media (max-width: 600px) {
@@ -65,6 +66,7 @@
     .titleIllustration {
         grid-column: 1;
         grid-row: 1;
+        margin-top: 0;
         margin-bottom: var(--ax-space-20);
     }
 
