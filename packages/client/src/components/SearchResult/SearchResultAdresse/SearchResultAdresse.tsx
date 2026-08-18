@@ -61,7 +61,7 @@ export const SearchResultAdresse = ({
                     return (
                         <div
                             id={getAddressOptionId(listboxId, index)}
-                            key={`${label}-${index}`}
+                            key={label}
                             className={style.item}
                             data-active={isActive || undefined}
                             role="option"

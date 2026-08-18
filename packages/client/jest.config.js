@@ -4,6 +4,8 @@ export default {
     testEnvironment: 'jsdom',
     moduleNameMapper: {
         '.+\\.(css)$': 'identity-obj-proxy',
+        '^react$': '<rootDir>/node_modules/react',
+        '^react-dom$': '<rootDir>/node_modules/react-dom',
     },
     transform: {
         '^.+\\.tsx?$': [

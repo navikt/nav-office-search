@@ -15,10 +15,6 @@ export const searchHandler: RequestHandler = async (req, res) => {
 
     try {
         const { query } = req.query;
-        const sanitizedQueryForLog =
-            typeof query === 'string' ? query.replace(/[\r\n]/g, '') : String(query);
-
-        console.log(`Received search query: ${sanitizedQueryForLog}`);
 
         if (typeof query !== 'string' || !query.trim()) {
             return res.status(400).send(apiErrorResponse('errorMissingQuery'));

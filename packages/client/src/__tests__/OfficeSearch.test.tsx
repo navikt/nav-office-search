@@ -243,7 +243,7 @@ describe('OfficeSearch', () => {
         fetch.mockResponse(JSON.stringify(stedsnavnResultWithHits));
         searchForText('evje og hornnes');
         await waitFor(() => {
-            expect(screen.getByText('1 treff for "evje og hornnes":')).toBeInTheDocument();
+            expectSingleHitFor('evje og hornnes');
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
         expect(fetch).not.toHaveBeenCalledWith(
@@ -507,7 +507,7 @@ describe('OfficeSearch', () => {
 
         await waitFor(() => {
             expect(input).toHaveValue('Storgata 2, 0184 OSLO');
-            expect(screen.getByText('1 treff for "Storgata 2, 0184 OSLO":')).toBeInTheDocument();
+            expectSingleHitFor('Storgata 2, 0184 OSLO');
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
     });
@@ -539,7 +539,7 @@ describe('OfficeSearch', () => {
 
         await waitFor(() => {
             expect(input).toHaveValue('Storgata 1, 0184 OSLO');
-            expect(screen.getByText('1 treff for "Storgata 1, 0184 OSLO":')).toBeInTheDocument();
+            expectSingleHitFor('Storgata 1, 0184 OSLO');
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
     });
@@ -731,7 +731,7 @@ describe('OfficeSearch', () => {
 
         await waitFor(() => {
             expect(getSearchInput()).toHaveValue('Storgata 1, 0184 OSLO');
-            expect(screen.getByText('1 treff for "Storgata 1, 0184 OSLO":')).toBeInTheDocument();
+            expectSingleHitFor('Storgata 1, 0184 OSLO');
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
     });
@@ -813,7 +813,7 @@ describe('OfficeSearch', () => {
         fireEvent.click(await screen.findByRole('option', { name: 'Tamburveien 1A, 1406 SKI' }));
 
         await waitFor(() => {
-            expect(screen.getByText('1 treff for "Tamburveien 1A, 1406 SKI":')).toBeInTheDocument();
+            expectSingleHitFor('Tamburveien 1A, 1406 SKI');
             expect(getLinkByName('Nav Evje og Hornnes')).toBeInTheDocument();
         });
         expect(fetch).toHaveBeenCalledWith(
@@ -999,7 +999,15 @@ const getLiveRegion = () => document.querySelector('.aksel-sr-only') as HTMLElem
 const searchForText = (text: string) => {
     inputSearchText(text);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Søk' }));
+    const form = screen.getByRole('combobox').closest('form');
+    if (!form) {
+        throw new Error('Search input must be wrapped in a form');
+    }
+    fireEvent.submit(form);
+};
+
+const expectSingleHitFor = (query: string) => {
+    expect(screen.getByText(/1 treff for/)).toHaveTextContent(`1 treff for "${query}":`);
 };
 
 const inputSearchText = (text: string) => {
