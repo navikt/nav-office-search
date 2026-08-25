@@ -1,8 +1,8 @@
 # Søk opp NAV-kontor
 
-Web-app for å søke etter NAV-kontor med postnummer eller by/stedsnavn.
+Web-app for å søke etter Nav-kontor med postnummer, by/stedsnavn eller adresse.
 
-Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot TPS og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot PDL og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
 
 ## Monorepo-struktur
 
