@@ -2,13 +2,15 @@
     "compilerOptions": {
         "target": "ESNext",
         "module": "ESNext",
+        "jsx": "react",
         "moduleResolution": "node",
         "strict": true,
         "skipLibCheck": true,
+        "ignoreDeprecations": "6.0",
         "esModuleInterop": false,
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "noEmit": true
     },
-    "include": ["./**/*.ts"]
+    "include": ["./**/*.ts", "./**/*.tsx"]
 }

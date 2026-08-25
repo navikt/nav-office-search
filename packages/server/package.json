@@ -9,27 +9,24 @@
         "prod-local": "cp .env.local-prod .env && pnpm start-local",
         "dev": "cp .env.development .env && pnpm start-local"
     },
-    "dependenciesComments": {
-        "@types/node": "Holdes på versjon 24.10.1 ellers brekker det. Nyeste versjon 25.0.6"
-    },
     "dependencies": {
-        "@navikt/nav-dekoratoren-moduler": "3.6.2",
+        "@navikt/nav-dekoratoren-moduler": "catalog:",
         "compression": "1.8.1",
         "dotenv": "17.4.2",
         "express": "5.2.1",
+        "fetch-mock": "11.1.5",
         "lru-cache": "11.5.2",
         "node-cache": "5.1.2",
         "node-schedule": "2.1.1",
-        "react": "18.3.1",
-        "vite": "8.2.1"
+        "react": "catalog:",
+        "vite": "catalog:"
     },
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/express": "5.0.6",
-        "@types/node": "25.9.3",
+        "@types/node": "catalog:",
         "@types/node-schedule": "2.1.8",
         "concurrently": "10.0.4",
-        "fetch-mock": "11.1.5",
         "nodemon": "3.1.14"
     }
 }

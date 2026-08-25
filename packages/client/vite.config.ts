@@ -16,8 +16,10 @@ export default defineConfig(({ mode }) => {
 
     return {
         plugins: [preact()],
-        esbuild: {
-            legalComments: 'none',
+        oxc: {
+            transform: {
+                legalComments: 'none',
+            },
         },
         resolve: {
             dedupe: ['react', 'react-dom', 'preact', 'preact/compat'],
