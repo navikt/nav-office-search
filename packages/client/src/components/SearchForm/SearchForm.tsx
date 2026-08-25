@@ -144,7 +144,7 @@ export const SearchForm = () => {
                         if (searchId === activeSearchIdRef.current) {
                             const currentResultEl = resultHeightRef.current;
                             const currentDropdownHeight =
-                                currentResultEl?.getAttribute('data-result-type') === 'adresse'
+                                currentResultEl?.dataset.resultType === 'adresse'
                                     ? currentResultEl.getBoundingClientRect().height
                                     : undefined;
                             setAddressLoadingHeight(currentDropdownHeight || null);
