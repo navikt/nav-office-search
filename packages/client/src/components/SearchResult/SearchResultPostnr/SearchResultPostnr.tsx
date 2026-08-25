@@ -1,7 +1,7 @@
 import React from 'react';
 import { SearchResultPostnrProps } from '../../../../../common/types/results';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
-import { BodyLong } from '@navikt/ds-react';
+import { BodyLong, VStack } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../../../common/types/data';
 import { LocaleString } from '../../../localization/LocaleString';
 
@@ -82,9 +82,11 @@ export const SearchResultPostnr = ({ result, resultInput }: Props) => {
                     <HeaderText {...result} />
                 )}
             </BodyLong>
-            {officeInfo.map((hit) => (
-                <OfficeLink key={hit.enhetNr} officeInfo={hit} />
-            ))}
+            <VStack gap="space-12">
+                {officeInfo.map((hit) => (
+                    <OfficeLink key={hit.enhetNr} officeInfo={hit} />
+                ))}
+            </VStack>
         </div>
     );
 };
