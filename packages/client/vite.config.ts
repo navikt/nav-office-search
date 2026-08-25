@@ -5,7 +5,6 @@ import preact from '@preact/preset-vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     const rootDir = resolve(__dirname, '../..');
     const env = loadEnv(mode, rootDir);
@@ -16,11 +15,6 @@ export default defineConfig(({ mode }) => {
 
     return {
         plugins: [preact()],
-        oxc: {
-            transform: {
-                legalComments: 'none',
-            },
-        },
         resolve: {
             dedupe: ['react', 'react-dom', 'preact', 'preact/compat'],
         },
