@@ -9,7 +9,6 @@ export default tseslint.config(
             '**/dist/**',
             '**/frontendDist/**',
             '**/build/**',
-            '**/frontendDist/**',
             '**/*.config.js',
             '**/*.config.ts',
         ],
@@ -24,13 +23,12 @@ export default tseslint.config(
                 // 'detect' fails to find React's version because eslint runs from the
                 // repo root, not packages/client, so it must be pinned explicitly here.
                 // Keep this in sync with the "react" version in packages/client/package.json.
-                version: '18.3.1',
+                version: '19.2.8',
             },
         },
         rules: {
             ...eslintReact.configs['recommended-typescript'].rules,
             '@eslint-react/no-use-context': 'off',
-            '@eslint-react/naming-convention-ref-name': 'off',
             '@typescript-eslint/no-unused-vars': [
                 'warn',
                 {

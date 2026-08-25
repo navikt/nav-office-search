@@ -17,7 +17,7 @@
         "jsx": "react-jsx",
         "noFallthroughCasesInSwitch": true
     },
-    "include": ["src", "../../common"],
+    "include": ["src", "../common"],
     "references": [
         {
             "path": "./tsconfig.node.json"

@@ -47,11 +47,11 @@ export const SearchForm = () => {
     const [statusMessage, setStatusMessage] = useState('');
     const [addressLoadingHeight, setAddressLoadingHeight] = useState<number | null>(null);
     const [addressResultInput, setAddressResultInput] = useState<string | null>(null);
-    const activeSearchId = useRef(0);
+    const activeSearchIdRef = useRef(0);
     const searchFormRef = useRef<HTMLDivElement>(null);
     const resultHeightRef = useRef<HTMLDivElement>(null);
-    const loadingDelayTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const activeAddressNavigationSource = useRef<'keyboard' | 'mouse' | null>(null);
+    const loadingDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const activeAddressNavigationSourceRef = useRef<'keyboard' | 'mouse' | null>(null);
     const addressListboxId = useId();
     const locale = useLocale();
     const searchLoadingText = localeString('searchLoading', locale) as string;
@@ -85,9 +85,9 @@ export const SearchForm = () => {
     };
 
     const clearLoadingDelay = useCallback(() => {
-        if (loadingDelayTimeout.current !== null) {
-            clearTimeout(loadingDelayTimeout.current);
-            loadingDelayTimeout.current = null;
+        if (loadingDelayTimeoutRef.current !== null) {
+            clearTimeout(loadingDelayTimeoutRef.current);
+            loadingDelayTimeoutRef.current = null;
         }
     }, []);
 
@@ -107,7 +107,7 @@ export const SearchForm = () => {
     useEffect(() => clearLoadingDelay, [clearLoadingDelay]);
 
     useEffect(() => {
-        if (!activeAddressOptionId || activeAddressNavigationSource.current !== 'keyboard') {
+        if (!activeAddressOptionId || activeAddressNavigationSourceRef.current !== 'keyboard') {
             return;
         }
 
@@ -117,16 +117,16 @@ export const SearchForm = () => {
     const runSearch = useMemo(
         () =>
             debounce((input: string) => {
-                const searchId = activeSearchId.current + 1;
-                activeSearchId.current = searchId;
+                const searchId = activeSearchIdRef.current + 1;
+                activeSearchIdRef.current = searchId;
                 setError(null);
                 setIsLoading(false);
                 setAddressResultInput(null);
                 clearLoadingDelay();
 
                 if (isValidPostnrQuery(input)) {
-                    loadingDelayTimeout.current = setTimeout(() => {
-                        if (searchId === activeSearchId.current) {
+                    loadingDelayTimeoutRef.current = setTimeout(() => {
+                        if (searchId === activeSearchIdRef.current) {
                             const currentResultHeight =
                                 resultHeightRef.current?.getBoundingClientRect().height;
                             setAddressLoadingHeight(currentResultHeight || null);
@@ -141,10 +141,10 @@ export const SearchForm = () => {
 
                 fetchSearchClient(input, {
                     onAddressSearchStart: () => {
-                        if (searchId === activeSearchId.current) {
+                        if (searchId === activeSearchIdRef.current) {
                             const currentResultEl = resultHeightRef.current;
                             const currentDropdownHeight =
-                                currentResultEl?.getAttribute('data-result-type') === 'adresse'
+                                currentResultEl?.dataset.resultType === 'adresse'
                                     ? currentResultEl.getBoundingClientRect().height
                                     : undefined;
                             setAddressLoadingHeight(currentDropdownHeight || null);
@@ -156,7 +156,7 @@ export const SearchForm = () => {
                         }
                     },
                 }).then((result) => {
-                    if (searchId !== activeSearchId.current) {
+                    if (searchId !== activeSearchIdRef.current) {
                         return;
                     }
 
@@ -188,7 +188,7 @@ export const SearchForm = () => {
     );
 
     const cancelPendingSearch = useCallback(() => {
-        activeSearchId.current += 1;
+        activeSearchIdRef.current += 1;
         abortSearchClient();
         runSearch.cancel?.();
         clearLoadingDelay();
@@ -280,10 +280,10 @@ export const SearchForm = () => {
             }
 
             const officeSearch = fetchGeoidClient(geoid);
-            const searchId = activeSearchId.current + 1;
-            activeSearchId.current = searchId;
+            const searchId = activeSearchIdRef.current + 1;
+            activeSearchIdRef.current = searchId;
             officeSearch.then((result) => {
-                if (searchId !== activeSearchId.current) {
+                if (searchId !== activeSearchIdRef.current) {
                     return;
                 }
 
@@ -337,7 +337,7 @@ export const SearchForm = () => {
 
         if (event.key === 'ArrowDown') {
             event.preventDefault();
-            activeAddressNavigationSource.current = 'keyboard';
+            activeAddressNavigationSourceRef.current = 'keyboard';
             setActiveAddressIndex((current) =>
                 current === null ? 0 : Math.min(current + 1, addressSuggestions.length - 1)
             );
@@ -346,7 +346,7 @@ export const SearchForm = () => {
 
         if (event.key === 'ArrowUp') {
             event.preventDefault();
-            activeAddressNavigationSource.current = 'keyboard';
+            activeAddressNavigationSourceRef.current = 'keyboard';
             setActiveAddressIndex((current) =>
                 current === null ? addressSuggestions.length - 1 : Math.max(current - 1, 0)
             );
@@ -361,7 +361,7 @@ export const SearchForm = () => {
     );
 
     const handleAddressMouseEnter = useCallback((index: number) => {
-        activeAddressNavigationSource.current = 'mouse';
+        activeAddressNavigationSourceRef.current = 'mouse';
         setActiveAddressIndex(index);
     }, []);
 

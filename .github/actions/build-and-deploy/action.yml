@@ -91,7 +91,7 @@ runs:
 
     - name: Delete node_modules to avoid copying them into the docker image
       shell: bash
-      run: rm -rf node_modules server/node_modules
+      run: rm -rf node_modules packages/server/node_modules
 
     - name: Install production dependencies
       shell: bash

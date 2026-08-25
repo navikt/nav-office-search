@@ -9,9 +9,9 @@
         "react": "*"
     },
     "devDependencies": {
-        "@navikt/nav-dekoratoren-moduler": "3.6.2",
-        "@types/react": "18.3.28",
+        "@navikt/nav-dekoratoren-moduler": "catalog:",
+        "@types/react": "catalog:",
         "preact": "catalog:",
-        "react": "18.3.1"
+        "react": "catalog:"
     }
 }
