@@ -1,4 +1,4 @@
-ingress: https://www.nav.no/sok-nav-kontor
+ingress: https://www.nav.no/finn-nav-kontor
 outboundExternalHosts:
   - www.nav.no
   - login.nav.no

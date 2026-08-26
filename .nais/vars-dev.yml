@@ -1,4 +1,4 @@
-ingress: https://www.ansatt.dev.nav.no/sok-nav-kontor
+ingress: https://www.ansatt.dev.nav.no/finn-nav-kontor
 outboundExternalHosts:
     - www.dev.nav.no
     - login.ekstern.dev.nav.no

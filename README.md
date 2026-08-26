@@ -52,7 +52,7 @@ Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
 [Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy-dev.yml) -> Run workflow -> Velg branch -> Run workflow
 
-Ingress for dev-miljø: https://www.ansatt.dev.nav.no/sok-nav-kontor
+Ingress for dev-miljø: https://www.ansatt.dev.nav.no/finn-nav-kontor
 
 ## Prodsetting
 

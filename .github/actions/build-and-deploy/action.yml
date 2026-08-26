@@ -25,7 +25,7 @@ inputs:
   basePath:
     description: Base path for the app
     required: false
-    default: /sok-nav-kontor
+    default: /finn-nav-kontor
   project_id:
     description: NAIS management project id
     required: true
