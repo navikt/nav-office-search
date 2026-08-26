@@ -15,17 +15,17 @@ export const OfficeSearch = () => {
 
     return (
         <div className={style.appContainer}>
-            <div className={style.titleIllustration}>
+            <div className={style.illustration}>
                 <OfficeSearchIllustration />
             </div>
-            <div className={style.titleContent}>
-                <Heading size={'xlarge'} level={'1'} className={style.title}>
+            <div className={style.content}>
+                <Heading size={'xlarge'} level={'1'} spacing>
                     <LocaleString id={'pageTitle'} />
                 </Heading>
-                <BodyLong spacing className={style.ingress}>
+                <BodyLong spacing>
                     <LocaleString id={'ingressLine1'} />
                 </BodyLong>
-                <BodyLong className={style.ingress}>
+                <BodyLong>
                     <LocaleString id={'ingressLine2'} />
                 </BodyLong>
                 <Button
@@ -36,13 +36,11 @@ export const OfficeSearch = () => {
                 >
                     <LocaleString id={isUserLoggedIn ? 'loggedInButtonText' : 'loginButtonText'} />
                 </Button>
-            </div>
 
-            <div className={style.section}>
-                <Heading size={'medium'} level={'2'} className={style.sectionTitle}>
+                <Heading size={'medium'} level={'2'} spacing>
                     <LocaleString id={'searchSectionTitle'} />
                 </Heading>
-                <BodyLong className={style.sectionBody}>
+                <BodyLong spacing>
                     <LocaleString id={'searchSectionBody'} />
                 </BodyLong>
                 <SearchForm />
