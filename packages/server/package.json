@@ -1,0 +1,32 @@
+{
+    "name": "nav-office-search-server",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "build": "rm -fr dist && tsc",
+        "start": "node dist/server/src/server.js",
+        "start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",
+        "prod-local": "cp .env.local-prod .env && pnpm start-local",
+        "dev": "cp .env.development .env && pnpm start-local"
+    },
+    "dependencies": {
+        "@navikt/nav-dekoratoren-moduler": "catalog:",
+        "compression": "1.8.1",
+        "dotenv": "17.4.2",
+        "express": "5.2.1",
+        "fetch-mock": "11.1.5",
+        "lru-cache": "11.5.2",
+        "node-cache": "5.1.2",
+        "node-schedule": "2.1.1",
+        "react": "catalog:",
+        "vite": "catalog:"
+    },
+    "devDependencies": {
+        "@types/compression": "1.8.1",
+        "@types/express": "5.0.6",
+        "@types/node": "catalog:",
+        "@types/node-schedule": "2.1.8",
+        "concurrently": "10.0.4",
+        "nodemon": "3.1.14"
+    }
+}

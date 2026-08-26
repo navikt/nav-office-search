@@ -1,0 +1,3 @@
+.card :global(.aksel-link-card__arrow) {
+    color: var(--ax-text-accent-subtle);
+}

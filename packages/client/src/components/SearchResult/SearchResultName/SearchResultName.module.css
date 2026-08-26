@@ -1,0 +1,21 @@
+.header:not(:last-child) {
+    margin-bottom: var(--ax-space-24);
+}
+
+.hitname {
+    color: var(--ax-text-neutral);
+    padding: 0 0 var(--ax-space-6) 0;
+    margin-top: var(--ax-space-32);
+}
+
+.header + .hitname {
+    margin-top: 0;
+}
+
+.hitname strong {
+    color: var(--ax-text-neutral);
+}
+
+.error {
+    color: var(--ax-text-danger-subtle);
+}

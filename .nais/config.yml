@@ -36,6 +36,10 @@ spec:
   azure:
     application:
       enabled: true
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
   ingresses:
     - {{ingress}}
   accessPolicy:

@@ -9,7 +9,6 @@ export default tseslint.config(
             '**/dist/**',
             '**/frontendDist/**',
             '**/build/**',
-            'packages/server/frontendDist/**',
             '**/*.config.js',
             '**/*.config.ts',
         ],
@@ -19,6 +18,14 @@ export default tseslint.config(
     {
         files: ['**/*.{ts,tsx,js,jsx}'],
         ...eslintReact.configs['recommended-typescript'],
+        settings: {
+            'react-x': {
+                // 'detect' fails to find React's version because eslint runs from the
+                // repo root, not packages/client, so it must be pinned explicitly here.
+                // Keep this in sync with the "react" version in packages/client/package.json.
+                version: '19.2.8',
+            },
+        },
         rules: {
             ...eslintReact.configs['recommended-typescript'].rules,
             '@eslint-react/no-use-context': 'off',

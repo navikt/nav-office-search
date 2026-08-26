@@ -1,0 +1,17 @@
+{
+    "name": "nav-office-search-common",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "peerDependencies": {
+        "@navikt/nav-dekoratoren-moduler": "*",
+        "preact": "*",
+        "react": "*"
+    },
+    "devDependencies": {
+        "@navikt/nav-dekoratoren-moduler": "catalog:",
+        "@types/react": "catalog:",
+        "preact": "catalog:",
+        "react": "catalog:"
+    }
+}

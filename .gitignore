@@ -2,6 +2,8 @@
 
 # dependencies
 **/node_modules
+**/dist
+**/frontendDist
 /server/node_modules/
 package-lock.json
 
@@ -14,16 +16,19 @@ package-lock.json
 
 # debug
 npm-debug.log*
+*.tsbuildinfo
 
 # local env files
 .env
 .env.local
 .env.development.local
+.env.development
 .env.test.local
 .env.production.local
 /server/.env
 /server/.env.local
 /server/.env.development.local
+/server/.env.development
 /server/.env.test.local
 /server/.env.production.local
 

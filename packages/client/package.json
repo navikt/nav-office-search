@@ -1,0 +1,40 @@
+{
+    "name": "nav-office-search-client",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build:client": "vite build --outDir ../server/frontendDist/client",
+        "build:ssr": "vite build --outDir ../server/frontendDist/ssr --ssr src/main-server.tsx",
+        "test": "jest"
+    },
+    "dependencies": {
+        "@navikt/ds-css": "8.16.1",
+        "@navikt/ds-react": "8.16.1",
+        "@navikt/nav-dekoratoren-moduler": "catalog:",
+        "lodash.debounce": "4.0.8",
+        "nav-office-search-common": "workspace:*",
+        "preact": "catalog:",
+        "preact-render-to-string": "catalog:",
+        "react": "catalog:",
+        "react-dom": "19.2.8"
+    },
+    "devDependencies": {
+        "@preact/preset-vite": "2.10.6",
+        "@testing-library/jest-dom": "6.9.1",
+        "@testing-library/react": "16.3.2",
+        "@types/jest": "30.0.0",
+        "@types/lodash.debounce": "4.0.9",
+        "@types/node": "catalog:",
+        "@types/react": "catalog:",
+        "@types/react-dom": "19.2.4",
+        "identity-obj-proxy": "3.0.0",
+        "jest": "30.4.2",
+        "jest-environment-jsdom": "30.4.1",
+        "jest-fetch-mock": "4.2.0",
+        "ts-jest": "29.4.12",
+        "typescript": "catalog:",
+        "vite": "catalog:"
+    }
+}

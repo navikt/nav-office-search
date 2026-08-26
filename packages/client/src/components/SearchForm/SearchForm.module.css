@@ -1,0 +1,81 @@
+.searchForm {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    margin-top: var(--ax-space-16);
+}
+
+.searchField {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+}
+
+.resultRegion {
+    display: flow-root;
+    position: relative;
+    min-height: 8.75rem;
+}
+
+.searchResult {
+    margin-top: var(--ax-space-32);
+}
+
+.searchResult[data-result-type='adresse'] {
+    --address-dropdown-max-height: min(
+        22.5rem,
+        calc(100dvh - 10rem - env(safe-area-inset-bottom, 0px))
+    );
+
+    position: absolute;
+    z-index: 10;
+    inset-inline: 0;
+    top: var(--ax-space-12);
+    max-height: var(--address-dropdown-max-height);
+    margin-top: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchResult:not([data-result-type]) .loading {
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.loadingStatus {
+    display: flex;
+    align-items: center;
+    gap: var(--ax-space-8);
+    color: var(--ax-text-neutral-subtle);
+}
+
+.searchResult[data-result-type='adresse'] .loading {
+    max-height: var(--address-dropdown-max-height);
+    padding: var(--ax-space-12);
+    background-color: var(--ax-bg-raised);
+    border: 1px solid var(--ax-border-neutral-subtle);
+    border-radius: var(--ax-radius-8);
+    box-shadow:
+        0 4px 6px 0 rgba(0, 0, 0, 0.15),
+        0 1px 3px -1px rgba(0, 0, 0, 0.15),
+        0 1px 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.error {
+    margin-top: var(--ax-space-32);
+    color: var(--ax-text-danger-subtle);
+}
+
+@media (max-width: 480px) {
+    .loadingStatus {
+        font-size: var(--ax-font-size-small, 0.875rem);
+    }
+}

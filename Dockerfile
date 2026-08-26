@@ -4,18 +4,18 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .env /app/
-COPY server/package.json /app/server/
+COPY packages/server/package.json /app/packages/server/
 
 # Copy node_modules from CI build
 COPY node_modules /app/node_modules/
-COPY server/node_modules /app/server/node_modules/
+COPY packages/server/node_modules /app/packages/server/node_modules/
 
 # Copy build artifacts
-COPY server/dist /app/server/dist/
-COPY server/frontendDist /app/frontendDist/
+COPY packages/server/dist /app/packages/server/dist/
+COPY packages/server/frontendDist /app/frontendDist/
 
 ENV NODE_ENV=production
 
 EXPOSE 3005
 ENTRYPOINT [ "node" ]
-CMD ["server/dist/server/src/server.js"]
+CMD ["packages/server/dist/server/src/server.js"]
