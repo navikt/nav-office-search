@@ -1,81 +1,53 @@
+:global(.aksel-label) {
+    text-wrap: balance;
+}
+
 .appContainer {
     display: grid;
-    grid-template-columns: 75px minmax(0, 600px);
+    grid-template-columns: 1fr minmax(0, 45rem) 1fr;
+    grid-template-areas: 'pictogram content .';
     column-gap: var(--ax-space-40);
     justify-content: center;
-    max-width: 747px;
-    margin: 0 auto;
-    padding: var(--ax-space-20) var(--ax-space-16) var(--ax-space-64) var(--ax-space-16);
+    max-width: 90rem;
+    margin-inline: auto;
+    padding: var(--ax-space-20) var(--ax-space-16) var(--ax-space-64);
+
+    @media (width <= 1024px) {
+        grid-template-areas: '. pictogram .' '.  content .';
+        column-gap: 0;
+    }
 }
 
-.titleIllustration {
-    grid-column: 1;
-    grid-row: 1;
+.illustration {
+    grid-column: pictogram;
     margin-top: var(--ax-space-8);
-    width: 75px;
-    height: 75px;
-}
+    justify-self: end;
 
-.titleContent {
-    grid-column: 2;
-    grid-row: 1;
-    min-width: 0;
-    margin-bottom: var(--ax-space-40);
+    svg {
+        width: 80px;
+        height: 80px;
+    }
+
+    @media (width <= 1024px) {
+        margin-block: 0 var(--ax-space-20);
+        justify-self: start;
+
+        svg {
+            width: 64px;
+            height: 64px;
+        }
+    }
 }
 
 .title {
     margin-bottom: var(--ax-space-12);
 }
 
-.ingress {
-    color: var(--ax-text-neutral);
-}
-
-.section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    grid-column: 2;
-    width: 100%;
-    margin-bottom: var(--ax-space-48);
-}
-
-.section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.sectionTitle {
-    margin-bottom: var(--ax-space-12);
-}
-
-.sectionBody {
-    margin-bottom: var(--ax-space-12);
+.content {
+    grid-column: content;
+    margin-bottom: var(--ax-space-40);
 }
 
 .loginButton {
-    margin-top: var(--ax-space-12);
-}
-
-@media (max-width: 600px) {
-    .appContainer {
-        grid-template-columns: minmax(0, 1fr);
-        justify-content: stretch;
-    }
-
-    .titleIllustration {
-        grid-column: 1;
-        grid-row: 1;
-        margin-top: 0;
-        margin-bottom: var(--ax-space-20);
-    }
-
-    .titleContent {
-        grid-column: 1;
-        grid-row: 2;
-    }
-
-    .section {
-        grid-column: 1;
-    }
+    margin-block: var(--ax-space-12) var(--ax-space-40);
 }
