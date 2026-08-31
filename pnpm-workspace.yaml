@@ -8,7 +8,7 @@ catalog:
   preact-render-to-string: 6.7.0
   react: 19.2.8
   typescript: 6.0.3
-  vite: 8.2.1
+  vite: 8.2.2
 allowBuilds:
   esbuild: true
   unrs-resolver: true
