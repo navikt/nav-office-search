@@ -1,7 +1,7 @@
 packages:
   - packages/*
 catalog:
-  '@navikt/nav-dekoratoren-moduler': 4.3.0
+  '@navikt/nav-dekoratoren-moduler': 4.5.0
   '@types/node': 24.10.1
   '@types/react': 19.2.18
   preact: 10.29.8
