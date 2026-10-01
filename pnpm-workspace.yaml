@@ -12,6 +12,5 @@ catalog:
 allowBuilds:
   esbuild: true
   unrs-resolver: true
-  parcel/watcher: false
   '@parcel/watcher': false
 minimumReleaseAge: 4320
