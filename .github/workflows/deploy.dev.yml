@@ -1,0 +1,29 @@
+name: Deploy to dev
+on: workflow_dispatch
+
+jobs:
+  build:
+    uses: navikt/navno-ci/.github/workflows/node-build.yml@v1
+    permissions: { contents: read, id-token: write }
+    with:
+      image-suffix: dev
+      prune-remove: node_modules packages/*/node_modules
+      env-file: |
+        ENV=dev
+        VITE_APP_ORIGIN=https://www.ansatt.dev.nav.no
+        VITE_APP_BASEPATH=/finn-nav-kontor
+        VITE_XP_ORIGIN=https://www.dev.nav.no
+        VITE_NAVNO_ORIGIN=https://www.ansatt.dev.nav.no
+        API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
+        LOGIN_SESSION_API_URL=https://login.ekstern.dev.nav.no/oauth2/session
+    secrets: inherit
+
+  deploy:
+    needs: build
+    uses: navikt/navno-ci/.github/workflows/nais-deploy.yml@v1
+    permissions: { contents: read, id-token: write }
+    with:
+      cluster: dev-gcp
+      resource: .nais/config.yml
+      vars: .nais/vars-dev.yml
+      var: image=${{ needs.build.outputs.image }}

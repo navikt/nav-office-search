@@ -1,0 +1,36 @@
+# Builds main and deploys it to prod - shared by deploy.prod.yml and base-image-refresh.yml
+# Callers need `permissions: { contents: read, id-token: write }` and `secrets: inherit`.
+name: Build and deploy to prod
+on:
+  workflow_call:
+    outputs:
+      image:
+        description: The deployed image, digest-pinned.
+        value: ${{ jobs.build.outputs.image }}
+
+jobs:
+  build:
+    uses: navikt/navno-ci/.github/workflows/node-build.yml@v1
+    permissions: { contents: read, id-token: write }
+    with:
+      image-suffix: prod
+      prune-remove: node_modules packages/*/node_modules
+      env-file: |
+        ENV=prod
+        VITE_APP_ORIGIN=https://www.nav.no
+        VITE_APP_BASEPATH=/finn-nav-kontor
+        VITE_XP_ORIGIN=https://www.nav.no
+        VITE_NAVNO_ORIGIN=https://www.nav.no
+        API_ORIGIN=https://nav-office-search-api.prod-fss-pub.nais.io
+        LOGIN_SESSION_API_URL=https://login.nav.no/oauth2/session
+    secrets: inherit
+
+  deploy:
+    needs: build
+    uses: navikt/navno-ci/.github/workflows/nais-deploy.yml@v1
+    permissions: { contents: read, id-token: write }
+    with:
+      cluster: prod-gcp
+      resource: .nais/config.yml
+      vars: .nais/vars-prod.yml
+      var: image=${{ needs.build.outputs.image }}

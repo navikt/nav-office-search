@@ -1,3 +1,4 @@
+basePath: /finn-nav-kontor
 ingress: https://www.ansatt.dev.nav.no/finn-nav-kontor
 outboundExternalHosts:
     - www.dev.nav.no

@@ -50,13 +50,23 @@ Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
 ## Deploy til dev-miljø
 
-[Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy-dev.yml) -> Run workflow -> Velg branch -> Run workflow
+[Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow
 
 Ingress for dev-miljø: https://www.ansatt.dev.nav.no/finn-nav-kontor
 
 ## Prodsetting
 
 Lag en PR til main, og merge inn etter godkjenning (En automatisk release vil oppstå ved deploy til main)
+
+Prod bygges og deployes på nytt hver søndag kveld ([Refresh base image](https://github.com/navikt/nav-office-search/actions/workflows/base-image-refresh.yml)), slik at imaget får siste versjon av base-imaget.
+
+CI bruker felles workflows fra [navno-ci](https://github.com/navikt/navno-ci).
+
+## Rollback
+
+[Roll back prod](https://github.com/navikt/nav-office-search/actions/workflows/rollback.prod.yml) -> Run workflow. Uten release-tag rulles det tilbake til releasen før den nyeste; oppgi en tag for å gå lenger tilbake.
+
+Neste push til main deployer main igjen, så revert eller fiks på main før noe annet merges.
 
 # Henvendelser
 
