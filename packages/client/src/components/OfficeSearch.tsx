@@ -45,7 +45,6 @@ export const OfficeSearch = () => {
                 </BodyLong>
                 <SearchForm />
             </div>
-            <div hidden aria-hidden={'true'} data-rollout-check={'1'} />
         </div>
     );
 };
