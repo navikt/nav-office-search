@@ -10,8 +10,8 @@
         "test": "jest"
     },
     "dependencies": {
-        "@navikt/ds-css": "8.16.2",
-        "@navikt/ds-react": "8.16.2",
+        "@navikt/ds-css": "8.17.2",
+        "@navikt/ds-react": "8.17.2",
         "@navikt/nav-dekoratoren-moduler": "catalog:",
         "lodash.debounce": "4.0.8",
         "nav-office-search-common": "workspace:*",
@@ -33,7 +33,7 @@
         "jest": "30.5.2",
         "jest-environment-jsdom": "30.5.2",
         "jest-fetch-mock": "4.2.0",
-        "ts-jest": "29.4.13",
+        "ts-jest": "29.4.14",
         "typescript": "catalog:",
         "vite": "catalog:"
     }
