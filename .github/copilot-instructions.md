@@ -53,7 +53,8 @@ Dependency installation uses GitHub Packages for `@navikt/*` packages and requir
 - Use the smallest relevant Jest test while developing; the current automated tests are in `packages/client/src/__tests__`.
 - Format touched files with Prettier. The pre-commit hook runs `lint-staged`, while the pre-push hook runs `pnpm lint`.
 - Run `pnpm lint`, `pnpm test`, and `pnpm build` for changes that cross package boundaries or affect runtime, SSR, or build behavior.
-- The shared deploy action runs lint, build, and tests. A push to `main` deploys to production and creates a release.
+- CI uses the shared reusable workflows in `navikt/navno-ci`; the build runs `pnpm build`, `pnpm lint`, and `pnpm test`. Pull requests run `pr-checks.yml`. A push to `main` deploys to production via `build-deploy-prod.yml` and creates a release that records the image for `rollback.prod.yml`. `base-image-refresh.yml` rebuilds and redeploys prod weekly.
+- NAIS template variables, including `basePath`, live in `.nais/vars-*.yml`; the workflows pass only `image`.
 
 ## Generated and local files
 
