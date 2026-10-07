@@ -11,28 +11,28 @@ import { getPoststedArray } from '../data/poststeder';
 import { getBydelerArray } from '../data/bydeler';
 
 export const registerApiRoutes = async (router: Router) => {
-    router.get('/internal/isAlive', isAliveHandler);
-    router.get('/internal/isReady', isReadyHandler);
-    router.get('/search', searchHandler);
+	router.get('/internal/isAlive', isAliveHandler);
+	router.get('/internal/isReady', isReadyHandler);
+	router.get('/search', searchHandler);
 
-    router.get('/search/name', nameSearchHandler);
-    router.get('/search/address', addressSearchHandler);
+	router.get('/search/name', nameSearchHandler);
+	router.get('/search/address', addressSearchHandler);
 
-    router.get('/geoid', geoidSearchHandler);
+	router.get('/geoid', geoidSearchHandler);
 
-    router.get('/loginstatus', loginStatusHandler);
+	router.get('/loginstatus', loginStatusHandler);
 
-    router.get('/data/kommuner', (req, res) => {
-        res.status(200).json(getKommunerArray());
-    });
+	router.get('/data/kommuner', (req, res) => {
+		res.status(200).json(getKommunerArray());
+	});
 
-    router.get('/data/poststeder', (req, res) => {
-        res.status(200).json(getPoststedArray());
-    });
+	router.get('/data/poststeder', (req, res) => {
+		res.status(200).json(getPoststedArray());
+	});
 
-    router.get('/data/bydeler', (req, res) => {
-        res.status(200).json(getBydelerArray());
-    });
+	router.get('/data/bydeler', (req, res) => {
+		res.status(200).json(getBydelerArray());
+	});
 
-    return Promise.resolve();
+	return Promise.resolve();
 };

@@ -5,53 +5,41 @@ import { Adresse, SearchResultAdresseProps } from '../../../../../common/types/r
 export const maxVisibleAddressOptions = 6;
 
 export const formatAddressLabel = (adresse: Adresse) => {
-    const { adressenavn, husnummer, husbokstav, postnummer, poststed } = adresse;
+	const { adressenavn, husnummer, husbokstav, postnummer, poststed } = adresse;
 
-    return `${adressenavn} ${husnummer}${husbokstav ?? ''}, ${postnummer} ${poststed}`;
+	return `${adressenavn} ${husnummer}${husbokstav ?? ''}, ${postnummer} ${poststed}`;
 };
 
-export const getAddressOptionId = (listboxId: string, index: number) =>
-    `${listboxId}-option-${index}`;
+export const getAddressOptionId = (listboxId: string, index: number) => `${listboxId}-option-${index}`;
 
 export const getAddressSuggestionCounts = (result: SearchResultAdresseProps) => {
-    const visibleHits = result.adresser.length;
-    const totalHits = Math.max(result.totalHits, visibleHits);
+	const visibleHits = result.adresser.length;
+	const totalHits = Math.max(result.totalHits, visibleHits);
 
-    return {
-        visibleHits,
-        totalHits,
-        hasMoreThanVisibleRows: totalHits > maxVisibleAddressOptions,
-    };
+	return {
+		visibleHits,
+		totalHits,
+		hasMoreThanVisibleRows: totalHits > maxVisibleAddressOptions,
+	};
 };
 
-const getAddressSuggestionsRefineMessage = (
-    result: SearchResultAdresseProps,
-    locale: AppLocale
-) => {
-    const { visibleHits, totalHits, hasMoreThanVisibleRows } = getAddressSuggestionCounts(result);
+const getAddressSuggestionsRefineMessage = (result: SearchResultAdresseProps, locale: AppLocale) => {
+	const { visibleHits, totalHits, hasMoreThanVisibleRows } = getAddressSuggestionCounts(result);
 
-    return hasMoreThanVisibleRows
-        ? (localeString('addressSuggestionsRefine', locale, [
-              visibleHits.toString(),
-              totalHits.toString(),
-          ]) as string)
-        : '';
+	return hasMoreThanVisibleRows
+		? (localeString('addressSuggestionsRefine', locale, [visibleHits.toString(), totalHits.toString()]) as string)
+		: '';
 };
 
-export const getAddressSuggestionsStatusMessage = (
-    result: SearchResultAdresseProps,
-    locale: AppLocale
-) => {
-    const { visibleHits } = getAddressSuggestionCounts(result);
+export const getAddressSuggestionsStatusMessage = (result: SearchResultAdresseProps, locale: AppLocale) => {
+	const { visibleHits } = getAddressSuggestionCounts(result);
 
-    if (visibleHits === 0) {
-        return localeString('nameResultNone', locale, [result.adresseQuery]) as string;
-    }
+	if (visibleHits === 0) {
+		return localeString('nameResultNone', locale, [result.adresseQuery]) as string;
+	}
 
-    const availableMessage = localeString('addressSuggestionsAvailable', locale, [
-        visibleHits.toString(),
-    ]) as string;
-    const refineMessage = getAddressSuggestionsRefineMessage(result, locale);
+	const availableMessage = localeString('addressSuggestionsAvailable', locale, [visibleHits.toString()]) as string;
+	const refineMessage = getAddressSuggestionsRefineMessage(result, locale);
 
-    return refineMessage ? `${availableMessage} ${refineMessage}` : availableMessage;
+	return refineMessage ? `${availableMessage} ${refineMessage}` : availableMessage;
 };

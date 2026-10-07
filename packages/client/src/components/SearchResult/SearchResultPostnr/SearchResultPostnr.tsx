@@ -8,85 +8,68 @@ import { LocaleString } from '../../../localization/LocaleString';
 import style from './SearchResultPostnr.module.css';
 
 const HeaderText = (result: SearchResultPostnrProps) => {
-    const { postnr, poststed, kommuneNavn, kategori, officeInfo, withAllBydeler } = result;
+	const { postnr, poststed, kommuneNavn, kategori, officeInfo, withAllBydeler } = result;
 
-    const postnrOgPoststed = `${postnr} ${poststed}`;
+	const postnrOgPoststed = `${postnr} ${poststed}`;
 
-    const numHits = officeInfo.length;
+	const numHits = officeInfo.length;
 
-    if (numHits === 0) {
-        return <LocaleString id={'postnrResultNone'} args={[postnrOgPoststed]} />;
-    }
+	if (numHits === 0) {
+		return <LocaleString id={'postnrResultNone'} args={[postnrOgPoststed]} />;
+	}
 
-    if (numHits > 1) {
-        if (kategori === PostnrKategori.Postbokser) {
-            return (
-                <LocaleString
-                    id={'postnrResultPostbox'}
-                    args={[postnr, kommuneNavn, numHits.toString()]}
-                />
-            );
-        }
+	if (numHits > 1) {
+		if (kategori === PostnrKategori.Postbokser) {
+			return <LocaleString id={'postnrResultPostbox'} args={[postnr, kommuneNavn, numHits.toString()]} />;
+		}
 
-        if (kategori === PostnrKategori.Servicepostnummer) {
-            return (
-                <LocaleString
-                    id={'postnrResultServiceBox'}
-                    args={[postnr, kommuneNavn, numHits.toString()]}
-                />
-            );
-        }
+		if (kategori === PostnrKategori.Servicepostnummer) {
+			return <LocaleString id={'postnrResultServiceBox'} args={[postnr, kommuneNavn, numHits.toString()]} />;
+		}
 
-        if (withAllBydeler) {
-            return (
-                <LocaleString
-                    id={'postnrResultBydeler'}
-                    args={[postnr, kommuneNavn, numHits.toString()]}
-                />
-            );
-        }
+		if (withAllBydeler) {
+			return <LocaleString id={'postnrResultBydeler'} args={[postnr, kommuneNavn, numHits.toString()]} />;
+		}
 
-        return (
-            <LocaleString id={'postnrResultMany'} args={[numHits.toString(), postnrOgPoststed]} />
-        );
-    }
+		return <LocaleString id={'postnrResultMany'} args={[numHits.toString(), postnrOgPoststed]} />;
+	}
 
-    return <LocaleString id={'postnrResultOne'} args={[postnrOgPoststed]} />;
+	return <LocaleString id={'postnrResultOne'} args={[postnrOgPoststed]} />;
 };
 
 type Props = {
-    result: SearchResultPostnrProps;
-    resultInput?: string | null;
+	result: SearchResultPostnrProps;
+	resultInput?: string | null;
 };
 
 export const SearchResultPostnr = ({ result, resultInput }: Props) => {
-    const { officeInfo } = result;
+	const { officeInfo } = result;
 
-    if (!officeInfo) {
-        return (
-            <div className={style.error}>
-                <LocaleString id={'errorInvalidResult'} />
-            </div>
-        );
-    }
+	if (!officeInfo) {
+		return (
+			<div className={style.error}>
+				<LocaleString id={'errorInvalidResult'} />
+			</div>
+		);
+	}
 
-    return (
-        <div>
-            <BodyLong className={style.header}>
-                {resultInput ? (
-                    <LocaleString
-                        id={officeInfo.length === 0 ? 'nameResultNone' : 'nameResultFound'}
-                        args={[resultInput, officeInfo.length.toString()]}
-                    />
-                ) : (
-                    <HeaderText {...result} />
-                )}
-            </BodyLong>
-            <VStack gap="space-12">
-                {officeInfo.map((hit) => (
-                    <OfficeLink key={hit.enhetNr} officeInfo={hit} />
-                ))}
-            </VStack>
-        </div>
-    );
+	return (
+		<div>
+			<BodyLong className={style.header}>
+				{resultInput ? (
+					<LocaleString
+						id={officeInfo.length === 0 ? 'nameResultNone' : 'nameResultFound'}
+						args={[resultInput, officeInfo.length.toString()]}
+					/>
+				) : (
+					<HeaderText {...result} />
+				)}
+			</BodyLong>
+			<VStack gap="space-12">
+				{officeInfo.map((hit) => (
+					<OfficeLink key={hit.enhetNr} officeInfo={hit} />
+				))}
+			</VStack>
+		</div>
+	);
 };

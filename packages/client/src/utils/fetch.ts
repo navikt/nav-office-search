@@ -7,58 +7,58 @@ let abortController = typeof window !== 'undefined' ? new AbortController() : nu
 export const abortSearchClient = () => abortController?.abort();
 
 type FetchSearchClientOptions = {
-    onAddressSearchStart?: () => void;
+	onAddressSearchStart?: () => void;
 };
 
 const fetchSearchResult = async (url: string): Promise<SearchResultProps> => {
-    const res = await fetch(url, {
-        signal: abortController?.signal,
-    });
+	const res = await fetch(url, {
+		signal: abortController?.signal,
+	});
 
-    const result = (await res.json()) as SearchResultProps;
+	const result = (await res.json()) as SearchResultProps;
 
-    if (!res.ok && result.type !== 'error') {
-        return { type: 'error', messageId: 'errorServerError' };
-    }
+	if (!res.ok && result.type !== 'error') {
+		return { type: 'error', messageId: 'errorServerError' };
+	}
 
-    return result;
+	return result;
 };
 
 export const fetchSearchClient = (
-    query: string,
-    options: FetchSearchClientOptions = {}
+	query: string,
+	options: FetchSearchClientOptions = {},
 ): Promise<SearchResultProps> => {
-    abortSearchClient();
-    abortController = new AbortController();
-    const encodedQuery = encodeURIComponent(query);
+	abortSearchClient();
+	abortController = new AbortController();
+	const encodedQuery = encodeURIComponent(query);
 
-    const searchPromise = isValidPostnrQuery(query)
-        ? fetchSearchResult(`${clientUrls.searchApi}?query=${encodedQuery}`)
-        : fetchSearchResult(`${clientUrls.searchNameApi}?query=${encodedQuery}`).then((result) => {
-              if (result.type !== 'name' || result.hits.length > 0) {
-                  return result;
-              }
+	const searchPromise = isValidPostnrQuery(query)
+		? fetchSearchResult(`${clientUrls.searchApi}?query=${encodedQuery}`)
+		: fetchSearchResult(`${clientUrls.searchNameApi}?query=${encodedQuery}`).then((result) => {
+				if (result.type !== 'name' || result.hits.length > 0) {
+					return result;
+				}
 
-              options.onAddressSearchStart?.();
-              return fetchSearchResult(`${clientUrls.searchAddressApi}?query=${encodedQuery}`);
-          });
+				options.onAddressSearchStart?.();
+				return fetchSearchResult(`${clientUrls.searchAddressApi}?query=${encodedQuery}`);
+			});
 
-    return searchPromise.catch((e): SearchResultErrorProps => {
-        if (e.name === 'AbortError') {
-            return { type: 'error', aborted: true };
-        }
-        return { type: 'error', messageId: 'errorServerError' };
-    });
+	return searchPromise.catch((e): SearchResultErrorProps => {
+		if (e.name === 'AbortError') {
+			return { type: 'error', aborted: true };
+		}
+		return { type: 'error', messageId: 'errorServerError' };
+	});
 };
 
 export const fetchGeoidClient = (id: string): Promise<SearchResultProps> => {
-    abortSearchClient();
-    abortController = new AbortController();
+	abortSearchClient();
+	abortController = new AbortController();
 
-    return fetchSearchResult(`${clientUrls.geoidApi}?id=${encodeURIComponent(id)}`).catch((e): SearchResultErrorProps => {
-        if (e.name === 'AbortError') {
-            return { type: 'error', aborted: true };
-        }
-        return { type: 'error', messageId: 'errorServerError' };
-    });
+	return fetchSearchResult(`${clientUrls.geoidApi}?id=${encodeURIComponent(id)}`).catch((e): SearchResultErrorProps => {
+		if (e.name === 'AbortError') {
+			return { type: 'error', aborted: true };
+		}
+		return { type: 'error', messageId: 'errorServerError' };
+	});
 };
