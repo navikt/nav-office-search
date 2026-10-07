@@ -22,6 +22,8 @@
         "dev": "pnpm --filter nav-office-search-server dev",
         "prod-local": "pnpm --filter nav-office-search-server prod-local",
         "test": "pnpm --filter nav-office-search-client test",
+        "format": "oxfmt",
+        "format:check": "oxfmt --check",
         "prepare": "husky || true"
     },
     "devDependencies": {
@@ -30,11 +32,11 @@
         "eslint": "10.11.0",
         "husky": "9.1.7",
         "lint-staged": "17.5.1",
-        "prettier": "3.9.9",
+        "oxfmt": "0.71.0",
         "typescript": "catalog:",
         "typescript-eslint": "8.70.1"
     },
     "lint-staged": {
-        "*.{js,jsx,json,md,ts,tsx,scss,css}": "prettier --write"
+        "*.{js,jsx,ts,tsx,json,md,yml,yaml,css,scss,html}": "oxfmt --no-error-on-unmatched-pattern"
     }
 }
