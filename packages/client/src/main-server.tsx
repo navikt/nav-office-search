@@ -4,5 +4,5 @@ import { App } from './App';
 import { AppLocale } from '../../common/localization/types';
 
 export const render = (locale: AppLocale) => {
-    return renderToString(<App locale={locale} />);
+	return renderToString(<App locale={locale} />);
 };

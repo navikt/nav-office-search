@@ -7,31 +7,31 @@ import { postnrSearchHandler } from './postnrSearchHandler';
 import { addressSearchHandler } from './addressSearchHandler';
 
 export const searchHandler: RequestHandler = async (req, res) => {
-    console.log('Received search request');
-    if (!isDataLoaded()) {
-        console.log('Application not ready');
-        await loadData();
-    }
+	console.log('Received search request');
+	if (!isDataLoaded()) {
+		console.log('Application not ready');
+		await loadData();
+	}
 
-    try {
-        const { query } = req.query;
+	try {
+		const { query } = req.query;
 
-        if (typeof query !== 'string' || !query.trim()) {
-            return res.status(400).send(apiErrorResponse('errorMissingQuery'));
-        }
+		if (typeof query !== 'string' || !query.trim()) {
+			return res.status(400).send(apiErrorResponse('errorMissingQuery'));
+		}
 
-        if (isValidPostnrQuery(query)) {
-            return postnrSearchHandler(req, res);
-        }
+		if (isValidPostnrQuery(query)) {
+			return postnrSearchHandler(req, res);
+		}
 
-        const nameResult = getNameSearchResult(query);
-        if (nameResult.hits.length > 0) {
-            return res.status(200).send(nameResult);
-        }
+		const nameResult = getNameSearchResult(query);
+		if (nameResult.hits.length > 0) {
+			return res.status(200).send(nameResult);
+		}
 
-        return addressSearchHandler(req, res);
-    } catch (e) {
-        console.error(`Search api error: ${e}`);
-        return res.status(500).send(apiErrorResponse('errorServerError'));
-    }
+		return addressSearchHandler(req, res);
+	} catch (e) {
+		console.error(`Search api error: ${e}`);
+		return res.status(500).send(apiErrorResponse('errorServerError'));
+	}
 };

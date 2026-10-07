@@ -1,4 +1,4 @@
 {
-    "type": "error",
-    "messageId": "errorInvalidPostnr"
+	"type": "error",
+	"messageId": "errorInvalidPostnr"
 }

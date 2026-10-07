@@ -4,26 +4,24 @@ import { fetchErrorResponse, FetchErrorResponse, fetchJson } from '../utils/fetc
 import { serverUrls } from '../urls';
 
 export type AdresseSokResponse = {
-    adresser: Adresse[];
-    totalHits: number;
+	adresser: Adresse[];
+	totalHits: number;
 };
 
-export const fetchPdlAdresseSok = async (
-    adresse: string
-): Promise<AdresseSokResponse | FetchErrorResponse> => {
-    const authorizationHeader = await getAuthorizationHeader();
+export const fetchPdlAdresseSok = async (adresse: string): Promise<AdresseSokResponse | FetchErrorResponse> => {
+	const authorizationHeader = await getAuthorizationHeader();
 
-    if (!authorizationHeader) {
-        return fetchErrorResponse(500, 'Failed to get authorization header');
-    }
+	if (!authorizationHeader) {
+		return fetchErrorResponse(500, 'Failed to get authorization header');
+	}
 
-    return await fetchJson(
-        serverUrls.adresseApi,
-        {
-            queryString: adresse,
-        },
-        {
-            headers: { Authorization: authorizationHeader },
-        }
-    );
+	return await fetchJson(
+		serverUrls.adresseApi,
+		{
+			queryString: adresse,
+		},
+		{
+			headers: { Authorization: authorizationHeader },
+		},
+	);
 };

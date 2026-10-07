@@ -1,53 +1,53 @@
 :global(.aksel-label) {
-    text-wrap: balance;
+	text-wrap: balance;
 }
 
 .appContainer {
-    display: grid;
-    grid-template-columns: 1fr minmax(0, 45rem) 1fr;
-    grid-template-areas: 'pictogram content .';
-    column-gap: var(--ax-space-40);
-    justify-content: center;
-    max-width: 90rem;
-    margin-inline: auto;
-    padding: var(--ax-space-20) var(--ax-space-16) var(--ax-space-64);
+	display: grid;
+	grid-template-columns: 1fr minmax(0, 45rem) 1fr;
+	grid-template-areas: 'pictogram content .';
+	column-gap: var(--ax-space-40);
+	justify-content: center;
+	max-width: 90rem;
+	margin-inline: auto;
+	padding: var(--ax-space-20) var(--ax-space-16) var(--ax-space-64);
 
-    @media (width <= 1024px) {
-        grid-template-areas: '. pictogram .' '.  content .';
-        column-gap: 0;
-    }
+	@media (width <= 1024px) {
+		grid-template-areas: '. pictogram .' '.  content .';
+		column-gap: 0;
+	}
 }
 
 .illustration {
-    grid-column: pictogram;
-    margin-top: var(--ax-space-8);
-    justify-self: end;
+	grid-column: pictogram;
+	margin-top: var(--ax-space-8);
+	justify-self: end;
 
-    svg {
-        width: 80px;
-        height: 80px;
-    }
+	svg {
+		width: 80px;
+		height: 80px;
+	}
 
-    @media (width <= 1024px) {
-        margin-block: 0 var(--ax-space-20);
-        justify-self: start;
+	@media (width <= 1024px) {
+		margin-block: 0 var(--ax-space-20);
+		justify-self: start;
 
-        svg {
-            width: 64px;
-            height: 64px;
-        }
-    }
+		svg {
+			width: 64px;
+			height: 64px;
+		}
+	}
 }
 
 .title {
-    margin-bottom: var(--ax-space-12);
+	margin-bottom: var(--ax-space-12);
 }
 
 .content {
-    grid-column: content;
-    margin-bottom: var(--ax-space-40);
+	grid-column: content;
+	margin-bottom: var(--ax-space-40);
 }
 
 .loginButton {
-    margin-block: var(--ax-space-12) var(--ax-space-40);
+	margin-block: var(--ax-space-12) var(--ax-space-40);
 }
