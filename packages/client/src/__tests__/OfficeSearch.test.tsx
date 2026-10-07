@@ -212,21 +212,12 @@ describe('OfficeSearch', () => {
 		});
 	});
 
-	test('gir riktig respons ved søk på postnummer uten spesifikt tilknyttet kontor', async () => {
+	test('gir riktig respons ved søk på postnummer som dekkes av flere bydeler', async () => {
 		fetch.mockResponse(JSON.stringify(postnrResultBydel));
 		searchForText('0354');
 		await waitFor(() => {
-			expect(
-				screen.getByText('Fant ingen kontor spesifikt tilknyttet', {
-					exact: false,
-				}),
-			).toBeInTheDocument();
-			expect(screen.getByText('0354')).toBeInTheDocument();
-			expect(
-				screen.getByText('Alle kommunens Nav-kontorer:', {
-					exact: false,
-				}),
-			).toBeInTheDocument();
+			expect(screen.getByText('3 kontorer dekker', { exact: false })).toBeInTheDocument();
+			expect(screen.getByText('0354 OSLO')).toBeInTheDocument();
 			expect(getLinkByName('Nav Alna')).toBeInTheDocument();
 			expect(getLinkByName('Nav Bjerke')).toBeInTheDocument();
 			expect(getLinkByName('Nav Frogner')).toBeInTheDocument();

@@ -28,6 +28,5 @@
 			"hitString": ""
 		}
 	],
-	"type": "postnr",
-	"withAllBydeler": true
+	"type": "postnr"
 }
