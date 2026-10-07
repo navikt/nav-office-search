@@ -48,6 +48,16 @@ Starter både server og klient i watch-modus parallelt.
 
 Benytter prod-dekoratøren dersom den ikke kjører lokalt
 
+### Formatering
+
+Koden formateres med [oxfmt](https://oxc.rs/docs/guide/usage/formatter) (`pnpm format`, sjekk med `pnpm format:check`). Pre-commit-hooken formaterer stagede filer automatisk.
+
+Commits som kun endrer formatering ligger i `.git-blame-ignore-revs`. GitHub hopper over dem i blame automatisk; lokalt må det slås på én gang:
+
+```bash
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
 ## Deploy til dev-miljø
 
 [Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow
