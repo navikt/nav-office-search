@@ -58,15 +58,6 @@ export const localeModuleNn = {
 			{` kommune. Kommunens Nav-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
 		</>
 	),
-	postnrResultBydeler: (postnr: string, kommuneNavn: string, numHits: string) => (
-		<>
-			{'Fant ingen kontor spesifikt knytta til '}
-			<strong>{postnr}</strong>
-			{' i '}
-			<strong>{kommuneNavn}</strong>
-			{` kommune. ${Number(numHits) > 1 ? 'Alle k' : 'K'}ommunens Nav-kontor${Number(numHits) > 1 ? 'er' : ''}:`}
-		</>
-	),
 	nameResultNone: (input: string) => `Ingen resultat for "${input}"`,
 	nameResultFound: (input: string, numHits: string) => (
 		<>

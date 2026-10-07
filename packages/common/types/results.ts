@@ -3,7 +3,6 @@ import { OfficeInfo, Poststed } from './data';
 
 export type SearchResultPostnrProps = {
 	type: 'postnr';
-	withAllBydeler?: boolean;
 	error?: undefined;
 } & Poststed;
 

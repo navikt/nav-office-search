@@ -8,7 +8,7 @@ import { LocaleString } from '../../../localization/LocaleString';
 import style from './SearchResultPostnr.module.css';
 
 const HeaderText = (result: SearchResultPostnrProps) => {
-	const { postnr, poststed, kommuneNavn, kategori, officeInfo, withAllBydeler } = result;
+	const { postnr, poststed, kommuneNavn, kategori, officeInfo } = result;
 
 	const postnrOgPoststed = `${postnr} ${poststed}`;
 
@@ -25,10 +25,6 @@ const HeaderText = (result: SearchResultPostnrProps) => {
 
 		if (kategori === PostnrKategori.Servicepostnummer) {
 			return <LocaleString id={'postnrResultServiceBox'} args={[postnr, kommuneNavn, numHits.toString()]} />;
-		}
-
-		if (withAllBydeler) {
-			return <LocaleString id={'postnrResultBydeler'} args={[postnr, kommuneNavn, numHits.toString()]} />;
 		}
 
 		return <LocaleString id={'postnrResultMany'} args={[numHits.toString(), postnrOgPoststed]} />;
