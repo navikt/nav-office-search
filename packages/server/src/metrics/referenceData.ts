@@ -1,7 +1,9 @@
 import type { Kommune, Poststed } from '../../../common/types/data';
 import type { PostnrRegisterItem } from '../data/postnrRegister';
 
-const isNumber = (value: string | undefined, digits: number) => new RegExp(`^\\d{${digits}}$`).test(value ?? '');
+const isFourDigits = (value: string | undefined) => /^\d{4}$/.test(value ?? '');
+
+const byNumber = (a: string, b: string) => a.localeCompare(b);
 
 /**
  * Kommuner in the register that the load couldn't find an office for. They are left out of the kommune map
@@ -10,9 +12,9 @@ const isNumber = (value: string | undefined, digits: number) => new RegExp(`^\\d
 export const kommunerWithoutOffice = (register: PostnrRegisterItem[], kommuner: Kommune[]): string[] => {
 	const loaded = new Set(kommuner.map(({ kommunenr }) => kommunenr));
 	// The register's trailing newline produces a row without kommunenr; it isn't a kommune
-	const inRegister = new Set(register.map(({ kommunenr }) => kommunenr).filter((kommunenr) => isNumber(kommunenr, 4)));
+	const inRegister = new Set(register.map(({ kommunenr }) => kommunenr).filter(isFourDigits));
 
-	return [...inRegister].filter((kommunenr) => !loaded.has(kommunenr)).sort();
+	return [...inRegister].filter((kommunenr) => !loaded.has(kommunenr)).sort(byNumber);
 };
 
 /**
@@ -22,7 +24,7 @@ export const kommunerWithoutOffice = (register: PostnrRegisterItem[], kommuner: 
 export const poststederWithoutOffice = (poststeder: Poststed[], hasBydeler: (kommunenr: string) => boolean): string[] =>
 	poststeder
 		.filter(
-			({ postnr, kommunenr, officeInfo }) => isNumber(postnr, 4) && officeInfo.length === 0 && !hasBydeler(kommunenr),
+			({ postnr, kommunenr, officeInfo }) => isFourDigits(postnr) && officeInfo.length === 0 && !hasBydeler(kommunenr),
 		)
 		.map(({ postnr }) => postnr)
-		.sort();
+		.sort(byNumber);
