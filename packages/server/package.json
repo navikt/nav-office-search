@@ -13,7 +13,7 @@
 		"@navikt/nav-dekoratoren-moduler": "catalog:",
 		"@prometheus-io/client": "0.16.1",
 		"compression": "1.8.2",
-		"dotenv": "17.4.2",
+		"dotenv": "18.0.3",
 		"express": "5.2.1",
 		"fetch-mock": "11.1.5",
 		"lru-cache": "11.5.3",

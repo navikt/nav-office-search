@@ -228,7 +228,7 @@ importers:
         version: 8.70.1(eslint@10.11.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       vitest:
         specifier: 'catalog:'
-        version: 5.0.3(@opentelemetry/api@1.9.1)(@types/node@24.10.1)(jsdom@30.1.2)(msw@3.0.2(@types/node@24.10.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))
+        version: 5.0.3(@opentelemetry/api@1.9.1)(@types/node@24.10.1)(jsdom@30.1.2)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))
 
   packages/client:
     dependencies:
@@ -327,8 +327,8 @@ importers:
         specifier: 1.8.2
         version: 1.8.2(supports-color@5.5.0)
       dotenv:
-        specifier: 17.4.2
-        version: 17.4.2
+        specifier: 18.0.3
+        version: 18.0.3
       express:
         specifier: 5.2.1
         version: 5.2.1(supports-color@5.5.0)
@@ -1564,9 +1564,10 @@ packages:
     resolution: {integrity: sha512-qI4JLRKnSzqFqr7hAlS5xQDusBCjKSEG4t4+7aNrIQMHBcsC2TGEhuyABJdYkgSewL57PNLYEiibY2iPKhKpaA==}
     engines: {node: '>=20.19.0'}
 
-  dotenv@17.4.2:
-    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
+  dotenv@18.0.3:
+    resolution: {integrity: sha512-/8CJTyL817qPnfbQrJgOEcrU3fDrJkRIoXBE566wHuvIXKOCHUZhPqGPbCPi9SogjdGnreF0TlvnTgK6J/8zpA==}
     engines: {node: '>=12'}
+    hasBin: true
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -3843,14 +3844,13 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.3.1(@types/node@24.10.1)(yaml@2.9.1)
 
-  '@vitest/mocker@5.0.3(msw@3.0.2(@types/node@24.10.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))':
+  '@vitest/mocker@5.0.3(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       '@vitest/spy': 5.0.3
       estree-walker: 3.0.3
       magic-string: 1.4.2
     optionalDependencies:
-      msw: 3.0.2(@types/node@24.10.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))
       vite: 8.3.1(@types/node@24.10.1)(yaml@2.9.1)
 
   '@vitest/spy@5.0.3': {}
@@ -4142,7 +4142,7 @@ snapshots:
       domelementtype: 3.0.0
       domhandler: 6.0.1
 
-  dotenv@17.4.2: {}
+  dotenv@18.0.3: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -5268,10 +5268,10 @@ snapshots:
       fsevents: 2.3.3
       yaml: 2.9.1
 
-  vitest@5.0.3(@opentelemetry/api@1.9.1)(@types/node@24.10.1)(jsdom@30.1.2)(msw@3.0.2(@types/node@24.10.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1)):
+  vitest@5.0.3(@opentelemetry/api@1.9.1)(@types/node@24.10.1)(jsdom@30.1.2)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.3(msw@3.0.2(@types/node@24.10.1)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1)))(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))
+      '@vitest/mocker': 5.0.3(vite@8.3.1(@types/node@24.10.1)(yaml@2.9.1))
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
