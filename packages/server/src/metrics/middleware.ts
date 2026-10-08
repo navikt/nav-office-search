@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
-import { classifySearchResponse, registry, type SearchEndpoint, searchDuration, searchRequests } from './metrics';
+import { classifySearchResponse, registry, type SearchRoute, searchDuration, searchRequests } from './metrics';
 
-const searchEndpoints: Record<string, SearchEndpoint> = {
+const searchRoutes: Record<string, SearchRoute> = {
 	'/search': 'search',
 	'/search/name': 'search/name',
 	'/search/address': 'search/address',
@@ -15,12 +15,12 @@ const searchEndpoints: Record<string, SearchEndpoint> = {
  */
 export const searchMetrics: RequestHandler = (req, res, next) => {
 	// Express routing is case-insensitive and ignores a trailing slash
-	const endpoint = searchEndpoints[req.path.toLowerCase().replace(/(.)\/$/, '$1')];
-	if (!endpoint) {
+	const route = searchRoutes[req.path.toLowerCase().replace(/(.)\/$/, '$1')];
+	if (!route) {
 		return next();
 	}
 
-	const stopTimer = searchDuration.startTimer({ endpoint });
+	const stopTimer = searchDuration.startTimer({ route });
 	let body: unknown;
 	// res.send(obj) calls res.json(obj), and res.json(obj) calls res.send with the serialized string; keep the
 	// first payload, which is the object either way
@@ -35,7 +35,7 @@ export const searchMetrics: RequestHandler = (req, res, next) => {
 
 	res.on('finish', () => {
 		stopTimer();
-		searchRequests.inc({ endpoint, outcome: classifySearchResponse(res.statusCode, body) });
+		searchRequests.inc({ route, outcome: classifySearchResponse(res.statusCode, body) });
 	});
 
 	next();

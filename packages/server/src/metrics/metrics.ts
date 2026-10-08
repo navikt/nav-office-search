@@ -1,8 +1,5 @@
 import { collectDefaultMetrics, Counter, Gauge, Histogram, Registry } from '@prometheus-io/client';
 
-// Scraped by NAIS from {basePath}/api/internal/metrics (spec.prometheus in .nais/config.yml).
-// Keep label values to the small fixed sets below: every combination becomes its own time series.
-
 export const registry = new Registry();
 
 collectDefaultMetrics({ register: registry });
@@ -11,22 +8,22 @@ const prefix = 'nav_office_search_';
 
 // Searches
 
-export type SearchEndpoint = 'search' | 'search/name' | 'search/address' | 'geoid';
+export type SearchRoute = 'search' | 'search/name' | 'search/address' | 'geoid';
 
 /** hits: at least one office or address. empty: a valid search with nothing found. invalid: 4xx. error: 5xx. */
 export type SearchOutcome = 'hits' | 'empty' | 'invalid' | 'error';
 
 export const searchRequests = new Counter({
 	name: `${prefix}search_requests_total`,
-	help: 'Search API responses by endpoint and outcome',
-	labelNames: ['endpoint', 'outcome'] as const,
+	help: 'Search API responses by route and outcome',
+	labelNames: ['route', 'outcome'] as const,
 	registers: [registry],
 });
 
 export const searchDuration = new Histogram({
 	name: `${prefix}search_request_duration_seconds`,
 	help: 'Search API response time, including upstream calls',
-	labelNames: ['endpoint'] as const,
+	labelNames: ['route'] as const,
 	buckets: [0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
 	registers: [registry],
 });

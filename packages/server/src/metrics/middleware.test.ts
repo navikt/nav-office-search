@@ -39,7 +39,7 @@ const get = async (path: string) => {
 	return response;
 };
 
-test('counts each search endpoint by outcome and times it', async () => {
+test('counts each search route by outcome and times it', async () => {
 	await get('/search?query=9170');
 	await get('/search/name?query=oslo');
 	// Express routing is case-insensitive and ignores a trailing slash
@@ -49,8 +49,8 @@ test('counts each search endpoint by outcome and times it', async () => {
 	await get('/loginstatus');
 
 	const counted = (await searchRequests.get()).values.map(({ labels, value }) => {
-		const { endpoint, outcome } = labels as Record<string, string>;
-		return [endpoint, outcome, value];
+		const { route, outcome } = labels as Record<string, string>;
+		return [route, outcome, value];
 	});
 	expect(counted).toEqual(
 		expect.arrayContaining([
@@ -72,6 +72,6 @@ test('serves the registry in Prometheus text format', async () => {
 	const text = await response.text();
 
 	expect(response.headers.get('content-type')).toContain('text/plain');
-	expect(text).toContain('nav_office_search_search_requests_total{endpoint="search",outcome="empty"} 1');
+	expect(text).toContain('nav_office_search_search_requests_total{route="search",outcome="empty"} 1');
 	expect(text).toContain('nodejs_eventloop_lag_seconds');
 });
