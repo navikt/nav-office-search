@@ -1,0 +1,1558 @@
+{
+	"030101": {
+		"enhetNr": "0316",
+		"navn": "Nav Gamle Oslo"
+	},
+	"030102": {
+		"enhetNr": "0315",
+		"navn": "Nav Grünerløkka"
+	},
+	"030103": {
+		"enhetNr": "0314",
+		"navn": "Nav Sagene"
+	},
+	"030104": {
+		"enhetNr": "0313",
+		"navn": "Nav St. Hanshaugen"
+	},
+	"030105": {
+		"enhetNr": "0312",
+		"navn": "Nav Frogner"
+	},
+	"030106": {
+		"enhetNr": "0335",
+		"navn": "Nav Ullern"
+	},
+	"030107": {
+		"enhetNr": "0334",
+		"navn": "Nav Vestre Aker"
+	},
+	"030108": {
+		"enhetNr": "0331",
+		"navn": "Nav Nordre Aker"
+	},
+	"030109": {
+		"enhetNr": "0330",
+		"navn": "Nav Bjerke"
+	},
+	"030110": {
+		"enhetNr": "0328",
+		"navn": "Nav Grorud"
+	},
+	"030111": {
+		"enhetNr": "0327",
+		"navn": "Nav Stovner"
+	},
+	"030112": {
+		"enhetNr": "0326",
+		"navn": "Nav Alna"
+	},
+	"030113": {
+		"enhetNr": "0321",
+		"navn": "Nav Østensjø"
+	},
+	"030114": {
+		"enhetNr": "0318",
+		"navn": "Nav Nordstrand"
+	},
+	"030115": {
+		"enhetNr": "0319",
+		"navn": "Nav Søndre Nordstrand"
+	},
+	"030116": {
+		"enhetNr": "0313",
+		"navn": "Nav St. Hanshaugen"
+	},
+	"1101": {
+		"enhetNr": "1101",
+		"navn": "Nav Eigersund-Bjerkreim"
+	},
+	"110301": {
+		"enhetNr": "1162",
+		"navn": "Nav Hundvåg og Storhaug"
+	},
+	"110302": {
+		"enhetNr": "1161",
+		"navn": "Nav Eiganes og Tasta"
+	},
+	"110303": {
+		"enhetNr": "1161",
+		"navn": "Nav Eiganes og Tasta"
+	},
+	"110304": {
+		"enhetNr": "1165",
+		"navn": "Nav Madla"
+	},
+	"110305": {
+		"enhetNr": "1162",
+		"navn": "Nav Hundvåg og Storhaug"
+	},
+	"110306": {
+		"enhetNr": "1164",
+		"navn": "Nav Hillevåg og Hinna"
+	},
+	"110307": {
+		"enhetNr": "1164",
+		"navn": "Nav Hillevåg og Hinna"
+	},
+	"110308": {
+		"enhetNr": "1169",
+		"navn": "Nav Rennesøy og Finnøy"
+	},
+	"110309": {
+		"enhetNr": "1169",
+		"navn": "Nav Rennesøy og Finnøy"
+	},
+	"1106": {
+		"enhetNr": "1106",
+		"navn": "Nav Haugesund-Utsira"
+	},
+	"1108": {
+		"enhetNr": "1102",
+		"navn": "Nav Sandnes"
+	},
+	"1111": {
+		"enhetNr": "1111",
+		"navn": "Nav Sokndal"
+	},
+	"1112": {
+		"enhetNr": "1112",
+		"navn": "Nav Lund"
+	},
+	"1114": {
+		"enhetNr": "1101",
+		"navn": "Nav Eigersund-Bjerkreim"
+	},
+	"1119": {
+		"enhetNr": "1119",
+		"navn": "Nav Hå"
+	},
+	"1120": {
+		"enhetNr": "1120",
+		"navn": "Nav Klepp-Time"
+	},
+	"1121": {
+		"enhetNr": "1120",
+		"navn": "Nav Klepp-Time"
+	},
+	"1122": {
+		"enhetNr": "1122",
+		"navn": "Nav Gjesdal"
+	},
+	"1124": {
+		"enhetNr": "1124",
+		"navn": "Nav Sola"
+	},
+	"1127": {
+		"enhetNr": "1127",
+		"navn": "Nav Randaberg-Kvitsøy"
+	},
+	"1130": {
+		"enhetNr": "1130",
+		"navn": "Nav Strand"
+	},
+	"1133": {
+		"enhetNr": "1133",
+		"navn": "Nav Hjelmeland"
+	},
+	"1134": {
+		"enhetNr": "1134",
+		"navn": "Nav Suldal"
+	},
+	"1135": {
+		"enhetNr": "1135",
+		"navn": "Nav Sauda"
+	},
+	"1144": {
+		"enhetNr": "1127",
+		"navn": "Nav Randaberg-Kvitsøy"
+	},
+	"1145": {
+		"enhetNr": "1149",
+		"navn": "Nav Karmøy-Bokn"
+	},
+	"1146": {
+		"enhetNr": "1146",
+		"navn": "Nav Tysvær"
+	},
+	"1149": {
+		"enhetNr": "1149",
+		"navn": "Nav Karmøy-Bokn"
+	},
+	"1151": {
+		"enhetNr": "1106",
+		"navn": "Nav Haugesund-Utsira"
+	},
+	"1160": {
+		"enhetNr": "1160",
+		"navn": "Nav Vindafjord-Etne"
+	},
+	"1505": {
+		"enhetNr": "1505",
+		"navn": "Nav Kristiansund"
+	},
+	"1506": {
+		"enhetNr": "1502",
+		"navn": "Nav Molde"
+	},
+	"1507": {
+		"enhetNr": "1504",
+		"navn": "Nav Ålesund"
+	},
+	"1511": {
+		"enhetNr": "1515",
+		"navn": "Nav Herøy og Vanylven"
+	},
+	"1514": {
+		"enhetNr": "1517",
+		"navn": "Nav Hareid - Ulstein - Sande"
+	},
+	"1515": {
+		"enhetNr": "1515",
+		"navn": "Nav Herøy og Vanylven"
+	},
+	"1516": {
+		"enhetNr": "1517",
+		"navn": "Nav Hareid - Ulstein - Sande"
+	},
+	"1517": {
+		"enhetNr": "1517",
+		"navn": "Nav Hareid - Ulstein - Sande"
+	},
+	"1520": {
+		"enhetNr": "1520",
+		"navn": "Nav Ørsta Volda"
+	},
+	"1525": {
+		"enhetNr": "1528",
+		"navn": "Nav Sykkylven - Stranda"
+	},
+	"1528": {
+		"enhetNr": "1528",
+		"navn": "Nav Sykkylven - Stranda"
+	},
+	"1531": {
+		"enhetNr": "1531",
+		"navn": "Nav Sula"
+	},
+	"1532": {
+		"enhetNr": "1532",
+		"navn": "Nav Giske"
+	},
+	"1535": {
+		"enhetNr": "1535",
+		"navn": "Nav Vestnes"
+	},
+	"1539": {
+		"enhetNr": "1539",
+		"navn": "Nav Rauma"
+	},
+	"1547": {
+		"enhetNr": "1547",
+		"navn": "Nav Aukra"
+	},
+	"1554": {
+		"enhetNr": "1554",
+		"navn": "Nav Averøy"
+	},
+	"1557": {
+		"enhetNr": "1557",
+		"navn": "Nav Gjemnes"
+	},
+	"1560": {
+		"enhetNr": "1560",
+		"navn": "Nav Tingvoll"
+	},
+	"1563": {
+		"enhetNr": "1563",
+		"navn": "Nav Sunndal"
+	},
+	"1566": {
+		"enhetNr": "1566",
+		"navn": "Nav Surnadal"
+	},
+	"1573": {
+		"enhetNr": "1573",
+		"navn": "Nav Smøla"
+	},
+	"1576": {
+		"enhetNr": "1576",
+		"navn": "Nav Aure"
+	},
+	"1577": {
+		"enhetNr": "1520",
+		"navn": "Nav Ørsta Volda"
+	},
+	"1578": {
+		"enhetNr": "1504",
+		"navn": "Nav Ålesund"
+	},
+	"1579": {
+		"enhetNr": "1548",
+		"navn": "Nav Hustadvika"
+	},
+	"1804": {
+		"enhetNr": "1804",
+		"navn": "Nav Bodø"
+	},
+	"1806": {
+		"enhetNr": "1805",
+		"navn": "Nav Narvik"
+	},
+	"1811": {
+		"enhetNr": "1751",
+		"navn": "Nav Nærøysund"
+	},
+	"1812": {
+		"enhetNr": "1813",
+		"navn": "Nav Sør-Helgeland"
+	},
+	"1813": {
+		"enhetNr": "1813",
+		"navn": "Nav Sør-Helgeland"
+	},
+	"1815": {
+		"enhetNr": "1813",
+		"navn": "Nav Sør-Helgeland"
+	},
+	"1816": {
+		"enhetNr": "1813",
+		"navn": "Nav Sør-Helgeland"
+	},
+	"1818": {
+		"enhetNr": "1818",
+		"navn": "Nav Herøy"
+	},
+	"1820": {
+		"enhetNr": "1820",
+		"navn": "Nav Alstahaug"
+	},
+	"1822": {
+		"enhetNr": "1822",
+		"navn": "Nav Leirfjord"
+	},
+	"1824": {
+		"enhetNr": "1824",
+		"navn": "Nav Mosjøen"
+	},
+	"1825": {
+		"enhetNr": "1825",
+		"navn": "Nav Grane"
+	},
+	"1826": {
+		"enhetNr": "1826",
+		"navn": "Nav Hattfjelldal"
+	},
+	"1827": {
+		"enhetNr": "1827",
+		"navn": "Nav Dønna"
+	},
+	"1828": {
+		"enhetNr": "1828",
+		"navn": "Nav Nesna"
+	},
+	"1832": {
+		"enhetNr": "1832",
+		"navn": "Nav Hemnes"
+	},
+	"1833": {
+		"enhetNr": "1833",
+		"navn": "Nav Rana"
+	},
+	"1834": {
+		"enhetNr": "1834",
+		"navn": "Nav Lurøy"
+	},
+	"1835": {
+		"enhetNr": "1835",
+		"navn": "Nav Træna"
+	},
+	"1836": {
+		"enhetNr": "1836",
+		"navn": "Nav Rødøy"
+	},
+	"1837": {
+		"enhetNr": "1837",
+		"navn": "Nav Meløy"
+	},
+	"1838": {
+		"enhetNr": "1838",
+		"navn": "Nav Gildeskål"
+	},
+	"1839": {
+		"enhetNr": "1841",
+		"navn": "Nav Indre Salten"
+	},
+	"1840": {
+		"enhetNr": "1841",
+		"navn": "Nav Indre Salten"
+	},
+	"1841": {
+		"enhetNr": "1841",
+		"navn": "Nav Indre Salten"
+	},
+	"1845": {
+		"enhetNr": "1841",
+		"navn": "Nav Indre Salten"
+	},
+	"1848": {
+		"enhetNr": "1848",
+		"navn": "Nav Steigen"
+	},
+	"1851": {
+		"enhetNr": "1851",
+		"navn": "Nav Lødingen"
+	},
+	"1853": {
+		"enhetNr": "1805",
+		"navn": "Nav Narvik"
+	},
+	"1856": {
+		"enhetNr": "1856",
+		"navn": "Nav Røst"
+	},
+	"1857": {
+		"enhetNr": "1857",
+		"navn": "Nav Værøy"
+	},
+	"1859": {
+		"enhetNr": "1859",
+		"navn": "Nav Flakstad"
+	},
+	"1860": {
+		"enhetNr": "1860",
+		"navn": "Nav Vestvågøy"
+	},
+	"1865": {
+		"enhetNr": "1865",
+		"navn": "Nav Svolvær"
+	},
+	"1866": {
+		"enhetNr": "1866",
+		"navn": "Nav Hadsel"
+	},
+	"1867": {
+		"enhetNr": "1867",
+		"navn": "Nav Bø"
+	},
+	"1868": {
+		"enhetNr": "1868",
+		"navn": "Nav Øksnes"
+	},
+	"1870": {
+		"enhetNr": "1870",
+		"navn": "Nav Sortland"
+	},
+	"1871": {
+		"enhetNr": "1871",
+		"navn": "Nav Andøy"
+	},
+	"1874": {
+		"enhetNr": "1874",
+		"navn": "Nav Moskenes"
+	},
+	"1875": {
+		"enhetNr": "1841",
+		"navn": "Nav Indre Salten"
+	},
+	"2100": {
+		"enhetNr": "1902",
+		"navn": "Nav Tromsø"
+	},
+	"3001": {
+		"enhetNr": "0101",
+		"navn": "Nav Halden-Aremark"
+	},
+	"3002": {
+		"enhetNr": "0104",
+		"navn": "Nav Moss"
+	},
+	"3003": {
+		"enhetNr": "0105",
+		"navn": "Nav Sarpsborg"
+	},
+	"3004": {
+		"enhetNr": "0106",
+		"navn": "Nav Fredrikstad"
+	},
+	"3005": {
+		"enhetNr": "0602",
+		"navn": "Nav Drammen"
+	},
+	"3006": {
+		"enhetNr": "0604",
+		"navn": "Nav Kongsberg"
+	},
+	"3007": {
+		"enhetNr": "0605",
+		"navn": "Nav Ringerike"
+	},
+	"3011": {
+		"enhetNr": "0111",
+		"navn": "Nav Hvaler"
+	},
+	"3012": {
+		"enhetNr": "0101",
+		"navn": "Nav Halden-Aremark"
+	},
+	"3013": {
+		"enhetNr": "0119",
+		"navn": "Nav Skiptvet Marker"
+	},
+	"3014": {
+		"enhetNr": "0124",
+		"navn": "Nav Indre Østfold"
+	},
+	"3015": {
+		"enhetNr": "0119",
+		"navn": "Nav Skiptvet Marker"
+	},
+	"3016": {
+		"enhetNr": "0128",
+		"navn": "Nav Rakkestad"
+	},
+	"3017": {
+		"enhetNr": "0135",
+		"navn": "Nav Råde"
+	},
+	"3018": {
+		"enhetNr": "0137",
+		"navn": "Nav Våler"
+	},
+	"3019": {
+		"enhetNr": "0211",
+		"navn": "Nav Vestby"
+	},
+	"3020": {
+		"enhetNr": "0213",
+		"navn": "Nav Nordre Follo"
+	},
+	"3021": {
+		"enhetNr": "0214",
+		"navn": "Nav Ås"
+	},
+	"3022": {
+		"enhetNr": "0215",
+		"navn": "Nav Frogn"
+	},
+	"3023": {
+		"enhetNr": "0216",
+		"navn": "Nav Nesodden"
+	},
+	"3024": {
+		"enhetNr": "0219",
+		"navn": "Nav Bærum"
+	},
+	"3025": {
+		"enhetNr": "0220",
+		"navn": "Nav Asker"
+	},
+	"3026": {
+		"enhetNr": "0221",
+		"navn": "Nav Aurskog-Høland"
+	},
+	"3027": {
+		"enhetNr": "0228",
+		"navn": "Nav Rælingen"
+	},
+	"3028": {
+		"enhetNr": "0229",
+		"navn": "Nav Enebakk"
+	},
+	"3029": {
+		"enhetNr": "0230",
+		"navn": "Nav Lørenskog"
+	},
+	"3030": {
+		"enhetNr": "0231",
+		"navn": "Nav Lillestrøm"
+	},
+	"3031": {
+		"enhetNr": "0233",
+		"navn": "Nav Nittedal"
+	},
+	"3032": {
+		"enhetNr": "0238",
+		"navn": "Nav Nannestad Gjerdrum"
+	},
+	"3033": {
+		"enhetNr": "0235",
+		"navn": "Nav Ullensaker"
+	},
+	"3034": {
+		"enhetNr": "0236",
+		"navn": "Nav Nes i Akershus"
+	},
+	"3035": {
+		"enhetNr": "0237",
+		"navn": "Nav Eidsvoll"
+	},
+	"3036": {
+		"enhetNr": "0238",
+		"navn": "Nav Nannestad Gjerdrum"
+	},
+	"3037": {
+		"enhetNr": "0239",
+		"navn": "Nav Hurdal"
+	},
+	"3038": {
+		"enhetNr": "0612",
+		"navn": "Nav Hole"
+	},
+	"3039": {
+		"enhetNr": "0617",
+		"navn": "Nav Hallingdal"
+	},
+	"3040": {
+		"enhetNr": "0617",
+		"navn": "Nav Hallingdal"
+	},
+	"3041": {
+		"enhetNr": "0617",
+		"navn": "Nav Hallingdal"
+	},
+	"3043": {
+		"enhetNr": "0617",
+		"navn": "Nav Hallingdal"
+	},
+	"3044": {
+		"enhetNr": "0617",
+		"navn": "Nav Hallingdal"
+	},
+	"3045": {
+		"enhetNr": "0623",
+		"navn": "Nav Midt-Buskerud"
+	},
+	"3046": {
+		"enhetNr": "0623",
+		"navn": "Nav Midt-Buskerud"
+	},
+	"3047": {
+		"enhetNr": "0623",
+		"navn": "Nav Midt-Buskerud"
+	},
+	"3048": {
+		"enhetNr": "0624",
+		"navn": "Nav Øvre Eiker"
+	},
+	"3049": {
+		"enhetNr": "0626",
+		"navn": "Nav Lier"
+	},
+	"3050": {
+		"enhetNr": "0632",
+		"navn": "Nav Numedal"
+	},
+	"3051": {
+		"enhetNr": "0632",
+		"navn": "Nav Numedal"
+	},
+	"3052": {
+		"enhetNr": "0632",
+		"navn": "Nav Numedal"
+	},
+	"3053": {
+		"enhetNr": "0532",
+		"navn": "Nav Jevnaker"
+	},
+	"3054": {
+		"enhetNr": "0534",
+		"navn": "Nav Hadeland"
+	},
+	"3401": {
+		"enhetNr": "0402",
+		"navn": "Nav Kongsvinger"
+	},
+	"3403": {
+		"enhetNr": "0403",
+		"navn": "Nav Hamar"
+	},
+	"3405": {
+		"enhetNr": "0501",
+		"navn": "Nav Lillehammer-Gausdal"
+	},
+	"3407": {
+		"enhetNr": "0502",
+		"navn": "Nav Gjøvik"
+	},
+	"3411": {
+		"enhetNr": "0412",
+		"navn": "Nav Ringsaker"
+	},
+	"3412": {
+		"enhetNr": "0415",
+		"navn": "Nav Løten"
+	},
+	"3413": {
+		"enhetNr": "0417",
+		"navn": "Nav Stange"
+	},
+	"3414": {
+		"enhetNr": "0419",
+		"navn": "Nav Odal"
+	},
+	"3415": {
+		"enhetNr": "0419",
+		"navn": "Nav Odal"
+	},
+	"3416": {
+		"enhetNr": "0420",
+		"navn": "Nav Eidskog"
+	},
+	"3417": {
+		"enhetNr": "0423",
+		"navn": "Nav Grue"
+	},
+	"3418": {
+		"enhetNr": "0425",
+		"navn": "Nav Åsnes"
+	},
+	"3419": {
+		"enhetNr": "0426",
+		"navn": "Nav Våler i Hedmark"
+	},
+	"3420": {
+		"enhetNr": "0427",
+		"navn": "Nav Elverum"
+	},
+	"3421": {
+		"enhetNr": "0428",
+		"navn": "Nav Trysil"
+	},
+	"3422": {
+		"enhetNr": "0429",
+		"navn": "Nav Åmot"
+	},
+	"3423": {
+		"enhetNr": "0430",
+		"navn": "Nav Stor-Elvdal"
+	},
+	"3424": {
+		"enhetNr": "0437",
+		"navn": "Nav Nord-Østerdal"
+	},
+	"3425": {
+		"enhetNr": "0434",
+		"navn": "Nav Engerdal"
+	},
+	"3426": {
+		"enhetNr": "0437",
+		"navn": "Nav Nord-Østerdal"
+	},
+	"3427": {
+		"enhetNr": "0437",
+		"navn": "Nav Nord-Østerdal"
+	},
+	"3428": {
+		"enhetNr": "0437",
+		"navn": "Nav Nord-Østerdal"
+	},
+	"3429": {
+		"enhetNr": "0437",
+		"navn": "Nav Nord-Østerdal"
+	},
+	"3430": {
+		"enhetNr": "1640",
+		"navn": "Nav Røros, Os og Holtålen"
+	},
+	"3431": {
+		"enhetNr": "0511",
+		"navn": "Nav Lesja - Dovre"
+	},
+	"3432": {
+		"enhetNr": "0511",
+		"navn": "Nav Lesja - Dovre"
+	},
+	"3433": {
+		"enhetNr": "0513",
+		"navn": "Nav Lom-Skjåk"
+	},
+	"3434": {
+		"enhetNr": "0513",
+		"navn": "Nav Lom-Skjåk"
+	},
+	"3435": {
+		"enhetNr": "0515",
+		"navn": "Nav Vågå"
+	},
+	"3436": {
+		"enhetNr": "0516",
+		"navn": "Nav Midt-Gudbrandsdal"
+	},
+	"3437": {
+		"enhetNr": "0517",
+		"navn": "Nav Sel"
+	},
+	"3438": {
+		"enhetNr": "0516",
+		"navn": "Nav Midt-Gudbrandsdal"
+	},
+	"3439": {
+		"enhetNr": "0516",
+		"navn": "Nav Midt-Gudbrandsdal"
+	},
+	"3440": {
+		"enhetNr": "0521",
+		"navn": "Nav Øyer"
+	},
+	"3441": {
+		"enhetNr": "0501",
+		"navn": "Nav Lillehammer-Gausdal"
+	},
+	"3442": {
+		"enhetNr": "0528",
+		"navn": "Nav Østre Toten"
+	},
+	"3443": {
+		"enhetNr": "0529",
+		"navn": "Nav Vestre Toten"
+	},
+	"3446": {
+		"enhetNr": "0534",
+		"navn": "Nav Hadeland"
+	},
+	"3447": {
+		"enhetNr": "0536",
+		"navn": "Nav Søndre Land"
+	},
+	"3448": {
+		"enhetNr": "0538",
+		"navn": "Nav Nordre Land"
+	},
+	"3449": {
+		"enhetNr": "0542",
+		"navn": "Nav Valdres"
+	},
+	"3450": {
+		"enhetNr": "0542",
+		"navn": "Nav Valdres"
+	},
+	"3451": {
+		"enhetNr": "0542",
+		"navn": "Nav Valdres"
+	},
+	"3452": {
+		"enhetNr": "0542",
+		"navn": "Nav Valdres"
+	},
+	"3453": {
+		"enhetNr": "0542",
+		"navn": "Nav Valdres"
+	},
+	"3454": {
+		"enhetNr": "0542",
+		"navn": "Nav Valdres"
+	},
+	"3801": {
+		"enhetNr": "0701",
+		"navn": "Nav Horten"
+	},
+	"3802": {
+		"enhetNr": "5301",
+		"navn": "Nav Holmestrand"
+	},
+	"3803": {
+		"enhetNr": "0704",
+		"navn": "Nav Tønsberg"
+	},
+	"3804": {
+		"enhetNr": "0710",
+		"navn": "Nav Sandefjord"
+	},
+	"3805": {
+		"enhetNr": "5303",
+		"navn": "Nav Larvik"
+	},
+	"3806": {
+		"enhetNr": "0805",
+		"navn": "Nav Porsgrunn"
+	},
+	"3807": {
+		"enhetNr": "0806",
+		"navn": "Nav Skien"
+	},
+	"3808": {
+		"enhetNr": "0807",
+		"navn": "Nav Notodden"
+	},
+	"3811": {
+		"enhetNr": "5302",
+		"navn": "Nav Færder"
+	},
+	"3812": {
+		"enhetNr": "0811",
+		"navn": "Nav Siljan"
+	},
+	"3813": {
+		"enhetNr": "0814",
+		"navn": "Nav Bamble"
+	},
+	"3814": {
+		"enhetNr": "0815",
+		"navn": "Nav Kragerø"
+	},
+	"3815": {
+		"enhetNr": "0817",
+		"navn": "Nav Drangedal"
+	},
+	"3816": {
+		"enhetNr": "0821",
+		"navn": "Nav Midt-Telemark"
+	},
+	"3817": {
+		"enhetNr": "0821",
+		"navn": "Nav Midt-Telemark"
+	},
+	"3818": {
+		"enhetNr": "0826",
+		"navn": "Nav Tinn"
+	},
+	"3819": {
+		"enhetNr": "0827",
+		"navn": "Nav Hjartdal"
+	},
+	"3820": {
+		"enhetNr": "0833",
+		"navn": "Nav Vest-Telemark"
+	},
+	"3821": {
+		"enhetNr": "0833",
+		"navn": "Nav Vest-Telemark"
+	},
+	"3822": {
+		"enhetNr": "0833",
+		"navn": "Nav Vest-Telemark"
+	},
+	"3823": {
+		"enhetNr": "0833",
+		"navn": "Nav Vest-Telemark"
+	},
+	"3824": {
+		"enhetNr": "0833",
+		"navn": "Nav Vest-Telemark"
+	},
+	"3825": {
+		"enhetNr": "0833",
+		"navn": "Nav Vest-Telemark"
+	},
+	"4201": {
+		"enhetNr": "0901",
+		"navn": "Nav Risør"
+	},
+	"4202": {
+		"enhetNr": "0904",
+		"navn": "Nav Grimstad"
+	},
+	"4203": {
+		"enhetNr": "0906",
+		"navn": "Nav Arendal"
+	},
+	"4204": {
+		"enhetNr": "1001",
+		"navn": "Nav Kristiansand"
+	},
+	"4205": {
+		"enhetNr": "1002",
+		"navn": "Nav Lindesnes"
+	},
+	"4206": {
+		"enhetNr": "1037",
+		"navn": "Nav Lister"
+	},
+	"4207": {
+		"enhetNr": "1037",
+		"navn": "Nav Lister"
+	},
+	"4211": {
+		"enhetNr": "0911",
+		"navn": "Nav Gjerstad"
+	},
+	"4212": {
+		"enhetNr": "0912",
+		"navn": "Nav Vegårshei"
+	},
+	"4213": {
+		"enhetNr": "0914",
+		"navn": "Nav Tvedestrand"
+	},
+	"4214": {
+		"enhetNr": "0919",
+		"navn": "Nav Froland"
+	},
+	"4215": {
+		"enhetNr": "0926",
+		"navn": "Nav Lillesand"
+	},
+	"4216": {
+		"enhetNr": "0928",
+		"navn": "Nav Birkenes"
+	},
+	"4217": {
+		"enhetNr": "0929",
+		"navn": "Nav Åmli"
+	},
+	"4218": {
+		"enhetNr": "1014",
+		"navn": "Nav Midt-Agder"
+	},
+	"4219": {
+		"enhetNr": "0937",
+		"navn": "Nav Evje og Hornnes"
+	},
+	"4220": {
+		"enhetNr": "1014",
+		"navn": "Nav Midt-Agder"
+	},
+	"4221": {
+		"enhetNr": "1014",
+		"navn": "Nav Midt-Agder"
+	},
+	"4222": {
+		"enhetNr": "1014",
+		"navn": "Nav Midt-Agder"
+	},
+	"4223": {
+		"enhetNr": "1014",
+		"navn": "Nav Midt-Agder"
+	},
+	"4224": {
+		"enhetNr": "1014",
+		"navn": "Nav Midt-Agder"
+	},
+	"4225": {
+		"enhetNr": "1037",
+		"navn": "Nav Lister"
+	},
+	"4226": {
+		"enhetNr": "1034",
+		"navn": "Nav Hægebostad"
+	},
+	"4227": {
+		"enhetNr": "1037",
+		"navn": "Nav Lister"
+	},
+	"4228": {
+		"enhetNr": "1037",
+		"navn": "Nav Lister"
+	},
+	"460101": {
+		"enhetNr": "1203",
+		"navn": "Nav Bergen nord"
+	},
+	"460102": {
+		"enhetNr": "1209",
+		"navn": "Nav Bergenhus"
+	},
+	"460103": {
+		"enhetNr": "1202",
+		"navn": "Nav Bergen sør"
+	},
+	"460104": {
+		"enhetNr": "1206",
+		"navn": "Nav Bergen vest"
+	},
+	"460105": {
+		"enhetNr": "1206",
+		"navn": "Nav Bergen vest"
+	},
+	"460106": {
+		"enhetNr": "1202",
+		"navn": "Nav Bergen sør"
+	},
+	"460107": {
+		"enhetNr": "1208",
+		"navn": "Nav Årstad"
+	},
+	"460108": {
+		"enhetNr": "1203",
+		"navn": "Nav Bergen nord"
+	},
+	"4602": {
+		"enhetNr": "1401",
+		"navn": "Nav Kinn"
+	},
+	"4611": {
+		"enhetNr": "1160",
+		"navn": "Nav Vindafjord-Etne"
+	},
+	"4612": {
+		"enhetNr": "1216",
+		"navn": "Nav Sveio"
+	},
+	"4613": {
+		"enhetNr": "1219",
+		"navn": "Nav Bømlo"
+	},
+	"4614": {
+		"enhetNr": "1221",
+		"navn": "Nav Stord"
+	},
+	"4615": {
+		"enhetNr": "1222",
+		"navn": "Nav Fitjar"
+	},
+	"4616": {
+		"enhetNr": "1223",
+		"navn": "Nav Tysnes"
+	},
+	"4617": {
+		"enhetNr": "1224",
+		"navn": "Nav Kvinnherad"
+	},
+	"4618": {
+		"enhetNr": "1228",
+		"navn": "Nav Ullensvang"
+	},
+	"4619": {
+		"enhetNr": "1232",
+		"navn": "Nav Eidfjord"
+	},
+	"4620": {
+		"enhetNr": "1233",
+		"navn": "Nav Ulvik"
+	},
+	"4621": {
+		"enhetNr": "1235",
+		"navn": "Nav Voss"
+	},
+	"4622": {
+		"enhetNr": "1238",
+		"navn": "Nav Kvam"
+	},
+	"4623": {
+		"enhetNr": "1242",
+		"navn": "Nav Samnanger"
+	},
+	"4624": {
+		"enhetNr": "1243",
+		"navn": "Nav Bjørnafjorden"
+	},
+	"4625": {
+		"enhetNr": "1244",
+		"navn": "Nav Austevoll"
+	},
+	"4626": {
+		"enhetNr": "1246",
+		"navn": "Nav Øygarden"
+	},
+	"4627": {
+		"enhetNr": "1247",
+		"navn": "Nav Askøy"
+	},
+	"4628": {
+		"enhetNr": "1251",
+		"navn": "Nav Vaksdal"
+	},
+	"4629": {
+		"enhetNr": "1266",
+		"navn": "Nav Fensfjorden"
+	},
+	"4630": {
+		"enhetNr": "1253",
+		"navn": "Nav Osterøy"
+	},
+	"4631": {
+		"enhetNr": "1263",
+		"navn": "Nav Alver"
+	},
+	"4632": {
+		"enhetNr": "1266",
+		"navn": "Nav Fensfjorden"
+	},
+	"4633": {
+		"enhetNr": "1266",
+		"navn": "Nav Fensfjorden"
+	},
+	"4634": {
+		"enhetNr": "1266",
+		"navn": "Nav Fensfjorden"
+	},
+	"4635": {
+		"enhetNr": "1266",
+		"navn": "Nav Fensfjorden"
+	},
+	"4636": {
+		"enhetNr": "1412",
+		"navn": "Nav Solund"
+	},
+	"4637": {
+		"enhetNr": "1413",
+		"navn": "Nav Hyllestad"
+	},
+	"4638": {
+		"enhetNr": "1416",
+		"navn": "Nav Høyanger"
+	},
+	"4639": {
+		"enhetNr": "1417",
+		"navn": "Nav Vik"
+	},
+	"4640": {
+		"enhetNr": "1420",
+		"navn": "Nav Sogndal"
+	},
+	"4641": {
+		"enhetNr": "1421",
+		"navn": "Nav Aurland"
+	},
+	"4642": {
+		"enhetNr": "1422",
+		"navn": "Nav Lærdal"
+	},
+	"4643": {
+		"enhetNr": "1424",
+		"navn": "Nav Årdal"
+	},
+	"4644": {
+		"enhetNr": "1426",
+		"navn": "Nav Luster"
+	},
+	"4645": {
+		"enhetNr": "1428",
+		"navn": "Nav Askvoll"
+	},
+	"4646": {
+		"enhetNr": "1429",
+		"navn": "Nav Fjaler"
+	},
+	"4647": {
+		"enhetNr": "1432",
+		"navn": "Nav Sunnfjord"
+	},
+	"4648": {
+		"enhetNr": "1438",
+		"navn": "Nav Bremanger"
+	},
+	"4649": {
+		"enhetNr": "1443",
+		"navn": "Nav Stad"
+	},
+	"4650": {
+		"enhetNr": "1445",
+		"navn": "Nav Gloppen"
+	},
+	"4651": {
+		"enhetNr": "1449",
+		"navn": "Nav Stryn"
+	},
+	"500101": {
+		"enhetNr": "5701",
+		"navn": "Nav Falkenborg"
+	},
+	"500102": {
+		"enhetNr": "5701",
+		"navn": "Nav Falkenborg"
+	},
+	"500103": {
+		"enhetNr": "5702",
+		"navn": "Nav Lerkendal"
+	},
+	"500104": {
+		"enhetNr": "5702",
+		"navn": "Nav Lerkendal"
+	},
+	"5006": {
+		"enhetNr": "1702",
+		"navn": "Nav Inn-Trøndelag"
+	},
+	"5007": {
+		"enhetNr": "1703",
+		"navn": "Nav Midtre Namdal"
+	},
+	"5014": {
+		"enhetNr": "1620",
+		"navn": "Nav Hitra Frøya"
+	},
+	"5020": {
+		"enhetNr": "1630",
+		"navn": "Nav Nord-Fosen"
+	},
+	"5021": {
+		"enhetNr": "1634",
+		"navn": "Nav Oppdal og Rennebu"
+	},
+	"5022": {
+		"enhetNr": "1634",
+		"navn": "Nav Oppdal og Rennebu"
+	},
+	"5025": {
+		"enhetNr": "1640",
+		"navn": "Nav Røros, Os og Holtålen"
+	},
+	"5026": {
+		"enhetNr": "1640",
+		"navn": "Nav Røros, Os og Holtålen"
+	},
+	"5027": {
+		"enhetNr": "1648",
+		"navn": "Nav Midtre Gauldal"
+	},
+	"5028": {
+		"enhetNr": "1653",
+		"navn": "Nav Melhus"
+	},
+	"5029": {
+		"enhetNr": "1657",
+		"navn": "Nav Skaun"
+	},
+	"5031": {
+		"enhetNr": "1663",
+		"navn": "Nav Malvik"
+	},
+	"5032": {
+		"enhetNr": "1783",
+		"navn": "Nav Værnes"
+	},
+	"5033": {
+		"enhetNr": "1783",
+		"navn": "Nav Værnes"
+	},
+	"5034": {
+		"enhetNr": "1783",
+		"navn": "Nav Værnes"
+	},
+	"5035": {
+		"enhetNr": "1783",
+		"navn": "Nav Værnes"
+	},
+	"5036": {
+		"enhetNr": "1783",
+		"navn": "Nav Værnes"
+	},
+	"5037": {
+		"enhetNr": "1719",
+		"navn": "Nav Levanger"
+	},
+	"5038": {
+		"enhetNr": "1721",
+		"navn": "Nav Verdal"
+	},
+	"5041": {
+		"enhetNr": "1702",
+		"navn": "Nav Inn-Trøndelag"
+	},
+	"5042": {
+		"enhetNr": "1742",
+		"navn": "Nav Indre Namdal"
+	},
+	"5043": {
+		"enhetNr": "1742",
+		"navn": "Nav Indre Namdal"
+	},
+	"5044": {
+		"enhetNr": "1742",
+		"navn": "Nav Indre Namdal"
+	},
+	"5045": {
+		"enhetNr": "1742",
+		"navn": "Nav Indre Namdal"
+	},
+	"5046": {
+		"enhetNr": "1703",
+		"navn": "Nav Midtre Namdal"
+	},
+	"5047": {
+		"enhetNr": "1703",
+		"navn": "Nav Midtre Namdal"
+	},
+	"5049": {
+		"enhetNr": "1703",
+		"navn": "Nav Midtre Namdal"
+	},
+	"5052": {
+		"enhetNr": "1751",
+		"navn": "Nav Nærøysund"
+	},
+	"5053": {
+		"enhetNr": "1702",
+		"navn": "Nav Inn-Trøndelag"
+	},
+	"5054": {
+		"enhetNr": "5703",
+		"navn": "Nav Indre Fosen"
+	},
+	"5055": {
+		"enhetNr": "1612",
+		"navn": "Nav Heim"
+	},
+	"5056": {
+		"enhetNr": "1620",
+		"navn": "Nav Hitra Frøya"
+	},
+	"5057": {
+		"enhetNr": "1621",
+		"navn": "Nav Ørland"
+	},
+	"5058": {
+		"enhetNr": "1630",
+		"navn": "Nav Nord-Fosen"
+	},
+	"5059": {
+		"enhetNr": "1638",
+		"navn": "Nav Orkland"
+	},
+	"5060": {
+		"enhetNr": "1751",
+		"navn": "Nav Nærøysund"
+	},
+	"5061": {
+		"enhetNr": "1638",
+		"navn": "Nav Orkland"
+	},
+	"5401": {
+		"enhetNr": "1902",
+		"navn": "Nav Tromsø"
+	},
+	"5402": {
+		"enhetNr": "1903",
+		"navn": "Nav Harstad"
+	},
+	"5403": {
+		"enhetNr": "2012",
+		"navn": "Nav Alta-Kvænangen-Loppa"
+	},
+	"5404": {
+		"enhetNr": "2002",
+		"navn": "Nav Vardø"
+	},
+	"5405": {
+		"enhetNr": "2003",
+		"navn": "Nav Vadsø"
+	},
+	"5406": {
+		"enhetNr": "2004",
+		"navn": "Nav Hammerfest-Måsøy"
+	},
+	"5411": {
+		"enhetNr": "1911",
+		"navn": "Nav Kvæfjord"
+	},
+	"5412": {
+		"enhetNr": "1913",
+		"navn": "Nav Tjeldsund"
+	},
+	"5413": {
+		"enhetNr": "1917",
+		"navn": "Nav Ibestad"
+	},
+	"5414": {
+		"enhetNr": "1805",
+		"navn": "Nav Narvik"
+	},
+	"5415": {
+		"enhetNr": "1923",
+		"navn": "Nav Salangen-Lavangen-Dyrøy"
+	},
+	"5416": {
+		"enhetNr": "1924",
+		"navn": "Nav Målselv-Bardu"
+	},
+	"5417": {
+		"enhetNr": "1923",
+		"navn": "Nav Salangen-Lavangen-Dyrøy"
+	},
+	"5418": {
+		"enhetNr": "1924",
+		"navn": "Nav Målselv-Bardu"
+	},
+	"5419": {
+		"enhetNr": "1931",
+		"navn": "Nav Senja-Sørreisa"
+	},
+	"5420": {
+		"enhetNr": "1923",
+		"navn": "Nav Salangen-Lavangen-Dyrøy"
+	},
+	"5421": {
+		"enhetNr": "1931",
+		"navn": "Nav Senja-Sørreisa"
+	},
+	"5422": {
+		"enhetNr": "1933",
+		"navn": "Nav Balsfjord-Storfjord"
+	},
+	"5423": {
+		"enhetNr": "1936",
+		"navn": "Nav Karlsøy"
+	},
+	"5424": {
+		"enhetNr": "1938",
+		"navn": "Nav Lyngen"
+	},
+	"5425": {
+		"enhetNr": "1933",
+		"navn": "Nav Balsfjord-Storfjord"
+	},
+	"5426": {
+		"enhetNr": "1940",
+		"navn": "Nav Gáivuotna/Kåfjord"
+	},
+	"5427": {
+		"enhetNr": "1941",
+		"navn": "Nav Skjervøy"
+	},
+	"5428": {
+		"enhetNr": "1942",
+		"navn": "Nav Nordreisa"
+	},
+	"5429": {
+		"enhetNr": "2012",
+		"navn": "Nav Alta-Kvænangen-Loppa"
+	},
+	"5430": {
+		"enhetNr": "2011",
+		"navn": "Nav Guovdageaidnu/Kautokeino"
+	},
+	"5432": {
+		"enhetNr": "2012",
+		"navn": "Nav Alta-Kvænangen-Loppa"
+	},
+	"5433": {
+		"enhetNr": "2015",
+		"navn": "Nav Hasvik"
+	},
+	"5434": {
+		"enhetNr": "2004",
+		"navn": "Nav Hammerfest-Måsøy"
+	},
+	"5435": {
+		"enhetNr": "2019",
+		"navn": "Nav Nordkapp"
+	},
+	"5436": {
+		"enhetNr": "2020",
+		"navn": "Nav Porsanger"
+	},
+	"5437": {
+		"enhetNr": "2021",
+		"navn": "Nav Karasjohka/Karasjok"
+	},
+	"5438": {
+		"enhetNr": "2022",
+		"navn": "Nav Lebesby"
+	},
+	"5439": {
+		"enhetNr": "2023",
+		"navn": "Nav Gamvik"
+	},
+	"5440": {
+		"enhetNr": "2024",
+		"navn": "Nav Berlevåg"
+	},
+	"5441": {
+		"enhetNr": "2025",
+		"navn": "Nav Deatnu/Tana"
+	},
+	"5442": {
+		"enhetNr": "2027",
+		"navn": "Nav Unjárga/Nesseby"
+	},
+	"5443": {
+		"enhetNr": "2028",
+		"navn": "Nav Båtsfjord"
+	},
+	"5444": {
+		"enhetNr": "2030",
+		"navn": "Nav Sør-Varanger"
+	}
+}

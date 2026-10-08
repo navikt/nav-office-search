@@ -1,0 +1,77 @@
+{
+	"0150": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"030101"
+			]
+		}
+	},
+	"0184": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"030102"
+			]
+		}
+	},
+	"0354": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"030105",
+				"030104"
+			]
+		}
+	},
+	"0560": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"030102"
+			]
+		}
+	},
+	"1001": {
+		"status": 200,
+		"body": {
+			"bydeler": []
+		}
+	},
+	"4014": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"110301"
+			]
+		}
+	},
+	"4737": {
+		"status": 200,
+		"body": {
+			"bydeler": []
+		}
+	},
+	"5003": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"460102"
+			]
+		}
+	},
+	"7014": {
+		"status": 200,
+		"body": {
+			"bydeler": [
+				"500101"
+			]
+		}
+	},
+	"abcd": {
+		"status": 400,
+		"body": {
+			"error": "Invalid postnummer"
+		}
+	}
+}

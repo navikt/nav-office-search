@@ -21,7 +21,7 @@ export type PostnrRegisterItem = {
 
 let postnrRegisterData: PostnrRegisterItem[] = [];
 
-const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
+export const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
 	const allRows = rawText.split('\n');
 
 	return allRows.map((stringRow) => {
