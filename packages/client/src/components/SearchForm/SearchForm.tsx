@@ -23,7 +23,8 @@ const isValidInput = (input: string): boolean => input.trim().length >= 2;
 
 const focusScrollOffset = 16;
 const focusScrollDelayMs = 300;
-const postnrLoadingSpinnerDelayMs = 250;
+export const SEARCH_DEBOUNCE_MS = 500;
+export const POSTNR_SPINNER_DELAY_MS = 250;
 
 const shouldAdjustMobileFocusScroll = () =>
 	typeof window !== 'undefined' && window.matchMedia?.('(max-width: 768px) and (pointer: coarse)').matches;
@@ -124,7 +125,7 @@ export const SearchForm = () => {
 							setStatusMessage(searchLoadingText);
 							setIsLoading(true);
 						}
-					}, postnrLoadingSpinnerDelayMs);
+					}, POSTNR_SPINNER_DELAY_MS);
 				}
 
 				fetchSearchClient(input, {
@@ -171,14 +172,14 @@ export const SearchForm = () => {
 						}
 					}
 				});
-			}, 500),
+			}, SEARCH_DEBOUNCE_MS),
 		[clearLoadingDelay, clearSearchResult, locale, searchLoadingText, setServerError],
 	);
 
 	const cancelPendingSearch = useCallback(() => {
 		activeSearchIdRef.current += 1;
 		abortSearchClient();
-		runSearch.cancel?.();
+		runSearch.cancel();
 		clearLoadingDelay();
 		setIsLoading(false);
 		resetAddressState();
