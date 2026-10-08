@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { serverUrls } from '../../../urls';
+import { observeUpstream } from '../../../metrics/metrics';
 
 interface LoginStatusResponse {
 	isUserLoggedIn: boolean;
@@ -15,12 +16,14 @@ export const loginStatusHandler = async (req: Request, res: Response) => {
 
 		const cookie = req.headers.cookie || '';
 
-		const response = await fetch(url, {
-			method: 'GET',
-			headers: {
-				...(cookie && { cookie }),
-			},
-		});
+		const response = await observeUpstream('login-session', () =>
+			fetch(url, {
+				method: 'GET',
+				headers: {
+					...(cookie && { cookie }),
+				},
+			}),
+		);
 
 		const isUserLoggedIn = response.status === 200;
 

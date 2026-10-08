@@ -46,6 +46,7 @@ Dependency installation uses GitHub Packages for `@navikt/*` packages and requir
 - The server mounts site and API routes under `VITE_APP_BASEPATH`.
 - Four-digit queries go to `/api/search`, which dispatches to the postnummer handler. Other text goes to `/api/search/name` and falls back to `/api/search/address` when there are no name hits; selecting an address resolves offices through `/api/geoid`.
 - The initial reference-data load must resolve before routes are registered. A rejected initial load must fail startup; successful loads are refreshed daily.
+- Prometheus metrics are served at `{basePath}/api/internal/metrics` and scraped by NAIS (`spec.prometheus`). They are defined in `packages/server/src/metrics/metrics.ts` with the `nav_office_search_` prefix. Wrap new outbound requests in `observeUpstream` (`fetchJson` already does), and keep label values to small fixed sets.
 - When `ENV=localhost`, requests made through `fetchJson` use the sandbox in `packages/server/src/_mock/fetchMock.ts`; unmatched requests fall back to the network. Direct `fetch` calls are not mocked.
 
 ## Validation and deployment

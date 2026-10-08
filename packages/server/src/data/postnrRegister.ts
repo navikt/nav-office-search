@@ -1,5 +1,6 @@
 import { PostnrKategori } from '../../../common/types/data';
 import { serverUrls } from '../urls';
+import { observeUpstream } from '../metrics/metrics';
 
 const charEncodeFormat = 'windows-1252';
 
@@ -42,7 +43,7 @@ export const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem
 const fetchPostnummerTxtFromPosten = async (): Promise<string | null> => {
 	console.log(`Fetching postnr register from ${serverUrls.postnrRegister}`);
 	try {
-		return await fetch(serverUrls.postnrRegister)
+		return await observeUpstream('bring', () => fetch(serverUrls.postnrRegister))
 			.then((res) => {
 				if (res.ok) {
 					return res.arrayBuffer();

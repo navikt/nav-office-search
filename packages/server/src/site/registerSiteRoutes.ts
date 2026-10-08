@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 import { createServer } from 'vite';
 import { HtmlRenderer, devRender, prodRender } from './ssr/htmlRenderer';
 import { createCacheMiddleware } from '../utils/cacheMiddleware';
+import { pageRenders } from '../metrics/metrics';
+import { AppLocale } from '../../../common/localization/types';
 
 const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
 const favicon = `${process.cwd()}/frontendDist/client/favicon.ico`;
@@ -47,20 +49,29 @@ export const registerSiteRoutes = async (router: Router) => {
 
 	router.use(createCacheMiddleware({ ttlSec: 600, maxSize: 2 }));
 
+	const renderPage = async (locale: AppLocale, url: string) => {
+		try {
+			return await render(locale, url);
+		} catch (e) {
+			pageRenders.inc({ locale, outcome: 'error' });
+			throw e;
+		}
+	};
+
 	router.get('/', async (req, res) => {
-		const html = await render('nb', req.originalUrl);
+		const html = await renderPage('nb', req.originalUrl);
 		const sanitizedOriginalUrl = req.originalUrl.replace(/[\r\n]/g, '');
 		console.log(`Rendered HTML for ${sanitizedOriginalUrl}`);
 		return res.status(200).send(html);
 	});
 
 	router.get('/nn', async (req, res) => {
-		const html = await render('nn', req.originalUrl);
+		const html = await renderPage('nn', req.originalUrl);
 		return res.status(200).send(html);
 	});
 
 	router.get('/en', async (req, res) => {
-		const html = await render('en', req.originalUrl);
+		const html = await renderPage('en', req.originalUrl);
 		return res.status(200).send(html);
 	});
 };

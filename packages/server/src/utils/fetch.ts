@@ -1,6 +1,7 @@
 import { fetchMock } from '../_mock/fetchMock';
 import { LocaleStringId } from '../../../common/localization/types';
 import { SearchResultErrorProps } from '../../../common/types/results';
+import { observeUpstream, upstreamForUrl } from '../metrics/metrics';
 
 const fetchOrMock = process.env.ENV === 'localhost' ? fetchMock : fetch;
 
@@ -40,13 +41,15 @@ export const fetchJson = async <T = any>(
 	const urlWithQuery = `${url}${params ? objectToQueryString(params) : ''}`;
 
 	try {
-		const res = await fetchOrMock(urlWithQuery, {
-			...options,
-			headers: {
-				accept: 'application/json',
-				...(options?.headers && { ...options.headers }),
-			},
-		});
+		const res = await observeUpstream(upstreamForUrl(urlWithQuery), () =>
+			fetchOrMock(urlWithQuery, {
+				...options,
+				headers: {
+					accept: 'application/json',
+					...(options?.headers && { ...options.headers }),
+				},
+			}),
+		);
 
 		const isJson = res.headers?.get('content-type')?.includes?.('application/json');
 
