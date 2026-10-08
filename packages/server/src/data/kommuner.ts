@@ -17,11 +17,11 @@ const kommunerData: KommunerData = {
 	kommunerArray: [],
 };
 
-// Svalbard (2100) and Jan Mayen (2211) do not have their own offices
-// These are served by Nav Tromsø (5401)
+// Jan Mayen (2211) has no office of its own and NORG doesn't map it, so it borrows whatever NORG says serves
+// Svalbard (2100), today Nav Tromsø. Svalbard itself is mapped in NORG. This used to point both at Tromsø's
+// kommunenr, which broke when Tromsø went from 5401 to 5501 in 2024.
 const kommunenrExceptionsMap: { [key: string]: string } = {
-	'2100': '5401',
-	'2211': '5401',
+	'2211': '2100',
 };
 
 export const getOfficeInfoGeoIdForKommune = (kommunenr: string) => kommunenrExceptionsMap[kommunenr] || kommunenr;
