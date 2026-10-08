@@ -5,6 +5,7 @@ import { registerSiteRoutes } from './site/registerSiteRoutes.js';
 import { registerApiRoutes } from './api/registerApiRoutes';
 import { loadDataAndStartSchedule } from './data/data';
 import { registerErrorHandlers } from './utils/errorHandlers';
+import { metricsHandler, searchMetrics } from './metrics/middleware';
 
 const isLocal = process.env.ENV === 'localhost';
 const basePath = process.env.VITE_APP_BASEPATH;
@@ -18,6 +19,8 @@ const apiRouter = express.Router();
 app.use(compression());
 app.use(basePath, siteRouter);
 siteRouter.use('/api', apiRouter);
+apiRouter.use(searchMetrics);
+apiRouter.get('/internal/metrics', metricsHandler);
 
 // Redirect from root to basepath in local development environments
 if (isLocal) {

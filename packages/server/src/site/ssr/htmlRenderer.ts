@@ -2,6 +2,7 @@ import { AppLocale } from '../../../../common/localization/types';
 import { getTemplateWithDecorator } from './templateBuilder';
 import { ViteDevServer } from 'vite';
 import { buildMetaTags } from './metaTags';
+import { pageRenders } from '../../metrics/metrics';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - build artifact, only exists post-build
@@ -28,9 +29,11 @@ export const prodRender: HtmlRenderer = async (locale: AppLocale) => {
 	const template = await getTemplateWithDecorator(locale);
 	try {
 		const appHtml = await render(locale);
+		pageRenders.inc({ locale, outcome: 'ssr' });
 		return processTemplate(locale, template, appHtml);
 	} catch (e) {
 		console.error(`Error occured while server rendering app! - ${e}`);
+		pageRenders.inc({ locale, outcome: 'csr_fallback' });
 		return processTemplate(locale, template, '');
 	}
 };

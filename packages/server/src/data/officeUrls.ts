@@ -50,6 +50,8 @@ export const loadOfficeUrlsFromXP = async () => {
 	}
 };
 
+export const getOfficeUrlCount = () => Object.keys(enhetsNrToOfficePathMap).length;
+
 export const getOfficeUrl = (enhetNr: string) => {
 	const path = enhetsNrToOfficePathMap[enhetNr];
 

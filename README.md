@@ -58,6 +58,18 @@ Commits som kun endrer formatering ligger i `.git-blame-ignore-revs`. GitHub hop
 git config blame.ignoreRevsFile .git-blame-ignore-revs
 ```
 
+## Metrikker
+
+Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics`, som NAIS skraper. De viktigste:
+
+- `nav_office_search_search_requests_total{endpoint, outcome}`: søk per endepunkt, med utfall `hits`, `empty` (gyldig søk uten treff), `invalid` (4xx) eller `error` (5xx). Varighet i `nav_office_search_search_request_duration_seconds`.
+- `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, XP, SSB, Bring, Azure og innloggingsstatus, per statusklasse eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
+- `nav_office_search_reference_data_without_office{dataset}`: kommuner, bydeler og postnumre som siste datalasting ikke fant Nav-kontor for. Bør være 0 for kommuner; hvilke det gjelder står i loggen ("No office found for …").
+- `nav_office_search_data_loads_total{outcome}`, `nav_office_search_data_last_success_timestamp_seconds` og `nav_office_search_data_load_duration_seconds`: oppstart og daglig oppfrisking av referansedata.
+- `nav_office_search_page_renders_total{locale, outcome}`: sidevisninger rendret på server (`ssr`), med fallback til klient (`csr_fallback`) eller med feil.
+
+I tillegg kommer standardmetrikkene for Node.js-prosessen (`nodejs_*`, `process_*`).
+
 ## Deploy til dev-miljø
 
 [Deploy to dev action](https://github.com/navikt/nav-office-search/actions/workflows/deploy.dev.yml) -> Run workflow -> Velg branch -> Run workflow

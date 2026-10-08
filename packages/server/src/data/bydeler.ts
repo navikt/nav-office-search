@@ -33,15 +33,20 @@ type BydelerData = {
 	bydelerByBydelsnr: BydelerByBydelsnrMap;
 	bydelerByKommunenr: BydelerByKommunenrMap;
 	bydelerArray: Bydel[];
+	bydelerWithoutOffice: string[];
 };
 
 const bydelerData: BydelerData = {
 	bydelerByBydelsnr: {},
 	bydelerByKommunenr: {},
 	bydelerArray: [],
+	bydelerWithoutOffice: [],
 };
 
 export const getBydelerArray = () => bydelerData.bydelerArray;
+
+/** Bydeler from SSB that the last load couldn't find an office for */
+export const getBydelerWithoutOffice = () => bydelerData.bydelerWithoutOffice;
 
 export const getBydel = (bydelnr: string) => bydelerData.bydelerByBydelsnr[bydelnr];
 
@@ -51,6 +56,7 @@ export const getBydelerForKommune = (kommunenr: string): Bydel[] | undefined =>
 const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 	const newBydelerMap: BydelerByBydelsnrMap = {};
 	const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
+	const newBydelerWithoutOffice: string[] = [];
 
 	for (const item of bydelerDataRaw) {
 		const { code: bydelsnr, name } = item;
@@ -78,6 +84,8 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 			}
 
 			newBydelerByKommunenrMap[kommunenr].push(bydel);
+		} else {
+			newBydelerWithoutOffice.push(bydelsnr);
 		}
 	}
 
@@ -86,6 +94,7 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 	bydelerData.bydelerByBydelsnr = newBydelerMap;
 	bydelerData.bydelerByKommunenr = newBydelerByKommunenrMap;
 	bydelerData.bydelerArray = newArray;
+	bydelerData.bydelerWithoutOffice = newBydelerWithoutOffice;
 
 	console.log(`Finished loading data for bydeler! (${newArray.length} entries)`);
 };
