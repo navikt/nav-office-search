@@ -7,6 +7,18 @@ export default defineConfig({
 	plugins: [react()],
 	test: {
 		environment: 'jsdom',
+		deps: {
+			optimizer: {
+				client: {
+					// Loading Aksel's hundreds of ESM modules separately in every test file dominated the run.
+					// Pre-bundling it cuts the suite from ~3.9 s to ~2.4 s.
+					enabled: true,
+					include: ['@navikt/ds-react'],
+					// Keep react-dom external; otherwise a second copy of it gets inlined into the Aksel bundle
+					exclude: ['react-dom'],
+				},
+			},
+		},
 		setupFiles: ['./vitest.setup.ts'],
 		restoreMocks: true,
 		unstubGlobals: true,

@@ -51,7 +51,8 @@ Dependency installation uses GitHub Packages for `@navikt/*` packages and requir
 ## Validation and deployment
 
 - Use the smallest relevant Vitest test while developing (`pnpm --filter nav-office-search-client exec vitest run -t '<name>'`); the current automated tests are in `packages/client/src/__tests__`. Import test APIs explicitly from `vitest`; globals are not enabled.
-- Format touched files with Prettier. The pre-commit hook runs `lint-staged`, while the pre-push hook runs `pnpm lint`.
+- Client tests use msw handlers for the `/api/*` endpoints (`mockApi`, `deferredReply` and the `apiRequests()` log in `src/__tests__/support/msw.ts`), typed fixture builders in `support/fixtures.ts`, and fake timers with the real 500 ms debounce. Drive the UI with `userEvent`, not `fireEvent`. Unmocked API requests fail the test.
+- Format touched files with oxfmt (`pnpm format`, check with `pnpm format:check`). The pre-commit hook runs `lint-staged`, which formats staged files with oxfmt, while the pre-push hook runs `pnpm lint`.
 - Run `pnpm lint`, `pnpm test`, and `pnpm build` for changes that cross package boundaries or affect runtime, SSR, or build behavior.
 - CI uses the shared reusable workflows in `navikt/navno-ci`; the build runs `pnpm build`, `pnpm lint`, and `pnpm test`. Pull requests run `pr-checks.yml`. A push to `main` deploys to production via `build-deploy-prod.yml` and creates a release that records the image for `rollback.prod.yml`. `base-image-refresh.yml` rebuilds and redeploys prod weekly.
 - NAIS template variables, including `basePath`, live in `.nais/vars-*.yml`; the workflows pass only `image`.
