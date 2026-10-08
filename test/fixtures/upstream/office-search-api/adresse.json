@@ -1,0 +1,401 @@
+{
+	"storgata 1": {
+		"status": 200,
+		"body": {
+			"totalHits": 412,
+			"adresser": [
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "0184",
+					"poststed": "OSLO",
+					"kommunenummer": "0301",
+					"bydelsnummer": "030102"
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "1607",
+					"poststed": "FREDRIKSTAD",
+					"kommunenummer": "3004",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2000",
+					"poststed": "LILLESTRØM",
+					"kommunenummer": "3030",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2317",
+					"poststed": "HAMAR",
+					"kommunenummer": "3403",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2615",
+					"poststed": "LILLEHAMMER",
+					"kommunenummer": "3405",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2815",
+					"poststed": "GJØVIK",
+					"kommunenummer": "3407",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3015",
+					"poststed": "DRAMMEN",
+					"kommunenummer": "3005",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3111",
+					"poststed": "TØNSBERG",
+					"kommunenummer": "3803",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3256",
+					"poststed": "LARVIK",
+					"kommunenummer": "3805",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3510",
+					"poststed": "HØNEFOSS",
+					"kommunenummer": "3007",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3724",
+					"poststed": "SKIEN",
+					"kommunenummer": "3807",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3915",
+					"poststed": "PORSGRUNN",
+					"kommunenummer": "3806",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "4014",
+					"poststed": "STAVANGER",
+					"kommunenummer": "1103",
+					"bydelsnummer": "110301"
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "4612",
+					"poststed": "KRISTIANSAND S",
+					"kommunenummer": "4204",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "4836",
+					"poststed": "ARENDAL",
+					"kommunenummer": "4203",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5004",
+					"poststed": "BERGEN",
+					"kommunenummer": "4601",
+					"bydelsnummer": "460102"
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5528",
+					"poststed": "HAUGESUND",
+					"kommunenummer": "1106",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "6413",
+					"poststed": "MOLDE",
+					"kommunenummer": "1506",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "6509",
+					"poststed": "KRISTIANSUND N",
+					"kommunenummer": "1505",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7014",
+					"poststed": "TRONDHEIM",
+					"kommunenummer": "5001",
+					"bydelsnummer": "500101"
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7600",
+					"poststed": "LEVANGER",
+					"kommunenummer": "5037",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7713",
+					"poststed": "STEINKJER",
+					"kommunenummer": "5006",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7800",
+					"poststed": "NAMSOS",
+					"kommunenummer": "5007",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8006",
+					"poststed": "BODØ",
+					"kommunenummer": "1804",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8514",
+					"poststed": "NARVIK",
+					"kommunenummer": "1806",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8622",
+					"poststed": "MO I RANA",
+					"kommunenummer": "1833",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8657",
+					"poststed": "MOSJØEN",
+					"kommunenummer": "1824",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8900",
+					"poststed": "BRØNNØYSUND",
+					"kommunenummer": "1813",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "9008",
+					"poststed": "TROMSØ",
+					"kommunenummer": "5401",
+					"bydelsnummer": null
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "9405",
+					"poststed": "HARSTAD",
+					"kommunenummer": "5402",
+					"bydelsnummer": null
+				}
+			]
+		}
+	},
+	"tamburveien 1a": {
+		"status": 200,
+		"body": {
+			"totalHits": 1,
+			"adresser": [
+				{
+					"adressenavn": "Tamburveien",
+					"husnummer": 1,
+					"husbokstav": "A",
+					"postnummer": "1406",
+					"poststed": "SKI",
+					"kommunenummer": "3020",
+					"bydelsnummer": null
+				}
+			]
+		}
+	},
+	"trondheimsveien 2": {
+		"status": 200,
+		"body": {
+			"totalHits": 1,
+			"adresser": [
+				{
+					"adressenavn": "Trondheimsveien",
+					"husnummer": 2,
+					"husbokstav": null,
+					"postnummer": "0560",
+					"poststed": "OSLO",
+					"kommunenummer": "0301",
+					"bydelsnummer": "030102"
+				}
+			]
+		}
+	},
+	"bryggen 1": {
+		"status": 200,
+		"body": {
+			"totalHits": 1,
+			"adresser": [
+				{
+					"adressenavn": "Bryggen",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5003",
+					"poststed": "BERGEN",
+					"kommunenummer": "4601",
+					"bydelsnummer": "460102"
+				}
+			]
+		}
+	},
+	"vei 230 4": {
+		"status": 200,
+		"body": {
+			"totalHits": 1,
+			"adresser": [
+				{
+					"adressenavn": "Vei 230",
+					"husnummer": 4,
+					"husbokstav": null,
+					"postnummer": "9170",
+					"poststed": "LONGYEARBYEN",
+					"kommunenummer": "2100",
+					"bydelsnummer": null
+				}
+			]
+		}
+	},
+	"ole b. bergers veg 5": {
+		"status": 200,
+		"body": {
+			"totalHits": 1,
+			"adresser": [
+				{
+					"adressenavn": "Ole B. Bergers veg",
+					"husnummer": 5,
+					"husbokstav": null,
+					"postnummer": "3520",
+					"poststed": "JEVNAKER",
+					"kommunenummer": "3053",
+					"bydelsnummer": null
+				}
+			]
+		}
+	},
+	"fergeleiet 1": {
+		"status": 200,
+		"body": {
+			"totalHits": 1,
+			"adresser": [
+				{
+					"adressenavn": "Fergeleiet",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5004",
+					"poststed": "BERGEN",
+					"kommunenummer": null,
+					"bydelsnummer": null
+				}
+			]
+		}
+	},
+	"ukjent adresse 1": {
+		"status": 200,
+		"body": {
+			"totalHits": 0,
+			"adresser": []
+		}
+	},
+	"???": {
+		"status": 400,
+		"body": {
+			"error": "Query string is empty or invalid"
+		}
+	},
+	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": {
+		"status": 400,
+		"body": {
+			"error": "Query string exceeds maximum length of 150 characters"
+		}
+	}
+}

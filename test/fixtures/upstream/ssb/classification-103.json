@@ -1,0 +1,123 @@
+{
+	"name": "Standard for bydelsinndeling",
+	"id": 103,
+	"classificationType": "Klassifikasjon",
+	"lastModified": "2026-01-07T07:31:55.000+0000",
+	"description": "Bydel utgjør geografiske områder i en kommune. I norsk offisiell statistikk er benevningen bydel knyttet til de fire største kommunene Oslo, Bergen, Trondheim og Stavanger.",
+	"primaryLanguage": "nb",
+	"copyrighted": false,
+	"includeShortName": false,
+	"includeNotes": false,
+	"contactPerson": {
+		"name": "Bloch, Vilni Verner Holst",
+		"email": "vilni.verner.holst.bloch@ssb.no",
+		"phone": ""
+	},
+	"owningSection": "320 - Seksjon for befolkningsstatistikk",
+	"statisticalUnits": [
+		"Region"
+	],
+	"versions": [
+		{
+			"name": "Bydelsinndeling 2004",
+			"id": 398,
+			"validFrom": "2004-01-01",
+			"validTo": "2018-01-01",
+			"lastModified": "2018-01-03T07:51:48.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/398"
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2002",
+			"id": 399,
+			"validFrom": "2002-01-01",
+			"validTo": "2004-01-01",
+			"lastModified": "2016-10-07T12:16:28.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/399"
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2018",
+			"id": 919,
+			"validFrom": "2018-01-01",
+			"validTo": "2020-01-01",
+			"lastModified": "2019-09-30T17:24:00.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/919"
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020",
+			"id": 1168,
+			"validFrom": "2020-01-01",
+			"lastModified": "2022-04-19T12:49:20.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168"
+				}
+			}
+		}
+	],
+	"_links": {
+		"self": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103"
+		},
+		"codes": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/codes{?from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}",
+			"templated": true
+		},
+		"codesAt": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/codesAt{?date=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}",
+			"templated": true
+		},
+		"variant": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/variant{?variantName,from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}",
+			"templated": true
+		},
+		"variantAt": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/variantAt{?variantName,date=<yyyy-MM-dd>,csvSeparator,level,selectCodes,presentationNamePattern}",
+			"templated": true
+		},
+		"corresponds": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/corresponds{?targetClassificationId,from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator}",
+			"templated": true
+		},
+		"correspondsAt": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/correspondsAt{?targetClassificationId,date=<yyyy-MM-dd>,csvSeparator}",
+			"templated": true
+		},
+		"changes": {
+			"href": "https://data.ssb.no/api/klass/v1/classifications/103/changes{?from=<yyyy-MM-dd>,to=<yyyy-MM-dd>,csvSeparator}",
+			"templated": true
+		}
+	},
+	"classificationFamilyId": 15
+}

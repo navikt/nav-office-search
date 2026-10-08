@@ -1,0 +1,25 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"target": "ES2023",
+		"lib": ["ES2023"],
+		// Bundler resolution, like Vitest. nodenext has to wait for the single ESM package (PR 19): until then
+		// packages/common's extensionless imports and packages/server's CommonJS scope both fail under it.
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"jsx": "react-jsx",
+		"types": ["node"]
+	},
+	"include": [
+		"vitest.config.ts",
+		"test/**/*.ts",
+		"packages/common/**/*.test.ts",
+		"packages/server/src/**/*.test.ts",
+		"packages/server/global.d.ts"
+	]
+}

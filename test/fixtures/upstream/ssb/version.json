@@ -1,0 +1,1760 @@
+{
+	"name": "Bydelsinndeling 2020",
+	"id": 1168,
+	"validFrom": "2020-01-01",
+	"lastModified": "2022-04-19T12:49:20.000+0000",
+	"published": [
+		"nb",
+		"nn",
+		"en"
+	],
+	"introduction": "Bydel utgjør geografiske områder i en kommune. I norsk offisiell statistikk er benevningen bydel knyttet til de fire største kommunene Oslo, Bergen, Trondheim og Stavanger. Fra 2020 ble det to nye bydeler i Stavanger, og Klæbu kommune inngår i Heimdal bydel i Trondheim. I tillegg grensejusteringer for de to nye bydelene i Stavanger.",
+	"contactPerson": {
+		"name": "Bloch, Vilni Verner Holst",
+		"email": "vilni.verner.holst.bloch@ssb.no",
+		"phone": ""
+	},
+	"owningSection": "320 - Seksjon for befolkningsstatistikk",
+	"legalBase": "",
+	"publications": "http://www.ssb.no/emner/00/00/20/nos_c513/http://www.ssb.no/vis/kommuner/dokumentasjon.html",
+	"derivedFrom": "",
+	"correspondenceTables": [
+		{
+			"name": "Bydelsinndeling 2020 - Bydelsinndeling 2018",
+			"id": 742,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Bydelsinndeling 2018",
+			"targetId": 919,
+			"changeTable": true,
+			"lastModified": "2021-05-19T07:42:44.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": null,
+			"targetLevel": null,
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/742"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/919{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020 - Delområde- og grunnkretsinndeling 2026",
+			"id": 2815,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Delområde- og grunnkretsinndeling 2026",
+			"targetId": 3306,
+			"changeTable": false,
+			"lastModified": "2026-01-07T07:31:55.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": null,
+			"targetLevel": null,
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2815"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3306{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020 - Delområde- og grunnkretsinndeling 2025",
+			"id": 2467,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Delområde- og grunnkretsinndeling 2025",
+			"targetId": 2879,
+			"changeTable": false,
+			"lastModified": "2025-01-07T15:04:35.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"sourceLevel": null,
+			"targetLevel": {
+				"levelNumber": 2,
+				"levelName": "Nivå 2"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2467"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2879{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020 - Delområde- og grunnkretsinndeling 2024",
+			"id": 1576,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Delområde- og grunnkretsinndeling 2024",
+			"targetId": 2266,
+			"changeTable": false,
+			"lastModified": "2024-01-03T13:44:17.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"sourceLevel": null,
+			"targetLevel": null,
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/1576"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2266{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020 - Delområde- og grunnkretsinndeling 2023",
+			"id": 1055,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Delområde- og grunnkretsinndeling 2023",
+			"targetId": 1908,
+			"changeTable": false,
+			"lastModified": "2022-12-25T12:56:02.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"sourceLevel": null,
+			"targetLevel": null,
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/1055"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1908{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020 - Delområde- og grunnkretsinndeling 2021",
+			"id": 735,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Delområde- og grunnkretsinndeling 2021",
+			"targetId": 1455,
+			"changeTable": false,
+			"lastModified": "2021-04-23T12:51:19.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"targetLevel": {
+				"levelNumber": 2,
+				"levelName": "Nivå 2"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/735"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1455{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Bydelsinndeling 2020 - Delområde- og grunnkretsinndeling 2020",
+			"id": 475,
+			"contactPerson": {
+				"name": "Bloch, Vilni Verner Holst",
+				"email": "vilni.verner.holst.bloch@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Bydelsinndeling 2020",
+			"sourceId": 1168,
+			"target": "Delområde- og grunnkretsinndeling 2020",
+			"targetId": 1163,
+			"changeTable": false,
+			"lastModified": "2020-01-03T14:09:21.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": null,
+			"targetLevel": null,
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/475"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1163{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Kommuneinndeling 2020 - Bydelsinndeling 2020",
+			"id": 967,
+			"contactPerson": {
+				"name": "Moe, Dana",
+				"email": "Dana.Moe@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "320",
+			"source": "Kommuneinndeling 2020",
+			"sourceId": 1860,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2022-12-06T13:33:48.000+0000",
+			"published": [
+				"nb",
+				"nn",
+				"en"
+			],
+			"sourceLevel": null,
+			"targetLevel": null,
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/967"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1860{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (DPS) 2026 - Bydelsinndeling 2020",
+			"id": 2881,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (DPS) 2026",
+			"sourceId": 3469,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2026-03-26T07:19:38.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "DPS"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2881"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3469{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (DPS) 2025 - Bydelsinndeling 2020",
+			"id": 2689,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (DPS) 2025",
+			"sourceId": 3167,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-05-26T12:09:12.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "DPS"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2689"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3167{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (DPS) 2024 - Bydelsinndeling 2020",
+			"id": 2522,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (DPS) 2024",
+			"sourceId": 2698,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T13:03:21.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "DPS"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2522"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2698{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (DPS) 2023 - Bydelsinndeling 2020",
+			"id": 2529,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (DPS) 2023",
+			"sourceId": 2156,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T14:17:26.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "DPS"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2529"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2156{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (DPS) 2022 - Bydelsinndeling 2020",
+			"id": 2536,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (DPS) 2022",
+			"sourceId": 2053,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:09:37.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "DPS"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2536"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2053{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (DPS) 2021 - Bydelsinndeling 2020",
+			"id": 2540,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (DPS) 2021",
+			"sourceId": 1905,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:18:40.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "DPS"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2540"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1905{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2026 - Bydelsinndeling 2020",
+			"id": 2879,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2026",
+			"sourceId": 3466,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2026-03-26T07:17:49.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2879"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3466{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2025 - Bydelsinndeling 2020",
+			"id": 2695,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2025",
+			"sourceId": 2992,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-05-26T12:07:10.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2695"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2992{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2024 - Bydelsinndeling 2020",
+			"id": 2520,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2024",
+			"sourceId": 2697,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T13:01:41.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2520"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2697{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2023 - Bydelsinndeling 2020",
+			"id": 2527,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2023",
+			"sourceId": 2154,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T14:15:37.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2527"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2154{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2022 - Bydelsinndeling 2020",
+			"id": 2533,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2022",
+			"sourceId": 2051,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T14:59:01.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2533"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2051{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2021 - Bydelsinndeling 2020",
+			"id": 2534,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2021",
+			"sourceId": 1903,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:06:39.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2534"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1903{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2020 - Bydelsinndeling 2020",
+			"id": 2543,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (psykisk helsevern) 2020",
+			"sourceId": 2181,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:22:38.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2543"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2181{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2026 - Bydelsinndeling 2020",
+			"id": 2880,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2026",
+			"sourceId": 3468,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2026-03-26T07:18:36.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2880"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3468{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2025 - Bydelsinndeling 2020",
+			"id": 2692,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2025",
+			"sourceId": 3166,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-05-26T12:08:26.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2692"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3166{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2024 - Bydelsinndeling 2020",
+			"id": 2521,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2024",
+			"sourceId": 2699,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T13:02:37.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2521"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2699{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2023 - Bydelsinndeling 2020",
+			"id": 2528,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2023",
+			"sourceId": 2155,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T14:16:52.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2528"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2155{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2022 - Bydelsinndeling 2020",
+			"id": 2535,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2022",
+			"sourceId": 2052,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:08:55.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2535"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2052{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2021 - Bydelsinndeling 2020",
+			"id": 2539,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2021",
+			"sourceId": 1904,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:18:02.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2539"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1904{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2020 - Bydelsinndeling 2020",
+			"id": 2544,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (rusbehandling) 2020",
+			"sourceId": 2187,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:23:17.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 2,
+				"levelName": "HF"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2544"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2187{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2026 - Bydelsinndeling 2020",
+			"id": 2878,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2026",
+			"sourceId": 3465,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2026-03-26T07:16:56.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2878"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/3465{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2025 - Bydelsinndeling 2020",
+			"id": 2694,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2025",
+			"sourceId": 2991,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-05-27T19:07:19.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2694"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2991{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2024 - Bydelsinndeling 2020",
+			"id": 2519,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2024",
+			"sourceId": 2696,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T13:00:10.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2519"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2696{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2023 - Bydelsinndeling 2020",
+			"id": 2526,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2023",
+			"sourceId": 2050,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T14:14:48.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2526"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2050{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2022 - Bydelsinndeling 2020",
+			"id": 2531,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2022",
+			"sourceId": 2149,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T14:47:21.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2531"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/2149{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2021 - Bydelsinndeling 2020",
+			"id": 2538,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2021",
+			"sourceId": 1873,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:13:40.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2538"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1873{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		},
+		{
+			"name": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2020 - Bydelsinndeling 2020",
+			"id": 2542,
+			"contactPerson": {
+				"name": "Haugen, Sindre Mikael",
+				"email": "Sindre.Haugen@ssb.no",
+				"phone": ""
+			},
+			"owningSection": "330",
+			"source": "Opptaksområder i spesialisthelsetjenesten (somatikk) 2020",
+			"sourceId": 1874,
+			"target": "Bydelsinndeling 2020",
+			"targetId": 1168,
+			"changeTable": false,
+			"lastModified": "2025-03-24T15:21:56.000+0000",
+			"published": [
+				"nb"
+			],
+			"sourceLevel": {
+				"levelNumber": 3,
+				"levelName": "Lokasjon"
+			},
+			"targetLevel": {
+				"levelNumber": 1,
+				"levelName": "Nivå 1"
+			},
+			"_links": {
+				"self": {
+					"href": "https://data.ssb.no/api/klass/v1/correspondencetables/2542"
+				},
+				"source": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1874{?language,includeFuture}",
+					"templated": true
+				},
+				"target": {
+					"href": "https://data.ssb.no/api/klass/v1/versions/1168{?language,includeFuture}",
+					"templated": true
+				}
+			}
+		}
+	],
+	"classificationVariants": [],
+	"changelogs": [
+		{
+			"changeOccured": "2019-09-30T17:28:26.000+0000",
+			"description": "Lagt inn Bydeler f.o.m. 2020"
+		},
+		{
+			"changeOccured": "2019-10-03T13:11:40.000+0000",
+			"description": "Rettet opp kommunenummerdelen for Bergen fra 1201 til 4601"
+		},
+		{
+			"changeOccured": "2019-10-03T13:20:30.000+0000",
+			"description": "Rettet opp Bergen fra 1201 til 4601 i "
+		},
+		{
+			"changeOccured": "2022-04-19T09:04:22.000+0000",
+			"description": "Lagt til nynorsk og engelsk beskrivelse"
+		}
+	],
+	"levels": [
+		{
+			"levelNumber": 1,
+			"levelName": "Nivå 1"
+		}
+	],
+	"classificationItems": [
+		{
+			"code": "030101",
+			"parentCode": "",
+			"level": "1",
+			"name": "Gamle Oslo",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030102",
+			"parentCode": "",
+			"level": "1",
+			"name": "Grünerløkka",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030103",
+			"parentCode": "",
+			"level": "1",
+			"name": "Sagene",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030104",
+			"parentCode": "",
+			"level": "1",
+			"name": "St. Hanshaugen",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030105",
+			"parentCode": "",
+			"level": "1",
+			"name": "Frogner",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030106",
+			"parentCode": "",
+			"level": "1",
+			"name": "Ullern",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030107",
+			"parentCode": "",
+			"level": "1",
+			"name": "Vestre Aker",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030108",
+			"parentCode": "",
+			"level": "1",
+			"name": "Nordre Aker",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030109",
+			"parentCode": "",
+			"level": "1",
+			"name": "Bjerke",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030110",
+			"parentCode": "",
+			"level": "1",
+			"name": "Grorud",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030111",
+			"parentCode": "",
+			"level": "1",
+			"name": "Stovner",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030112",
+			"parentCode": "",
+			"level": "1",
+			"name": "Alna",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030113",
+			"parentCode": "",
+			"level": "1",
+			"name": "Østensjø",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030114",
+			"parentCode": "",
+			"level": "1",
+			"name": "Nordstrand",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030115",
+			"parentCode": "",
+			"level": "1",
+			"name": "Søndre Nordstrand",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030116",
+			"parentCode": "",
+			"level": "1",
+			"name": "Sentrum",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030117",
+			"parentCode": "",
+			"level": "1",
+			"name": "Marka",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "030199",
+			"parentCode": "",
+			"level": "1",
+			"name": "Uoppgitt",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110301",
+			"parentCode": "",
+			"level": "1",
+			"name": "Hundvåg",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110302",
+			"parentCode": "",
+			"level": "1",
+			"name": "Tasta",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110303",
+			"parentCode": "",
+			"level": "1",
+			"name": "Eiganes og Våland",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110304",
+			"parentCode": "",
+			"level": "1",
+			"name": "Madla",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110305",
+			"parentCode": "",
+			"level": "1",
+			"name": "Storhaug",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110306",
+			"parentCode": "",
+			"level": "1",
+			"name": "Hillevåg",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110307",
+			"parentCode": "",
+			"level": "1",
+			"name": "Hinna",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110308",
+			"parentCode": "",
+			"level": "1",
+			"name": "Finnøy",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110309",
+			"parentCode": "",
+			"level": "1",
+			"name": "Rennesøy",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "110399",
+			"parentCode": "",
+			"level": "1",
+			"name": "Uoppgitt",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460101",
+			"parentCode": "",
+			"level": "1",
+			"name": "Arna",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460102",
+			"parentCode": "",
+			"level": "1",
+			"name": "Bergenhus",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460103",
+			"parentCode": "",
+			"level": "1",
+			"name": "Fana",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460104",
+			"parentCode": "",
+			"level": "1",
+			"name": "Fyllingsdalen",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460105",
+			"parentCode": "",
+			"level": "1",
+			"name": "Laksevåg",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460106",
+			"parentCode": "",
+			"level": "1",
+			"name": "Ytrebygda",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460107",
+			"parentCode": "",
+			"level": "1",
+			"name": "Årstad",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460108",
+			"parentCode": "",
+			"level": "1",
+			"name": "Åsane",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "460199",
+			"parentCode": "",
+			"level": "1",
+			"name": "Uoppgitt",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "500101",
+			"parentCode": "",
+			"level": "1",
+			"name": "Midtbyen",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "500102",
+			"parentCode": "",
+			"level": "1",
+			"name": "Østbyen",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "500103",
+			"parentCode": "",
+			"level": "1",
+			"name": "Lerkendal",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "500104",
+			"parentCode": "",
+			"level": "1",
+			"name": "Heimdal",
+			"shortName": null,
+			"notes": null
+		},
+		{
+			"code": "500199",
+			"parentCode": "",
+			"level": "1",
+			"name": "Uoppgitt",
+			"shortName": null,
+			"notes": null
+		}
+	],
+	"_links": {
+		"self": {
+			"href": "https://data.ssb.no/api/klass/v1/versions/1168"
+		}
+	}
+}

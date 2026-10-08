@@ -17,5 +17,6 @@
 		"resolveJsonModule": true,
 		"types": ["node", "vite/client"]
 	},
-	"include": ["src/**/*.ts", "../common/**/*.ts", "global.d.ts"]
+	"include": ["src/**/*.ts", "../common/**/*.ts", "global.d.ts"],
+	"exclude": ["src/**/*.test.ts", "../common/**/*.test.ts"]
 }
