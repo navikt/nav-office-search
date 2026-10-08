@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, onTestFinished, test, vi } fro
 import { PostnrKategori } from '../../../common/types/data';
 import type { AppLocale } from '../../../common/localization/types';
 import { OfficeSearch } from '../components/OfficeSearch';
+import { formatAddressLabel } from '../components/SearchResult/SearchResultAdresse/addressSuggestions';
 import { POSTNR_SPINNER_DELAY_MS, SEARCH_DEBOUNCE_MS } from '../components/SearchForm/SearchForm';
 import { LocaleProvider } from '../localization/useLocale';
 import {
@@ -50,39 +51,32 @@ describe('OfficeSearch', () => {
 	});
 
 	describe('validering og feil', () => {
-		test('gir feilmelding ved server-feil', async () => {
-			mockApi('search', { status: 500 });
-			await searchFor('0000');
+		test.each([
+			{ name: 'server-feil', reply: { status: 500 }, message: 'Ukjent server-feil' },
+			{
+				name: 'søk på postnummer som ikke finnes',
+				reply: { status: 404, json: errorResult('errorInvalidPostnr') },
+				message: 'Postnummeret finnes ikke',
+			},
+		] satisfies { name: string; reply: Reply; message: string }[])(
+			'gir feilmelding ved $name',
+			async ({ reply, message }) => {
+				mockApi('search', reply);
+				await searchFor('0000');
 
-			expect(await screen.findByText('Ukjent server-feil')).toBeInTheDocument();
-			expect(apiRequests()).toEqual(['search?query=0000']);
-		});
+				expect(await screen.findByText(message)).toBeInTheDocument();
+				expect(apiRequests()).toEqual(['search?query=0000']);
+			},
+		);
 
-		test('gir feilmelding ved søk på postnummer som ikke finnes', async () => {
-			mockApi('search', { status: 404, json: errorResult('errorInvalidPostnr') });
-			await searchFor('0000');
+		test.each([
+			{ name: 'tomt input-felt', query: '', message: 'Skriv inn minst to bokstaver eller et postnummer' },
+			{ name: 'feil antall siffer', query: '11', message: 'Postnummer-søk må være fire siffer' },
+			{ name: 'ugyldige tegn', query: 'evje@', message: 'Søket inneholder ugyldige tegn' },
+		])('gir valideringsfeil ved $name', async ({ query, message }) => {
+			await searchFor(query);
 
-			expect(await screen.findByText('Postnummeret finnes ikke')).toBeInTheDocument();
-		});
-
-		test('gir valideringsfeil ved tomt input-felt', async () => {
-			await searchFor('');
-
-			expect(screen.getByText('Skriv inn minst to bokstaver eller et postnummer')).toBeInTheDocument();
-			expect(apiRequests()).toEqual([]);
-		});
-
-		test('gir valideringsfeil ved feil antall siffer', async () => {
-			await searchFor('11');
-
-			expect(screen.getByText('Postnummer-søk må være fire siffer')).toBeInTheDocument();
-			expect(apiRequests()).toEqual([]);
-		});
-
-		test('gir valideringsfeil ved ugyldige tegn', async () => {
-			await searchFor('evje@');
-
-			expect(screen.getByText('Søket inneholder ugyldige tegn')).toBeInTheDocument();
+			expect(screen.getByText(message)).toBeInTheDocument();
 			expect(apiRequests()).toEqual([]);
 		});
 
@@ -110,76 +104,47 @@ describe('OfficeSearch', () => {
 	});
 
 	describe('postnummersøk', () => {
-		test('gir riktig respons ved søk på postnr uten kontorer', async () => {
-			mockApi('search', { json: postnrResult({ officeInfo: [] }) });
-			await searchFor('4737');
+		test.each([
+			{
+				name: 'postnr uten kontorer',
+				result: postnrResult({ officeInfo: [] }),
+				header: 'Ingen Nav-kontor funnet for 4737 HORNNES',
+			},
+			{
+				name: 'postnr med ett kontor',
+				result: postnrResult(),
+				header: 'Nav-kontor for 4737 HORNNES:',
+			},
+			{
+				name: 'postnr med flere kontor',
+				result: postnrResult({ officeInfo: [offices.evjeOgHornnes, offices.testkontor] }),
+				header: '2 kontorer dekker 4737 HORNNES',
+			},
+			{
+				name: 'postnummer for postbokser',
+				result: osloPostnrResult('0614', PostnrKategori.Postbokser),
+				header: '0614 er et postnummer for postbokser i OSLO kommune. Kommunens Nav-kontorer:',
+			},
+			{
+				name: 'servicepostnummer',
+				result: osloPostnrResult('0614', PostnrKategori.Servicepostnummer),
+				header: '0614 er et servicepostnummer i OSLO kommune. Kommunens Nav-kontorer:',
+			},
+			{
+				name: 'postnummer som dekkes av flere bydeler',
+				result: osloPostnrResult('0354', PostnrKategori.Gateadresser),
+				header: '3 kontorer dekker 0354 OSLO',
+			},
+		])('gir riktig respons ved søk på $name', async ({ result, header }) => {
+			mockApi('search', { json: result });
+			await searchFor(result.postnr);
 
-			expect(await findByFullText('Ingen Nav-kontor funnet for 4737 HORNNES')).toBeInTheDocument();
-			expect(screen.queryAllByRole('link', { name: /^Nav / })).toHaveLength(0);
-			expect(apiRequests()).toEqual(['search?query=4737']);
-		});
-
-		test('gir riktig respons ved søk på postnr med ett kontor', async () => {
-			mockApi('search', { json: postnrResult() });
-			await searchFor('4737');
-
-			expect(await findByFullText('Nav-kontor for 4737 HORNNES:')).toBeInTheDocument();
-			expect(getLink('Nav Evje og Hornnes')).toHaveAttribute('href', offices.evjeOgHornnes.url);
-			expect(apiRequests()).toEqual(['search?query=4737']);
-		});
-
-		test('gir riktig respons ved søk på postnr med flere kontor', async () => {
-			mockApi('search', { json: postnrResult({ officeInfo: [offices.evjeOgHornnes, offices.testkontor] }) });
-			await searchFor('4737');
-
-			expect(await findByFullText('2 kontorer dekker 4737 HORNNES')).toBeInTheDocument();
-			expect(getLink('Nav Evje og Hornnes')).toBeInTheDocument();
-			expect(getLink('Nav Testkontor')).toBeInTheDocument();
-		});
-
-		test('bruker adressesøk for postnummer med gatenavn', async () => {
-			mockAddressSuggestions('4737 storgata 1', storgataAdresser(1));
-			await typeQuery('4737 storgata 1');
-
-			expect(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
-			expect(apiRequests()).toEqual([
-				'search/name?query=4737%20storgata%201',
-				'search/address?query=4737%20storgata%201',
-			]);
-		});
-
-		test('gir riktig respons ved søk på postnummer for postbokser', async () => {
-			mockApi('search', { json: osloPostnrResult('0614', PostnrKategori.Postbokser) });
-			await searchFor('0614');
-
-			expect(
-				await findByFullText('0614 er et postnummer for postbokser i OSLO kommune. Kommunens Nav-kontorer:'),
-			).toBeInTheDocument();
-			expect(getLink('Nav Alna')).toBeInTheDocument();
-			expect(getLink('Nav Bjerke')).toBeInTheDocument();
-			expect(getLink('Nav Frogner')).toBeInTheDocument();
-		});
-
-		test('gir riktig respons ved søk på servicepostnummer', async () => {
-			mockApi('search', { json: osloPostnrResult('0614', PostnrKategori.Servicepostnummer) });
-			await searchFor('0614');
-
-			expect(
-				await findByFullText('0614 er et servicepostnummer i OSLO kommune. Kommunens Nav-kontorer:'),
-			).toBeInTheDocument();
-			expect(getLink('Nav Alna')).toBeInTheDocument();
-			expect(getLink('Nav Bjerke')).toBeInTheDocument();
-			expect(getLink('Nav Frogner')).toBeInTheDocument();
-		});
-
-		test('gir riktig respons ved søk på postnummer som dekkes av flere bydeler', async () => {
-			mockApi('search', { json: osloPostnrResult('0354', PostnrKategori.Gateadresser) });
-			await searchFor('0354');
-
-			expect(await findByFullText('3 kontorer dekker 0354 OSLO')).toBeInTheDocument();
-			expect(getLink('Nav Alna')).toBeInTheDocument();
-			expect(getLink('Nav Bjerke')).toBeInTheDocument();
-			expect(getLink('Nav Frogner')).toBeInTheDocument();
+			expect(await findByFullText(header)).toBeInTheDocument();
+			expect(screen.queryAllByRole('link', { name: /^Nav / })).toHaveLength(result.officeInfo.length);
+			for (const office of result.officeInfo) {
+				expect(getLink(office.name)).toHaveAttribute('href', office.url);
+			}
+			expect(apiRequests()).toEqual([`search?query=${result.postnr}`]);
 		});
 
 		test('viser lasteindikator først etter forsinkelsen', async () => {
@@ -248,17 +213,16 @@ describe('OfficeSearch', () => {
 	});
 
 	describe('adresseforslag', () => {
-		test('tillater punktum i adressesøk og sender det videre', async () => {
-			const query = 'ole b. bergers veg';
+		test.each([
+			{ name: 'postnummer med gatenavn', query: '4737 storgata 1', encoded: '4737%20storgata%201' },
+			{ name: 'adresse med punktum', query: 'ole b. bergers veg', encoded: 'ole%20b.%20bergers%20veg' },
+		])('sender $name videre til adressesøket', async ({ query, encoded }) => {
 			mockAddressSuggestions(query, storgataAdresser(1));
 			await searchFor(query);
 
 			expect(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
 			expect(screen.queryByText('Søket inneholder ugyldige tegn')).not.toBeInTheDocument();
-			expect(apiRequests()).toEqual([
-				'search/name?query=ole%20b.%20bergers%20veg',
-				'search/address?query=ole%20b.%20bergers%20veg',
-			]);
+			expect(apiRequests()).toEqual([`search/name?query=${encoded}`, `search/address?query=${encoded}`]);
 		});
 
 		test('gir riktig respons ved adressesøk uten søketreff', async () => {
@@ -278,12 +242,46 @@ describe('OfficeSearch', () => {
 			expect(getLiveRegion()).toHaveTextContent(/^Ingen resultater for "ukjent adresse 1"$/);
 		});
 
-		test('gir riktig respons ved adressesøk med treff', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			await searchFor('storgata 1');
+		test.each([
+			{
+				name: 'gatenavn og husnummer',
+				query: 'storgata 1',
+				adresse: adresse(),
+				parts: ['Storgata', '1', '1'],
+			},
+			{
+				name: 'ikke ord som bare matcher fuzzy',
+				query: 'bull aakrans 5',
+				adresse: adresse({
+					adressenavn: 'Bull Aakranns vei',
+					husnummer: 5,
+					postnummer: '7374',
+					poststed: 'RØROS',
+					kommunenummer: '5025',
+					bydelsnummer: null,
+				}),
+				parts: ['Bull', '5'],
+			},
+			{
+				name: 'lengre treff foran kortere overlappende treff',
+				query: 'ole b berger',
+				adresse: adresse({
+					adressenavn: 'Ole B. Bergers veg',
+					husnummer: 5,
+					postnummer: '3520',
+					poststed: 'JEVNAKER',
+					kommunenummer: '3236',
+					bydelsnummer: null,
+				}),
+				parts: ['Ole', 'B', 'Berger'],
+			},
+		])('uthever $name i adresseforslag', async ({ query, adresse, parts }) => {
+			mockAddressSuggestions(query, [adresse]);
+			await searchFor(query);
 
-			expect(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
-			expect(getHighlightedAddressParts('Storgata 1, 0184 OSLO')).toEqual(['Storgata', '1', '1']);
+			const label = formatAddressLabel(adresse);
+			await screen.findByRole('option', { name: label });
+			expect(getHighlightedAddressParts(label)).toEqual(parts);
 		});
 
 		test('beholder mellomrom rundt uthevet ord i adresseforslag', async () => {
@@ -296,69 +294,31 @@ describe('OfficeSearch', () => {
 			expect(option.querySelector('strong')).toHaveTextContent(/^Storgata$/);
 		});
 
-		test('uthever ikke ord som bare matcher fuzzy', async () => {
-			mockAddressSuggestions('bull aakrans 5', [
-				adresse({
-					adressenavn: 'Bull Aakranns vei',
-					husnummer: 5,
-					postnummer: '7374',
-					poststed: 'RØROS',
-					kommunenummer: '5025',
-					bydelsnummer: null,
-				}),
-			]);
-			await searchFor('bull aakrans 5');
-
-			await screen.findByRole('option', { name: 'Bull Aakranns vei 5, 7374 RØROS' });
-			expect(getHighlightedAddressParts('Bull Aakranns vei 5, 7374 RØROS')).toEqual(['Bull', '5']);
-		});
-
-		test('foretrekker lengre treff foran kortere overlappende treff i adresseforslag', async () => {
-			mockAddressSuggestions('ole b berger', [
-				adresse({
-					adressenavn: 'Ole B. Bergers veg',
-					husnummer: 5,
-					postnummer: '3520',
-					poststed: 'JEVNAKER',
-					kommunenummer: '3236',
-					bydelsnummer: null,
-				}),
-			]);
-			await searchFor('ole b berger');
-
-			await screen.findByRole('option', { name: 'Ole B. Bergers veg 5, 3520 JEVNAKER' });
-			expect(getHighlightedAddressParts('Ole B. Bergers veg 5, 3520 JEVNAKER')).toEqual(['Ole', 'B', 'Berger']);
-		});
-
-		test('viser avgrensningshint når adresseforslagene har flere treff enn synlige rader', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(10), 30);
+		test.each([
+			{
+				visible: 10,
+				totalHits: 30,
+				hint: 'Viser 10 av 30 adresseforslag. Skriv mer av adressen for å avgrense søket.',
+			},
+			{
+				visible: 10,
+				totalHits: 10,
+				hint: 'Viser 10 av 10 adresseforslag. Skriv mer av adressen for å avgrense søket.',
+			},
+			{ visible: 6, totalHits: 6, hint: null },
+		])('avgrensningshint for $visible synlige av $totalHits treff: $hint', async ({ visible, totalHits, hint }) => {
+			mockAddressSuggestions('storgata 1', storgataAdresser(visible), totalHits);
 			await searchFor('storgata 1');
 
-			const hint = await screen.findByText(
-				'Viser 10 av 30 adresseforslag. Skriv mer av adressen for å avgrense søket.',
-			);
-			expect(screen.getByRole('listbox')).not.toContainElement(hint);
-			expect(getLiveRegion()).toHaveTextContent(
-				/^10 adresseforslag tilgjengelig\. Bruk piltastene for å velge\. Viser 10 av 30 adresseforslag\. Skriv mer av adressen for å avgrense søket\.$/,
-			);
-		});
-
-		test('viser avgrensningshint når alle adresseforslag vises, men det er flere enn synlige rader', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(10));
-			await searchFor('storgata 1');
-
-			expect(
-				await screen.findByText('Viser 10 av 10 adresseforslag. Skriv mer av adressen for å avgrense søket.'),
-			).toBeInTheDocument();
-		});
-
-		test('skjuler avgrensningshint når alle adresseforslag får plass i synlige rader', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(6));
-			await searchFor('storgata 1');
-
-			expect(await screen.findByRole('option', { name: 'Storgata 6, 0184 OSLO' })).toBeInTheDocument();
-			expect(screen.queryByText(/^Viser \d+ av \d+ adresseforslag/)).not.toBeInTheDocument();
-			expect(getLiveRegion()).toHaveTextContent(/^6 adresseforslag tilgjengelig\. Bruk piltastene for å velge\.$/);
+			expect(await screen.findByRole('option', { name: `Storgata ${visible}, 0184 OSLO` })).toBeInTheDocument();
+			const available = `${visible} adresseforslag tilgjengelig. Bruk piltastene for å velge.`;
+			if (hint) {
+				expect(screen.getByRole('listbox')).not.toContainElement(screen.getByText(hint));
+				expectLiveRegion(`${available} ${hint}`);
+			} else {
+				expect(screen.queryByText(/^Viser \d+ av \d+ adresseforslag/)).not.toBeInTheDocument();
+				expectLiveRegion(available);
+			}
 		});
 
 		test('fjerner gamle søkeresultater og viser lasting ved nytt adressesøk', async () => {
@@ -620,21 +580,40 @@ describe('OfficeSearch', () => {
 	});
 
 	describe('lukke og åpne adresseforslag', () => {
-		test('lukker adresseforslag med escape uten å tømme inputfeltet', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			await typeQuery('storgata 1');
-			const input = getSearchInput();
-			await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
+		test.each([
+			{ name: 'escape', close: () => user.keyboard('{Escape}'), keepsFocus: true, adresser: storgataAdresser(2) },
+			{ name: 'escape på tom liste', close: () => user.keyboard('{Escape}'), keepsFocus: true, adresser: [] },
+			{ name: 'tab', close: () => user.tab(), keepsFocus: false, adresser: storgataAdresser(2) },
+			{
+				name: 'klikk utenfor',
+				close: () => user.click(document.body),
+				keepsFocus: false,
+				adresser: storgataAdresser(2),
+			},
+		])(
+			'$name lukker adresseforslag uten å tømme feltet, og fokus åpner dem igjen',
+			async ({ close, keepsFocus, adresser }) => {
+				mockAddressSuggestions('storgata 1', adresser);
+				await typeQuery('storgata 1');
+				const input = getSearchInput();
+				const optionName = adresser.length > 0 ? 'Storgata 1, 0184 OSLO' : 'Ingen resultater for "storgata 1"';
+				await screen.findByRole('option', { name: optionName });
 
-			await user.keyboard('{Escape}');
+				await close();
 
-			expect(input).toHaveValue('storgata 1');
-			expect(input).toHaveFocus();
-			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+				expect(input).toHaveValue('storgata 1');
+				expect(input).toHaveAttribute('aria-expanded', 'false');
+				expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+				if (keepsFocus) {
+					expect(input).toHaveFocus();
+				} else {
+					expect(input).not.toHaveFocus();
+				}
 
-			await refocusSearchInput();
-			expect(screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
-		});
+				await refocusSearchInput();
+				expect(screen.getByRole('option', { name: optionName })).toBeInTheDocument();
+			},
+		);
 
 		test('escape to ganger lukker først forslagene og tømmer deretter feltet', async () => {
 			mockAddressSuggestions('storgata 1', storgataAdresser(2));
@@ -673,49 +652,10 @@ describe('OfficeSearch', () => {
 			expect(screen.queryByText('Søket inneholder ugyldige tegn')).not.toBeInTheDocument();
 		});
 
-		test('lukker adresseforslag med tab uten å fange fokus og åpner igjen på fokus', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			await typeQuery('storgata 1');
-			await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
-
-			await user.tab();
-
-			expect(getSearchInput()).not.toHaveFocus();
-			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-
-			await refocusSearchInput();
-			expect(screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
-		});
-
-		test('lukker adresseforslag ved blur og åpner igjen på fokus', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			await typeQuery('storgata 1');
-			await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
-
-			await user.click(document.body);
-
-			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-
-			await user.click(getSearchInput());
-			expect(screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
-		});
-
-		test('lukker tom adresseforslagsliste med escape', async () => {
-			mockAddressSuggestions('ukjent adresse 1', []);
-			await typeQuery('ukjent adresse 1');
-			const input = getSearchInput();
-			await screen.findByRole('option', { name: 'Ingen resultater for "ukjent adresse 1"' });
-
-			await user.keyboard('{Escape}');
-
-			expect(input).toHaveValue('ukjent adresse 1');
-			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-
-			await refocusSearchInput();
-			expect(screen.getByRole('option', { name: 'Ingen resultater for "ukjent adresse 1"' })).toBeInTheDocument();
-		});
-
-		test('lukker lasting av adresseforslag med escape og ignorerer sent svar', async () => {
+		test.each([
+			{ name: 'escape', close: () => user.keyboard('{Escape}'), keepsFocus: true },
+			{ name: 'tab', close: () => user.tab(), keepsFocus: false },
+		])('$name lukker lasting av adresseforslag og ignorerer sent svar', async ({ close, keepsFocus }) => {
 			const addressSearch = Promise.withResolvers<Reply>();
 			mockApi('search/name', { json: nameResult('ukjent adresse 1') });
 			mockApi('search/address', addressSearch.promise);
@@ -723,11 +663,16 @@ describe('OfficeSearch', () => {
 			const input = getSearchInput();
 			await screen.findByRole('option', { name: 'Søker...' });
 
-			await user.keyboard('{Escape}');
+			await close();
 
 			expect(input).toHaveAttribute('aria-expanded', 'false');
 			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
 			expect(wasAborted('search/address?query=ukjent%20adresse%201')).toBe(true);
+			if (keepsFocus) {
+				expect(input).toHaveFocus();
+			} else {
+				expect(input).not.toHaveFocus();
+			}
 
 			addressSearch.resolve({ json: addressResult('ukjent adresse 1', storgataAdresser(2)) });
 			await act(() => vi.runOnlyPendingTimersAsync());
@@ -738,21 +683,6 @@ describe('OfficeSearch', () => {
 			expect(getLiveRegion()).toBeEmptyDOMElement();
 			await refocusSearchInput();
 			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-		});
-
-		test('lukker lasting av adresseforslag med tab uten å fange fokus', async () => {
-			mockApi('search/name', { json: nameResult('ukjent adresse 1') });
-			mockApi('search/address', pending);
-			await typeQuery('ukjent adresse 1');
-			const input = getSearchInput();
-			await screen.findByRole('option', { name: 'Søker...' });
-
-			await user.tab();
-
-			expect(input).not.toHaveFocus();
-			expect(input).toHaveAttribute('aria-expanded', 'false');
-			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-			expect(wasAborted('search/address?query=ukjent%20adresse%201')).toBe(true);
 		});
 	});
 });
@@ -861,6 +791,10 @@ const getLiveRegion = () => {
 	const regions = document.querySelectorAll<HTMLElement>('.aksel-sr-only[aria-live="polite"]');
 	expect(regions).toHaveLength(1);
 	return regions[0];
+};
+
+const expectLiveRegion = (text: string) => {
+	expect(getLiveRegion()).toHaveTextContent(new RegExp(`^${escapeRegExp(text)}$`));
 };
 
 const queryLoadingIndicators = () => screen.queryAllByLabelText('Søker...');
