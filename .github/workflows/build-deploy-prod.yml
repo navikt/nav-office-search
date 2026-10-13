@@ -34,3 +34,11 @@ jobs:
       resource: .nais/config.yml
       vars: .nais/vars-prod.yml
       var: image=${{ needs.build.outputs.image }}
+
+  # Separate from the app deploy, so rollback.prod.yml (which only applies config.yml) shares its concurrency group
+  alerts:
+    uses: navikt/navno-ci/.github/workflows/nais-deploy.yml@v1
+    permissions: { contents: read, id-token: write }
+    with:
+      cluster: prod-gcp
+      resource: .nais/alerts.yml

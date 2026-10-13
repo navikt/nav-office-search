@@ -1,0 +1,67 @@
+# The canary: alerts on what users see. When one fires, the dashboards (and
+# nav-office-search-api's own metrics) tell whether it's us, the API or one of its upstreams.
+# Deployed by build-deploy-prod.yml. No double curly braces in this file, not even in comments: nais deploy templates every resource with Handlebars.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nav-office-search-alerts
+  namespace: navno
+  labels:
+    team: navno
+spec:
+  groups:
+    - name: nav-office-search
+      rules:
+        - alert: NavOfficeSearchSearchErrors
+          expr: |
+            sum(increase(nav_office_search_search_requests_total{outcome="error"}[10m])) > 5
+            and
+            sum(rate(nav_office_search_search_requests_total{outcome="error"}[10m]))
+              / sum(rate(nav_office_search_search_requests_total[10m])) > 0.05
+          for: 5m
+          annotations:
+            summary: Over 5 % of searches in nav-office-search fail
+            consequence: Users get an error instead of an office.
+            action: See which route fails in nav_office_search_search_requests_total, and which upstream in nav_office_search_upstream_requests_total.
+          labels:
+            namespace: navno
+            severity: critical
+
+        # Monitor for a data change in NORG data
+        - alert: NavOfficeSearchKommunerWithoutOffice
+          expr: max(nav_office_search_reference_data_without_office{dataset="kommuner"}) > 0
+          for: 30m
+          annotations:
+            summary: Some kommuner have no Nav office in nav-office-search
+            consequence: Searches in those kommuner find no office.
+            action: The logs say which ("No office found for kommuner"). Check nav-office-search-api's NORG metrics; restart the pods once it's fixed, or wait for the next load at 06:00.
+          labels:
+            namespace: navno
+            severity: warning
+
+        # The daily load can fail while the pods keep serving the previous data
+        - alert: NavOfficeSearchDataStale
+          expr: time() - max(nav_office_search_data_last_success_timestamp_seconds) > 2 * 86400
+          for: 1h
+          annotations:
+            summary: nav-office-search has not loaded reference data for over 2 days
+            consequence: Postnumre, kommuner, bydeler and office URLs may be out of date.
+            action: Check the logs for "Error loading data" and nav_office_search_upstream_requests_total for the failing upstream.
+          labels:
+            namespace: navno
+            severity: warning
+
+        # Health signal, searches are happening during sane hours
+        # "or vector(0)" covers the series not existing at all. hour() is UTC, so 06-16 is roughly 08-18 Oslo-time.
+        - alert: NavOfficeSearchNoSuccessfulSearches
+          expr: |
+            (sum(increase(nav_office_search_search_requests_total{outcome="hits"}[1h])) or vector(0)) == 0
+            and on() hour() >= 6 and on() hour() < 16
+          for: 30m
+          annotations:
+            summary: No successful searches in nav-office-search for over 1.5 hours during the day
+            consequence: The service may be down, unreachable or broken for users, or no longer scraped. The error alerts can't fire without traffic.
+            action: Check that the pods are running and being scraped, then try https://www.nav.no/finn-nav-kontor yourself. If it works, check whether the frontend still calls the search API.
+          labels:
+            namespace: navno
+            severity: warning
