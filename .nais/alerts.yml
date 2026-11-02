@@ -52,11 +52,12 @@ spec:
             severity: warning
 
         # Health signal, searches are happening during sane hours
-        # "or vector(0)" covers the series not existing at all. hour() is UTC, so 06-16 is roughly 08-18 Oslo-time.
+        # "or vector(0)" covers the series not existing at all. hour() and day_of_week() are UTC, so 08-15 is 09-16 Oslo-time in winter and 10-17 in summer (always inside 09-17). Weekdays only (1-5): weekend traffic is too sparse to expect a hit every hour.
         - alert: NavOfficeSearchNoSuccessfulSearches
           expr: |
             (sum(increase(nav_office_search_search_requests_total{outcome="hits"}[1h])) or vector(0)) == 0
-            and on() hour() >= 6 and on() hour() < 16
+            and on() hour() >= 8 and on() hour() < 15
+            and on() day_of_week() >= 1 and on() day_of_week() <= 5
           for: 30m
           annotations:
             summary: No successful searches in nav-office-search for over 1.5 hours during the day
