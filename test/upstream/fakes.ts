@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 
 /*
  * Fakes of every service the server calls, answering from test/fixtures/upstream/ in each service's own wire format.
- * Offline development (test/mocks/dev.ts) runs on these. Node loads this file directly there, so it can only import
- * built-ins, and only use TypeScript that Node can strip.
+ * Offline development (test/mocks/dev.ts) and in-process tests (mswServer.ts) run on these. Node loads this file
+ * directly in development, so it can only import built-ins, and only use TypeScript that Node can strip.
  */
 
 export type UpstreamRequest = {
@@ -25,6 +25,29 @@ export type UpstreamOrigins = {
 	loginSession: string;
 	/** The decorator's base URLs to fake */
 	decorators: string[];
+};
+
+/** The origins the server gets from its environment. The decorator isn't among them, so it isn't faked. */
+export const originsFromEnv = (): UpstreamOrigins => ({
+	navno: process.env.VITE_NAVNO_ORIGIN,
+	xp: process.env.VITE_XP_ORIGIN,
+	api: process.env.API_ORIGIN,
+	tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
+	loginSession: process.env.LOGIN_SESSION_API_URL ?? 'https://login.test/oauth2/session',
+	decorators: [],
+});
+
+export const toUpstreamRequest = async (request: Request): Promise<UpstreamRequest> => {
+	const url = new URL(request.url);
+	return {
+		method: request.method,
+		url: url.href,
+		host: url.host,
+		path: url.pathname,
+		query: url.searchParams,
+		headers: Object.fromEntries(request.headers),
+		body: await request.clone().text(),
+	};
 };
 
 /** Method, host and path, e.g. 'GET www.nav.no/404' */

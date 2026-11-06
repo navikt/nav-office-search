@@ -10,18 +10,15 @@
 		"dev": "cp .env.development .env && pnpm start-local"
 	},
 	"dependencies": {
+		"@hono/node-server": "2.1.6",
 		"@navikt/nav-dekoratoren-moduler": "catalog:",
 		"@prometheus-io/client": "0.16.1",
-		"compression": "1.8.2",
-		"express": "5.3.0",
-		"lru-cache": "11.5.3",
+		"hono": "4.13.16",
 		"node-cache": "5.1.2",
 		"node-schedule": "2.1.1",
 		"react": "catalog:"
 	},
 	"devDependencies": {
-		"@types/compression": "1.8.1",
-		"@types/express": "5.0.6",
 		"@types/node": "catalog:",
 		"@types/node-schedule": "2.1.8",
 		"concurrently": "10.0.6",

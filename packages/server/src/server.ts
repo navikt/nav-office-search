@@ -1,50 +1,33 @@
-import compression from 'compression';
-import express from 'express';
-import { prepareSite, registerSiteRoutes } from './site/registerSiteRoutes.js';
-import { registerApiRoutes } from './api/registerApiRoutes';
+import { type ServerType, serve } from '@hono/node-server';
+import { createApp } from './app';
+import { behindVite, prepareSite } from './site/site';
 import { loadDataAndStartSchedule } from './data/data';
-import { registerErrorHandlers } from './utils/errorHandlers';
-import { metricsHandler, searchMetrics } from './metrics/middleware';
-
-const isLocal = process.env.ENV === 'localhost';
-const basePath = process.env.VITE_APP_BASEPATH;
+import { fetchNotFoundHtml } from './utils/errorHandlers';
 
 const PORT = 3005;
-
-const app = express();
-const siteRouter = express.Router();
-const apiRouter = express.Router();
-
-app.use(compression());
-app.use(basePath, siteRouter);
-siteRouter.use('/api', apiRouter);
-apiRouter.use(searchMetrics);
-apiRouter.get('/internal/metrics', metricsHandler);
-
-// Redirect from root to basepath in local development environments
-if (isLocal) {
-	app.get('/', (req, res) => res.redirect(basePath));
-}
 
 prepareSite()
 	.then(async (site) => {
 		await loadDataAndStartSchedule();
-		await registerApiRoutes(apiRouter);
-		registerSiteRoutes(site, siteRouter);
-		await registerErrorHandlers(app);
+
+		return { site, app: createApp({ site, notFoundHtml: await fetchNotFoundHtml() }) };
 	})
 	.catch((e) => {
 		console.error(`Error occured while initializing server! - ${e}`);
 		throw e;
 	})
-	.then(() => {
-		const server = app.listen(PORT, (error) => {
-			if (error) {
-				console.error(`Failed to start server on port ${PORT}:`, error);
-				throw error; // e.g. EADDRINUSE
-			}
-			console.log(`Server starting on port ${PORT}`);
-		});
+	.then(({ site, app }) => {
+		const server: ServerType = serve(
+			{
+				fetch: app.fetch,
+				port: PORT,
+				overrideGlobalObjects: false,
+				createServer: site.vite && behindVite(site.vite),
+			},
+			() => {
+				console.log(`Server starting on port ${PORT}`);
+			},
+		);
 
 		const shutdown = () => {
 			console.log('Server shutting down');

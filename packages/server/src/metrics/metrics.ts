@@ -1,8 +1,12 @@
 import { collectDefaultMetrics, Counter, Gauge, Histogram, Registry } from '@prometheus-io/client';
+import type { Handler } from 'hono';
 
 export const registry = new Registry();
 
 collectDefaultMetrics({ register: registry });
+
+export const metricsHandler: Handler = async (c) =>
+	c.body(await registry.metrics(), 200, { 'Content-Type': registry.contentType });
 
 const prefix = 'nav_office_search_';
 
@@ -48,6 +52,24 @@ export const classifySearchResponse = (status: number, body: unknown): SearchOut
 			return countOf(result.adresser) > 0 ? 'hits' : 'empty';
 		default:
 			return 'error';
+	}
+};
+
+/** Runs a search and records its outcome and duration */
+export const observeSearch = async <Response extends { status: number; body: unknown }>(
+	route: SearchRoute,
+	search: () => Promise<Response>,
+) => {
+	const stopTimer = searchDuration.startTimer({ route });
+	try {
+		const response = await search();
+		searchRequests.inc({ route, outcome: classifySearchResponse(response.status, response.body) });
+		return response;
+	} catch (e) {
+		searchRequests.inc({ route, outcome: 'error' });
+		throw e;
+	} finally {
+		stopTimer();
 	}
 };
 

@@ -10,7 +10,7 @@ Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-
 nav-office-search/
 ├── packages/
 │   ├── client/     # Vite/React-frontend (SSR + klient)
-│   ├── server/     # Express-server (frackend, API-proxy, SSR-hosting)
+│   ├── server/     # Hono-server (frackend, API-proxy, SSR-hosting)
 │   └── common/     # Delt kode: typer, lokalisering, validering
 ├── package.json    # Root: monorepo-scripts og verktøy
 └── pnpm-workspace.yaml

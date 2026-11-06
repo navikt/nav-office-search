@@ -37,7 +37,7 @@ test('serves the app metrics and the Node.js defaults as Prometheus text', async
 	const text = await response.text();
 
 	expect(response.status).toBe(200);
-	// The exact header is Express' (express-defaults.test.ts)
+	// The exact header is in framework-defaults.test.ts
 	expect(response.headers.get('content-type')).toMatch(/^text\/plain;.*\bversion=0\.0\.4\b/);
 	expect(text.split('\n').filter((line) => line.startsWith(`# TYPE ${PREFIX}`))).toEqual([
 		'# TYPE nav_office_search_search_requests_total counter',
@@ -148,15 +148,16 @@ test('counts page renders by locale, but not the ones served from the page cache
 	});
 });
 
-test('the page cache holds two pages, so going through the three locales renders each one again (bug)', async () => {
+test('the page cache holds a page per locale, whatever the query string says', async () => {
 	await visit(`${BASE}/en`);
 	await visit(BASE);
 	await visit(`${BASE}/nn`);
 	await visit(`${BASE}/en`);
+	await visit(`${BASE}/en?query=string`);
 
 	expect(samples(await scrape(), 'page_renders_total')).toEqual({
-		'page_renders_total{locale="nb",outcome="ssr"}': 2,
-		'page_renders_total{locale="nn",outcome="ssr"}': 2,
-		'page_renders_total{locale="en",outcome="ssr"}': 2,
+		'page_renders_total{locale="nb",outcome="ssr"}': 1,
+		'page_renders_total{locale="nn",outcome="ssr"}': 1,
+		'page_renders_total{locale="en",outcome="ssr"}': 1,
 	});
 });

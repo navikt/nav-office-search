@@ -1,4 +1,5 @@
-import type { NameHit } from '../../../../../common/types/results';
+import type { ApiResponse } from '../../apiResponse';
+import type { NameHit, SearchResultProps } from '../../../../../common/types/results';
 import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { getBydelerArray } from '../../../data/bydeler';
 import { getKommunerArray } from '../../../data/kommuner';
@@ -6,7 +7,6 @@ import { getPoststedArray } from '../../../data/poststeder';
 import type { Kommune, OfficeInfo } from '../../../../../common/types/data';
 import { normalizeString } from '../../../../../common/normalizeString';
 import { norskSort, sortOfficeNames } from '../../../utils/sort';
-import type { RequestHandler } from 'express';
 import { apiErrorResponse } from '../../../utils/fetch';
 
 const buildOfficeHit = (officeInfo: OfficeInfo, hitString: string): OfficeInfo => ({
@@ -138,17 +138,15 @@ export const getNameSearchResult = (query: string) => {
 	return { hits, type: 'name' as const, input: query };
 };
 
-export const nameSearchHandler: RequestHandler = async (req, res) => {
+export const nameSearchHandler = async (query?: string): Promise<ApiResponse<SearchResultProps>> => {
 	try {
-		const { query } = req.query;
-
-		if (typeof query !== 'string' || !query.trim()) {
-			return res.status(400).send(apiErrorResponse('errorMissingQuery'));
+		if (!query?.trim()) {
+			return { status: 400, body: apiErrorResponse('errorMissingQuery') };
 		}
 
-		return res.status(200).send(getNameSearchResult(query));
+		return { status: 200, body: getNameSearchResult(query) };
 	} catch (e) {
 		console.error(`Name search api error: ${e}`);
-		return res.status(500).send(apiErrorResponse('errorServerError'));
+		return { status: 500, body: apiErrorResponse('errorServerError') };
 	}
 };

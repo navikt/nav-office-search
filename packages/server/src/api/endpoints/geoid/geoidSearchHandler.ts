@@ -1,13 +1,12 @@
-import type { Request, Response } from 'express';
+import type { ApiResponse } from '../../apiResponse';
 import { PostnrKategori } from '../../../../../common/types/data';
+import type { SearchResultProps } from '../../../../../common/types/results';
 import { fetchOfficeInfoByGeoId } from '../../../external/officeInfo';
 import { apiErrorResponse } from '../../../utils/fetch';
 
-export const geoidSearchHandler = async (req: Request, res: Response) => {
-	const { id } = req.query;
-
-	if (typeof id !== 'string' || !id.trim()) {
-		return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
+export const geoidSearchHandler = async (id?: string): Promise<ApiResponse<SearchResultProps>> => {
+	if (!id?.trim()) {
+		return { status: 400, body: apiErrorResponse('errorInvalidQuery') };
 	}
 
 	const trimmedId = id.trim();
@@ -16,17 +15,20 @@ export const geoidSearchHandler = async (req: Request, res: Response) => {
 
 	if (officeInfo.error) {
 		console.error(`Error fetching office info for geoid ${safeIdForLog}: ${officeInfo.message}`);
-		return res.status(officeInfo.statusCode).send(apiErrorResponse('errorServerError'));
+		return { status: officeInfo.statusCode, body: apiErrorResponse('errorServerError') };
 	}
 
-	return res.status(200).send({
-		type: 'postnr',
-		postnr: '',
-		poststed: officeInfo.name,
-		poststedNormalized: '',
-		kommuneNavn: '',
-		kommunenr: trimmedId,
-		kategori: PostnrKategori.Gateadresser,
-		officeInfo: [officeInfo],
-	});
+	return {
+		status: 200,
+		body: {
+			type: 'postnr',
+			postnr: '',
+			poststed: officeInfo.name,
+			poststedNormalized: '',
+			kommuneNavn: '',
+			kommunenr: trimmedId,
+			kategori: PostnrKategori.Gateadresser,
+			officeInfo: [officeInfo],
+		},
+	};
 };
