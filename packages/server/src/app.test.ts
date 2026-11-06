@@ -12,6 +12,7 @@ import { getBydelerArray } from './data/bydeler';
 import { getKommunerArray } from './data/kommuner';
 import { getPoststedArray } from './data/poststeder';
 import { pageRenders, registry, searchDuration, searchRequests } from './metrics/metrics';
+import type { HtmlRenderer } from './site/ssr/htmlRenderer';
 
 const BASE = process.env.VITE_APP_BASEPATH;
 const API = `${BASE}/api`;
@@ -27,9 +28,9 @@ writeFileSync(join(clientDir, 'index.html'), '<!-- the template -->');
 writeFileSync(join(clientDir, 'favicon.ico'), 'ikon');
 writeFileSync(join(clientDir, 'assets', 'index-abc.js'), SCRIPT);
 
-const fakePage = (locale: AppLocale, url?: string) => `<html lang="${locale}">${url}</html>`;
+const fakePage = (locale: AppLocale) => `<html lang="${locale}"></html>`;
 
-const appWith = (render: (locale: AppLocale, url?: string) => Promise<string> = async (...args) => fakePage(...args)) =>
+const appWith = (render: HtmlRenderer = async (locale) => fakePage(locale)) =>
 	createApp({ site: { render, clientDir }, notFoundHtml: NOT_FOUND_HTML });
 
 const app = appWith();
@@ -181,11 +182,11 @@ describe('pages', () => {
 		[`${BASE}/nn/`, 'nn'],
 		[`${BASE}/en`, 'en'],
 		[`${BASE}/en/?a=1&b=2`, 'en'],
-	] as const)('%s renders the %s page, and tells the renderer the url', async (path, locale) => {
+	] as const)('%s renders the %s page', async (path, locale) => {
 		const response = await app.request(path);
 
 		expect([response.status, mediaType(response)]).toEqual([200, 'text/html']);
-		expect(await response.text()).toBe(fakePage(locale, path));
+		expect(await response.text()).toBe(fakePage(locale));
 	});
 
 	test('a failing render answers an empty 500, and is logged and counted', async () => {
@@ -287,7 +288,7 @@ describe('everything else', () => {
 			'gzip',
 			'Accept-Encoding',
 		]);
-		expect(gunzipSync(await compressed.bytes()).toString()).toBe(fakePage('nn', `${BASE}/nn`));
+		expect(gunzipSync(await compressed.bytes()).toString()).toBe(fakePage('nn'));
 		expect([plain.headers.get('content-encoding'), plain.headers.get('vary')]).toEqual([null, 'Accept-Encoding']);
 	});
 });

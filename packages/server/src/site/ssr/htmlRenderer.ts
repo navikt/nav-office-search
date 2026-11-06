@@ -7,7 +7,7 @@ import { buildMetaTags } from './metaTags';
 import { pageRenders } from '../../metrics/metrics';
 import { assertRenderable, placeholders } from './selfCheck';
 
-export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
+export type HtmlRenderer = (locale: AppLocale) => Promise<string>;
 
 type SsrEntry = { render: (locale: AppLocale) => string };
 
@@ -55,11 +55,12 @@ export const loadProdRenderer = async (): Promise<HtmlRenderer> => {
 
 export const devRender =
 	(vite: ViteDevServer): HtmlRenderer =>
-	async (locale: AppLocale, url = '') => {
+	async (locale: AppLocale) => {
 		try {
 			const template = await getTemplateWithDecorator(locale);
 			// Development renders on the client only. `pnpm prod-local` has server rendering.
-			const html = await vite.transformIndexHtml(url, template);
+			// Vite only needs a URL for inline module scripts, and the template has none
+			const html = await vite.transformIndexHtml('/', template);
 			return processTemplate(locale, html, '');
 		} catch (e) {
 			vite.ssrFixStacktrace(e as Error);

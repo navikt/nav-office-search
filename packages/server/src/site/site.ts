@@ -73,8 +73,7 @@ export const createSite = ({ render, clientDir }: Site) => {
 		(locale: AppLocale): Handler =>
 		async (c) => {
 			try {
-				const { pathname, search } = new URL(c.req.url);
-				return c.html(await render(locale, `${pathname}${search}`));
+				return c.html(await render(locale));
 			} catch (e) {
 				pageRenders.inc({ locale, outcome: 'error' });
 				throw e;
