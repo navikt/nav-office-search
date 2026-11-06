@@ -2,7 +2,6 @@ import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import http from 'node:http';
 import net from 'node:net';
-import { devNull } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { type Override, type Stub, startStub } from './stub';
@@ -33,9 +32,6 @@ const defaultEnv = (): Record<string, string> => ({
 	AZURE_APP_CLIENT_SECRET: 'azure-client-secret',
 	AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: ORIGINS.tokenEndpoint,
 	LOGIN_SESSION_API_URL: ORIGINS.loginSession,
-	// dotenv/config must not pick up a developer's packages/server/.env
-	DOTENV_CONFIG_PATH: devNull,
-	DOTENV_CONFIG_QUIET: 'true',
 });
 
 type Exit = { code: number | null; signal: NodeJS.Signals | null };

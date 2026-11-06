@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import compression from 'compression';
 import express from 'express';
 import { registerSiteRoutes } from './site/registerSiteRoutes.js';

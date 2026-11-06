@@ -4,8 +4,8 @@
 	"private": true,
 	"scripts": {
 		"build": "rm -fr dist && tsc",
-		"start": "node dist/server/src/server.js",
-		"start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server dist/server/src/server.js\"",
+		"start": "node --env-file-if-exists=.env dist/server/src/server.js",
+		"start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server --env-file-if-exists=.env dist/server/src/server.js\"",
 		"prod-local": "cp .env.local-prod .env && pnpm start-local",
 		"dev": "cp .env.development .env && pnpm start-local"
 	},
@@ -13,7 +13,6 @@
 		"@navikt/nav-dekoratoren-moduler": "catalog:",
 		"@prometheus-io/client": "0.16.1",
 		"compression": "1.8.2",
-		"dotenv": "18.0.7",
 		"express": "5.3.0",
 		"fetch-mock": "11.1.5",
 		"lru-cache": "11.5.3",

@@ -18,4 +18,4 @@ ENV NODE_ENV=production
 
 EXPOSE 3005
 ENTRYPOINT [ "node" ]
-CMD ["packages/server/dist/server/src/server.js"]
+CMD ["--env-file=.env", "packages/server/dist/server/src/server.js"]
