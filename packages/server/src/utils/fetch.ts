@@ -1,9 +1,6 @@
-import { fetchMock } from '../_mock/fetchMock';
 import type { LocaleStringId } from '../../../common/localization/types';
 import type { SearchResultErrorProps } from '../../../common/types/results';
 import { observeUpstream, upstreamForUrl } from '../metrics/metrics';
-
-const fetchOrMock = process.env.ENV === 'localhost' ? fetchMock : fetch;
 
 export const apiErrorResponse = (messageId: LocaleStringId): SearchResultErrorProps => ({
 	type: 'error',
@@ -42,7 +39,7 @@ export const fetchJson = async <T = any>(
 
 	try {
 		const res = await observeUpstream(upstreamForUrl(urlWithQuery), () =>
-			fetchOrMock(urlWithQuery, {
+			fetch(urlWithQuery, {
 				...options,
 				headers: {
 					accept: 'application/json',
@@ -51,7 +48,7 @@ export const fetchJson = async <T = any>(
 			}),
 		);
 
-		const isJson = res.headers?.get('content-type')?.includes?.('application/json');
+		const isJson = res.headers.get('content-type')?.includes('application/json');
 
 		if (res.ok && isJson) {
 			return (await res.json()) as T;

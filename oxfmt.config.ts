@@ -14,7 +14,6 @@ export default defineConfig({
 		'.nais/**',
 		// <main id="maincontent"><!--ssr-app-html--></main> must stay byte-adjacent
 		'packages/client/index.html',
-		'packages/server/src/_mock/data/**',
 		'test/fixtures/**',
 		'**/__goldens__/**',
 		'**/__snapshots__/**',
