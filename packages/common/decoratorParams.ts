@@ -1,5 +1,5 @@
-import { DecoratorParams } from '@navikt/nav-dekoratoren-moduler';
-import { AppLocale } from './localization/types';
+import type { DecoratorParams } from '@navikt/nav-dekoratoren-moduler';
+import type { AppLocale } from './localization/types';
 
 export const getDecoratorParams = (locale: AppLocale): DecoratorParams => ({
 	context: 'privatperson',

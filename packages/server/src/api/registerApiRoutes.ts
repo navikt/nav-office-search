@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import type { Router } from 'express';
 import { isReadyHandler } from './endpoints/isReady/isReadyHandler';
 import { isAliveHandler } from './endpoints/isAlive/isAliveHandler';
 import { searchHandler } from './endpoints/search/searchHandler';

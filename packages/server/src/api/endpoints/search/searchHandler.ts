@@ -1,6 +1,5 @@
 import { getNameSearchResult } from './nameSearchHandler';
-import { isDataLoaded, loadData } from '../../../data/data';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 import { apiErrorResponse } from '../../../utils/fetch';
 import { isValidPostnrQuery } from '../../../../../common/validateInput';
 import { postnrSearchHandler } from './postnrSearchHandler';
@@ -8,10 +7,6 @@ import { addressSearchHandler } from './addressSearchHandler';
 
 export const searchHandler: RequestHandler = async (req, res) => {
 	console.log('Received search request');
-	if (!isDataLoaded()) {
-		console.log('Application not ready');
-		await loadData();
-	}
 
 	try {
 		const { query } = req.query;

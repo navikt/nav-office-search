@@ -1,5 +1,5 @@
-import { LocaleStringId } from '../localization/types';
-import { OfficeInfo, Poststed } from './data';
+import type { LocaleStringId } from '../localization/types';
+import type { OfficeInfo, Poststed } from './data';
 
 export type SearchResultPostnrProps = {
 	type: 'postnr';

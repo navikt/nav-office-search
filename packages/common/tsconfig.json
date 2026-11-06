@@ -5,6 +5,8 @@
 		"jsx": "react",
 		"moduleResolution": "node",
 		"strict": true,
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
 		"skipLibCheck": true,
 		"ignoreDeprecations": "6.0",
 		"esModuleInterop": false,

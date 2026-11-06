@@ -1,8 +1,7 @@
 import { LRUCache } from 'lru-cache';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
 type CacheMiddlewareOptions = {
-	cacheOnErrors?: boolean;
 	ttlSec: number;
 	maxSize: number;
 };
@@ -12,11 +11,7 @@ type ResponseCacheEntry = {
 	statusCode: number;
 };
 
-export const createCacheMiddleware = ({
-	cacheOnErrors = false,
-	ttlSec,
-	maxSize,
-}: CacheMiddlewareOptions): RequestHandler => {
+export const createCacheMiddleware = ({ ttlSec, maxSize }: CacheMiddlewareOptions): RequestHandler => {
 	const cache = new LRUCache<string | number, ResponseCacheEntry>({
 		ttl: ttlSec * 1000,
 		max: maxSize,
@@ -35,7 +30,7 @@ export const createCacheMiddleware = ({
 
 		res.send = (sentData) => {
 			const { statusCode } = res;
-			if (statusCode < 400 || cacheOnErrors) {
+			if (statusCode < 400) {
 				cache.set(originalUrl, {
 					sentData,
 					statusCode,

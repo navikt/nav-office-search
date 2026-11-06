@@ -1,9 +1,9 @@
-import express, { Router } from 'express';
+import express, { type Router } from 'express';
 import { createServer } from 'vite';
-import { HtmlRenderer, devRender, prodRender } from './ssr/htmlRenderer';
+import { type HtmlRenderer, devRender, prodRender } from './ssr/htmlRenderer';
 import { createCacheMiddleware } from '../utils/cacheMiddleware';
 import { pageRenders } from '../metrics/metrics';
-import { AppLocale } from '../../../common/localization/types';
+import type { AppLocale } from '../../../common/localization/types';
 
 const assetsDir = `${process.cwd()}/frontendDist/client/assets`;
 const favicon = `${process.cwd()}/frontendDist/client/favicon.ico`;

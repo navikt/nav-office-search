@@ -1,10 +1,11 @@
 import React from 'react';
-import { LocaleModule } from '../types';
+import { pageMeta } from '../meta';
+import type { LocaleModule } from '../types';
 
 export const localeModuleEn: LocaleModule = {
-	documentTitle: 'Find Nav office - nav.no',
+	documentTitle: pageMeta.en.documentTitle,
 	pageTitle: 'Find Nav office',
-	ingressLine1: 'Find out which office you belong to, or search the list of all Nav offices.',
+	ingressLine1: pageMeta.en.ingressLine1,
 	ingressLine2: 'You can find your Nav office under personal information on My Page.',
 	loginButtonText: 'Log in to see your Nav office',
 	loggedInButtonText: 'See your Nav office',

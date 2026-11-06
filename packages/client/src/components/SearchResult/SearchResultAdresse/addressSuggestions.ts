@@ -1,6 +1,6 @@
-import { AppLocale } from '../../../../../common/localization/types';
+import type { AppLocale } from '../../../../../common/localization/types';
 import { localeString } from '../../../../../common/localization/localeString';
-import { Adresse, SearchResultAdresseProps } from '../../../../../common/types/results';
+import type { Adresse, SearchResultAdresseProps } from '../../../../../common/types/results';
 
 export const maxVisibleAddressOptions = 6;
 

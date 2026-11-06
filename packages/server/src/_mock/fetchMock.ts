@@ -1,7 +1,7 @@
 import fetchMockLib from 'fetch-mock';
 import { getOfficeUrl } from '../data/officeUrls';
 import { fetchErrorResponse } from '../utils/fetch';
-import { Bydel, Kommune } from '../../../common/types/data';
+import type { Bydel, Kommune } from '../../../common/types/data';
 import { serverUrls } from '../urls';
 
 import jsonData from './data/data.json';
@@ -49,9 +49,3 @@ export const fetchMock = fetchMockLib
 	.mock(serverUrls.xpOfficeInfoApi, async () => {
 		return officeUrlData;
 	});
-
-if (serverUrls.loginSessionApi) {
-	fetchMock.mock(serverUrls.loginSessionApi, {
-		status: 200,
-	});
-}

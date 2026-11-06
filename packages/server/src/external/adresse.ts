@@ -1,6 +1,6 @@
 import { getAuthorizationHeader } from './auth';
-import { Adresse } from '../../../common/types/results';
-import { fetchErrorResponse, FetchErrorResponse, fetchJson } from '../utils/fetch';
+import type { Adresse } from '../../../common/types/results';
+import { fetchErrorResponse, type FetchErrorResponse, fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
 export type AdresseSokResponse = {

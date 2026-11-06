@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchResultPostnrProps } from '../../../../../common/types/results';
+import type { SearchResultPostnrProps } from '../../../../../common/types/results';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';
 import { BodyLong, VStack } from '@navikt/ds-react';
 import { PostnrKategori } from '../../../../../common/types/data';

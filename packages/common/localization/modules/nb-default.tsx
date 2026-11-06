@@ -1,9 +1,10 @@
 import React from 'react';
+import { pageMeta } from '../meta';
 
 export const localeModuleNb = {
-	documentTitle: 'Finn Nav-kontor - nav.no',
+	documentTitle: pageMeta.nb.documentTitle,
 	pageTitle: 'Finn Nav-kontor',
-	ingressLine1: 'Finn ut hvilket kontor du tilhører, eller søk i listen over alle Nav-kontor.',
+	ingressLine1: pageMeta.nb.ingressLine1,
 	ingressLine2: 'Du finner ditt Nav-kontor under personopplysninger på Min Side.',
 	loginButtonText: 'Logg inn og se ditt Nav-kontor',
 	loggedInButtonText: 'Se ditt Nav-kontor',

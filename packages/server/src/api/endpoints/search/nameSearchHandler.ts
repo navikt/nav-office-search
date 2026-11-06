@@ -1,13 +1,12 @@
-import { NameHit } from '../../../../../common/types/results';
+import type { NameHit } from '../../../../../common/types/results';
 import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { getBydelerArray } from '../../../data/bydeler';
 import { getKommunerArray } from '../../../data/kommuner';
 import { getPoststedArray } from '../../../data/poststeder';
-import { Kommune, OfficeInfo } from '../../../../../common/types/data';
+import type { Kommune, OfficeInfo } from '../../../../../common/types/data';
 import { normalizeString } from '../../../../../common/normalizeString';
 import { norskSort, sortOfficeNames } from '../../../utils/sort';
-import { RequestHandler } from 'express';
-import { isDataLoaded, loadData } from '../../../data/data';
+import type { RequestHandler } from 'express';
 import { apiErrorResponse } from '../../../utils/fetch';
 
 const buildOfficeHit = (officeInfo: OfficeInfo, hitString: string): OfficeInfo => ({
@@ -141,10 +140,6 @@ export const getNameSearchResult = (query: string) => {
 
 export const nameSearchHandler: RequestHandler = async (req, res) => {
 	try {
-		if (!isDataLoaded()) {
-			await loadData();
-		}
-
 		const { query } = req.query;
 
 		if (typeof query !== 'string' || !query.trim()) {

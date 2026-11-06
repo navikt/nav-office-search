@@ -1,7 +1,7 @@
 import path from 'path';
-import { injectDecoratorServerSide, DecoratorEnvProps } from '@navikt/nav-dekoratoren-moduler/ssr';
+import { injectDecoratorServerSide, type DecoratorEnvProps } from '@navikt/nav-dekoratoren-moduler/ssr';
 import { getDecoratorParams } from '../../../../common/decoratorParams';
-import { AppLocale } from '../../../../common/localization/types';
+import type { AppLocale } from '../../../../common/localization/types';
 
 const decoratorEnv = process.env.ENV || 'prod';
 const decoratorLocalUrl = process.env.DECORATOR_LOCAL_URL;

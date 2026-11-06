@@ -1,4 +1,4 @@
-import { PostnrKategori } from '../../../common/types/data';
+import type { PostnrKategori } from '../../../common/types/data';
 import { serverUrls } from '../urls';
 import { observeUpstream } from '../metrics/metrics';
 

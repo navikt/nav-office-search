@@ -1,11 +1,11 @@
-import React, { CSSProperties, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, { type CSSProperties, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import { Loader, Search } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
 import { SearchResult } from '../SearchResult/SearchResult';
-import { Adresse, SearchResultProps } from '../../../../common/types/results';
+import type { Adresse, SearchResultProps } from '../../../../common/types/results';
 import { abortSearchClient, fetchGeoidClient, fetchSearchClient } from '../../utils/fetch';
-import { LocaleStringId, SearchError } from '../../../../common/localization/types';
+import type { LocaleStringId, SearchError } from '../../../../common/localization/types';
 import { isValidNameQuery, isValidPostnrQuery } from '../../../../common/validateInput';
 import { localeString } from '../../../../common/localization/localeString';
 import { useLocale } from '../../localization/useLocale';
@@ -231,15 +231,6 @@ export const SearchForm = () => {
 		} else if (!Number.isNaN(Number(input))) {
 			if (submit) {
 				setClientError('errorInputValidationPostnr');
-			} else {
-				resetError();
-			}
-			return;
-		}
-
-		if (!isValidNameQuery(input)) {
-			if (submit) {
-				setClientError('errorInputValidationName');
 			} else {
 				resetError();
 			}

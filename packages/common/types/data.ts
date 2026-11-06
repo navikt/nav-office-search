@@ -1,10 +1,12 @@
-export enum PostnrKategori {
-	GateadresserOgPostbokser = 'B',
-	Felles = 'F',
-	Gateadresser = 'G',
-	Postbokser = 'P',
-	Servicepostnummer = 'S',
-}
+export const PostnrKategori = {
+	GateadresserOgPostbokser: 'B',
+	Felles: 'F',
+	Gateadresser: 'G',
+	Postbokser: 'P',
+	Servicepostnummer: 'S',
+} as const;
+
+export type PostnrKategori = (typeof PostnrKategori)[keyof typeof PostnrKategori];
 
 export type Poststed = {
 	postnr: string;

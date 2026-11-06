@@ -250,9 +250,6 @@ importers:
       lodash.debounce:
         specifier: 4.0.8
         version: 4.0.8
-      nav-office-search-common:
-        specifier: workspace:*
-        version: link:../common
       preact:
         specifier: 'catalog:'
         version: 10.29.8(preact-render-to-string@6.8.1)
@@ -2792,11 +2789,11 @@ packages:
   undefsafe@2.0.5:
     resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
 
-  undici-types@8.9.0:
-    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
-
   undici-types@8.11.2:
     resolution: {integrity: sha512-iMVNmWZ0leK/goS6eXMizSzmm9CDWtyphwbaCms3DNLqRxDL+mMoNVcZMTyyVgXP0N+Z8neAMzDoUOUJL8veKg==}
+
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
   undici@8.12.3:
     resolution: {integrity: sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw==}
@@ -5278,9 +5275,9 @@ snapshots:
 
   undefsafe@2.0.5: {}
 
-  undici-types@8.9.0: {}
-
   undici-types@8.11.2: {}
+
+  undici-types@8.9.0: {}
 
   undici@8.12.3: {}
 

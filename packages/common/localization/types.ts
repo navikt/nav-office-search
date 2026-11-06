@@ -1,4 +1,4 @@
-import { localeModuleNb } from './modules/nb-default';
+import type { localeModuleNb } from './modules/nb-default';
 
 export type AppLocale = 'nb' | 'nn' | 'en';
 

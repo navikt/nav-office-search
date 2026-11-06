@@ -1,6 +1,6 @@
 import React from 'react';
 import { LinkCard } from '@navikt/ds-react';
-import { OfficeInfo } from '../../../../common/types/data';
+import type { OfficeInfo } from '../../../../common/types/data';
 import style from './OfficeLink.module.css';
 
 type Props = {

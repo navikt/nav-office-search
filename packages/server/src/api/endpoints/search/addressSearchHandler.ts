@@ -1,8 +1,7 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { apiErrorResponse } from '../../../utils/fetch';
-import { AdresseSokResponse, fetchPdlAdresseSok } from '../../../external/adresse';
-import { isDataLoaded, loadData } from '../../../data/data';
-import { SearchResultAdresseProps } from '../../../../../common/types/results';
+import { type AdresseSokResponse, fetchPdlAdresseSok } from '../../../external/adresse';
+import type { SearchResultAdresseProps } from '../../../../../common/types/results';
 
 const toAddressSearchResult = (adresseQuery: string, response: AdresseSokResponse): SearchResultAdresseProps => {
 	return {
@@ -19,10 +18,6 @@ export const addressSearchHandler = async (req: Request, res: Response) => {
 
 		if (typeof query !== 'string' || !query.trim()) {
 			return res.status(400).send(apiErrorResponse('errorMissingQuery'));
-		}
-
-		if (!isDataLoaded()) {
-			await loadData();
 		}
 
 		const adresseSokResponse = await fetchPdlAdresseSok(query);

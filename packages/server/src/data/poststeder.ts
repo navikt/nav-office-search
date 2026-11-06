@@ -1,7 +1,7 @@
 import { getBydelerForKommune } from './bydeler';
 import { getKommune, getOfficeInfoGeoIdForKommune } from './kommuner';
-import { PostnrRegisterItem } from './postnrRegister';
-import { Poststed } from '../../../common/types/data';
+import type { PostnrRegisterItem } from './postnrRegister';
+import type { Poststed } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
 import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
 
