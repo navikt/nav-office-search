@@ -1,5 +1,6 @@
-import type { RequestHandler } from 'express';
+import type { ApiResponse } from '../../apiResponse';
 
-export const isReadyHandler: RequestHandler = (req, res) => {
-	return res.status(200).json({ message: 'I am ready!' });
-};
+export const isReadyHandler = (): ApiResponse<{ message: string }> => ({
+	status: 200,
+	body: { message: 'I am ready!' },
+});

@@ -1,7 +1,7 @@
-import type { Request, Response } from 'express';
+import type { ApiResponse } from '../../apiResponse';
 import { apiErrorResponse } from '../../../utils/fetch';
 import { type AdresseSokResponse, fetchPdlAdresseSok } from '../../../external/adresse';
-import type { SearchResultAdresseProps } from '../../../../../common/types/results';
+import type { SearchResultAdresseProps, SearchResultProps } from '../../../../../common/types/results';
 
 const toAddressSearchResult = (adresseQuery: string, response: AdresseSokResponse): SearchResultAdresseProps => {
 	return {
@@ -12,12 +12,10 @@ const toAddressSearchResult = (adresseQuery: string, response: AdresseSokRespons
 	};
 };
 
-export const addressSearchHandler = async (req: Request, res: Response) => {
+export const addressSearchHandler = async (query?: string): Promise<ApiResponse<SearchResultProps>> => {
 	try {
-		const { query } = req.query;
-
-		if (typeof query !== 'string' || !query.trim()) {
-			return res.status(400).send(apiErrorResponse('errorMissingQuery'));
+		if (!query?.trim()) {
+			return { status: 400, body: apiErrorResponse('errorMissingQuery') };
 		}
 
 		const adresseSokResponse = await fetchPdlAdresseSok(query);
@@ -25,14 +23,12 @@ export const addressSearchHandler = async (req: Request, res: Response) => {
 		if ('error' in adresseSokResponse) {
 			console.error(`Address search failed for query ${query.replace(/[\r\n]/g, '')}: ${adresseSokResponse.message}`);
 
-			return res.status(adresseSokResponse.statusCode).send(apiErrorResponse('errorServerError'));
+			return { status: adresseSokResponse.statusCode, body: apiErrorResponse('errorServerError') };
 		}
 
-		const searchResult = toAddressSearchResult(query, adresseSokResponse);
-
-		return res.status(200).send(searchResult);
+		return { status: 200, body: toAddressSearchResult(query, adresseSokResponse) };
 	} catch (e) {
 		console.error(`Address search api error: ${e}`);
-		return res.status(500).send(apiErrorResponse('errorServerError'));
+		return { status: 500, body: apiErrorResponse('errorServerError') };
 	}
 };

@@ -11,6 +11,8 @@ export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
 type SsrEntry = { render: (locale: AppLocale) => string };
 
+const PAGE_CACHE_TTL_MS = 10 * 60 * 1000;
+
 // The whitespace is so hydration doesn't depend on how index.html is formatted
 const appPlaceholder = new RegExp(`\\s*${placeholders.app}\\s*`);
 
@@ -28,12 +30,21 @@ export const loadProdRenderer = async (): Promise<HtmlRenderer> => {
 
 	assertRenderable(readFileSync(templatePath, 'utf8'), render);
 
+	const pages = new Map<AppLocale, { html: string; expires: number }>();
+
 	return async (locale: AppLocale) => {
+		const cached = pages.get(locale);
+		if (cached && cached.expires > Date.now()) {
+			return cached.html;
+		}
+
 		const template = await getTemplateWithDecorator(locale);
 		try {
 			const appHtml = render(locale);
 			pageRenders.inc({ locale, outcome: 'ssr' });
-			return processTemplate(locale, template, appHtml);
+			const html = processTemplate(locale, template, appHtml);
+			pages.set(locale, { html, expires: Date.now() + PAGE_CACHE_TTL_MS });
+			return html;
 		} catch (e) {
 			console.error(`Error occured while server rendering app! - ${e}`);
 			pageRenders.inc({ locale, outcome: 'csr_fallback' });

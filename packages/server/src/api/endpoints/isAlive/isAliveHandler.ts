@@ -1,5 +1,3 @@
-import type { RequestHandler } from 'express';
+import type { ApiResponse } from '../../apiResponse';
 
-export const isAliveHandler: RequestHandler = (req, res) => {
-	return res.status(200).send('I am alive!');
-};
+export const isAliveHandler = (): ApiResponse<string> => ({ status: 200, body: 'I am alive!' });

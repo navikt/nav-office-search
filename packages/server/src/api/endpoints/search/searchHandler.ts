@@ -1,32 +1,31 @@
+import type { ApiResponse } from '../../apiResponse';
 import { getNameSearchResult } from './nameSearchHandler';
-import type { RequestHandler } from 'express';
 import { apiErrorResponse } from '../../../utils/fetch';
+import type { SearchResultProps } from '../../../../../common/types/results';
 import { isValidPostnrQuery } from '../../../../../common/validateInput';
 import { postnrSearchHandler } from './postnrSearchHandler';
 import { addressSearchHandler } from './addressSearchHandler';
 
-export const searchHandler: RequestHandler = async (req, res) => {
+export const searchHandler = async (query?: string): Promise<ApiResponse<SearchResultProps>> => {
 	console.log('Received search request');
 
 	try {
-		const { query } = req.query;
-
-		if (typeof query !== 'string' || !query.trim()) {
-			return res.status(400).send(apiErrorResponse('errorMissingQuery'));
+		if (!query?.trim()) {
+			return { status: 400, body: apiErrorResponse('errorMissingQuery') };
 		}
 
 		if (isValidPostnrQuery(query)) {
-			return postnrSearchHandler(req, res);
+			return postnrSearchHandler(query);
 		}
 
 		const nameResult = getNameSearchResult(query);
 		if (nameResult.hits.length > 0) {
-			return res.status(200).send(nameResult);
+			return { status: 200, body: nameResult };
 		}
 
-		return addressSearchHandler(req, res);
+		return addressSearchHandler(query);
 	} catch (e) {
 		console.error(`Search api error: ${e}`);
-		return res.status(500).send(apiErrorResponse('errorServerError'));
+		return { status: 500, body: apiErrorResponse('errorServerError') };
 	}
 };

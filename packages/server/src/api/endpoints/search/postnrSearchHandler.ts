@@ -1,8 +1,8 @@
+import type { ApiResponse } from '../../apiResponse';
 import type { OfficeInfo, Poststed } from '../../../../../common/types/data';
-import type { SearchResultPostnrProps } from '../../../../../common/types/results';
+import type { SearchResultPostnrProps, SearchResultProps } from '../../../../../common/types/results';
 import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { sortOfficeNames } from '../../../utils/sort';
-import type { Request, Response } from 'express';
 import { getPoststed } from '../../../data/poststeder';
 import { apiErrorResponse } from '../../../utils/fetch';
 import { fetchPdlBydelsok } from '../../../external/bydel';
@@ -35,24 +35,18 @@ const responseDataWithBydeler = async (poststedData: Poststed): Promise<SearchRe
 	};
 };
 
-export const postnrSearchHandler = async (req: Request, res: Response) => {
-	const { query } = req.query;
-
-	if (typeof query !== 'string') {
-		return res.status(400).send(apiErrorResponse('errorInvalidQuery'));
-	}
-
+export const postnrSearchHandler = async (query: string): Promise<ApiResponse<SearchResultProps>> => {
 	const postnr = query.trim();
 
 	const poststedData = await getPoststed(postnr);
 
 	if (!poststedData) {
-		return res.status(404).send(apiErrorResponse('errorInvalidPostnr'));
+		return { status: 404, body: apiErrorResponse('errorInvalidPostnr') };
 	}
 
 	if (poststedData.officeInfo.length > 0) {
-		return res.status(200).send({ ...poststedData, type: 'postnr' });
+		return { status: 200, body: { ...poststedData, type: 'postnr' } };
 	}
 
-	return res.status(200).send(await responseDataWithBydeler(poststedData));
+	return { status: 200, body: await responseDataWithBydeler(poststedData) };
 };

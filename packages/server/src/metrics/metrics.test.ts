@@ -1,8 +1,11 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import {
 	classifySearchResponse,
+	observeSearch,
 	observeUpstream,
 	registry,
+	searchDuration,
+	searchRequests,
 	upstreamForUrl,
 	upstreamRequests,
 	upstreamDuration,
@@ -29,6 +32,40 @@ describe('classifySearchResponse', () => {
 		['200 with an unexpected body', 200, 'oops', 'error'],
 	] as const)('%s → %s', (_, status, body, expected) => {
 		expect(classifySearchResponse(status, body)).toBe(expected);
+	});
+});
+
+describe('observeSearch', () => {
+	const timedCounts = async () =>
+		(await searchDuration.get()).values
+			.filter(({ metricName }) => metricName?.endsWith('_count'))
+			.map(({ labels, value }) => [labels.route, value]);
+
+	test('returns the response, and records its outcome and the duration', async () => {
+		const response = { status: 200, body: { type: 'postnr', officeInfo: [{ name: 'Nav Tromsø' }] } };
+
+		await expect(observeSearch('search', async () => response)).resolves.toBe(response);
+		await observeSearch('geoid', async () => ({ status: 400, body: { type: 'error' } }));
+
+		expect((await searchRequests.get()).values).toEqual([
+			expect.objectContaining({ labels: { route: 'search', outcome: 'hits' }, value: 1 }),
+			expect.objectContaining({ labels: { route: 'geoid', outcome: 'invalid' }, value: 1 }),
+		]);
+		expect(await timedCounts()).toEqual([
+			['search', 1],
+			['geoid', 1],
+		]);
+	});
+
+	test('records a failed search as an error, and rethrows it', async () => {
+		const failure = new Error('search failed');
+
+		await expect(observeSearch('search/name', () => Promise.reject(failure))).rejects.toBe(failure);
+
+		expect((await searchRequests.get()).values).toEqual([
+			expect.objectContaining({ labels: { route: 'search/name', outcome: 'error' }, value: 1 }),
+		]);
+		expect(await timedCounts()).toEqual([['search/name', 1]]);
 	});
 });
 

@@ -16,7 +16,7 @@ beforeEach(() => server.stub.reset());
 
 afterEach(() => expect(server.stub.unexpected).toEqual([]));
 
-// The media type only: its parameters are Express' (express-defaults.test.ts)
+// The media type only: its parameters are the framework's (framework-defaults.test.ts)
 const get = async (path: string, init?: RequestInit) => {
 	const response = await server.fetch(path, init);
 	const type = response.headers.get('content-type')?.split(';')[0];
