@@ -1,5 +1,8 @@
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
+import { routeOf, type UpstreamRequest } from '../upstream/fakes';
+
+export { routeOf };
 
 /*
  * Stands in for every service outside the app. preload.ts reroutes the server's outbound fetches here, with the
@@ -7,16 +10,7 @@ import type { AddressInfo } from 'node:net';
  * overrides them.
  */
 
-export type StubRequest = {
-	method: string;
-	/** The URL the server asked for */
-	url: string;
-	host: string;
-	path: string;
-	query: URLSearchParams;
-	headers: Record<string, string | undefined>;
-	body: string;
-};
+export type StubRequest = UpstreamRequest;
 
 /**
  * Answers instead of the fakes, or returns undefined to leave the request to them. Response.error() resets the
@@ -36,9 +30,6 @@ export type Stub = {
 	reset: () => void;
 	close: () => Promise<void>;
 };
-
-/** Method, host and path, e.g. 'GET www.nav.no/404' */
-export const routeOf = ({ method, host, path }: StubRequest) => `${method} ${host}${path}`;
 
 /** An override for one route (see routeOf), whatever the query */
 export const on =

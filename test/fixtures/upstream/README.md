@@ -24,4 +24,6 @@ nav-office-search-api's behaviour that the fixtures mirror (see its `src/handler
   `.,-` → 400 `{ error }`; PDL failure → 502 `{ error }`.
 - `/bydel`: missing or non-four-digit postnummer → 400 `{ error }`.
 
+`test/upstream/fakes.ts` answers from these files, in offline development and in the HTTP tests.
+
 These files are not formatted by oxfmt.

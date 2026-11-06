@@ -8,6 +8,8 @@
 		"module": "preserve",
 		"moduleResolution": "bundler",
 		"noEmit": true,
+		// test/mocks/dev.ts runs directly in Node, which needs the extension
+		"allowImportingTsExtensions": true,
 		"strict": true,
 		"skipLibCheck": true,
 		"isolatedModules": true,

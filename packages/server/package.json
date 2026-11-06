@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "rm -fr dist && tsc",
 		"start": "node --env-file-if-exists=.env dist/server/src/server.js",
-		"start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server --env-file-if-exists=.env dist/server/src/server.js\"",
+		"start-local": "pnpm build && concurrently \"tsc -w\" \"nodemon -w dist/server --env-file-if-exists=.env --import=../../test/mocks/dev.ts dist/server/src/server.js\"",
 		"prod-local": "cp .env.local-prod .env && pnpm start-local",
 		"dev": "cp .env.development .env && pnpm start-local"
 	},
@@ -14,7 +14,6 @@
 		"@prometheus-io/client": "0.16.1",
 		"compression": "1.8.2",
 		"express": "5.3.0",
-		"fetch-mock": "11.1.5",
 		"lru-cache": "11.5.3",
 		"node-cache": "5.1.2",
 		"node-schedule": "2.1.1",

@@ -36,7 +36,7 @@ Kjører lokalt på [http://localhost:3005](http://localhost:3005)
 
 `pnpm dev`
 
-Starter både server og klient i watch-modus parallelt.
+Starter både server og klient i watch-modus parallelt. Alle eksterne tjenester unntatt dekoratøren er mocket fra `test/fixtures/upstream/`, så serveren kjører uten nett. Sett `MOCKS=false` for å slå det av.
 
 #### Start i production mode:
 
