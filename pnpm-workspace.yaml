@@ -1,14 +1,14 @@
 packages:
   - packages/*
 catalog:
-  '@navikt/nav-dekoratoren-moduler': 4.5.1
-  '@types/node': 26.6.5
+  '@navikt/nav-dekoratoren-moduler': 4.5.3
+  '@types/node': 26.6.6
   '@types/react': 19.3.0
   preact: 10.29.8
-  preact-render-to-string: 6.8.1
+  preact-render-to-string: 6.8.2
   react: 19.3.1
   typescript: 6.0.3
-  vite: 8.3.4
+  vite: 8.3.5
   vitest: 5.0.5
 allowBuilds:
   esbuild: true
