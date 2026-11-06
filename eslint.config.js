@@ -23,7 +23,7 @@ export default tseslint.config(
 				// 'detect' fails to find React's version because eslint runs from the
 				// repo root, not packages/client, so it must be pinned explicitly here.
 				// Keep this in sync with the "react" version in packages/client/package.json.
-				version: '19.2.8',
+				version: '19.3.1',
 			},
 		},
 		rules: {

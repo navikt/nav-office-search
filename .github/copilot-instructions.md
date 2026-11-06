@@ -4,7 +4,7 @@
 
 This is a TypeScript pnpm workspace for the Nav office search application:
 
-- `packages/client`: Vite and Preact frontend with SSR and hydration.
+- `packages/client`: Vite and React frontend with SSR and hydration.
 - `packages/server`: Express frackend, API routes, external-service integration, data loading, and SSR hosting.
 - `packages/common`: Shared types, validation, normalization, and localization.
 
@@ -40,7 +40,7 @@ Dependency installation uses GitHub Packages for `@navikt/*` packages and requir
 - Keep client API URLs in `packages/client/src/urls.ts` and external server URLs in `packages/server/src/urls.ts`. Respect `VITE_APP_ORIGIN` and `VITE_APP_BASEPATH`; do not hard-code app-local `/api` URLs in client code.
 - Client-facing API errors should use `apiErrorResponse`. Use `fetchErrorResponse` only for failures from server-side external requests.
 - Use Aksel components and current `--ax-*` design tokens. Preserve existing keyboard interaction, focus management, semantic HTML, and ARIA behavior when changing the search UI.
-- Remember that the client is Preact-based despite React-compatible imports. Preserve the Preact Vite preset, React/Preact dependency deduplication, `ssr.noExternal`, and basepath configuration in `packages/client/vite.config.ts`.
+- Keep `ssr.noExternal` and the basepath configuration in `packages/client/vite.config.ts`: the SSR bundle must be self-contained, because it runs outside `packages/client`. The page hydrates strictly, so what the server and the client's first render produce must match; browser-only values belong in effects.
 - When updating React, keep the catalog version in `pnpm-workspace.yaml`, `react-dom` in `packages/client/package.json`, and the `react-x` version in `eslint.config.js` aligned.
 
 ## Important behavior

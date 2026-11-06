@@ -14,8 +14,6 @@ vi.mock('react-dom/client', async (importOriginal) => {
 let mountedRoot: Root | undefined;
 
 beforeEach(() => {
-	// App logs the locale on every render
-	vi.spyOn(console, 'log').mockImplementation(() => undefined);
 	vi.mocked(hydrateRoot).mockClear();
 	vi.mocked(createRoot).mockClear();
 	vi.resetModules();
@@ -51,15 +49,28 @@ test('hydrerer når #maincontent har server-rendret innhold, med språket fra <h
 	expect(consoleError).not.toHaveBeenCalled();
 });
 
-test('rendrer på klienten når #maincontent er tom', async () => {
-	document.documentElement.lang = 'en';
+test.each(['', '\n  ', '<!-- kommentar -->'])(
+	'rendrer på klienten når #maincontent bare inneholder %j',
+	async (content) => {
+		document.documentElement.lang = 'en';
+		document.body.innerHTML = `<main id="maincontent">${content}</main>`;
+
+		await runMainClient();
+		mountedRoot = vi.mocked(createRoot).mock.results[0]?.value;
+
+		expect(createRoot).toHaveBeenCalledTimes(1);
+		expect(createRoot).toHaveBeenCalledWith(document.getElementById('maincontent'));
+		expect(hydrateRoot).not.toHaveBeenCalled();
+		expect(screen.getByRole('combobox')).toHaveAccessibleName('Enter address, post code or town/city');
+	},
+);
+
+test('faller tilbake til bokmål for et ukjent språk i <html lang>', async () => {
+	document.documentElement.lang = 'sv';
 	document.body.innerHTML = '<main id="maincontent"></main>';
 
 	await runMainClient();
 	mountedRoot = vi.mocked(createRoot).mock.results[0]?.value;
 
-	expect(createRoot).toHaveBeenCalledTimes(1);
-	expect(createRoot).toHaveBeenCalledWith(document.getElementById('maincontent'));
-	expect(hydrateRoot).not.toHaveBeenCalled();
-	expect(screen.getByRole('combobox')).toHaveAccessibleName('Enter address, post code or town/city');
+	expect(screen.getByRole('combobox')).toHaveAccessibleName('Skriv inn adresse, postnummer eller sted/by');
 });

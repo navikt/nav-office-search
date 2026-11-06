@@ -47,11 +47,7 @@ export const devRender =
 	async (locale: AppLocale, url = '') => {
 		try {
 			const template = await getTemplateWithDecorator(locale);
-			// SSR with Vite dev mode does not play nice with preact/compat and
-			// certain react modules. We use CSR for now
-			// Uncomment or run in production mode to use SSR locally
-			// const { render } = await vite.ssrLoadModule('/src/main-server.tsx');
-			// const appHtml = await render(locale);
+			// Development renders on the client only. `pnpm prod-local` has server rendering.
 			const html = await vite.transformIndexHtml(url, template);
 			return processTemplate(locale, html, '');
 		} catch (e) {

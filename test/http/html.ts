@@ -2,8 +2,8 @@ import { JSDOM } from 'jsdom';
 
 export const parseHtml = (html: string) => new JSDOM(html).window.document;
 
-// useId output: Preact's P0-1, React's «r0», :r0: or _r_0_
-const generatedId = /P\d+-\d+|«[rR][0-9a-z]*»|:[rR][0-9a-z]*:|_[rR]_[0-9a-z]+_/g;
+// React's useId output, e.g. _R_3u_
+const generatedId = /_[rR]_[0-9a-z]+_/g;
 
 // Vite's CSS-module names (_appContainer_1i9jd_5) and content-hashed asset files (index-CyRxih4s.js)
 const cssModuleClass = /^_([A-Za-z][\w-]*?)_[a-z0-9]{5}_\d+$/;
