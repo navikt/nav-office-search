@@ -1,6 +1,6 @@
 import compression from 'compression';
 import express from 'express';
-import { registerSiteRoutes } from './site/registerSiteRoutes.js';
+import { prepareSite, registerSiteRoutes } from './site/registerSiteRoutes.js';
 import { registerApiRoutes } from './api/registerApiRoutes';
 import { loadDataAndStartSchedule } from './data/data';
 import { registerErrorHandlers } from './utils/errorHandlers';
@@ -26,10 +26,13 @@ if (isLocal) {
 	app.get('/', (req, res) => res.redirect(basePath));
 }
 
-loadDataAndStartSchedule()
-	.then(() => registerApiRoutes(apiRouter))
-	.then(() => registerSiteRoutes(siteRouter))
-	.then(() => registerErrorHandlers(app))
+prepareSite()
+	.then(async (site) => {
+		await loadDataAndStartSchedule();
+		await registerApiRoutes(apiRouter);
+		registerSiteRoutes(site, siteRouter);
+		await registerErrorHandlers(app);
+	})
 	.catch((e) => {
 		console.error(`Error occured while initializing server! - ${e}`);
 		throw e;

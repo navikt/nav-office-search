@@ -27,8 +27,6 @@ const texts = {
 
 beforeEach(() => {
 	vi.useFakeTimers();
-	// App logs the locale on every render
-	vi.spyOn(console, 'log').mockImplementation(() => undefined);
 });
 
 afterEach(() => {

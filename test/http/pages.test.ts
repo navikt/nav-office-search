@@ -1,6 +1,8 @@
+import { cpSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import { BASE, startServer, type TestServer } from './harness';
+import { BASE, CLIENT_DIR, startServer, type TestServer } from './harness';
 import { normalizeHtml, parseHtml } from './html';
 import { on, routeOf } from './stub';
 import { DECORATOR, json, NOT_FOUND_HTML, ROUTES } from './upstreams';
@@ -127,16 +129,28 @@ test("strips </link> from the decorator's markup", async () => {
 	}
 });
 
-test('started from another directory, it finds neither its template nor its files, and pages answer an empty 500 (bug)', async () => {
-	const server = await startServer({ cwd: tmpdir() });
+test("started from another directory, it doesn't find its build and exits", async () => {
+	const error = await startServer({ cwd: tmpdir() }).then(
+		() => new Error('started'),
+		(e: Error) => e,
+	);
+
+	expect(error.message).toContain('exited with code 1 before it was ready');
+	expect(error.message).toContain('main-server.mjs');
+});
+
+test('answers an empty 500 when a page fails to render (bug)', async () => {
+	const cwd = mkdtempSync(join(tmpdir(), 'nav-office-search-'));
+	cpSync(dirname(CLIENT_DIR), join(cwd, 'frontendDist'), { recursive: true });
+	const server = await startServer({ cwd });
 	try {
+		rmSync(join(cwd, 'frontendDist/client/index.html'));
+
 		const page = await server.fetch(BASE);
 		expect([page.status, await page.text()]).toEqual([500, '']);
-
-		const favicon = await server.fetch(`${BASE}/favicon.ico`);
-		expect([favicon.status, await favicon.text()]).toEqual([404, NOT_FOUND_HTML]);
 	} finally {
 		await server.stop();
+		rmSync(cwd, { recursive: true });
 	}
 });
 

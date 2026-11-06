@@ -1,6 +1,6 @@
 import express, { type Router } from 'express';
-import { createServer } from 'vite';
-import { type HtmlRenderer, devRender, prodRender } from './ssr/htmlRenderer';
+import type { ViteDevServer } from 'vite';
+import { type HtmlRenderer, devRender, loadProdRenderer } from './ssr/htmlRenderer';
 import { createCacheMiddleware } from '../utils/cacheMiddleware';
 import { pageRenders } from '../metrics/metrics';
 import type { AppLocale } from '../../../common/localization/types';
@@ -10,10 +10,31 @@ const favicon = `${process.cwd()}/frontendDist/client/favicon.ico`;
 
 const isProd = process.env.NODE_ENV !== 'development';
 
-export const registerSiteRoutes = async (router: Router) => {
-	let render: HtmlRenderer;
+export type Site = { render: HtmlRenderer; vite?: ViteDevServer };
 
+/** Rejects if a production build can't render its pages, so run this first: nothing else is worth doing then */
+export const prepareSite = async (): Promise<Site> => {
 	if (isProd) {
+		return { render: await loadProdRenderer() };
+	}
+
+	// Vite is a devDependency, and not in the image
+	const { createServer } = await import('vite');
+	const vite = await createServer({
+		server: { middlewareMode: true },
+		appType: 'custom',
+		root: '../client',
+	});
+
+	return { render: devRender(vite), vite };
+};
+
+export const registerSiteRoutes = ({ render, vite }: Site, router: Router) => {
+	if (vite) {
+		console.log('Configuring site endpoints for development mode');
+
+		router.use(vite.middlewares);
+	} else {
 		console.log('Configuring site endpoints for production mode');
 
 		router.use(
@@ -31,20 +52,6 @@ export const registerSiteRoutes = async (router: Router) => {
 				index: 'false',
 			}),
 		);
-
-		render = prodRender;
-	} else {
-		console.log('Configuring site endpoints for development mode');
-
-		const vite = await createServer({
-			server: { middlewareMode: true },
-			appType: 'custom',
-			root: '../client',
-		});
-
-		router.use(vite.middlewares);
-
-		render = devRender(vite);
 	}
 
 	router.use(createCacheMiddleware({ ttlSec: 600, maxSize: 2 }));

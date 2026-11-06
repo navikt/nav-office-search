@@ -2,7 +2,6 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"compilerOptions": {
 		"jsx": "react",
-		"allowJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
@@ -16,7 +15,7 @@
 		"strict": true,
 		"target": "ES2022",
 		"resolveJsonModule": true,
-		"types": ["node", "vite/client"]
+		"types": ["node"]
 	},
 	"include": ["src/**/*.ts", "../common/**/*.ts", "global.d.ts"],
 	"exclude": ["src/**/*.test.ts", "../common/**/*.test.ts"]
