@@ -33,6 +33,7 @@ test('bytter språk i appen når språk velges i dekoratøren', async () => {
 	const input = screen.getByRole('combobox');
 	await user.type(input, 'evje@');
 	expect(screen.getByText('Søket inneholder ugyldige tegn')).toBeInTheDocument();
+	expect(screen.getByRole('button', { name: 'Tøm feltet' })).toBeInTheDocument();
 
 	act(() => selectLanguage({ locale: 'en', handleInApp: true }));
 
@@ -41,6 +42,8 @@ test('bytter språk i appen når språk velges i dekoratøren', async () => {
 	// State survives the switch; the validation message is re-rendered in the new language
 	expect(input).toHaveValue('evje@');
 	expect(screen.getByText('Invalid characters in search')).toBeInTheDocument();
+	// Aksel's own string follows too
+	expect(screen.getByRole('button', { name: 'Clear field' })).toBeInTheDocument();
 	expect(window.location.pathname).toBe('/finn-nav-kontor/en');
 	expect(document.documentElement.lang).toBe('en');
 	expect(document.title).toBe('Find Nav office - nav.no');

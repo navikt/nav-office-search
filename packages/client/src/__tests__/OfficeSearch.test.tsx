@@ -729,6 +729,7 @@ describe('språk', () => {
 			postnrNone: 'Ingen Nav-kontor funne for 4737 HORNNES',
 			validation: 'Søket inneheld ugyldige teikn',
 			suggestions: '2 adresseforslag tilgjengeleg. Bruk piltastane for å velje.',
+			clear: 'Tøm feltet',
 		},
 		en: {
 			label: 'Enter address, post code or town/city',
@@ -736,6 +737,7 @@ describe('språk', () => {
 			postnrNone: 'No Nav office found for 4737 HORNNES',
 			validation: 'Invalid characters in search',
 			suggestions: '2 address suggestions available. Use the arrow keys to choose.',
+			clear: 'Clear field',
 		},
 	} satisfies Partial<Record<AppLocale, Record<string, string>>>;
 
@@ -765,8 +767,8 @@ describe('språk', () => {
 		await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
 		expect(getLiveRegion()).toHaveTextContent(new RegExp(`^${escapeRegExp(t.suggestions)}$`));
 
-		// Aksel's own strings don't follow the page locale yet (no Aksel <Provider locale>)
-		expect(screen.getByRole('button', { name: 'Tøm feltet' })).toBeInTheDocument();
+		// Aksel's own string
+		expect(screen.getByRole('button', { name: t.clear })).toBeInTheDocument();
 	});
 });
 
