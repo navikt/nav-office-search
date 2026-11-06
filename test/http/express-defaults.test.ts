@@ -50,8 +50,8 @@ test('sends these content types', async () => {
 		[SCRIPT]: 'text/javascript; charset=utf-8',
 		[STYLESHEET]: 'text/css; charset=utf-8',
 		[FAVICON]: 'image/vnd.microsoft.icon',
-		// The registry's 'text/plain; version=0.0.4; charset=utf-8', with the charset moved first
-		metrics: 'text/plain; charset=utf-8; version=0.0.4',
+		// The registry's value, passed through unchanged (content-type 2.x keeps parameter order)
+		metrics: 'text/plain; version=0.0.4; charset=utf-8',
 	});
 });
 
