@@ -13,8 +13,6 @@ vi.mock('@navikt/nav-dekoratoren-moduler', () => ({
 
 beforeEach(() => {
 	vi.useFakeTimers();
-	// App logs the locale on every render
-	vi.spyOn(console, 'log').mockImplementation(() => undefined);
 	window.history.replaceState(null, '', '/finn-nav-kontor');
 	document.documentElement.lang = 'nb';
 	document.title = 'Finn Nav-kontor - nav.no';

@@ -2,6 +2,7 @@ import React, { type CSSProperties, useCallback, useEffect, useId, useMemo, useR
 import debounce from 'lodash.debounce';
 import { Loader, Search } from '@navikt/ds-react';
 import { LocaleString } from '../../localization/LocaleString';
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 import { SearchResult } from '../SearchResult/SearchResult';
 import type { Adresse, SearchResultProps } from '../../../../common/types/results';
 import { abortSearchClient, fetchGeoidClient, fetchSearchClient } from '../../utils/fetch';
@@ -448,16 +449,25 @@ export const SearchForm = () => {
 							</div>
 						) : (
 							searchResult && (
-								<SearchResult
-									searchResult={searchResult}
-									onAddressSelect={handleAddressSelect}
-									onAddressMouseEnter={handleAddressMouseEnter}
-									activeAddressIndex={activeAddressIndex}
-									addressListboxId={addressListboxId}
-									addressSuggestionsLabel={addressSuggestionsLabel}
-									addressResultInput={addressResultInput}
-									input={inputValue}
-								/>
+								<ErrorBoundary
+									resetKey={searchResult}
+									fallback={
+										<div className={style.error}>
+											<LocaleString id={'errorInvalidResult'} />
+										</div>
+									}
+								>
+									<SearchResult
+										searchResult={searchResult}
+										onAddressSelect={handleAddressSelect}
+										onAddressMouseEnter={handleAddressMouseEnter}
+										activeAddressIndex={activeAddressIndex}
+										addressListboxId={addressListboxId}
+										addressSuggestionsLabel={addressSuggestionsLabel}
+										addressResultInput={addressResultInput}
+										input={inputValue}
+									/>
+								</ErrorBoundary>
 							)
 						)}
 					</div>

@@ -4,6 +4,7 @@ import React from 'react';
 import { afterEach, beforeEach, describe, expect, onTestFinished, test, vi } from 'vitest';
 import { PostnrKategori } from '../../../common/types/data';
 import type { AppLocale } from '../../../common/localization/types';
+import type { SearchResultProps } from '../../../common/types/results';
 import { OfficeSearch } from '../components/OfficeSearch';
 import { formatAddressLabel } from '../components/SearchResult/SearchResultAdresse/addressSuggestions';
 import { POSTNR_SPINNER_DELAY_MS, SEARCH_DEBOUNCE_MS } from '../components/SearchForm/SearchForm';
@@ -86,6 +87,23 @@ describe('OfficeSearch', () => {
 			expect(screen.getByText('Søket inneholder ugyldige tegn')).toBeInTheDocument();
 			await waitForDebounce();
 			expect(apiRequests()).toEqual([]);
+		});
+
+		test('viser feilmelding i stedet for et resultat som ikke kan vises, og neste søk fungerer', async () => {
+			// React logs the render error
+			vi.spyOn(console, 'error').mockImplementation(() => undefined);
+			const unrenderable = { type: 'name', input: 'oslo', hits: [{ name: 'OSLO' }] } as unknown as SearchResultProps;
+			mockApi('search/name', { json: unrenderable });
+			await searchFor('oslo');
+
+			expect(await screen.findByText('Server-feil: Feil i søke-resultatet')).toBeInTheDocument();
+			expect(getSearchInput()).toHaveValue('oslo');
+
+			mockApi('search/name', { json: nameResult('oslo sentrum', [nameHit('OSLO', [offices.alna])]) });
+			await searchFor(' sentrum');
+
+			expect(await findLink('Nav Alna')).toBeInTheDocument();
+			expect(screen.queryByText('Server-feil: Feil i søke-resultatet')).not.toBeInTheDocument();
 		});
 
 		test('fjerner gamle søkeresultater når input blir for kort', async () => {

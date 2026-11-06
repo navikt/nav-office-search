@@ -10,5 +10,5 @@ export const useLocale = () => {
 type LocaleProviderProps = { value: AppLocale; children: React.ReactNode };
 
 export const LocaleProvider = ({ value, children }: LocaleProviderProps) => {
-	return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
+	return <LocaleContext value={value}>{children}</LocaleContext>;
 };

@@ -1,6 +1,10 @@
 import type { localeModuleNb } from './modules/nb-default';
 
-export type AppLocale = 'nb' | 'nn' | 'en';
+export const appLocales = ['nb', 'nn', 'en'] as const;
+
+export type AppLocale = (typeof appLocales)[number];
+
+export const isAppLocale = (value: string): value is AppLocale => appLocales.some((locale) => locale === value);
 
 export type LocaleModule = typeof localeModuleNb;
 export type LocaleStringId = keyof LocaleModule;
