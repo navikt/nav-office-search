@@ -11,6 +11,8 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
 		"resolveJsonModule": true,
 		"jsx": "react-jsx",
 		"types": ["node"]

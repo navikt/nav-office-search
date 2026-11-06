@@ -1,5 +1,5 @@
 import React from 'react';
-import { Adresse, SearchResultAdresseProps } from 'nav-office-search-common/types/results';
+import type { Adresse, SearchResultAdresseProps } from '../../../../../common/types/results';
 import style from './SearchResultAdresse.module.css';
 import { LocaleString } from '../../../localization/LocaleString';
 import { formatAddressLabel, getAddressOptionId, getAddressSuggestionCounts } from './addressSuggestions';

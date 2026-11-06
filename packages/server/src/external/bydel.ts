@@ -1,5 +1,5 @@
 import { getAuthorizationHeader } from './auth';
-import { fetchErrorResponse, FetchErrorResponse, fetchJson } from '../utils/fetch';
+import { fetchErrorResponse, type FetchErrorResponse, fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';
 
 export type BydelSokResponse = {

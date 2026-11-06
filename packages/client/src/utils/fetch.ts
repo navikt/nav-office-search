@@ -1,4 +1,4 @@
-import { SearchResultErrorProps, SearchResultProps } from '../../../common/types/results';
+import type { SearchResultErrorProps, SearchResultProps } from '../../../common/types/results';
 import { isValidPostnrQuery } from '../../../common/validateInput';
 import { clientUrls } from '../urls';
 

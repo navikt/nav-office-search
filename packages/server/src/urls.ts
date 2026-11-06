@@ -1,6 +1,4 @@
 export const serverUrls = {
-	searchApi: `${process.env.VITE_APP_ORIGIN}${process.env.VITE_APP_BASEPATH}/api/search`,
-	kontaktOss: `${process.env.VITE_NAVNO_ORIGIN}/person/kontakt-oss`,
 	azureAdTokenApi: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
 	adresseApi: `${process.env.API_ORIGIN}/adresse`,
 	bydelApi: `${process.env.API_ORIGIN}/bydel`,

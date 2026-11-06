@@ -13,7 +13,6 @@ import {
 } from '../metrics/metrics';
 import { kommunerWithoutOffice, poststederWithoutOffice } from '../metrics/referenceData';
 
-let isLoaded = false;
 let isLoading = false;
 
 const listForLog = (items: string[], max = 20) =>
@@ -77,7 +76,6 @@ export const loadData = async () => {
 		console.error(`Error loading data - ${e}`);
 		throw e;
 	} finally {
-		isLoaded = true;
 		isLoading = false;
 	}
 };
@@ -86,5 +84,3 @@ export const loadDataAndStartSchedule = () =>
 	loadData().then(() => {
 		schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
 	});
-
-export const isDataLoaded = () => isLoaded;

@@ -1,8 +1,8 @@
-import { OfficeInfo, Poststed } from '../../../../../common/types/data';
-import { SearchResultPostnrProps } from '../../../../../common/types/results';
+import type { OfficeInfo, Poststed } from '../../../../../common/types/data';
+import type { SearchResultPostnrProps } from '../../../../../common/types/results';
 import { removeDuplicates } from '../../../utils/removeDuplicates';
 import { sortOfficeNames } from '../../../utils/sort';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { getPoststed } from '../../../data/poststeder';
 import { apiErrorResponse } from '../../../utils/fetch';
 import { fetchPdlBydelsok } from '../../../external/bydel';

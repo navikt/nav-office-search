@@ -1,4 +1,4 @@
-import { OfficeInfo } from '../../../common/types/data';
+import type { OfficeInfo } from '../../../common/types/data';
 
 export const sortOfficeNames = (a: OfficeInfo, b: OfficeInfo) => norskSort(a.name, b.name);
 

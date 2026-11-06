@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './global.css';
 import { OfficeSearch } from './components/OfficeSearch';
 import { LocaleProvider } from './localization/useLocale';
-import { AppLocale } from '../../common/localization/types';
+import type { AppLocale } from '../../common/localization/types';
 import { onLanguageSelect, setParams } from '@navikt/nav-dekoratoren-moduler';
 import { getDecoratorParams } from '../../common/decoratorParams';
 import { clientUrls } from './urls';
@@ -14,7 +14,6 @@ type Props = { locale?: AppLocale };
 
 export const App = ({ locale = 'nb' }: Props) => {
 	const [currentLocale, setCurrentLocale] = useState<AppLocale>(locale);
-	console.log('App.tsx: currentLocale', currentLocale);
 
 	useEffect(() => {
 		const updateLanguageState = (newLocale: AppLocale) => {

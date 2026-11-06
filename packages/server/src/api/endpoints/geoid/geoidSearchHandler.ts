@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { PostnrKategori } from '../../../../../common/types/data';
 import { fetchOfficeInfoByGeoId } from '../../../external/officeInfo';
 import { apiErrorResponse } from '../../../utils/fetch';

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { SearchResultNameProps } from '../../../../../common/types/results';
+import type { SearchResultNameProps } from '../../../../../common/types/results';
 import { LocaleString } from '../../../localization/LocaleString';
 import { BodyShort, VStack } from '@navikt/ds-react';
 import { OfficeLink } from '../../OfficeLink/OfficeLink';

@@ -1,6 +1,6 @@
-import { AppLocale } from '../../../../common/localization/types';
+import type { AppLocale } from '../../../../common/localization/types';
 import { getTemplateWithDecorator } from './templateBuilder';
-import { ViteDevServer } from 'vite';
+import type { ViteDevServer } from 'vite';
 import { buildMetaTags } from './metaTags';
 import { pageRenders } from '../../metrics/metrics';
 

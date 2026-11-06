@@ -1,7 +1,7 @@
 import { localeModuleNb } from './modules/nb-default';
 import { localeModuleNn } from './modules/nn';
 import { localeModuleEn } from './modules/en';
-import { AppLocale, LocaleModule, LocaleStringId } from './types';
+import type { AppLocale, LocaleModule, LocaleStringId } from './types';
 
 const localeModules: { [key in AppLocale]: LocaleModule } = {
 	nb: localeModuleNb,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Adresse, SearchResultProps } from '../../../../common/types/results';
+import type { Adresse, SearchResultProps } from '../../../../common/types/results';
 import { SearchResultPostnr } from './SearchResultPostnr/SearchResultPostnr';
 import { SearchResultName } from './SearchResultName/SearchResultName';
 import { SearchResultAdresse } from './SearchResultAdresse/SearchResultAdresse';

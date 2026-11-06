@@ -1,5 +1,5 @@
 import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
-import { Bydel } from '../../../common/types/data';
+import type { Bydel } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
 import { fetchJson } from '../utils/fetch';
 import { serverUrls } from '../urls';

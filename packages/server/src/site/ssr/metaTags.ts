@@ -1,5 +1,5 @@
-import { AppLocale } from '../../../../common/localization/types';
-import { localeString } from '../../../../common/localization/localeString';
+import type { AppLocale } from '../../../../common/localization/types';
+import { pageMeta } from '../../../../common/localization/meta';
 
 const appOrigin = (process.env.VITE_APP_ORIGIN || '').replace(/\/$/, '');
 const appBasePath = (process.env.VITE_APP_BASEPATH || '').replace(/\/$/, '');
@@ -19,8 +19,7 @@ const metaTag = (attr: 'name' | 'property', key: string, content: string) =>
 	`<meta ${attr}="${key}" content="${escapeHtml(content)}" />`;
 
 export const buildMetaTags = (locale: AppLocale) => {
-	const title = localeString('documentTitle', locale) as string;
-	const description = localeString('ingressLine1', locale) as string;
+	const { documentTitle: title, ingressLine1: description } = pageMeta[locale];
 	const url = `${appOrigin}${appBasePath}${localePaths[locale]}`;
 	const domain = appOrigin.replace(/^https?:\/\/(www\.)?/, '');
 

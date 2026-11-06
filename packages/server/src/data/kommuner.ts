@@ -1,8 +1,8 @@
 import { getBydelerForKommune } from './bydeler';
 import { removeDuplicates } from '../utils/removeDuplicates';
 import { fetchOfficeInfoByGeoId } from '../external/officeInfo';
-import { PostnrRegisterItem } from './postnrRegister';
-import { Kommune } from '../../../common/types/data';
+import type { PostnrRegisterItem } from './postnrRegister';
+import type { Kommune } from '../../../common/types/data';
 import { normalizeString } from '../../../common/normalizeString';
 
 type KommunerMap = { [kommunenr: string]: Kommune };

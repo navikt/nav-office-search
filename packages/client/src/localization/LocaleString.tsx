@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocale } from './useLocale';
 import { localeString } from '../../../common/localization/localeString';
-import { LocaleStringId } from '../../../common/localization/types';
+import type { LocaleStringId } from '../../../common/localization/types';
 
 type Props = {
 	id: LocaleStringId;

@@ -12,6 +12,8 @@
 		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
 		"noEmit": true,
 		"noUncheckedSideEffectImports": false,
 		"jsx": "react-jsx",
