@@ -19,6 +19,7 @@ Run commands from the repository root and use the pnpm version pinned in `packag
 | Build and run local production (SSR) | `pnpm build && pnpm prod-local`             |
 | Start local decorator                | `pnpm decorator`                            |
 | Run all tests (client and unit)      | `pnpm test`                                 |
+| Build, then run the HTTP suite       | `pnpm test:http`                            |
 | Run a targeted test                  | `pnpm test --testNamePattern "<test name>"` |
 | Lint and type-check                  | `pnpm lint`                                 |
 | Build client, SSR bundle, and server | `pnpm build`                                |
@@ -54,9 +55,10 @@ Dependency installation uses GitHub Packages for `@navikt/*` packages and requir
 - Use the smallest relevant Vitest test while developing (`pnpm test -t '<name>'`, or `--project client` / `--project unit`). The root `vitest.config.ts` runs two projects: `client` (jsdom, `packages/client/vitest.config.ts`) and `unit` (node, `packages/common/**/*.test.ts` and `packages/server/src/**/*.test.ts`). Test files sit next to the code they test, except the client UI tests in `packages/client/src/__tests__`. Import test APIs explicitly from `vitest`; globals are not enabled. Test files outside the client are type-checked by `tsconfig.test.json` and excluded from the package tsconfigs, so the server build never emits them.
 - Client tests use msw handlers for the `/api/*` endpoints (`mockApi`, which also takes a pending promise such as `Promise.withResolvers<Reply>().promise` to hold a request in flight, and the `apiRequests()` log in `src/__tests__/support/msw.ts`), typed fixture builders in `support/fixtures.ts`, and fake timers with the real 500 ms debounce. Drive the UI with `userEvent`, not `fireEvent`. Unmocked API requests fail the test.
 - `test/fixtures/upstream/` holds the upstream services' responses in their own wire format (see its README). Don't put values computed by this app in there.
+- `test/http/` is a temporary black-box suite against the built server (see its README). It has its own Vitest config and is not part of `pnpm test`; `pnpm test:http` builds first. Don't import from it or add tests for new behaviour there. Express' own defaults are pinned only in its `express-defaults.test.ts`. When a change alters behaviour it pins on purpose, update its expectations (`pnpm test:http -u` rewrites the golden files) and list the change in the PR.
 - Format touched files with oxfmt (`pnpm format`, check with `pnpm format:check`). The pre-commit hook runs `lint-staged`, which formats staged files with oxfmt, while the pre-push hook runs `pnpm lint`.
 - Run `pnpm lint`, `pnpm test`, and `pnpm build` for changes that cross package boundaries or affect runtime, SSR, or build behavior.
-- CI uses the shared reusable workflows in `navikt/navno-ci`; the build runs `pnpm build`, `pnpm lint`, and `pnpm test`. Pull requests run `pr-checks.yml`. A push to `main` deploys to production via `build-deploy-prod.yml` and creates a release that records the image for `rollback.prod.yml`. `base-image-refresh.yml` rebuilds and redeploys prod weekly.
+- CI uses the shared reusable workflows in `navikt/navno-ci`; the build runs `pnpm build`, `pnpm lint`, and `pnpm test`. Pull requests run `pr-checks.yml`, which also runs `pnpm test:http`. A push to `main` deploys to production via `build-deploy-prod.yml` and creates a release that records the image for `rollback.prod.yml`. `base-image-refresh.yml` rebuilds and redeploys prod weekly.
 - NAIS template variables, including `basePath`, live in `.nais/vars-*.yml`; the workflows pass only `image`.
 
 ## Generated and local files

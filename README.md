@@ -58,6 +58,12 @@ Commits som kun endrer formatering ligger i `.git-blame-ignore-revs`. GitHub hop
 git config blame.ignoreRevsFile .git-blame-ignore-revs
 ```
 
+### Tester
+
+`pnpm test` kjører klient- og enhetstestene.
+
+`pnpm test:http` bygger appen og kjører midlertidige HTTP-tester mot den bygde serveren, med alle eksterne tjenester erstattet av fixtures. De låser dagens oppførsel mens serveren bygges om, og kjøres bare i PR-sjekkene. Se [test/http/README.md](test/http/README.md).
+
 ## Metrikker
 
 Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics`, som NAIS skraper. De viktigste:
