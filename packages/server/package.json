@@ -18,8 +18,7 @@
 		"lru-cache": "11.5.3",
 		"node-cache": "5.1.2",
 		"node-schedule": "2.1.1",
-		"react": "catalog:",
-		"vite": "catalog:"
+		"react": "catalog:"
 	},
 	"devDependencies": {
 		"@types/compression": "1.8.1",
@@ -27,6 +26,7 @@
 		"@types/node": "catalog:",
 		"@types/node-schedule": "2.1.8",
 		"concurrently": "10.0.6",
-		"nodemon": "3.1.14"
+		"nodemon": "3.1.14",
+		"vite": "catalog:"
 	}
 }

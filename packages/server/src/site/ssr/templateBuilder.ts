@@ -14,7 +14,7 @@ const envProps: DecoratorEnvProps =
 			}
 		: { env: decoratorEnv };
 
-const templatePath =
+export const templatePath =
 	process.env.NODE_ENV === 'development'
 		? path.resolve(process.cwd(), '..', 'client', 'index.html')
 		: path.resolve(process.cwd(), 'frontendDist', 'client', 'index.html');

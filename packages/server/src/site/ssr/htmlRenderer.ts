@@ -1,41 +1,45 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import type { AppLocale } from '../../../../common/localization/types';
-import { getTemplateWithDecorator } from './templateBuilder';
+import { getTemplateWithDecorator, templatePath } from './templateBuilder';
 import type { ViteDevServer } from 'vite';
 import { buildMetaTags } from './metaTags';
 import { pageRenders } from '../../metrics/metrics';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - build artifact, only exists post-build
-import { render } from '../../../frontendDist/ssr/main-server.js';
+import { assertRenderable, placeholders } from './selfCheck';
 
 export type HtmlRenderer = (locale: AppLocale, url?: string) => Promise<string>;
 
-const metaPlaceholder = '<!--ssr-meta-->';
+type SsrEntry = { render: (locale: AppLocale) => string };
 
-const processTemplate = async (locale: AppLocale, templateHtml: string, appHtml: string) => {
-	if (!templateHtml.includes(metaPlaceholder)) {
-		console.error(
-			`Meta tag placeholder "${metaPlaceholder}" not found in template - page will render without title and social meta tags!`,
-		);
-	}
+// The whitespace is so hydration doesn't depend on how index.html is formatted
+const appPlaceholder = new RegExp(`\\s*${placeholders.app}\\s*`);
 
-	return templateHtml
-		.replace('%%LANG%%', locale)
-		.replace(metaPlaceholder, buildMetaTags(locale))
-		.replace('<!--ssr-app-html-->', appHtml);
-};
+// Function replacers, since a string replacement would give $ in the markup a special meaning
+export const processTemplate = (locale: AppLocale, templateHtml: string, appHtml: string) =>
+	templateHtml
+		.replace(placeholders.lang, () => locale)
+		.replace(placeholders.meta, () => buildMetaTags(locale))
+		.replace(appPlaceholder, () => appHtml);
 
-export const prodRender: HtmlRenderer = async (locale: AppLocale) => {
-	const template = await getTemplateWithDecorator(locale);
-	try {
-		const appHtml = await render(locale);
-		pageRenders.inc({ locale, outcome: 'ssr' });
-		return processTemplate(locale, template, appHtml);
-	} catch (e) {
-		console.error(`Error occured while server rendering app! - ${e}`);
-		pageRenders.inc({ locale, outcome: 'csr_fallback' });
-		return processTemplate(locale, template, '');
-	}
+/** Loads the SSR bundle and checks that it and the template can produce every page */
+export const loadProdRenderer = async (): Promise<HtmlRenderer> => {
+	const ssrEntry = path.resolve(process.cwd(), 'frontendDist', 'ssr', 'main-server.mjs');
+	const { render }: SsrEntry = await import(ssrEntry);
+
+	assertRenderable(readFileSync(templatePath, 'utf8'), render);
+
+	return async (locale: AppLocale) => {
+		const template = await getTemplateWithDecorator(locale);
+		try {
+			const appHtml = render(locale);
+			pageRenders.inc({ locale, outcome: 'ssr' });
+			return processTemplate(locale, template, appHtml);
+		} catch (e) {
+			console.error(`Error occured while server rendering app! - ${e}`);
+			pageRenders.inc({ locale, outcome: 'csr_fallback' });
+			return processTemplate(locale, template, '');
+		}
+	};
 };
 
 export const devRender =

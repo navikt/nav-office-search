@@ -5,7 +5,7 @@ import preact from '@preact/preset-vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, isSsrBuild }) => {
 	const rootDir = resolve(__dirname, '../..');
 	const env = loadEnv(mode, rootDir);
 
@@ -23,6 +23,8 @@ export default defineConfig(({ mode }) => {
 			// and does not depend on server node_modules for client packages.
 			noExternal: true,
 		},
+		// .mjs, since the server loads this from a directory without "type": "module"
+		build: isSsrBuild ? { rolldownOptions: { output: { entryFileNames: '[name].mjs' } } } : undefined,
 		base: env.VITE_APP_BASEPATH,
 	};
 });
