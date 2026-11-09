@@ -19,26 +19,26 @@ const site = {
 	clientDir: fileURLToPath(import.meta.resolve('#dist/client')),
 };
 
-loadDataAndStartSchedule()
-	.then(async () => createApp({ site, notFoundHtml: await fetchNotFoundHtml() }))
-	.catch((e) => {
-		console.error(`Error occured while initializing server! - ${e}`);
-		throw e;
-	})
-	.then((app) => {
-		const server: ServerType = serve({ fetch: app.fetch, port: env.PORT, overrideGlobalObjects: false }, () => {
-			console.log(`Server starting on port ${env.PORT}`);
-		});
-
-		const shutdown = () => {
-			console.log('Server shutting down');
-
-			server.close(() => {
-				console.log('Shutdown complete!');
-				process.exit(0);
-			});
-		};
-
-		process.on('SIGTERM', shutdown);
-		process.on('SIGINT', shutdown);
+try {
+	await loadDataAndStartSchedule();
+	const app = createApp({ site, notFoundHtml: await fetchNotFoundHtml() });
+	const server: ServerType = serve({ fetch: app.fetch, port: env.PORT, overrideGlobalObjects: false }, () => {
+		console.log(`Server starting on port ${env.PORT}`);
 	});
+	setupShutdownHandlers(server);
+} catch (e) {
+	console.error(`Error occurred while initializing server! - ${e}`);
+	throw e;
+}
+
+function setupShutdownHandlers(server: ServerType) {
+	const shutdown = () => {
+		console.log('Server shutting down');
+		server.close(() => {
+			console.log('Shutdown complete!');
+			process.exit(0);
+		});
+	};
+	process.on('SIGTERM', shutdown);
+	process.on('SIGINT', shutdown);
+}

@@ -16,7 +16,7 @@ export default defineConfig(({ command, isSsrBuild }) => ({
 		// In dev, Hono answers every request except Vite's own and the client files Vite serves
 		devServer({
 			entry: './server/dev.ts',
-			exclude: [new RegExp(`^${BASE_PATH}/(@|favicon\\.ico$)`), /\.map$/, ...defaultOptions.exclude],
+			exclude: [new RegExp(String.raw`^${BASE_PATH}/(@|favicon\.ico$)`), /\.map$/, ...defaultOptions.exclude],
 			// server/dev.ts has Vite add its client to the page instead
 			injectClientScript: false,
 		}),
