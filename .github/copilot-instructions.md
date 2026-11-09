@@ -2,11 +2,14 @@
 
 ## Repository overview
 
-This is a TypeScript pnpm workspace for the Nav office search application:
+This is a single TypeScript package for the Nav office search application:
 
-- `packages/client`: Vite and React frontend with SSR and hydration.
-- `packages/server`: Hono frackend, API routes, external-service integration, data loading, and SSR hosting.
-- `packages/common`: Shared types, validation, normalization, and localization.
+- `client/`: Vite and React frontend with SSR and hydration.
+- `server/`: Hono frackend, API routes, external-service integration, data loading, and SSR hosting.
+- `shared/`: Shared types, validation, normalization, and localization.
+- `test/`: Upstream fixtures and fakes, the offline development mocks, and the temporary HTTP suite.
+
+`pnpm build` writes the client and the server's own code to `dist/`. The image has `dist/`, `package.json` and production `node_modules`.
 
 Run commands from the repository root and use the pnpm version pinned in `package.json`.
 
@@ -16,59 +19,57 @@ Run commands from the repository root and use the pnpm version pinned in `packag
 | ------------------------------------ | ------------------------------------------- |
 | Install dependencies                 | `corepack enable && pnpm install`           |
 | Start development server             | `pnpm dev`                                  |
-| Build and run local production (SSR) | `pnpm build && pnpm prod-local`             |
-| Start local decorator                | `pnpm decorator`                            |
-| Run all tests (client and unit)      | `pnpm test`                                 |
+| Build and run local production (SSR) | `pnpm prod-local`                           |
+| Run all tests (client and server)    | `pnpm test`                                 |
 | Build, then run the HTTP suite       | `pnpm test:http`                            |
 | Run a targeted test                  | `pnpm test --testNamePattern "<test name>"` |
 | Lint and type-check                  | `pnpm lint`                                 |
-| Build client, SSR bundle, and server | `pnpm build`                                |
+| Build client and server to `dist/`   | `pnpm build`                                |
 
-The development server uses client-side rendering because Vite development SSR is disabled. Use local production mode to verify SSR or hydration changes.
+`pnpm dev` is Vite with `@hono/vite-dev-server`: server and client code both go through Vite (`server/dev.ts`), and pages are server-rendered there too. An edit in `client/` hot-reloads, and an edit in `server/` takes effect on the next request. `pnpm prod-local` runs the real build.
 
-`packages/client/vite.config.ts` loads production build variables from a repository-root `.env`, which CI also generates. Set `VITE_APP_ORIGIN`, `VITE_APP_BASEPATH`, `VITE_XP_ORIGIN`, and `VITE_NAVNO_ORIGIN` before building locally; missing values can produce incorrect asset and API URLs without failing the build.
+The build needs no environment variables. The server gets its configuration at runtime: from `.nais/config.yml` and `.nais/vars-*.yml` in a cluster, and from `.env.development` locally. `server/env.ts` validates it when the server starts, so a misconfigured pod crashes before it takes traffic. Import `env` from there rather than reading `process.env`. A new variable goes in its schema, `.nais/config.yml` and `.nais/vars-*.yml`, `.env.development`, and the `server` project's `env` in `vitest.config.ts`.
 
-Dependency installation uses GitHub Packages for `@navikt/*` packages and requires configured npm authentication. Shared dependency versions (`catalog:`) and the `minimumReleaseAge` quarantine for newly published packages are configured in `pnpm-workspace.yaml`.
+Dependency installation uses GitHub Packages for `@navikt/*` packages and requires configured npm authentication. The `minimumReleaseAge` quarantine for newly published packages is configured in `pnpm-workspace.yaml`.
 
 ## Implementation guidelines
 
-- Put behavior shared by client and server in `packages/common`.
-- Import shared code through relative paths such as `../../common/types/results`; both client and server compile `packages/common` directly, and neither depends on the `nav-office-search-common` package name.
-- Use `import type` for type-only imports, and TypeScript that compiles by erasing types (no enums or parameter properties). `verbatimModuleSyntax` and `erasableSyntaxOnly` enforce this; the server's own tsconfig has only `erasableSyntaxOnly`, because it still compiles to CommonJS.
-- Use the discriminated search result types in `packages/common/types/results.ts`. UI-facing fetch failures are represented as `{ type: 'error' }`, optionally with `messageId` or `aborted`.
-- Add localization keys to `packages/common/localization/modules/nb-default.tsx` first, then add the same key to `en.tsx` and `nn.tsx`. `packages/common/localization/types.ts` derives `LocaleModule` and `LocaleStringId` from the Bokmål module, and the locale-module map type-checks all locales. `LocaleProvider` sets Aksel's locale as well, so its built-in strings follow the page. The page title and description live in `packages/common/localization/meta.ts`, because the server renders them into the meta tags and must not load the locale modules' JSX.
-- Keep client API URLs in `packages/client/src/urls.ts` and external server URLs in `packages/server/src/urls.ts`. Respect `VITE_APP_ORIGIN` and `VITE_APP_BASEPATH`; do not hard-code app-local `/api` URLs in client code.
-- API handlers in `packages/server/src/api/endpoints` take plain values and return `{ status, body }`. `api/api.ts` is the only API code that knows about Hono, and search routes go through `observeSearch` there. Test handlers in-process with `test/upstream/mswServer.ts` (see `endpoints.test.ts`), and routes, pages, static files and errors through `createApp` and `app.request()` (see `app.test.ts`).
+- Put behavior shared by client and server in `shared/`.
+- Imports carry their file extension. Use `./` for files in the same directory or below it, and the package imports in `package.json` (`#client/*`, `#server/*`, `#shared/*`, `#test/*`) for everything else.
+- Use `import type` for type-only imports, and TypeScript that compiles by erasing types (no enums or parameter properties). `verbatimModuleSyntax` and `erasableSyntaxOnly` enforce this. Only `server/main.ts` and `server/dev.ts` import client code, and `server/dev.ts` is the only server code that imports Vite.
+- Use the discriminated search result types in `shared/types/results.ts`. UI-facing fetch failures are represented as `{ type: 'error' }`, optionally with `messageId` or `aborted`.
+- Add localization keys to `shared/localization/modules/nb-default.tsx` first, then add the same key to `en.tsx` and `nn.tsx`. `shared/localization/types.ts` derives `LocaleModule` and `LocaleStringId` from the Bokmål module, and the locale-module map type-checks all locales. `LocaleProvider` sets Aksel's locale as well, so its built-in strings follow the page. The page title and description live in `shared/localization/meta.ts`, because the server renders them into the meta tags and must not load the locale modules' JSX.
+- Keep client API URLs in `client/urls.ts` and external server URLs in `server/urls.ts`. Client URLs are relative to the host and `BASE_PATH` (`shared/basePath.ts`); do not hard-code app-local `/api` URLs in client code.
+- API handlers in `server/api/endpoints` take plain values and return `{ status, body }`. `server/api/api.ts` is the only API code that knows about Hono, and search routes go through `observeSearch` there. Test handlers in-process with `test/upstream/mswServer.ts` (see `endpoints.test.ts`), and routes, pages, static files and errors through `createApp` and `app.request()` (see `app.test.ts`).
 - Client-facing API errors should use `apiErrorResponse`. Use `fetchErrorResponse` only for failures from server-side external requests.
 - Use Aksel components and current `--ax-*` design tokens. Preserve existing keyboard interaction, focus management, semantic HTML, and ARIA behavior when changing the search UI.
-- Keep `ssr.noExternal` and the basepath configuration in `packages/client/vite.config.ts`: the SSR bundle must be self-contained, because it runs outside `packages/client`. The page hydrates strictly, so what the server and the client's first render produce must match; browser-only values belong in effects.
-- When updating React, keep the catalog version in `pnpm-workspace.yaml`, `react-dom` in `packages/client/package.json`, and the `react-x` version in `eslint.config.js` aligned.
+- The page is built in `server/site/ssr/document.ts` with `frame()` from `@itsy/html`; there is no `index.html`. It finds the client's files through the Vite manifest in production.
+- The server build keeps dependencies external, apart from Aksel and zod (see `vite.config.ts`), so what the server and the app import at runtime must be in `dependencies`: the image gets `pnpm install --prod`. The page hydrates strictly, so what the server and the client's first render produce must match; browser-only values belong in effects.
+- When updating React, keep `react` and `react-dom` in `package.json` aligned.
 
 ## Important behavior
 
-- The server mounts site and API routes under `VITE_APP_BASEPATH`.
+- The server mounts site and API routes under `BASE_PATH` (`shared/basePath.ts`).
 - Four-digit queries go to `/api/search`, which dispatches to the postnummer handler. Other text goes to `/api/search/name` and falls back to `/api/search/address` when there are no name hits; selecting an address resolves offices through `/api/geoid`.
 - The initial reference-data load must resolve before routes are registered. A rejected initial load must fail startup; successful loads are refreshed daily.
-- In production, the server loads the SSR bundle (`frontendDist/ssr/main-server.mjs`) and renders every locale before anything else (`site/ssr/selfCheck.ts`), so a broken build exits at boot and never takes traffic. Vite is a devDependency, imported only in development.
-- Prometheus metrics are served at `{basePath}/api/internal/metrics` and scraped by NAIS (`spec.prometheus`). They are defined in `packages/server/src/metrics/metrics.ts` with the `nav_office_search_` prefix. Wrap new outbound requests in `observeUpstream` (`fetchJson` already does) and new search routes in `observeSearch`, and keep label values to small fixed sets.
-- `pnpm dev` and `pnpm prod-local` run offline: `test/mocks/dev.ts` is loaded with `--import` and answers the server's outbound requests with MSW, using the fakes in `test/upstream/fakes.ts`. Anything they don't know, like the local decorator, goes to the network, and `MOCKS=false` turns the mocks off. Nothing from `test/` is in the image.
+- In production, `server/main.ts` reads the client build's manifest and renders every locale before anything else (`server/site/ssr/selfCheck.ts`), so a broken build exits at boot and never takes traffic. It finds the build through the `#dist/*` package import, so it doesn't matter where the server is started from. Vite is a devDependency, imported only in `server/dev.ts`.
+- Prometheus metrics are served at `{basePath}/api/internal/metrics` and scraped by NAIS (`spec.prometheus`). They are defined in `server/metrics/metrics.ts` with the `nav_office_search_` prefix. Wrap new outbound requests in `observeUpstream` (`fetchJson` already does) and new search routes in `observeSearch`, and keep label values to small fixed sets.
+- `pnpm dev` and `pnpm prod-local` run offline: `test/mocks/dev.ts` is loaded with `--import` and answers the server's outbound requests with MSW, using the fakes in `test/upstream/fakes.ts`. Anything they don't know, like the decorator, goes to the network, and `MOCKS=false` turns the mocks off. Nothing from `test/` is in the image.
 
 ## Validation and deployment
 
-- Use the smallest relevant Vitest test while developing (`pnpm test -t '<name>'`, or `--project client` / `--project unit`). The root `vitest.config.ts` runs two projects: `client` (jsdom, `packages/client/vitest.config.ts`) and `unit` (node, `packages/common/**/*.test.ts` and `packages/server/src/**/*.test.ts`). Test files sit next to the code they test, except the client UI tests in `packages/client/src/__tests__`. Import test APIs explicitly from `vitest`; globals are not enabled. Test files outside the client are type-checked by `tsconfig.test.json` and excluded from the package tsconfigs, so the server build never emits them.
-- Client tests use msw handlers for the `/api/*` endpoints (`mockApi`, which also takes a pending promise such as `Promise.withResolvers<Reply>().promise` to hold a request in flight, and the `apiRequests()` log in `src/__tests__/support/msw.ts`), typed fixture builders in `support/fixtures.ts`, and fake timers with the real 500 ms debounce. Drive the UI with `userEvent`, not `fireEvent`. Unmocked API requests fail the test.
+- Use the smallest relevant Vitest test while developing (`pnpm test -t '<name>'`, or `--project client` / `--project server`). The root `vitest.config.ts` runs two projects: `client` (jsdom, `client/`) and `server` (node, `server/`, `shared/` and `vite-plugins/`). Test files sit next to the code they test, except the client UI tests in `client/__tests__`. Import test APIs explicitly from `vitest`; globals are not enabled. The one `tsconfig.json` only type-checks everything, tests included; Vite does the building. It has both the DOM and Node types, so it won't stop the client from using `process` or the server from using `document`.
+- Client tests use msw handlers for the `/api/*` endpoints (`mockApi`, which also takes a pending promise such as `Promise.withResolvers<Reply>().promise` to hold a request in flight, and the `apiRequests()` log in `client/__tests__/support/msw.ts`), typed fixture builders in `support/fixtures.ts`, and fake timers with the real 500 ms debounce. Drive the UI with `userEvent`, not `fireEvent`. Unmocked API requests fail the test.
 - `test/fixtures/upstream/` holds the upstream services' responses in their own wire format (see its README). Don't put values computed by this app in there.
 - `test/upstream/fakes.ts` fakes every upstream from those fixtures. Node loads it directly in development, so it can only import built-ins and use TypeScript Node can strip.
 - `test/http/` is a temporary black-box suite against the built server (see its README). It has its own Vitest config and is not part of `pnpm test`; `pnpm test:http` builds first. Don't import from it or add tests for new behaviour there. The framework's own defaults are pinned only in its `framework-defaults.test.ts`. When a change alters behaviour it pins on purpose, update its expectations (`pnpm test:http -u` rewrites the golden files) and list the change in the PR.
 - Format touched files with oxfmt (`pnpm format`, check with `pnpm format:check`). The pre-commit hook runs `lint-staged`, which formats staged files with oxfmt, while the pre-push hook runs `pnpm lint`.
-- Run `pnpm lint`, `pnpm test`, and `pnpm build` for changes that cross package boundaries or affect runtime, SSR, or build behavior.
-- CI uses the shared reusable workflows in `navikt/navno-ci`; the build runs `pnpm build`, `pnpm lint`, and `pnpm test`. Pull requests run `pr-checks.yml`, which also runs `pnpm test:http`. A push to `main` deploys to production via `build-deploy-prod.yml` and creates a release that records the image for `rollback.prod.yml`. `base-image-refresh.yml` rebuilds and redeploys prod weekly.
-- NAIS template variables, including `basePath`, live in `.nais/vars-*.yml`; the workflows pass only `image`.
+- Run `pnpm lint`, `pnpm test`, and `pnpm build` for changes that affect runtime, SSR, or build behavior.
+- CI uses the shared reusable workflows in `navikt/navno-ci`; the build runs `pnpm build`, `pnpm lint`, and `pnpm test`. Pull requests run `pr-checks.yml`, which also runs `pnpm test:http`. The image has `dist/`, `package.json` and production `node_modules` (`Dockerfile`). A push to `main` deploys to production via `build-deploy-prod.yml` and creates a release that records the image for `rollback.prod.yml`. `base-image-refresh.yml` rebuilds and redeploys prod weekly.
+- NAIS template variables, including `basePath` and the origins the server reads, live in `.nais/vars-*.yml` (`test/nais.test.ts` checks them); the workflows pass only `image`.
 
 ## Generated and local files
 
-- Do not edit `packages/server/frontendDist`; it is generated by the client build.
-- `packages/server/.env.development` and `.env.local-prod` are tracked sources copied to the generated, gitignored `packages/server/.env` by `pnpm dev` and `pnpm prod-local`. The server reads `.env` through Node's `--env-file-if-exists` (the image uses a strict `--env-file`); variables already in the environment win.
-- `packages/client/.env.development` is read by the Vite development server. Production client builds read the repository-root `.env`, not `packages/client/.env.local-prod`.
-- Do not edit or commit generated `.env` files.
+- Do not edit `dist/`; it is generated by `pnpm build`. That includes the `.br` and `.gz` files `vite-plugins/precompressAssets.ts` writes next to scripts and stylesheets of 1 KB or more, which `server/site/site.ts` serves through `serveStatic`'s `precompressed` option. Everything else is compressed on the fly by `compress()` in `server/app.ts`, which only does gzip and deflate.
+- `.env.development` is tracked and has no real secrets. `pnpm dev` and `pnpm start` pass it to Node with `--env-file`; variables already in the environment win.
 - Never commit secrets.

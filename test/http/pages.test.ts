@@ -1,11 +1,11 @@
-import { cpSync, mkdtempSync, rmSync } from 'node:fs';
+import { cpSync, mkdtempSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import { BASE, CLIENT_DIR, startServer, type TestServer } from './harness';
-import { normalizeHtml, parseHtml } from './html';
-import { on, routeOf } from './stub';
-import { DECORATOR, json, NOT_FOUND_HTML, ROUTES } from './upstreams';
+import { join } from 'node:path';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
+import { BASE, ROOT, startServer, type TestServer } from './harness.ts';
+import { normalizeHtml, parseHtml } from './html.ts';
+import { on, routeOf } from './stub.ts';
+import { json, NOT_FOUND_HTML, ROUTES } from './upstreams.ts';
 
 const PAGES = { nb: BASE, nn: `${BASE}/nn`, en: `${BASE}/en` };
 
@@ -111,57 +111,53 @@ test('falls back to client-side decorator placeholders after trying the decorato
 	}
 });
 
-test("strips </link> from the decorator's markup", async () => {
-	const server = await startServer({
-		overrides: [
-			on(ROUTES.decoratorSsr, () =>
-				json({ ...DECORATOR, headAssets: '<link rel="stylesheet" href="https://decorator.test/client.css"></link>' }),
-			),
-		],
-	});
+test('started from another directory, it still finds its build', async () => {
+	const server = await startServer({ cwd: tmpdir() });
 	try {
-		const html = await (await server.fetch(BASE)).text();
-
-		expect(html).toContain('<link rel="stylesheet" href="https://decorator.test/client.css"></head>');
-		expect(html).not.toContain('</link>');
-	} finally {
-		await server.stop();
-	}
-});
-
-test("started from another directory, it doesn't find its build and exits", async () => {
-	const error = await startServer({ cwd: tmpdir() }).then(
-		() => new Error('started'),
-		(e: Error) => e,
-	);
-
-	expect(error.message).toContain('exited with code 1 before it was ready');
-	expect(error.message).toContain('main-server.mjs');
-});
-
-test('answers an empty 500 when a page fails to render (bug)', async () => {
-	const cwd = mkdtempSync(join(tmpdir(), 'nav-office-search-'));
-	cpSync(dirname(CLIENT_DIR), join(cwd, 'frontendDist'), { recursive: true });
-	const server = await startServer({ cwd });
-	try {
-		rmSync(join(cwd, 'frontendDist/client/index.html'));
-
 		const page = await server.fetch(BASE);
-		expect([page.status, await page.text()]).toEqual([500, '']);
+		await page.text();
+		const favicon = await server.fetch(`${BASE}/favicon.ico`);
+		await favicon.text();
+
+		expect([page.status, favicon.status]).toEqual([200, 200]);
 	} finally {
 		await server.stop();
-		rmSync(cwd, { recursive: true });
 	}
 });
 
-test('with ENV=localhost, / redirects to the base path', async () => {
-	const server = await startServer({ env: { ENV: 'localhost' } });
-	try {
-		const response = await server.fetch('/');
-		await response.text();
+describe('a copy of what the image has, with nothing else around it', () => {
+	let appDir: string;
 
-		expect([response.status, response.headers.get('location')]).toEqual([302, BASE]);
-	} finally {
-		await server.stop();
-	}
+	beforeEach(() => {
+		appDir = mkdtempSync(join(tmpdir(), 'nav-office-search-'));
+		cpSync(join(ROOT, 'dist'), join(appDir, 'dist'), { recursive: true });
+		cpSync(join(ROOT, 'package.json'), join(appDir, 'package.json'));
+		symlinkSync(join(ROOT, 'node_modules'), join(appDir, 'node_modules'));
+	});
+
+	afterEach(() => {
+		rmSync(appDir, { recursive: true });
+	});
+
+	test('runs', async () => {
+		const server = await startServer({ appDir, cwd: appDir });
+		try {
+			const page = await server.fetch(BASE);
+			expect([page.status, parseHtml(await page.text()).documentElement.lang]).toEqual([200, 'nb']);
+		} finally {
+			await server.stop();
+		}
+	});
+
+	test("exits when the client build's manifest is missing", async () => {
+		rmSync(join(appDir, 'dist/client/.vite/manifest.json'));
+
+		const error = await startServer({ appDir, cwd: appDir }).then(
+			() => new Error('started'),
+			(e: Error) => e,
+		);
+
+		expect(error.message).toContain('exited with code 1 before it was ready');
+		expect(error.message).toContain('manifest.json');
+	});
 });

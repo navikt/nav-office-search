@@ -4,16 +4,16 @@ Web-app for å søke etter Nav-kontor med postnummer, by/stedsnavn eller adresse
 
 Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot PDL og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
 
-## Monorepo-struktur
+## Struktur
 
 ```
 nav-office-search/
-├── packages/
-│   ├── client/     # Vite/React-frontend (SSR + klient)
-│   ├── server/     # Hono-server (frackend, API-proxy, SSR-hosting)
-│   └── common/     # Delt kode: typer, lokalisering, validering
-├── package.json    # Root: monorepo-scripts og verktøy
-└── pnpm-workspace.yaml
+├── client/          # Vite/React-frontend (SSR + klient)
+├── server/          # Hono-server (frackend, API-proxy, SSR-hosting)
+├── shared/          # Delt kode: typer, lokalisering, validering
+├── test/            # Fixtures, mocks og HTTP-tester
+├── vite-plugins/    # Vite-plugins for bygget
+└── vite.config.ts   # Bygger klient og server til dist/
 ```
 
 ## Lokal utvikling
@@ -30,23 +30,19 @@ Corepack leser `packageManager`-feltet i `package.json` og installerer riktig ve
 
 **Merk:** Når Corepack er aktivert, vil `npm`-kommandoer ikke fungere.
 
-Kjører lokalt på [http://localhost:3005](http://localhost:3005)
+Kjører lokalt på [http://localhost:3005/finn-nav-kontor](http://localhost:3005/finn-nav-kontor)
 
 #### Start i development mode:
 
 `pnpm dev`
 
-Starter både server og klient i watch-modus parallelt. Alle eksterne tjenester unntatt dekoratøren er mocket fra `test/fixtures/upstream/`, så serveren kjører uten nett. Sett `MOCKS=false` for å slå det av.
+Vite kjører både server og klient, og siden rendres på serveren også her. En endring i `client/` byttes inn uten å laste siden, og en endring i `server/` gjelder fra neste forespørsel. Alle eksterne tjenester unntatt dekoratøren er mocket fra `test/fixtures/upstream/`, og dekoratøren hentes fra www.nav.no. Sett `MOCKS=false` for å slå mockene av.
 
 #### Start i production mode:
 
 `pnpm prod-local`
 
-#### Start dekoratøren lokalt:
-
-`pnpm decorator`
-
-Benytter prod-dekoratøren dersom den ikke kjører lokalt
+Bygger til `dist/` og kjører det, mot de samme mockene. Imaget inneholder `dist/`, `package.json` og `node_modules` med produksjonsavhengigheter.
 
 ### Formatering
 
@@ -60,7 +56,7 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 ### Tester
 
-`pnpm test` kjører klient- og enhetstestene.
+`pnpm test` kjører klient- og servertestene.
 
 `pnpm test:http` bygger appen og kjører midlertidige HTTP-tester mot den bygde serveren, med alle eksterne tjenester erstattet av fixtures. De låser dagens oppførsel mens serveren bygges om, og kjøres bare i PR-sjekkene. Se [test/http/README.md](test/http/README.md).
 
@@ -75,6 +71,10 @@ Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics
 - `nav_office_search_page_renders_total{locale, outcome}`: sidevisninger rendret på server (`ssr`), med fallback til klient (`csr_fallback`) eller med feil.
 
 I tillegg kommer standardmetrikkene for Node.js-prosessen (`nodejs_*`, `process_*`).
+
+## Konfigurasjon
+
+Bygget trenger ingen miljøvariabler. Serveren får konfigurasjonen sin når den kjører: fra `.nais/config.yml` og `.nais/vars-*.yml` i podden, og fra `.env.development` lokalt. [server/env.ts](server/env.ts) sjekker den ved oppstart, så en feilkonfigurert pod krasjer før den får trafikk.
 
 ## Deploy til dev-miljø
 

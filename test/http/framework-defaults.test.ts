@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import { API, BASE, CLIENT_DIR, startServer, type TestServer } from './harness';
-import { NOT_FOUND_HTML } from './upstreams';
+import { API, BASE, CLIENT_DIR, startServer, type TestServer } from './harness.ts';
+import { NOT_FOUND_HTML } from './upstreams.ts';
 
 /*
  * What the server does because Hono does it by default, kept here so that a framework change only changes this file.
@@ -18,9 +18,11 @@ beforeAll(async () => {
 
 afterAll(() => server?.stop());
 
-const builtPage = readFileSync(join(CLIENT_DIR, 'index.html'), 'utf-8');
-const SCRIPT = builtPage.match(/src="([^"]+\.js)"/)?.[1] ?? 'missing';
-const STYLESHEET = builtPage.match(/href="([^"]+\.css)"/)?.[1] ?? 'missing';
+const { file, css } = JSON.parse(readFileSync(join(CLIENT_DIR, '.vite/manifest.json'), 'utf-8'))[
+	'client/main-client.tsx'
+];
+const SCRIPT = `${BASE}/${file}`;
+const STYLESHEET = `${BASE}/${css[0]}`;
 
 // Responses of each kind
 const PAGE = `${BASE}/en`;
@@ -83,8 +85,8 @@ describe('compression', () => {
 		['gzip, deflate', 'gzip'],
 		['deflate', 'deflate'],
 		['identity', undefined],
-	])('Accept-Encoding: %s, for pages, JSON and static files', async (acceptEncoding, encoding) => {
-		for (const path of [PAGE, JSON_RESPONSE, SCRIPT, FAVICON]) {
+	])('Accept-Encoding: %s, for pages, JSON and the favicon', async (acceptEncoding, encoding) => {
+		for (const path of [PAGE, JSON_RESPONSE, FAVICON]) {
 			const { headers } = await server.request(path, { headers: { 'accept-encoding': acceptEncoding } });
 			expect([path, headers['content-encoding'], headers.vary]).toEqual([path, encoding, 'Accept-Encoding']);
 		}

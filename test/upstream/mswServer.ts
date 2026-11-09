@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
-import { createUpstreamFakes, originsFromEnv, toUpstreamRequest, type UpstreamRequest } from './fakes';
+import { createUpstreamFakes, originsFromEnv, toUpstreamRequest, type UpstreamRequest } from './fakes.ts';
 
 const { answer } = createUpstreamFakes(originsFromEnv());
 

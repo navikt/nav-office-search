@@ -1,5 +1,10 @@
 basePath: /finn-nav-kontor
 ingress: https://www.ansatt.dev.nav.no/finn-nav-kontor
+appOrigin: https://www.ansatt.dev.nav.no
+navnoOrigin: https://www.ansatt.dev.nav.no
+xpOrigin: https://www.dev.nav.no
+apiOrigin: https://nav-office-search-api.dev-fss-pub.nais.io
+loginSessionApiUrl: https://login.ekstern.dev.nav.no/oauth2/session
 outboundExternalHosts:
     - www.dev.nav.no
     - login.ekstern.dev.nav.no
@@ -11,7 +16,7 @@ replicas:
     max: 2
 resources:
     limits:
-        memory: 1024Mi
+        memory: 160Mi
     requests:
-        cpu: 50m
-        memory: 256Mi
+        cpu: 25m
+        memory: 128Mi

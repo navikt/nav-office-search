@@ -4,28 +4,25 @@ import http from 'node:http';
 import net from 'node:net';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { type Override, type Stub, startStub } from './stub';
-import { fakeUpstream, ORIGINS } from './upstreams';
+import { type Override, type Stub, startStub } from './stub.ts';
+import { fakeUpstream, ORIGINS } from './upstreams.ts';
 
-// The built server, started from where its frontendDist is, like in the image. These lines are the only ones that
-// should change when the server is bundled or moves; the tests must stay the same.
-const SERVER_DIR = fileURLToPath(new URL('../../packages/server/', import.meta.url));
-const ENTRY = join(SERVER_DIR, 'dist/server/src/server.js');
-/** The built client: index.html, favicon.ico and assets/ */
-export const CLIENT_DIR = join(SERVER_DIR, 'frontendDist/client');
+// The built server, started from above its dist/, like in the image. These lines are the only ones that should change
+// when the build moves; the tests must stay the same.
+export const ROOT = fileURLToPath(new URL('../../', import.meta.url));
+const ENTRY = 'dist/server/main.js';
+/** The built client: its manifest, favicon.ico and assets/ */
+export const CLIENT_DIR = join(ROOT, 'dist/client');
 
 export const BASE = '/finn-nav-kontor';
 export const API = `${BASE}/api`;
 
-// What prod gets from the image's .env and NAIS, with fake credentials. `pretest:http` in package.json builds the
-// client and SSR bundles with the same origins and basepath.
+// What prod gets from the image and .nais/config.yml, with fake credentials
 const defaultEnv = (): Record<string, string> => ({
 	NODE_ENV: 'production',
-	ENV: 'prod',
-	VITE_APP_BASEPATH: BASE,
-	VITE_APP_ORIGIN: ORIGINS.navno,
-	VITE_NAVNO_ORIGIN: ORIGINS.navno,
-	VITE_XP_ORIGIN: ORIGINS.navno,
+	APP_ORIGIN: ORIGINS.navno,
+	NAVNO_ORIGIN: ORIGINS.navno,
+	XP_ORIGIN: ORIGINS.navno,
 	API_ORIGIN: ORIGINS.api,
 	API_CLIENT_ID: 'api-client-id',
 	AZURE_APP_CLIENT_ID: 'azure-client-id',
@@ -59,8 +56,10 @@ type Options = {
 	env?: Record<string, string | undefined>;
 	/** Stub overrides in place from the start (see startStub) */
 	overrides?: Override[];
-	/** Where to start the server from, instead of where its frontendDist is */
+	/** Where to start the server from, instead of above its dist/ */
 	cwd?: string;
+	/** A copy of what the image has to start, instead of the repo */
+	appDir?: string;
 };
 
 const READY_TIMEOUT_MS = 30_000;
@@ -79,9 +78,10 @@ const freePort = () =>
  * Starts the built server against a fresh stub. `ready` resolves once isReady answers 200, and rejects, with the
  * server's output, if the process exits first.
  */
-export const launchServer = async ({ env: extraEnv, overrides, cwd = SERVER_DIR }: Options = {}) => {
-	if (!existsSync(ENTRY)) {
-		throw new Error(`${ENTRY} is missing. Run \`pnpm test:http\`, which builds first.`);
+export const launchServer = async ({ env: extraEnv, overrides, cwd = ROOT, appDir = ROOT }: Options = {}) => {
+	const entry = join(appDir, ENTRY);
+	if (!existsSync(entry)) {
+		throw new Error(`${entry} is missing. Run \`pnpm test:http\`, which builds first.`);
 	}
 
 	const stub = await startStub({ fakes: fakeUpstream, overrides });
@@ -93,15 +93,14 @@ export const launchServer = async ({ env: extraEnv, overrides, cwd = SERVER_DIR 
 			...defaultEnv(),
 			...extraEnv,
 			STUB_ORIGIN: stub.origin,
-			HARNESS_PORT: String(port),
+			PORT: String(port),
 		}).filter((entry): entry is [string, string] => entry[1] !== undefined),
 	);
 
 	const preload = new URL('./preload.ts', import.meta.url).href;
-	const child = spawn(process.execPath, ['--import', preload, ENTRY], {
+	const child = spawn(process.execPath, ['--import', preload, entry], {
 		cwd,
-		// packages/server/global.d.ts declares the server's variables as always set
-		env: env as NodeJS.ProcessEnv,
+		env,
 		stdio: ['ignore', 'pipe', 'pipe'],
 	});
 	// The server never exits by itself (the daily refresh, decorator polling), so don't let it outlive the test run

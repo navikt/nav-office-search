@@ -1,8 +1,8 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
-import recordedAdresser from '../fixtures/upstream/office-search-api/adresse.json';
-import { API, startServer, type TestServer } from './harness';
-import { on } from './stub';
-import { AUTHORIZATION, json, NOT_FOUND_HTML, ORIGINS, ROUTES } from './upstreams';
+import recordedAdresser from '#test/fixtures/upstream/office-search-api/adresse.json' with { type: 'json' };
+import { API, startServer, type TestServer } from './harness.ts';
+import { on } from './stub.ts';
+import { AUTHORIZATION, json, NOT_FOUND_HTML, ORIGINS, ROUTES } from './upstreams.ts';
 
 let server: TestServer;
 

@@ -28,14 +28,18 @@ export type UpstreamOrigins = {
 };
 
 /** The origins the server gets from its environment. The decorator isn't among them, so it isn't faked. */
-export const originsFromEnv = (): UpstreamOrigins => ({
-	navno: process.env.VITE_NAVNO_ORIGIN,
-	xp: process.env.VITE_XP_ORIGIN,
-	api: process.env.API_ORIGIN,
-	tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
-	loginSession: process.env.LOGIN_SESSION_API_URL ?? 'https://login.test/oauth2/session',
-	decorators: [],
-});
+export const originsFromEnv = (): UpstreamOrigins => {
+	const env = process.env as Record<string, string>;
+
+	return {
+		navno: env.NAVNO_ORIGIN,
+		xp: env.XP_ORIGIN,
+		api: env.API_ORIGIN,
+		tokenEndpoint: env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
+		loginSession: env.LOGIN_SESSION_API_URL,
+		decorators: [],
+	};
+};
 
 export const toUpstreamRequest = async (request: Request): Promise<UpstreamRequest> => {
 	const url = new URL(request.url);
