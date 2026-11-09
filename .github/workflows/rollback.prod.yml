@@ -30,6 +30,8 @@ jobs:
     uses: navikt/navno-ci/.github/workflows/nais-deploy.yml@v1
     permissions: { contents: read, id-token: write }
     with:
+      # Same environment as the prod build, so its approvals and branch rules apply here too
+      environment: prod
       cluster: prod-gcp
       ref: ${{ needs.find.outputs.sha }}
       resource: .nais/config.yml

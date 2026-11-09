@@ -1,16 +1,16 @@
-import { createUpstreamFakes, routeTo } from '../upstream/fakes';
+import { createUpstreamFakes, routeTo } from '#test/upstream/fakes.ts';
 
-export { DECORATOR, json, NOT_FOUND_HTML } from '../upstream/fakes';
+export { DECORATOR, json, NOT_FOUND_HTML } from '#test/upstream/fakes.ts';
 
 // The fakes (test/upstream/fakes.ts) on the origins harness.ts configures the server with. Anything else gets undefined,
 // and the stub answers it with a 599.
 export const ORIGINS = {
-	// VITE_APP_ORIGIN, VITE_NAVNO_ORIGIN and VITE_XP_ORIGIN, as in prod
+	// APP_ORIGIN, NAVNO_ORIGIN and XP_ORIGIN, as in prod
 	navno: 'https://www.nav.no',
 	api: 'https://nav-office-search-api.prod-fss-pub.nais.io',
 	tokenEndpoint: 'https://login.microsoftonline.com/test-tenant/oauth2/v2.0/token',
 	loginSession: 'https://login.nav.no/oauth2/session',
-	// Where nav-dekoratoren-moduler fetches the decorator: ENV=prod outside NAIS, and the service inside it
+	// Where nav-dekoratoren-moduler fetches the decorator: outside NAIS, and the service inside it
 	decorator: 'https://www.nav.no/dekoratoren',
 	decoratorService: 'http://nav-dekoratoren.personbruker',
 };

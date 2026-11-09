@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, expect, test } from 'vitest';
-import { API, BASE, startServer, type TestServer } from './harness';
-import { on } from './stub';
-import { json, ROUTES } from './upstreams';
+import { API, BASE, startServer, type TestServer } from './harness.ts';
+import { on } from './stub.ts';
+import { json, ROUTES } from './upstreams.ts';
 
 // One server for the whole file: the counts below build on each other, in test order
 let server: TestServer;

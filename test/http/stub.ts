@@ -1,6 +1,6 @@
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { routeOf, type UpstreamRequest } from '../upstream/fakes';
+import { routeOf, type UpstreamRequest } from '#test/upstream/fakes.ts';
 
 export { routeOf };
 

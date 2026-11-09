@@ -8,12 +8,9 @@ export default defineConfig({
 	trailingComma: 'all',
 	ignorePatterns: [
 		'**/dist',
-		'**/frontendDist',
 		'pnpm-lock.yaml',
 		// Handlebars templates: oxfmt fails on them and would turn {{image}} into { { image } }
 		'.nais/**',
-		// <main id="maincontent"><!--ssr-app-html--></main> must stay byte-adjacent
-		'packages/client/index.html',
 		'test/fixtures/**',
 		'**/__goldens__/**',
 		'**/__snapshots__/**',

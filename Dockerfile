@@ -1,21 +1,14 @@
 FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:26-slim
 
-WORKDIR /app
-
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .env /app/
-COPY packages/server/package.json /app/packages/server/
-
-# Copy node_modules from CI build
-COPY node_modules /app/node_modules/
-COPY packages/server/node_modules /app/packages/server/node_modules/
-
-# Copy build artifacts
-COPY packages/server/dist /app/packages/server/dist/
-COPY packages/server/frontendDist /app/frontendDist/
-
 ENV NODE_ENV=production
 
+WORKDIR /usr/src/app
+
+# package.json for the #dist/* import the server reads its client files through
+COPY package.json ./
+COPY node_modules ./node_modules
+COPY dist ./dist
+
 EXPOSE 3005
-ENTRYPOINT [ "node" ]
-CMD ["--env-file=.env", "packages/server/dist/server/src/server.js"]
+ENTRYPOINT ["node"]
+CMD ["dist/server/main.js"]

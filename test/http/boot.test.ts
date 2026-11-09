@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import { API, BASE, launchServer, startServer, type TestServer } from './harness';
-import { on, routeOf, type StubRequest } from './stub';
-import { AUTHORIZATION, json, NOT_FOUND_HTML, ORIGINS, ROUTES } from './upstreams';
+import { API, BASE, launchServer, startServer, type TestServer } from './harness.ts';
+import { on, routeOf, type StubRequest } from './stub.ts';
+import { AUTHORIZATION, json, NOT_FOUND_HTML, ORIGINS, ROUTES } from './upstreams.ts';
 
 const API_HOST = new URL(ORIGINS.api).host;
 

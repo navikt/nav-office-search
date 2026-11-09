@@ -1,5 +1,10 @@
 basePath: /finn-nav-kontor
 ingress: https://www.nav.no/finn-nav-kontor
+appOrigin: https://www.nav.no
+navnoOrigin: https://www.nav.no
+xpOrigin: https://www.nav.no
+apiOrigin: https://nav-office-search-api.prod-fss-pub.nais.io
+loginSessionApiUrl: https://login.nav.no/oauth2/session
 outboundExternalHosts:
   - www.nav.no
   - login.nav.no

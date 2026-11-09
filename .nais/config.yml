@@ -31,6 +31,16 @@ spec:
   env:
     - name: NPM_CONFIG_CACHE
       value: /tmp/npm-cache
+    - name: APP_ORIGIN
+      value: {{appOrigin}}
+    - name: NAVNO_ORIGIN
+      value: {{navnoOrigin}}
+    - name: XP_ORIGIN
+      value: {{xpOrigin}}
+    - name: API_ORIGIN
+      value: {{apiOrigin}}
+    - name: LOGIN_SESSION_API_URL
+      value: {{loginSessionApiUrl}}
   replicas:
   {{#with replicas}}
     min: {{min}}

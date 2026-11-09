@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["DOM", "ESNext"],
+		// Stricter than Vite about extensions and package imports, like Node, which runs test/mocks/dev.ts directly
+		"module": "nodenext",
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		// All Node can strip when it does that
+		"erasableSyntaxOnly": true,
+		"resolveJsonModule": true,
+		"noFallthroughCasesInSwitch": true,
+		"jsx": "react-jsx",
+		"types": ["node", "vite/client"]
+	},
+	"include": [
+		"client",
+		"server",
+		"shared",
+		"test",
+		"vite-plugins",
+		"vite.config.ts",
+		"vitest.config.ts",
+		"oxfmt.config.ts"
+	]
+}

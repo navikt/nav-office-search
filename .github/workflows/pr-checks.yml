@@ -12,15 +12,7 @@ jobs:
     uses: navikt/navno-ci/.github/workflows/node-build.yml@v1
     with:
       push-image: false
-      # The temporary HTTP characterization suite (test/http/README.md). It rebuilds with its own env first, so it
-      # mustn't be part of `pnpm test`, which the deploy workflows run between their build and the Docker build.
+      # The temporary HTTP characterization suite (test/http/README.md). It rebuilds first, so it mustn't be part of
+      # `pnpm test`, which the deploy workflows run between their build and the Docker build.
       post-build-commands: pnpm run test:http
-      env-file: |
-        ENV=dev
-        VITE_APP_ORIGIN=https://www.ansatt.dev.nav.no
-        VITE_APP_BASEPATH=/finn-nav-kontor
-        VITE_XP_ORIGIN=https://www.dev.nav.no
-        VITE_NAVNO_ORIGIN=https://www.ansatt.dev.nav.no
-        API_ORIGIN=https://nav-office-search-api.dev-fss-pub.nais.io
-        LOGIN_SESSION_API_URL=https://login.ekstern.dev.nav.no/oauth2/session
     secrets: inherit
