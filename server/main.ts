@@ -1,6 +1,9 @@
+// First, so console goes through the logger before anything else logs
+import './utils/console.ts';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { type ServerType, serve } from '@hono/node-server';
+import { logger } from '@navikt/navno-logger';
 import { render } from '#client/main-server.tsx';
 import { createApp } from './app.ts';
 import { loadDataAndStartSchedule } from './data/data.ts';
@@ -23,19 +26,19 @@ try {
 	await loadDataAndStartSchedule();
 	const app = createApp({ site, notFoundHtml: await fetchNotFoundHtml() });
 	const server: ServerType = serve({ fetch: app.fetch, port: env.PORT, overrideGlobalObjects: false }, () => {
-		console.log(`Server starting on port ${env.PORT}`);
+		logger.info('Server listening', { port: env.PORT });
 	});
 	setupShutdownHandlers(server);
 } catch (e) {
-	console.error(`Error occurred while initializing server! - ${e}`);
+	logger.error('Server failed to start', e);
 	throw e;
 }
 
 function setupShutdownHandlers(server: ServerType) {
 	const shutdown = () => {
-		console.log('Server shutting down');
+		logger.info('Server shutting down');
 		server.close(() => {
-			console.log('Shutdown complete!');
+			logger.info('Shutdown complete!');
 			process.exit(0);
 		});
 	};

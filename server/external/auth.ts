@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { fetchJson, objectToQueryString } from '#server/utils/fetch.ts';
 import Cache from 'node-cache';
 import { serverUrls } from '#server/urls.ts';
@@ -18,7 +19,7 @@ type TokenResponse = {
 };
 
 const fetchAccessToken = async (): Promise<TokenResponse | null> => {
-	console.log('Refreshing access token...');
+	logger.info('Refreshing access token');
 
 	const response = await fetchJson(serverUrls.azureAdTokenApi, undefined, {
 		method: 'POST',
@@ -37,7 +38,7 @@ const fetchAccessToken = async (): Promise<TokenResponse | null> => {
 	});
 
 	if (!response.access_token) {
-		console.error('Bad response from token service', response);
+		logger.error('Bad response from token service', { response });
 		return null;
 	}
 

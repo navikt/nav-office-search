@@ -1,1 +1,3 @@
 minimumReleaseAge: 4320
+# Our own packages, published to GitHub Packages
+minimumReleaseAgeExclude: ['@navikt/*']

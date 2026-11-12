@@ -2,6 +2,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { brotliCompressSync, gunzipSync, gzipSync, inflateSync } from 'node:zlib';
+import { logger } from '@navikt/navno-logger';
 import { HTTPException } from 'hono/http-exception';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 import { upstreamCalls, upstreams } from '#test/upstream/mswServer.ts';
@@ -61,6 +62,7 @@ beforeEach(() => {
 
 afterEach(() => {
 	upstreams.resetHandlers();
+	vi.restoreAllMocks();
 });
 
 afterAll(() => {
@@ -206,7 +208,7 @@ describe('pages', () => {
 	});
 
 	test('a failing render answers an empty 500, and is logged and counted', async () => {
-		const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+		const error = vi.spyOn(logger, 'error');
 		const failing = appWith(async () => {
 			throw new Error('Rendering failed');
 		});
@@ -214,7 +216,9 @@ describe('pages', () => {
 		const response = await failing.request(`${BASE}/nn`);
 
 		expect([response.status, await response.text()]).toEqual([500, '']);
-		expect(consoleError).toHaveBeenCalledWith(`Server error on ${BASE}/nn: 500 Error: Rendering failed`);
+		expect(error.mock.calls).toEqual([
+			['Request failed', { method: 'GET', path: `${BASE}/nn`, status: 500 }, new Error('Rendering failed')],
+		]);
 		expect((await pageRenders.get()).values.map(({ labels, value }) => [labels, value])).toEqual([
 			[{ locale: 'nn', outcome: 'error' }, 1],
 		]);

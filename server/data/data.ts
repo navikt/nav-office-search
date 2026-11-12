@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { getBydelerArray, getBydelerForKommune, getBydelerWithoutOffice, loadBydelerData } from './bydeler.ts';
 import { getPostnrRegister, loadPostnrRegister } from './postnrRegister.ts';
 import { getOfficeUrlCount, loadOfficeUrlsFromXP } from './officeUrls.ts';
@@ -37,13 +38,13 @@ const recordReferenceData = () => {
 	referenceDataWithoutOffice.set({ dataset: 'bydeler' }, missingBydeler.length);
 
 	if (missingKommuner.length > 0) {
-		console.warn(`No office found for kommuner: ${listForLog(missingKommuner)}`);
+		logger.warn(`No office found for kommuner: ${listForLog(missingKommuner)}`);
 	}
 	if (missingPoststeder.length > 0) {
-		console.warn(`No office found for postnr: ${listForLog(missingPoststeder)}`);
+		logger.warn(`No office found for postnr: ${listForLog(missingPoststeder)}`);
 	}
 	if (missingBydeler.length > 0) {
-		console.warn(`No office found for bydeler: ${listForLog(missingBydeler)}`);
+		logger.warn(`No office found for bydeler: ${listForLog(missingBydeler)}`);
 	}
 };
 
@@ -53,7 +54,7 @@ export const loadData = async () => {
 	}
 
 	isLoading = true;
-	console.log('Started loading data!');
+	logger.info('Started loading data');
 	const startedAt = performance.now();
 
 	try {
@@ -70,10 +71,10 @@ export const loadData = async () => {
 		dataLoadDuration.set(durationSeconds);
 		dataLastSuccess.setToCurrentTime();
 		recordReferenceData();
-		console.log(`Finished loading data in ${durationSeconds.toFixed(1)} s!`);
+		logger.info('Finished loading data', { durationSeconds: Number(durationSeconds.toFixed(1)) });
 	} catch (e) {
 		dataLoads.inc({ outcome: 'failure' });
-		console.error(`Error loading data - ${e}`);
+		logger.error('Loading data failed', e);
 		throw e;
 	} finally {
 		isLoading = false;

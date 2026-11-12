@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ElementEntry } from '@itsy/html/frame';
 import type { AppLocale } from '#shared/localization/types.ts';
 import { pageRenders } from '#server/metrics/metrics.ts';
@@ -29,7 +30,7 @@ export const prodRenderer = (renderApp: (locale: AppLocale) => string, assets: E
 			pages.set(locale, { html, expires: Date.now() + PAGE_CACHE_TTL_MS });
 			return html;
 		} catch (e) {
-			console.error(`Error occured while server rendering app! - ${e}`);
+			logger.error('Server rendering failed, leaving it to the browser', { locale }, e);
 			pageRenders.inc({ locale, outcome: 'csr_fallback' });
 			return renderDocument({ locale, assets, decorator, appHtml: '' });
 		}

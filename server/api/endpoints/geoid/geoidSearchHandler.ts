@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import { PostnrKategori } from '#shared/types/data.ts';
 import type { SearchResultProps } from '#shared/types/results.ts';
@@ -10,11 +11,10 @@ export const geoidSearchHandler = async (id?: string): Promise<ApiResponse<Searc
 	}
 
 	const trimmedId = id.trim();
-	const safeIdForLog = trimmedId.replace(/[\r\n]/g, '');
 	const officeInfo = await fetchOfficeInfoByGeoId(trimmedId);
 
 	if (officeInfo.error) {
-		console.error(`Error fetching office info for geoid ${safeIdForLog}: ${officeInfo.message}`);
+		logger.error('Fetching office info for geoid failed', { geoId: trimmedId, error: officeInfo.message });
 		return { status: officeInfo.statusCode, body: apiErrorResponse('errorServerError') };
 	}
 

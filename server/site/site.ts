@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { type Handler, Hono, type MiddlewareHandler } from 'hono';
 import type { HtmlRenderer } from './ssr/htmlRenderer.ts';
@@ -23,7 +24,7 @@ export const createSite = ({ render, clientDir }: Site) => {
 	const site = new Hono();
 
 	if (clientDir) {
-		console.log('Configuring site endpoints for production mode');
+		logger.info('Configuring site endpoints for production mode');
 
 		site.get(
 			'/assets/*',
@@ -44,7 +45,7 @@ export const createSite = ({ render, clientDir }: Site) => {
 			serveStatic({ root: clientDir, path: 'favicon.ico' }),
 		);
 	} else {
-		console.log('Configuring site endpoints for development mode');
+		logger.info('Configuring site endpoints for development mode');
 	}
 
 	const page =

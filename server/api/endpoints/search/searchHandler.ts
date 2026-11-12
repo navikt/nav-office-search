@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import { getNameSearchResult } from './nameSearchHandler.ts';
 import { apiErrorResponse } from '#server/utils/fetch.ts';
@@ -7,7 +8,7 @@ import { postnrSearchHandler } from './postnrSearchHandler.ts';
 import { addressSearchHandler } from './addressSearchHandler.ts';
 
 export const searchHandler = async (query?: string): Promise<ApiResponse<SearchResultProps>> => {
-	console.log('Received search request');
+	logger.info('Received search request');
 
 	try {
 		if (!query?.trim()) {
@@ -25,7 +26,7 @@ export const searchHandler = async (query?: string): Promise<ApiResponse<SearchR
 
 		return addressSearchHandler(query);
 	} catch (e) {
-		console.error(`Search api error: ${e}`);
+		logger.error('Search api error', e);
 		return { status: 500, body: apiErrorResponse('errorServerError') };
 	}
 };

@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { PostnrKategori } from '#shared/types/data.ts';
 import { serverUrls } from '#server/urls.ts';
 import { observeUpstream } from '#server/metrics/metrics.ts';
@@ -41,7 +42,7 @@ export const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem
 
 // This fetches a raw tab separated txt file from posten.no
 const fetchPostnummerTxtFromPosten = async (): Promise<string | null> => {
-	console.log(`Fetching postnr register from ${serverUrls.postnrRegister}`);
+	logger.info('Fetching postnr register', { url: serverUrls.postnrRegister });
 	try {
 		return await observeUpstream('bring', () => fetch(serverUrls.postnrRegister))
 			.then((res) => {
@@ -53,7 +54,7 @@ const fetchPostnummerTxtFromPosten = async (): Promise<string | null> => {
 			})
 			.then((buffer) => new TextDecoder(charEncodeFormat).decode(buffer));
 	} catch (e) {
-		console.error(`Error fetching postnr register: ${e}`);
+		logger.error('Fetching postnr register failed', e);
 		return null;
 	}
 };
@@ -62,13 +63,13 @@ export const loadPostnrRegister = async () => {
 	const postnrRegisterDataRaw = await fetchPostnummerTxtFromPosten();
 
 	if (postnrRegisterDataRaw) {
-		console.log('Refreshed postnr register');
+		logger.info('Refreshed postnr register');
 		postnrRegisterData = transformPostnrRegisterData(postnrRegisterDataRaw);
 	} else if (postnrRegisterData.length > 0) {
-		console.error('Failed to fetch from postnr-register, keeping currently cached data');
+		logger.error('Failed to fetch from postnr-register, keeping currently cached data');
 	} else {
 		const msg = 'Failed to fetch from postnr-register and no previously cached data exists!';
-		console.error(msg);
+		logger.error(msg);
 
 		throw new Error(msg);
 	}

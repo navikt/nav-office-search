@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { fetchJson } from '#server/utils/fetch.ts';
 import { serverUrls } from '#server/urls.ts';
 import { env } from '#server/env.ts';
@@ -16,7 +17,7 @@ let enhetsNrToOfficePathMap: EnhetNrToOfficePathMap = {};
 
 export const loadOfficeUrlsFromXP = async () => {
 	try {
-		console.log(`Loading office URLs from ${serverUrls.xpOfficeInfoApi}`);
+		logger.info('Loading office URLs', { url: serverUrls.xpOfficeInfoApi });
 
 		const officeUrls = await fetchJson<OfficeInfoResponse>(serverUrls.xpOfficeInfoApi);
 
@@ -27,7 +28,7 @@ export const loadOfficeUrlsFromXP = async () => {
 				throw new Error(msg);
 			}
 
-			console.error(`${msg} - keepings current data`);
+			logger.error(`${msg} - keeping current data`);
 			return;
 		}
 
@@ -47,7 +48,7 @@ export const loadOfficeUrlsFromXP = async () => {
 			throw new Error(msg, { cause: error });
 		}
 
-		console.error(`${msg} - keeping current data`);
+		logger.error('Loading office URLs failed - keeping current data', error);
 	}
 };
 
@@ -57,7 +58,7 @@ export const getOfficeUrl = (enhetNr: string) => {
 	const path = enhetsNrToOfficePathMap[enhetNr];
 
 	if (!path) {
-		console.error(`No office url found for enhetnr ${enhetNr}!`);
+		logger.error('No office url found', { enhetNr });
 		return null;
 	}
 

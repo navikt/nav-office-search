@@ -40,7 +40,6 @@ beforeEach(() => {
 			? { name: office.navn, enhetNr: office.enhetNr, geoId, url: '', hitString: '' }
 			: fetchErrorResponse(404, `No office info found for geoid ${geoId}`);
 	});
-	vi.spyOn(console, 'log').mockImplementation(() => undefined);
 });
 
 describe.each([

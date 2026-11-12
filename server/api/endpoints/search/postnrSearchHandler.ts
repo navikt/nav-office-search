@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import type { OfficeInfo, Poststed } from '#shared/types/data.ts';
 import type { SearchResultPostnrProps, SearchResultProps } from '#shared/types/results.ts';
@@ -12,7 +13,7 @@ const responseDataWithBydeler = async (poststedData: Poststed): Promise<SearchRe
 	const bydelResponse = await fetchPdlBydelsok(poststedData.postnr);
 
 	if ('error' in bydelResponse) {
-		console.error(`Bydel search failed for postnr ${poststedData.postnr}: ${bydelResponse.message}`);
+		logger.error('Bydel search failed', { postnr: poststedData.postnr, error: bydelResponse.message });
 		return { ...poststedData, type: 'postnr' };
 	}
 
