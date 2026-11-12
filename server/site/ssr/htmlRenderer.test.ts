@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { beforeEach, expect, test, vi } from 'vitest';
 import { pageRenders, registry } from '#server/metrics/metrics.ts';
 import { fetchDecorator } from './document.ts';
@@ -54,7 +55,7 @@ test('keeps each locale for later requests', async () => {
 });
 
 test('when rendering fails, leaves it to the browser and tries again next time', async () => {
-	const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+	const error = vi.spyOn(logger, 'error');
 	const renderApp = vi
 		.fn((locale: string) => `<div>${locale}</div>`)
 		// The self-check at boot
@@ -68,7 +69,9 @@ test('when rendering fails, leaves it to the browser and tries again next time',
 
 	expect(await render('nb')).toContain('<main id="maincontent" tabindex="-1"></main>');
 	expect(await render('nb')).toContain('<div>nb</div>');
-	expect(consoleError).toHaveBeenCalledWith(expect.stringContaining('Rendering failed'));
+	expect(error.mock.calls).toEqual([
+		['Server rendering failed, leaving it to the browser', { locale: 'nb' }, new Error('Rendering failed')],
+	]);
 	expect(await renderCounts()).toEqual([
 		{ locale: 'nb', outcome: 'csr_fallback', value: 1 },
 		{ locale: 'nb', outcome: 'ssr', value: 1 },

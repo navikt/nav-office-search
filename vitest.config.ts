@@ -45,6 +45,8 @@ export default defineConfig({
 						AZURE_APP_CLIENT_SECRET: 'azure-client-secret',
 						AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: 'https://login.test/oauth2/v2.0/token',
 						LOGIN_SESSION_API_URL: 'https://login.test/oauth2/session',
+						// The logger writes to stdout, past Vitest
+						LOG_LEVEL: 'silent',
 					},
 				},
 			},

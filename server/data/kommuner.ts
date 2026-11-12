@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { getBydelerForKommune } from './bydeler.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
@@ -34,7 +35,7 @@ export const getKommune = (kommunenr: string) => kommunerData.kommunerMap[kommun
 // fetch the Nav-kontor from NORG via nav-office-search-api). This is the geoId endpoint
 // If the kommune has bydeler, we skip the office info fetch.
 export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[]) => {
-	console.log('Building kommune dictionary by loading offices one by one');
+	logger.info('Building kommune dictionary by loading offices one by one');
 
 	const uniqueKommuneItems = removeDuplicates(postnrRegister, (a, b) => a.kommunenr === b.kommunenr);
 
@@ -75,5 +76,5 @@ export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[
 	kommunerData.kommunerMap = kommuneMap;
 	kommunerData.kommunerArray = kommuneArray;
 
-	console.log(`Finished loading data for kommuner! (${kommuneArray.length} entries)`);
+	logger.info('Finished loading data for kommuner', { entries: kommuneArray.length });
 };

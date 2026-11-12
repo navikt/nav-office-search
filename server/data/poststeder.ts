@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { getBydelerForKommune } from './bydeler.ts';
 import { getKommune, getOfficeInfoGeoIdForKommune } from './kommuner.ts';
 import type { PostnrRegisterItem } from './postnrRegister.ts';
@@ -54,7 +55,7 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
 
 // This function is used at startup and data kept in memory
 export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) => {
-	console.log('Loading data for poststeder...');
+	logger.info('Loading data for poststeder');
 
 	const newPoststederMap: PoststederMap = new Map();
 
@@ -79,5 +80,5 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
 	poststederData.poststederMap = newPoststederMap;
 	poststederData.poststederArray = newPoststederArray;
 
-	console.log(`Finished loading data for poststeder! (${newPoststederArray.length} entries)`);
+	logger.info('Finished loading data for poststeder', { entries: newPoststederArray.length });
 };

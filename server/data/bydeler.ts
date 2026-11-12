@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
 import type { Bydel } from '#shared/types/data.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
@@ -96,15 +97,15 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 	bydelerData.bydelerArray = newArray;
 	bydelerData.bydelerWithoutOffice = newBydelerWithoutOffice;
 
-	console.log(`Finished loading data for bydeler! (${newArray.length} entries)`);
+	logger.info('Finished loading data for bydeler', { entries: newArray.length });
 };
 
 const fetchBydelerRawData = async () => {
-	console.log(`Fetching SSB classification for bydeler from ${serverUrls.ssbBydelerClassification}`);
+	logger.info('Fetching SSB classification for bydeler', { url: serverUrls.ssbBydelerClassification });
 	const bydelerClassification = await fetchJson<SSB_ClassificationResponse>(serverUrls.ssbBydelerClassification);
 
 	if (bydelerClassification.error) {
-		console.error(`Error while fetching SSB classification for bydeler - ${bydelerClassification.message}`);
+		logger.error('Fetching SSB classification for bydeler failed', { error: bydelerClassification.message });
 		return null;
 	}
 
@@ -120,14 +121,14 @@ const fetchBydelerRawData = async () => {
 	const currentVersionUrl = currentVersion?._links?.self?.href;
 
 	if (!currentVersionUrl) {
-		console.error('Could not find valid version for bydeler from SSB');
+		logger.error('Could not find valid version for bydeler from SSB');
 		return null;
 	}
 
 	const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(currentVersionUrl);
 
 	if (currentBydelerVersion.error) {
-		console.error(`Error while fetching current bydeler version - ${currentBydelerVersion.message}`);
+		logger.error('Fetching current bydeler version failed', { error: currentBydelerVersion.message });
 		return null;
 	}
 
@@ -138,14 +139,14 @@ export const loadBydelerData = async () => {
 	const bydelerRawData = await fetchBydelerRawData();
 
 	if (bydelerRawData) {
-		console.log('Refreshed data for bydeler');
+		logger.info('Refreshed data for bydeler');
 		await populateBydelerCache(bydelerRawData);
 	} else if (bydelerData.bydelerArray.length > 0) {
-		console.error('Failed to load bydeler from SSB - keeping current data for this cycle');
+		logger.error('Failed to load bydeler from SSB - keeping current data for this cycle');
 	} else {
 		const msg = 'Failed to load bydeler from SSB and no previously cached data exists!';
 
-		console.error(msg);
+		logger.error(msg);
 		throw new Error(msg);
 	}
 };

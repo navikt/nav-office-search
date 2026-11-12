@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { LocaleStringId } from '#shared/localization/types.ts';
 import type { SearchResultErrorProps } from '#shared/types/results.ts';
 import { observeUpstream, upstreamForUrl } from '#server/metrics/metrics.ts';
@@ -63,13 +64,13 @@ export const fetchJson = async <T = any>(
 			error_description?: string;
 		};
 
-		console.error('Error fetching json:', errorJson);
+		logger.error('Upstream answered with an error', { url, status: res.status, response: errorJson });
 
 		const errorMsg = errorJson.message || errorJson.error_description || res.statusText;
 
 		return fetchErrorResponse(res.status, errorMsg);
 	} catch (e: any) {
-		console.error(`Error fetching from url ${url}: ${e?.toString()}`);
+		logger.error('Fetching from upstream failed', { url }, e);
 		return fetchErrorResponse(500, e?.toString());
 	}
 };

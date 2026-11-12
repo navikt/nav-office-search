@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import { serverUrls } from '#server/urls.ts';
 import { observeUpstream } from '#server/metrics/metrics.ts';
@@ -21,7 +22,7 @@ export const loginStatusHandler = async (cookie = ''): Promise<ApiResponse<Login
 	} catch (e) {
 		// session endpoint will return 401 when user is not logged in. This causes
 		// messy errors in console. Keep it clean by returning 200 OK.
-		console.error(`Login status check failed: ${e}`);
+		logger.error('Login status check failed', e);
 		return { status: 200, body: { isUserLoggedIn: false } };
 	}
 };

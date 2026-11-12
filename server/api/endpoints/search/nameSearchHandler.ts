@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import type { NameHit, SearchResultProps } from '#shared/types/results.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
@@ -146,7 +147,7 @@ export const nameSearchHandler = async (query?: string): Promise<ApiResponse<Sea
 
 		return { status: 200, body: getNameSearchResult(query) };
 	} catch (e) {
-		console.error(`Name search api error: ${e}`);
+		logger.error('Name search api error', e);
 		return { status: 500, body: apiErrorResponse('errorServerError') };
 	}
 };

@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { env } from '#server/env.ts';
@@ -13,7 +14,7 @@ export const fetchNotFoundHtml = () =>
 			throw Error(`${res.status} ${res.statusText}`);
 		})
 		.catch((e) => {
-			console.error(`Failed to fetch 404 html - ${e}`);
+			logger.error('Failed to fetch 404 html', e);
 			return 'Not found';
 		});
 
@@ -21,16 +22,15 @@ export const setupErrorHandlers = (app: Hono, notFoundHtml: string) => {
 	app.notFound((c) => c.html(notFoundHtml, 404));
 
 	app.onError((err, c) => {
-		const { path } = c.req;
+		const { method, path } = c.req;
 		const statusCode = err instanceof HTTPException ? err.status : 500;
-		const msg = err.stack?.split('\n')[0];
 
 		if (statusCode < 500) {
-			console.log(`Invalid request to ${path}: ${statusCode} ${msg}`);
+			logger.info('Invalid request', { method, path, status: statusCode, error: String(err) });
 			return c.html(notFoundHtml, 404);
 		}
 
-		console.error(`Server error on ${path}: ${statusCode} ${msg}`);
+		logger.error('Request failed', { method, path, status: statusCode }, err);
 
 		// TODO: Html for server errors
 		return c.body(null, statusCode);

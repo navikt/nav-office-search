@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import { apiErrorResponse } from '#server/utils/fetch.ts';
 import { type AdresseSokResponse, fetchPdlAdresseSok } from '#server/external/adresse.ts';
@@ -21,14 +22,14 @@ export const addressSearchHandler = async (query?: string): Promise<ApiResponse<
 		const adresseSokResponse = await fetchPdlAdresseSok(query);
 
 		if ('error' in adresseSokResponse) {
-			console.error(`Address search failed for query ${query.replace(/[\r\n]/g, '')}: ${adresseSokResponse.message}`);
+			logger.error('Address search failed', { query, error: adresseSokResponse.message });
 
 			return { status: adresseSokResponse.statusCode, body: apiErrorResponse('errorServerError') };
 		}
 
 		return { status: 200, body: toAddressSearchResult(query, adresseSokResponse) };
 	} catch (e) {
-		console.error(`Address search api error: ${e}`);
+		logger.error('Address search api error', e);
 		return { status: 500, body: apiErrorResponse('errorServerError') };
 	}
 };

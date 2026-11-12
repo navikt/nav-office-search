@@ -1,3 +1,4 @@
+import { logger } from '@navikt/navno-logger';
 import type { ViteDevServer } from 'vite';
 import { render as renderApp } from '#client/main-server.tsx';
 import { BASE_PATH } from '#shared/basePath.ts';
@@ -21,7 +22,7 @@ const render: HtmlRenderer = async (locale, env) => {
 		return await vite.transformIndexHtml('/', html.replace(/<\/link>/gi, ''));
 	} catch (e) {
 		vite.ssrFixStacktrace(e as Error);
-		console.error(e);
+		logger.error('Rendering failed', { locale }, e);
 		throw e;
 	}
 };
