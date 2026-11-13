@@ -159,6 +159,23 @@ describe('joinOffices', () => {
 		expect(error.mock.calls).toEqual([['Offices without a page in XP', { count: 2, enhetNr: ['9998', '9999'] }]]);
 	});
 
+	const ny = { '030102': { enhetNr: '9998', navn: 'Nav Ny' } };
+
+	test.each(['/kontor/nav-ny', 'kontor/nav-ny', './kontor/nav-ny'])(
+		'joins nav.no and the path %j with one slash',
+		(path) => {
+			const offices = joinOffices(ny, new Map([['9998', path]]));
+
+			expect(offices.get('030102')?.url).toBe(`${env.NAVNO_ORIGIN}/kontor/nav-ny`);
+		},
+	);
+
+	test('keeps the page on nav.no for a path that would name another host when glued on', () => {
+		const offices = joinOffices(ny, new Map([['9998', '@evil.test/kontor']]));
+
+		expect(offices.get('030102')?.url).toBe(`${env.NAVNO_ORIGIN}/@evil.test/kontor`);
+	});
+
 	test('logs nothing when every office has a page', () => {
 		const error = vi.spyOn(logger, 'error');
 

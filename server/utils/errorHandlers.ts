@@ -3,7 +3,7 @@ import { withTimeout } from '@itsy/corgi/timeout';
 import { logger } from '@navikt/navno-logger';
 import type { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import { env } from '#server/env.ts';
+import { serverUrls } from '#server/urls.ts';
 import { REQUEST_TIMEOUT_MS } from './upstream.ts';
 
 const navno = corgi.create({ plugins: [withTimeout(REQUEST_TIMEOUT_MS)] });
@@ -11,7 +11,7 @@ const navno = corgi.create({ plugins: [withTimeout(REQUEST_TIMEOUT_MS)] });
 /** The nav.no frontend's 404 page, to answer unknown paths with. A plain "Not found" when it can't be had. */
 export const fetchNotFoundHtml = async () => {
 	try {
-		const response = await navno.raw(`${env.NAVNO_ORIGIN}/404`);
+		const response = await navno.raw(serverUrls.notFoundPage);
 		if (response.status === 404) {
 			return await response.text();
 		}

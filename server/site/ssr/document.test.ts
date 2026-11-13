@@ -1,5 +1,5 @@
 import { check } from '@itsy/html/check';
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import { builtAssets, devAssets, renderDocument } from './document.ts';
 
 const decorator = {
@@ -50,6 +50,18 @@ test.each([
 	expect(html).toContain(`<meta property="og:url" content="${url}">`);
 	expect(html).toContain('<meta property="og:site_name" content="nav.test">');
 	expect(html).toContain('<meta name="robots" content="noindex, nofollow">');
+});
+
+test('describes the page the same when the origin ends with a slash', async () => {
+	vi.stubEnv('APP_ORIGIN', 'https://www.nav.test/');
+	vi.resetModules();
+	const withSlash = await import('./document.ts');
+
+	const html = withSlash.renderDocument({ locale: 'nn', assets, decorator, appHtml: '' });
+	vi.unstubAllEnvs();
+
+	expect(html).toContain('<meta property="og:url" content="https://www.nav.test/finn-nav-kontor/nn">');
+	expect(html).toContain('<meta property="og:site_name" content="nav.test">');
 });
 
 test('has the decorator last in head, first in body and last in body', () => {

@@ -1,11 +1,12 @@
 import devServer, { defaultOptions } from '@hono/vite-dev-server';
 import react from '@vitejs/plugin-react';
+import { withTrailingSlash } from 'ufo';
 import { defineConfig } from 'vite';
 import { BASE_PATH } from './shared/basePath.ts';
 import { precompressAssets } from './vite-plugins/precompressAssets.ts';
 
 export default defineConfig(({ command, isSsrBuild }) => ({
-	base: `${BASE_PATH}/`,
+	base: withTrailingSlash(BASE_PATH),
 	appType: 'custom',
 	publicDir: 'client/public',
 	server: { port: 3005, strictPort: true, open: BASE_PATH },

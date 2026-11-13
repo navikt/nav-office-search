@@ -1,6 +1,7 @@
 import { raw } from '@itsy/html';
 import { type ElementEntry, frame } from '@itsy/html/frame';
 import { type DecoratorElements, fetchDecoratorHtml } from '@navikt/nav-dekoratoren-moduler/ssr/index.js';
+import { joinURL } from 'ufo';
 import { BASE_PATH } from '#shared/basePath.ts';
 import { getDecoratorParams } from '#shared/decoratorParams.ts';
 import { pageMeta } from '#shared/localization/meta.ts';
@@ -45,7 +46,7 @@ export const builtAssets = (manifest: ViteManifest): ElementEntry[] => {
 		throw new Error("client/main-client.tsx is missing from the client build's manifest");
 	}
 
-	const url = (file: string) => `${BASE_PATH}/${file}`;
+	const url = (file: string) => joinURL(BASE_PATH, file);
 
 	return [
 		favicon(url('favicon.ico')),
@@ -56,8 +57,7 @@ export const builtAssets = (manifest: ViteManifest): ElementEntry[] => {
 
 const metaTags = (locale: AppLocale): ElementEntry[] => {
 	const { documentTitle: title, ingressLine1: description } = pageMeta[locale];
-	const origin = env.APP_ORIGIN;
-	const domain = origin.replace(/^https?:\/\/(www\.)?/, '');
+	const domain = new URL(env.APP_ORIGIN).host.replace(/^www\./, '');
 	const named = (name: string, content: string): ElementEntry => ({ tag: 'meta', attrs: { name, content } });
 	const property = (name: string, content: string): ElementEntry => ({
 		tag: 'meta',
@@ -69,7 +69,7 @@ const metaTags = (locale: AppLocale): ElementEntry[] => {
 		property('og:title', title),
 		property('og:description', description),
 		property('og:site_name', domain),
-		property('og:url', `${origin}${BASE_PATH}${localePaths[locale]}`),
+		property('og:url', joinURL(env.APP_ORIGIN, BASE_PATH, localePaths[locale])),
 		property('og:image', shareImageUrl),
 		property('og:image:width', '200'),
 		property('og:image:height', '200'),

@@ -1,6 +1,7 @@
 import { logger } from '@navikt/navno-logger';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { type Handler, Hono, type MiddlewareHandler } from 'hono';
+import { withoutBase } from 'ufo';
 import type { HtmlRenderer } from './ssr/htmlRenderer.ts';
 import { pageRenders } from '#server/metrics/metrics.ts';
 import { BASE_PATH } from '#shared/basePath.ts';
@@ -35,7 +36,7 @@ export const createSite = ({ render, clientDir }: Site) => {
 				// The build writes .br and .gz next to the files (precompressAssets in the client)
 				precompressed: true,
 				// serveStatic looks files up by the full request path, base path included
-				rewriteRequestPath: (requestPath) => requestPath.slice(BASE_PATH.length),
+				rewriteRequestPath: (requestPath) => withoutBase(requestPath, BASE_PATH),
 			}),
 		);
 		// No hash in this name, so a new favicon has to get through

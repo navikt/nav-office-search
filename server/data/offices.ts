@@ -1,5 +1,6 @@
 import { schema } from '@itsy/corgi/schema';
 import { logger } from '@navikt/navno-logger';
+import { joinURL } from 'ufo';
 import { env } from '#server/env.ts';
 import { officeSearchApi } from '#server/external/officeSearchApi.ts';
 import { officesSchema, xpOfficeInfoSchema } from '#server/external/schemas.ts';
@@ -49,7 +50,8 @@ export const joinOffices = (norgOffices: NorgOffices, officePaths: OfficePaths):
 	for (const [geoId, { enhetNr, navn }] of Object.entries(norgOffices)) {
 		const path = officePaths.get(enhetNr);
 		if (path) {
-			offices.set(geoId, { name: navn, url: `${env.NAVNO_ORIGIN}${path}`, geoId, enhetNr, hitString: '' });
+			// Joined, so the page is on nav.no whatever XP's path starts with
+			offices.set(geoId, { name: navn, url: joinURL(env.NAVNO_ORIGIN, path), geoId, enhetNr, hitString: '' });
 		} else {
 			withoutPage.add(enhetNr);
 		}
