@@ -73,15 +73,18 @@ describe('cancelling', () => {
 		expect(state.status).toEqual({ kind: 'none' });
 	});
 
-	test('keeps an office found for an address, without the address (bug)', () => {
-		const state = run(
-			{ type: 'addressSelected', label: 'Storgata 1, 0184 OSLO' },
-			{ type: 'officeFound', result: office, label: 'Storgata 1, 0184 OSLO' },
-			{ type: 'searchCancelled' },
-		);
+	test.each(['searchCancelled', 'searchStarted'] as const)(
+		'%s keeps the office found for an address together with the address, for its heading',
+		(type) => {
+			const state = run(
+				{ type: 'addressSelected', label: 'Storgata 1, 0184 OSLO' },
+				{ type: 'officeFound', result: office, label: 'Storgata 1, 0184 OSLO' },
+				{ type },
+			);
 
-		expect(state.results).toEqual({ view: 'offices', result: office, selectedAddress: null });
-	});
+			expect(state.results).toEqual({ view: 'offices', result: office, selectedAddress: 'Storgata 1, 0184 OSLO' });
+		},
+	);
 });
 
 describe('picking an address', () => {

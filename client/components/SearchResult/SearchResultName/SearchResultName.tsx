@@ -9,10 +9,9 @@ import style from './SearchResultName.module.css';
 
 type Props = {
 	result: SearchResultNameProps;
-	input: string;
 };
 
-export const SearchResultName = ({ result, input }: Props) => {
+export const SearchResultName = ({ result }: Props) => {
 	const { input: resultInput, hits } = result;
 
 	if (!hits) {
@@ -37,7 +36,8 @@ export const SearchResultName = ({ result, input }: Props) => {
 			{hits.map((nameHit) => (
 				<Fragment key={nameHit.name}>
 					<BodyShort size={'medium'} className={style.hitname}>
-						<HighlightedText text={nameHit.name} input={input} />
+						{/* What the search was for, not what the field says now */}
+						<HighlightedText text={nameHit.name} input={resultInput} />
 					</BodyShort>
 					<VStack gap="space-12">
 						{nameHit.officeHits.map((office) => (

@@ -12,7 +12,10 @@ export type Results =
 	| { view: 'none' }
 	/** A spinner, in the address dropdown or where the results go, as tall as what it replaced */
 	| { view: 'loading'; inDropdown: boolean; height: number | null }
-	/** Offices for a postnummer or a name, or for the address the user picked */
+	/**
+	 * Offices for a postnummer or a name, or for the address the user picked (selectedAddress). The address stays with
+	 * its offices, so their heading is right until other results replace them.
+	 */
 	| { view: 'offices'; result: OfficeResult; selectedAddress: string | null }
 	/** Address suggestions, in a dropdown the user can close and open again */
 	| { view: 'addresses'; result: SearchResultAdresseProps; open: boolean; activeIndex: number | null };
@@ -80,13 +83,7 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 		case 'searchCancelled': {
 			const { results } = state;
 			const kept: Results =
-				results.view === 'loading'
-					? none
-					: results.view === 'offices'
-						? { ...results, selectedAddress: null }
-						: results.view === 'addresses'
-							? { ...results, activeIndex: null }
-							: results;
+				results.view === 'loading' ? none : results.view === 'addresses' ? { ...results, activeIndex: null } : results;
 			return { ...state, results: kept, status: { kind: 'none' } };
 		}
 
@@ -94,19 +91,8 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 			return { ...state, results: none, status: { kind: 'none' } };
 
 		// The old results stay until the new ones arrive
-		case 'searchStarted': {
-			const { results } = state;
-			return {
-				...state,
-				error: null,
-				results:
-					results.view === 'loading'
-						? none
-						: results.view === 'offices'
-							? { ...results, selectedAddress: null }
-							: results,
-			};
-		}
+		case 'searchStarted':
+			return { ...state, error: null, results: state.results.view === 'loading' ? none : state.results };
 
 		case 'loading':
 			return {

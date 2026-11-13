@@ -194,6 +194,19 @@ describe('OfficeSearch', () => {
 			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
 		});
 
+		test('uthever treffene etter søket som fant dem, også mens brukeren skriver videre', async () => {
+			mockApi('search/name', { json: nameResult('frogner', [nameHit('Frogner', [offices.frogner])]) });
+			await searchFor('frogner');
+			expect(await findLink('Nav Frogner')).toBeInTheDocument();
+			expect(getHighlightedHitParts('Frogner')).toEqual(['Frogner']);
+
+			mockApi('search/name', pending);
+			await user.type(getSearchInput(), '{Backspace}{Backspace}{Backspace}');
+
+			expect(getSearchInput()).toHaveValue('frog');
+			expect(getHighlightedHitParts('Frogner')).toEqual(['Frogner']);
+		});
+
 		test('gir serverfeil og hopper over adressefallback når stedsnavnsøk feiler', async () => {
 			mockApi('search/name', { status: 500 });
 			await searchFor('evje og hornnes');
@@ -572,6 +585,23 @@ describe('OfficeSearch', () => {
 			expectSingleHitFor('Storgata 1, 0184 OSLO');
 		});
 
+		test('beholder overskriften for valgt adresse mens brukeren skriver videre', async () => {
+			mockAddressSuggestions('storgata 1', storgataAdresser(2));
+			mockApi('geoid', { json: geoidResult('030102', offices.frogner) });
+			await typeQuery('storgata 1');
+			await user.click(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' }));
+			expect(await findLink('Nav Frogner')).toBeInTheDocument();
+
+			mockApi('search/name', pending);
+			await user.type(getSearchInput(), 'x');
+			expectSingleHitFor('Storgata 1, 0184 OSLO');
+
+			await waitForDebounce();
+			expect(apiRequests()).toContain('search/name?query=Storgata+1%2C+0184+OSLOx');
+			expect(getLink('Nav Frogner')).toBeInTheDocument();
+			expectSingleHitFor('Storgata 1, 0184 OSLO');
+		});
+
 		test('tømmer statusmelding når valgt adresse gir serverfeil', async () => {
 			mockAddressSuggestions('storgata 1', storgataAdresser(1));
 			mockApi('geoid', { status: 500 });
@@ -856,6 +886,15 @@ const findByFullText = (text: string) =>
 const expectSingleHitFor = (query: string) => {
 	expect(screen.getByText(/^\d+ treff for/)).toHaveTextContent(new RegExp(`^1 treff for "${escapeRegExp(query)}":$`));
 };
+
+/** The highlighted parts of a name hit's heading */
+const getHighlightedHitParts = (name: string) =>
+	Array.from(
+		screen
+			.getByText((_, element) => element?.tagName === 'P' && element.textContent === name)
+			.querySelectorAll('strong'),
+		(element) => element.textContent,
+	);
 
 const getHighlightedAddressParts = (name: string) =>
 	Array.from(screen.getByRole('option', { name }).querySelectorAll('strong'), (element) => element.textContent);

@@ -382,7 +382,6 @@ export const SearchForm = () => {
 										addressListboxId={addressListboxId}
 										addressSuggestionsLabel={addressSuggestionsLabel}
 										addressResultInput={results.view === 'offices' ? results.selectedAddress : null}
-										input={inputValue}
 									/>
 								</ErrorBoundary>
 							)
