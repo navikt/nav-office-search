@@ -165,6 +165,21 @@ describe('OfficeSearch', () => {
 			expect(apiRequests()).toEqual([`search?query=${result.postnr}`]);
 		});
 
+		test('fortsetter postnummersøket når fokus forlater feltet mens det laster', async () => {
+			const search = Promise.withResolvers<Reply>();
+			mockApi('search', search.promise);
+			await typeQuery('4737');
+			await advance(POSTNR_SPINNER_DELAY_MS);
+			expect(screen.getByLabelText('Søker...', { selector: 'div' })).toBeInTheDocument();
+
+			await user.click(document.body);
+
+			expect(wasAborted('search?query=4737')).toBe(false);
+			expect(screen.getByLabelText('Søker...', { selector: 'div' })).toBeInTheDocument();
+			search.resolve({ json: postnrResult() });
+			expect(await findByFullText('Nav-kontor for 4737 HORNNES:')).toBeInTheDocument();
+		});
+
 		test('viser lasteindikator først etter forsinkelsen', async () => {
 			const search = Promise.withResolvers<Reply>();
 			mockApi('search', search.promise);
@@ -691,6 +706,43 @@ describe('OfficeSearch', () => {
 
 				await refocusSearchInput();
 				expect(screen.getByRole('option', { name: optionName })).toBeInTheDocument();
+			},
+		);
+
+		test.each([
+			{ name: 'mens stedsnavnsøket pågår', leave: 'search' },
+			{ name: 'før søket starter', leave: 'debounce' },
+		])(
+			'åpner ikke adresseforslag når fokus forlot feltet $name, men viser dem når det får fokus igjen',
+			async ({ leave }) => {
+				const nameSearch = Promise.withResolvers<Reply>();
+				mockApi('search/name', nameSearch.promise);
+				const addressSearch = Promise.withResolvers<Reply>();
+				mockApi('search/address', addressSearch.promise);
+				const input = getSearchInput();
+				await user.type(input, 'storgata 1');
+				if (leave === 'search') {
+					await waitForDebounce();
+				}
+
+				await user.click(document.body);
+				await waitForDebounce();
+				nameSearch.resolve({ json: nameResult('storgata 1') });
+				await waitFor(() => expect(apiRequests()).toContain('search/address?query=storgata+1'));
+
+				// No spinner while the addresses load, in the dropdown or elsewhere
+				expect(input).toHaveAttribute('aria-expanded', 'false');
+				expect(queryLoadingIndicators()).toHaveLength(0);
+
+				addressSearch.resolve({ json: addressResult('storgata 1', storgataAdresser(2)) });
+				await act(() => vi.runOnlyPendingTimersAsync());
+
+				expect(input).toHaveAttribute('aria-expanded', 'false');
+				expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+
+				await user.click(input);
+				expect(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
+				expect(input).toHaveAttribute('aria-expanded', 'true');
 			},
 		);
 

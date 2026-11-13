@@ -9,7 +9,10 @@ import {
 } from '#client/__tests__/support/fixtures.ts';
 import { initialState, type SearchFormAction, searchFormReducer, type SearchFormState } from './searchFormState.ts';
 
-const run = (...actions: SearchFormAction[]) => actions.reduce(searchFormReducer, initialState);
+// Searches start from someone typing in the field
+const typing: SearchFormState = { ...initialState, focused: true };
+
+const run = (...actions: SearchFormAction[]) => actions.reduce(searchFormReducer, typing);
 
 const addresses = addressResult('storgata', storgataAdresser(3));
 const names = nameResult('oslo', [nameHit('OSLO', [offices.alna])]);
@@ -30,8 +33,8 @@ describe('a search', () => {
 	});
 
 	test('replaces what was shown with a spinner, until the answer comes', () => {
-		const loading = run({ type: 'found', result: names }, { type: 'loading', inDropdown: true, height: 120 });
-		expect(loading.results).toEqual({ view: 'loading', inDropdown: true, height: 120 });
+		const loading = run({ type: 'found', result: names }, { type: 'loading', kind: 'addresses', height: 120 });
+		expect(loading.results).toEqual({ view: 'loading', kind: 'addresses', open: true, height: 120 });
 		expect(loading.status).toEqual({ kind: 'loading' });
 
 		const done = searchFormReducer(loading, { type: 'found', result: names });
@@ -43,7 +46,7 @@ describe('a search', () => {
 		const state = run({ type: 'found', result: names }, { type: 'failed', messageId: 'errorServerError' });
 
 		expect(state).toEqual({
-			...initialState,
+			...typing,
 			error: { id: 'errorServerError', type: 'serverError' },
 		});
 	});
@@ -57,7 +60,7 @@ describe('a search', () => {
 
 describe('cancelling', () => {
 	test('drops a spinner', () => {
-		expect(run({ type: 'loading', inDropdown: false, height: null }, { type: 'searchCancelled' }).results).toEqual({
+		expect(run({ type: 'loading', kind: 'postnr', height: null }, { type: 'searchCancelled' }).results).toEqual({
 			view: 'none',
 		});
 	});
@@ -100,6 +103,7 @@ describe('picking an address', () => {
 			results: { view: 'none' },
 			status: { kind: 'selected', label: 'Storgata 1, 0184 OSLO' },
 			error: null,
+			focused: true,
 		});
 	});
 
@@ -161,5 +165,32 @@ describe('the address dropdown', () => {
 		] satisfies SearchFormAction[]) {
 			expect(searchFormReducer(shown, action)).toBe(shown);
 		}
+	});
+});
+
+describe('focus', () => {
+	test('is tracked as it enters and leaves the form', () => {
+		expect(run({ type: 'focusLeft' }).focused).toBe(false);
+		expect(run({ type: 'focusLeft' }, { type: 'focusEntered' }).focused).toBe(true);
+	});
+
+	test.each([
+		['addresses', { type: 'found', result: addresses }],
+		['the addresses’ spinner', { type: 'loading', kind: 'addresses', height: null }],
+	] satisfies [string, SearchFormAction][])(
+		'%s that come while it is elsewhere stay in a closed dropdown, which opens with focus',
+		(_, action) => {
+			const closed = run({ type: 'focusLeft' }, action);
+			expect(closed.results).toMatchObject({ open: false });
+
+			expect(searchFormReducer(closed, { type: 'dropdownOpened' }).results).toMatchObject({ open: true });
+		},
+	);
+
+	test('leaves the postnummer spinner alone, which has no dropdown', () => {
+		const loading = run({ type: 'focusLeft' }, { type: 'loading', kind: 'postnr', height: 80 });
+
+		expect(loading.results).toEqual({ view: 'loading', kind: 'postnr', height: 80 });
+		expect(searchFormReducer(loading, { type: 'dropdownOpened' })).toBe(loading);
 	});
 });

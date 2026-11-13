@@ -10,8 +10,10 @@ export type OfficeResult = SearchResultPostnrProps | SearchResultNameProps;
 /** What's below the search field */
 export type Results =
 	| { view: 'none' }
-	/** A spinner, in the address dropdown or where the results go, as tall as what it replaced */
-	| { view: 'loading'; inDropdown: boolean; height: number | null }
+	/** The postnummer search's spinner, where the results go, as tall as what it replaced */
+	| { view: 'loading'; kind: 'postnr'; height: number | null }
+	/** The address dropdown's spinner while addresses load, as tall as the addresses it replaced */
+	| { view: 'loading'; kind: 'addresses'; open: boolean; height: number | null }
 	/**
 	 * Offices for a postnummer or a name, or for the address the user picked (selectedAddress). The address stays with
 	 * its offices, so their heading is right until other results replace them.
@@ -19,6 +21,8 @@ export type Results =
 	| { view: 'offices'; result: OfficeResult; selectedAddress: string | null }
 	/** Address suggestions, in a dropdown the user can close and open again */
 	| { view: 'addresses'; result: SearchResultAdresseProps; open: boolean; activeIndex: number | null };
+
+type Dropdown = Extract<Results, { open: boolean }>;
 
 /** What the live region tells screen reader users, in whatever language the page is in */
 export type Status =
@@ -32,6 +36,8 @@ export type SearchFormState = {
 	results: Results;
 	status: Status;
 	error: SearchError | null;
+	/** Focus is in the form. The address dropdown only opens then, so it never pops up in a field the user left. */
+	focused: boolean;
 };
 
 export type SearchFormAction =
@@ -40,7 +46,7 @@ export type SearchFormAction =
 	| { type: 'searchCancelled' }
 	| { type: 'resultsCleared' }
 	| { type: 'searchStarted' }
-	| { type: 'loading'; inDropdown: boolean; height: number | null }
+	| { type: 'loading'; kind: 'postnr' | 'addresses'; height: number | null }
 	| { type: 'found'; result: OfficeResult | SearchResultAdresseProps }
 	| { type: 'failed'; messageId: LocaleStringId }
 	| { type: 'invalid'; messageId: LocaleStringId }
@@ -50,13 +56,16 @@ export type SearchFormAction =
 	| { type: 'dropdownOpened' }
 	| { type: 'dropdownClosed' }
 	| { type: 'activeMoved'; by: 1 | -1 }
-	| { type: 'activeSet'; index: number };
+	| { type: 'activeSet'; index: number }
+	| { type: 'focusEntered' }
+	| { type: 'focusLeft' };
 
 export const initialState: SearchFormState = {
 	input: '',
 	results: { view: 'none' },
 	status: { kind: 'none' },
 	error: null,
+	focused: false,
 };
 
 const none: Results = { view: 'none' };
@@ -74,6 +83,9 @@ const updateAddresses = (
 	update: (results: Extract<Results, { view: 'addresses' }>) => Partial<Extract<Results, { view: 'addresses' }>>,
 ): SearchFormState =>
 	state.results.view === 'addresses' ? { ...state, results: { ...state.results, ...update(state.results) } } : state;
+
+// The address dropdown, whether it holds addresses or their spinner
+const isDropdown = (results: Results): results is Dropdown => 'open' in results;
 
 export const searchFormReducer = (state: SearchFormState, action: SearchFormAction): SearchFormState => {
 	switch (action.type) {
@@ -97,7 +109,10 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 		case 'loading':
 			return {
 				...state,
-				results: { view: 'loading', inDropdown: action.inDropdown, height: action.height },
+				results:
+					action.kind === 'postnr'
+						? { view: 'loading', kind: 'postnr', height: action.height }
+						: { view: 'loading', kind: 'addresses', open: state.focused, height: action.height },
 				status: { kind: 'loading' },
 			};
 
@@ -105,7 +120,7 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 			return action.result.type === 'adresse'
 				? {
 						...state,
-						results: { view: 'addresses', result: action.result, open: true, activeIndex: null },
+						results: { view: 'addresses', result: action.result, open: state.focused, activeIndex: null },
 						status: { kind: 'suggestions', result: action.result },
 					}
 				: {
@@ -141,7 +156,7 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 			return { ...state, results: { view: 'offices', result: action.result, selectedAddress: action.label } };
 
 		case 'dropdownOpened':
-			return updateAddresses(state, () => ({ open: true }));
+			return isDropdown(state.results) ? { ...state, results: { ...state.results, open: true } } : state;
 
 		case 'dropdownClosed':
 			return updateAddresses(state, () => ({ open: false, activeIndex: null }));
@@ -153,5 +168,11 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 
 		case 'activeSet':
 			return updateAddresses(state, () => ({ activeIndex: action.index }));
+
+		case 'focusEntered':
+			return { ...state, focused: true };
+
+		case 'focusLeft':
+			return { ...state, focused: false };
 	}
 };

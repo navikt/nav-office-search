@@ -63,7 +63,8 @@ export const SearchForm = () => {
 	const addressSuggestions = isAddressResult ? results.result.adresser : [];
 	const activeAddressIndex = isAddressResult ? results.activeIndex : null;
 	const hasAddressSuggestions = addressSuggestions.length > 0;
-	const isAddressDropdownOpen = isLoading ? results.inDropdown : isAddressResult && results.open;
+	const isPostnrLoading = results.view === 'loading' && results.kind === 'postnr';
+	const isAddressDropdownOpen = 'open' in results && results.open;
 	const hasFreshSingleAddressSuggestion =
 		isAddressResult && addressSuggestions.length === 1 && inputValue.trim() === results.result.adresseQuery.trim();
 	const activeAddressOptionId =
@@ -95,10 +96,10 @@ export const SearchForm = () => {
 
 	// Swaps the results for a spinner with the right height
 	// The dropdown only keeps the height of addresses it showed
-	const showLoading = (inDropdown: boolean) => {
+	const showLoading = (kind: 'postnr' | 'addresses') => {
 		const shown = resultHeightRef.current;
-		const keepsHeight = !inDropdown || shown?.dataset.resultType === 'adresse';
-		dispatch({ type: 'loading', inDropdown, height: (keepsHeight && shown?.getBoundingClientRect().height) || null });
+		const keepsHeight = kind === 'postnr' || shown?.dataset.resultType === 'adresse';
+		dispatch({ type: 'loading', kind, height: (keepsHeight && shown?.getBoundingClientRect().height) || null });
 	};
 
 	const showFound = (result: OfficeResult | SearchResultAdresseProps) => {
@@ -113,7 +114,7 @@ export const SearchForm = () => {
 		try {
 			if (isValidPostnrQuery(input)) {
 				// The spinner only if the answer takes a moment, so a quick one doesn't flicker
-				loadingDelayTimeoutRef.current = setTimeout(() => showLoading(false), POSTNR_SPINNER_DELAY_MS);
+				loadingDelayTimeoutRef.current = setTimeout(() => showLoading('postnr'), POSTNR_SPINNER_DELAY_MS);
 				showFound(await searchApi.postnr(input));
 				return;
 			}
@@ -125,7 +126,7 @@ export const SearchForm = () => {
 			}
 
 			// No place or office by that name, so it's probably an address
-			showLoading(true);
+			showLoading('addresses');
 			showFound(await searchApi.address(input));
 		} catch (e) {
 			// An AbortError means a newer search took over, or the user moved on: nothing to show
@@ -148,11 +149,12 @@ export const SearchForm = () => {
 		dispatch({ type: 'resultsCleared' });
 	}, [cancelSearch]);
 
+	// Closing the dropdown stops the addresses loading in it. The postnummer spinner isn't in it, so it carries on.
 	const hideAddressPopup = () => {
-		if (isLoading) {
-			cancelSearch();
-		} else {
+		if (results.view !== 'loading') {
 			dispatch({ type: 'dropdownClosed' });
+		} else if (results.kind === 'addresses') {
+			cancelSearch();
 		}
 	};
 
@@ -286,8 +288,10 @@ export const SearchForm = () => {
 		<div
 			className={style.searchForm}
 			ref={searchFormRef}
+			onFocus={() => dispatch({ type: 'focusEntered' })}
 			onBlur={(event) => {
 				if (!event.currentTarget.contains(event.relatedTarget)) {
+					dispatch({ type: 'focusLeft' });
 					hideAddressPopup();
 				}
 			}}
@@ -328,7 +332,7 @@ export const SearchForm = () => {
 						<LocaleString id={error.id} />
 					</div>
 				)}
-				{isLoading && !isAddressDropdownOpen && (
+				{isPostnrLoading && (
 					<div className={style.searchResult}>
 						<div className={style.loading} aria-busy="true" aria-label={searchLoadingText} style={loadingStyle}>
 							<div className={style.loadingStatus}>
