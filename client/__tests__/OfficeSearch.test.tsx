@@ -119,6 +119,24 @@ describe('OfficeSearch', () => {
 			await waitForDebounce();
 			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
 		});
+
+		test.each([
+			{ name: 'tre siffer', type: '{Backspace}', value: '473' },
+			{ name: 'fem siffer', type: '1', value: '47371' },
+		])('fjerner gamle søkeresultater når input blir et tall med $name', async ({ type, value }) => {
+			mockApi('search', { json: postnrResult() });
+			await typeQuery('4737');
+			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
+
+			const input = getSearchInput();
+			await user.type(input, type);
+
+			expect(input).toHaveValue(value);
+			expect(screen.queryByRole('link', { name: 'Nav Evje og Hornnes' })).not.toBeInTheDocument();
+			expect(screen.queryByText('Postnummer-søk må være fire siffer')).not.toBeInTheDocument();
+			await waitForDebounce();
+			expect(apiRequests()).toEqual(['search?query=4737']);
+		});
 	});
 
 	describe('postnummersøk', () => {

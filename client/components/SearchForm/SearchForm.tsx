@@ -181,6 +181,8 @@ export const SearchForm = () => {
 			runSearch(input);
 			return;
 		} else if (!Number.isNaN(Number(input))) {
+			// A number that isn't a postnummer isn't searched, so what's shown is for something else
+			dispatch({ type: 'resultsCleared' });
 			dispatch(submit ? { type: 'invalid', messageId: 'errorInputValidationPostnr' } : { type: 'errorCleared' });
 			return;
 		}
