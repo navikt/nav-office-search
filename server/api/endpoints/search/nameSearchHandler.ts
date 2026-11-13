@@ -14,6 +14,10 @@ const buildOfficeHit = (officeInfo: OfficeInfo, hitString: string): OfficeInfo =
 	hitString,
 });
 
+// Office names are compared normalized, like the query, so "unjarga" finds Nav Unjárga
+const officeNameMatches = (officeInfo: OfficeInfo, normalizedQuery: string) =>
+	normalizeString(officeInfo.name).includes(normalizedQuery);
+
 const getBydelFromKommune = (kommune: Kommune, normalizedQuery: string) => {
 	if (!kommune.bydeler) {
 		return [];
@@ -21,10 +25,7 @@ const getBydelFromKommune = (kommune: Kommune, normalizedQuery: string) => {
 
 	return kommune.bydeler
 		.filter((bydel) => {
-			return (
-				bydel.officeInfo.name.toLowerCase().includes(normalizedQuery) ||
-				bydel.navnNormalized.toLowerCase().includes(normalizedQuery)
-			);
+			return officeNameMatches(bydel.officeInfo, normalizedQuery) || bydel.navnNormalized.includes(normalizedQuery);
 		})
 		.map((bydel) => buildOfficeHit(bydel.officeInfo, bydel.navn));
 };
@@ -36,7 +37,7 @@ const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
 	getKommunerArray().forEach((kommune) => {
 		const bydelerOfficeHits = getBydelFromKommune(kommune, normalizedQuery);
 
-		const isMatch = kommune.officeInfo?.name.toLowerCase().includes(normalizedQuery);
+		const isMatch = kommune.officeInfo && officeNameMatches(kommune.officeInfo, normalizedQuery);
 
 		const officeHit = kommune.officeInfo && isMatch ? buildOfficeHit(kommune.officeInfo, kommune.kommuneNavn) : null;
 

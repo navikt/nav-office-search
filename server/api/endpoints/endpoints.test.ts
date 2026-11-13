@@ -145,6 +145,18 @@ describe('searchHandler', () => {
 });
 
 describe('nameSearchHandler', () => {
+	test.each([
+		['unjarga', 'Nav Unjárga/Nesseby'],
+		['Unjárga', 'Nav Unjárga/Nesseby'],
+		['nav unjarga', 'Nav Unjárga/Nesseby'],
+	])('finds an office by its own name, with or without its accents: %j', async (query, office) => {
+		const { body } = await nameSearchHandler(query);
+
+		const offices =
+			body.type === 'name' ? body.hits.flatMap(({ officeHits }) => officeHits.map(({ name }) => name)) : [];
+		expect(offices).toContain(office);
+	});
+
 	test('groups the offices under the names that match', async () => {
 		const { status, body } = await nameSearchHandler('frogner');
 

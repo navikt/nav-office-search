@@ -135,7 +135,7 @@ describe('/api/search/name', () => {
 		['st-hanshaugen', 'st. hanshaugen'],
 		['a', 'a'],
 		['xyzzy', 'xyzzy'],
-		// Bug: office names aren't normalized before matching, so this misses Nav Unjárga
+		// Found by the office's own name, Nav Unjárga: the register spells the kommune UNJARGGA
 		['unjarga', 'unjarga'],
 	])('%s', async (golden, query) => {
 		const { status, body } = await search('search/name', query);
