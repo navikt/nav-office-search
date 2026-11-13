@@ -330,8 +330,8 @@ describe('/api/data', () => {
 			return JSON.stringify(officeInfo) !== JSON.stringify(office ? [office] : []);
 		});
 		expect(withOtherOffices).toEqual([]);
-		// Bug: the register's trailing newline
-		expect(poststeder.at(-1)).toEqual({ postnr: '', poststedNormalized: '', officeInfo: [] });
+		// One per postnummer: the register's trailing newline is no row
+		expect(poststeder.filter(({ postnr }) => !/^\d{4}$/.test(postnr ?? ''))).toEqual([]);
 
 		const fields = ['postnr', 'poststed', 'poststedNormalized', 'kommuneNavn', 'kommunenr', 'kategori'];
 		const lines = poststeder.map((poststed) =>

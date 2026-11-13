@@ -33,7 +33,7 @@ test('a load of what the fixtures have logs no errors, and one warning per datas
 	]);
 });
 
-test("the register's last line break makes a row without a kommunenr (bug), which isn't looked up", async () => {
+test('looks offices up by kommunenr and bydelsnr only', async () => {
 	await loadData();
 
 	const geoids = calls().filter(({ path }) => path === '/geoid');

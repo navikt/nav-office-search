@@ -1,8 +1,6 @@
 import type { Kommune, Poststed } from '#shared/types/data.ts';
 import type { PostnrRegisterItem } from '#server/data/postnrRegister.ts';
 
-const isFourDigits = (value: string | undefined) => /^\d{4}$/.test(value ?? '');
-
 const byNumber = (a: string, b: string) => a.localeCompare(b);
 
 /**
@@ -11,8 +9,7 @@ const byNumber = (a: string, b: string) => a.localeCompare(b);
  */
 export const kommunerWithoutOffice = (register: PostnrRegisterItem[], kommuner: Kommune[]): string[] => {
 	const loaded = new Set(kommuner.map(({ kommunenr }) => kommunenr));
-	// The register's trailing newline produces a row without kommunenr; it isn't a kommune
-	const inRegister = new Set(register.map(({ kommunenr }) => kommunenr).filter(isFourDigits));
+	const inRegister = new Set(register.map(({ kommunenr }) => kommunenr));
 
 	return [...inRegister].filter((kommunenr) => !loaded.has(kommunenr)).sort(byNumber);
 };
@@ -23,8 +20,6 @@ export const kommunerWithoutOffice = (register: PostnrRegisterItem[], kommuner: 
  */
 export const poststederWithoutOffice = (poststeder: Poststed[], hasBydeler: (kommunenr: string) => boolean): string[] =>
 	poststeder
-		.filter(
-			({ postnr, kommunenr, officeInfo }) => isFourDigits(postnr) && officeInfo.length === 0 && !hasBydeler(kommunenr),
-		)
+		.filter(({ kommunenr, officeInfo }) => officeInfo.length === 0 && !hasBydeler(kommunenr))
 		.map(({ postnr }) => postnr)
 		.sort(byNumber);

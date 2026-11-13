@@ -28,4 +28,4 @@ const replaceSpecialCharFunc = (match: string) => {
 };
 
 export const normalizeString = (str: string) =>
-	str ? str.toLowerCase().replace(replaceSpecialCharPattern, replaceSpecialCharFunc) : '';
+	str.toLowerCase().replace(replaceSpecialCharPattern, replaceSpecialCharFunc);

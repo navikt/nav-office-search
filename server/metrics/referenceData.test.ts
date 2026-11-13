@@ -43,24 +43,11 @@ describe('kommunerWithoutOffice', () => {
 
 		expect(kommunerWithoutOffice(register, loaded)).toEqual(['2100', '2211']);
 	});
-
-	test("ignores the register's phantom row without kommunenr", () => {
-		const phantom = { postnr: '' } as unknown as PostnrRegisterItem;
-
-		expect(kommunerWithoutOffice([row('9008', '5501'), phantom], [kommune('5501', { officeInfo: tromso })])).toEqual(
-			[],
-		);
-	});
 });
 
 describe('poststederWithoutOffice', () => {
 	test('lists poststeder without offices, except in kommuner with bydeler', () => {
-		const poststeder = [
-			poststed('9008', '5501', [tromso]),
-			poststed('9170', '2100', []),
-			poststed('0150', '0301', []),
-			poststed('', undefined as unknown as string, []),
-		];
+		const poststeder = [poststed('9008', '5501', [tromso]), poststed('9170', '2100', []), poststed('0150', '0301', [])];
 
 		expect(poststederWithoutOffice(poststeder, (kommunenr) => kommunenr === '0301')).toEqual(['9170']);
 	});

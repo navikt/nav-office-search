@@ -65,9 +65,9 @@ test('counts the startup data load, what it found and the requests it made', asy
 	).toBeLessThan(60);
 	expect(samples(text, 'reference_data_entries')).toEqual({
 		// Including the register's empty last row (bug)
-		'reference_data_entries{dataset="postnr_register"}': 5137,
+		'reference_data_entries{dataset="postnr_register"}': 5136,
 		'reference_data_entries{dataset="kommuner"}': 357,
-		'reference_data_entries{dataset="poststeder"}': 5137,
+		'reference_data_entries{dataset="poststeder"}': 5136,
 		'reference_data_entries{dataset="bydeler"}': 37,
 		'reference_data_entries{dataset="office_urls"}': 425,
 	});

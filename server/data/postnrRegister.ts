@@ -7,14 +7,6 @@ const charEncodeFormat = 'windows-1252';
 
 const bring = upstreamClient('bring', { timeout: DOWNLOAD_TIMEOUT_MS });
 
-type PostnrRegisterItemRaw = [
-	postnr: string,
-	poststed: string,
-	kommunenr: string,
-	kommune: string,
-	kategori: PostnrKategori,
-];
-
 export type PostnrRegisterItem = {
 	postnr: string;
 	poststed: string;
@@ -25,34 +17,54 @@ export type PostnrRegisterItem = {
 
 let postnrRegisterData: PostnrRegisterItem[] = [];
 
-export const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem[] => {
-	const allRows = rawText.split('\n');
+const isFourDigits = (value: string) => /^\d{4}$/.test(value);
 
-	return allRows.map((stringRow) => {
-		const item = stringRow.trim().split('\t') as PostnrRegisterItemRaw;
-		const [postnr, poststed, kommunenr, kommune, kategori] = item;
+/**
+ * The register's rows: postnr, poststed, kommunenr, kommune and kategori, tab separated. Blank lines, like the one the
+ * file ends with, are skipped. A line that isn't a complete row is left out and counted. A kategori it doesn't know,
+ * or a column it doesn't read, doesn't make a row incomplete.
+ */
+export const parsePostnrRegister = (text: string) => {
+	const rows: PostnrRegisterItem[] = [];
+	let malformed = 0;
 
-		return {
-			postnr,
-			poststed,
-			kommunenr,
-			kommune,
-			kategori,
-		};
-	});
+	for (const line of text.split('\n')) {
+		if (!line.trim()) {
+			continue;
+		}
+
+		const [postnr = '', poststed = '', kommunenr = '', kommune = '', kategori = ''] = line.trim().split('\t');
+		if (isFourDigits(postnr) && poststed && isFourDigits(kommunenr) && kommune && kategori) {
+			rows.push({ postnr, poststed, kommunenr, kommune, kategori: kategori as PostnrKategori });
+		} else {
+			malformed++;
+		}
+	}
+
+	return { rows, malformed };
 };
 
 // A tab separated text file from bring.no, in windows-1252
-const fetchPostnummerTxtFromPosten = async () => {
+const fetchPostnrRegister = async () => {
 	logger.info('Fetching postnr register', { url: serverUrls.postnrRegister });
 	const buffer = await bring.get(serverUrls.postnrRegister, { responseType: 'arrayBuffer' });
-	return new TextDecoder(charEncodeFormat).decode(buffer);
+	const { rows, malformed } = parsePostnrRegister(new TextDecoder(charEncodeFormat).decode(buffer));
+
+	if (malformed > 0) {
+		logger.warn('Left out lines of the postnr register that are not rows', { malformed });
+	}
+	// Bring answering with something non-data, like an error page
+	if (rows.length === 0) {
+		throw new Error('The postnr register has no rows');
+	}
+
+	return rows;
 };
 
 export const loadPostnrRegister = async () => {
-	let postnrRegisterDataRaw: string;
+	let rows: PostnrRegisterItem[];
 	try {
-		postnrRegisterDataRaw = await fetchPostnummerTxtFromPosten();
+		rows = await fetchPostnrRegister();
 	} catch (e) {
 		if (postnrRegisterData.length === 0) {
 			throw new Error('Failed to fetch from postnr-register and no previously cached data exists!', { cause: e });
@@ -62,8 +74,8 @@ export const loadPostnrRegister = async () => {
 		return;
 	}
 
-	logger.info('Refreshed postnr register');
-	postnrRegisterData = transformPostnrRegisterData(postnrRegisterDataRaw);
+	logger.info('Refreshed postnr register', { rows: rows.length });
+	postnrRegisterData = rows;
 };
 
 export const getPostnrRegister = () => {

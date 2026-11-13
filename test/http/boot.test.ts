@@ -104,8 +104,7 @@ describe('a normal boot', () => {
 		expect(ids).not.toContain('2211');
 		// The fixture register is from before 2024, when Tromsø was 5401
 		expect(ids).toContain('5401');
-		// The register's trailing newline becomes a row without kommunenr (bug), but only a kommunenr or bydelsnr is
-		// looked up
+		// Only a kommunenr or bydelsnr: the register's trailing newline is no row
 		expect(ids.filter((id) => !/^\d{4}(\d{2})?$/.test(id ?? ''))).toEqual([]);
 	});
 
@@ -233,7 +232,7 @@ describe('startup failures', () => {
 			expect(await (await server.fetch(`${API}/data/bydeler`)).json()).toEqual([]);
 
 			const poststeder = (await (await server.fetch(`${API}/data/poststeder`)).json()) as { officeInfo: unknown[] }[];
-			expect(poststeder).toHaveLength(5137);
+			expect(poststeder).toHaveLength(5136);
 			expect(poststeder.filter(({ officeInfo }) => officeInfo.length > 0)).toEqual([]);
 		} finally {
 			await server.stop();
