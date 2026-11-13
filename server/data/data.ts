@@ -79,10 +79,15 @@ export const loadData = async () => {
 	}
 };
 
-export const loadDataAndStartSchedule = () =>
-	loadData().then(() => {
-		// A refresh keeps whatever it can't replace, so it shouldn't fail. Should it anyway, the pod keeps serving.
-		schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, () =>
-			loadData().catch((e) => logger.error('Refreshing data failed', e)),
-		);
+export const loadDataAndStartSchedule = async () => {
+	await loadData();
+
+	// A refresh keeps whatever it can't replace, so it shouldn't fail. Should it anyway, the pod keeps serving.
+	schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, async () => {
+		try {
+			await loadData();
+		} catch (e) {
+			logger.error('Refreshing data failed', e);
+		}
 	});
+};

@@ -34,13 +34,14 @@ const requestCounts = async () =>
 const timedCount = async () =>
 	(await upstreamDuration.get()).values.find(({ metricName }) => metricName?.endsWith('_count'))?.value;
 
-const rejectionOf = (promise: Promise<unknown>) =>
-	promise.then(
-		() => {
-			throw new Error('resolved');
-		},
-		(e: unknown) => e,
-	);
+const rejectionOf = async (promise: Promise<unknown>) => {
+	try {
+		await promise;
+	} catch (e) {
+		return e;
+	}
+	throw new Error('resolved');
+};
 
 describe('upstreamClient', () => {
 	test('counts and times each request under the upstream it was made for', async () => {

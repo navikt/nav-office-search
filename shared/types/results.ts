@@ -32,7 +32,6 @@ export type SearchResultAdresseProps = {
 
 export type SearchResultErrorProps = {
 	type: 'error';
-	aborted?: boolean;
 	messageId?: LocaleStringId;
 };
 

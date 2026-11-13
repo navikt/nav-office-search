@@ -1,3 +1,4 @@
+import { isAbortError } from '@itsy/corgi';
 import React, { type CSSProperties, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import debounce from 'lodash.debounce';
 import { Loader, Search } from '@navikt/ds-react';
@@ -5,7 +6,7 @@ import { LocaleString } from '#client/localization/LocaleString.tsx';
 import { ErrorBoundary } from '#client/components/ErrorBoundary/ErrorBoundary.tsx';
 import { SearchResult } from '#client/components/SearchResult/SearchResult.tsx';
 import type { Adresse, SearchResultProps } from '#shared/types/results.ts';
-import { abortSearchClient, fetchGeoidClient, fetchSearchClient } from '#client/utils/fetch.ts';
+import { createSearchApi, errorMessageOf } from '#client/utils/searchApi.ts';
 import type { LocaleStringId, SearchError } from '#shared/localization/types.ts';
 import { isValidNameQuery, isValidPostnrQuery } from '#shared/validateInput.ts';
 import { localeString } from '#shared/localization/localeString.ts';
@@ -40,7 +41,8 @@ export const SearchForm = () => {
 	const [statusMessage, setStatusMessage] = useState('');
 	const [addressLoadingHeight, setAddressLoadingHeight] = useState<number | null>(null);
 	const [addressResultInput, setAddressResultInput] = useState<string | null>(null);
-	const activeSearchIdRef = useRef(0);
+	// This form's own client, so its requests only ever cancel each other
+	const [searchApi] = useState(createSearchApi);
 	const searchFormRef = useRef<HTMLDivElement>(null);
 	const resultHeightRef = useRef<HTMLDivElement>(null);
 	const loadingDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -97,6 +99,9 @@ export const SearchForm = () => {
 
 	useEffect(() => clearLoadingDelay, [clearLoadingDelay]);
 
+	// Nobody is waiting for the request in flight once the form is gone
+	useEffect(() => searchApi.cancel, [searchApi]);
+
 	useEffect(() => {
 		if (!activeAddressOptionId || activeAddressNavigationSourceRef.current !== 'keyboard') {
 			return;
@@ -105,86 +110,90 @@ export const SearchForm = () => {
 		document.getElementById(activeAddressOptionId)?.scrollIntoView?.({ block: 'nearest' });
 	}, [activeAddressOptionId]);
 
+	// Swaps the results for a spinner with the right height
+	// The dropdown only keeps the height of addresses it showed
+	const showLoading = useCallback(
+		(inDropdown: boolean) => {
+			const results = resultHeightRef.current;
+			const keepsHeight = !inDropdown || results?.dataset.resultType === 'adresse';
+			setAddressLoadingHeight((keepsHeight && results?.getBoundingClientRect().height) || null);
+			setSearchResult(undefined);
+			setIsAddressPopupOpen(inDropdown);
+			setActiveAddressIndex(null);
+			setStatusMessage(searchLoadingText);
+			setIsLoading(true);
+		},
+		[searchLoadingText],
+	);
+
+	const stopLoading = useCallback(() => {
+		clearLoadingDelay();
+		setIsLoading(false);
+		setAddressLoadingHeight(null);
+	}, [clearLoadingDelay]);
+
+	const showResult = useCallback(
+		(result: SearchResultProps) => {
+			stopLoading();
+			setSearchResult(result);
+			setIsAddressPopupOpen(result.type === 'adresse');
+			setActiveAddressIndex(null);
+			setStatusMessage(result.type === 'adresse' ? getAddressSuggestionsStatusMessage(result, locale) : '');
+		},
+		[locale, stopLoading],
+	);
+
+	const showSearchFailure = useCallback(
+		(e: unknown) => {
+			stopLoading();
+			clearSearchResult();
+			setServerError(errorMessageOf(e));
+		},
+		[clearSearchResult, setServerError, stopLoading],
+	);
+
 	const runSearch = useMemo(
 		() =>
-			debounce((input: string) => {
-				const searchId = activeSearchIdRef.current + 1;
-				activeSearchIdRef.current = searchId;
+			debounce(async (input: string) => {
 				setError(null);
 				setIsLoading(false);
 				setAddressResultInput(null);
 				clearLoadingDelay();
 
-				if (isValidPostnrQuery(input)) {
-					loadingDelayTimeoutRef.current = setTimeout(() => {
-						if (searchId === activeSearchIdRef.current) {
-							const currentResultHeight = resultHeightRef.current?.getBoundingClientRect().height;
-							setAddressLoadingHeight(currentResultHeight || null);
-							setSearchResult(undefined);
-							setIsAddressPopupOpen(false);
-							setActiveAddressIndex(null);
-							setStatusMessage(searchLoadingText);
-							setIsLoading(true);
-						}
-					}, POSTNR_SPINNER_DELAY_MS);
-				}
-
-				fetchSearchClient(input, {
-					onAddressSearchStart: () => {
-						if (searchId === activeSearchIdRef.current) {
-							const currentResultEl = resultHeightRef.current;
-							const currentDropdownHeight =
-								currentResultEl?.dataset.resultType === 'adresse'
-									? currentResultEl.getBoundingClientRect().height
-									: undefined;
-							setAddressLoadingHeight(currentDropdownHeight || null);
-							setSearchResult(undefined);
-							setIsLoading(true);
-							setIsAddressPopupOpen(true);
-							setActiveAddressIndex(null);
-							setStatusMessage(searchLoadingText);
-						}
-					},
-				}).then((result) => {
-					if (searchId !== activeSearchIdRef.current) {
+				try {
+					if (isValidPostnrQuery(input)) {
+						// The spinner only if the answer takes a moment, so a quick one doesn't flicker
+						loadingDelayTimeoutRef.current = setTimeout(() => showLoading(false), POSTNR_SPINNER_DELAY_MS);
+						showResult(await searchApi.postnr(input));
 						return;
 					}
 
-					clearLoadingDelay();
-					setIsLoading(false);
-					setAddressLoadingHeight(null);
-
-					if (result.type === 'error') {
-						if (result.aborted) {
-							return;
-						}
-						clearSearchResult();
-						setServerError(result.messageId || 'errorServerError');
-					} else {
-						setSearchResult(result);
-						if (result.type === 'adresse') {
-							setIsAddressPopupOpen(true);
-							setActiveAddressIndex(null);
-							setStatusMessage(getAddressSuggestionsStatusMessage(result, locale));
-						} else {
-							setIsAddressPopupOpen(false);
-							setActiveAddressIndex(null);
-							setStatusMessage('');
-						}
+					const names = await searchApi.name(input);
+					if (names.hits.length > 0) {
+						showResult(names);
+						return;
 					}
-				});
+
+					// No place or office by that name, so it's probably an address
+					showLoading(true);
+					showResult(await searchApi.address(input));
+				} catch (e) {
+					// An AbortError means a newer search took over, or the user moved on: nothing to show
+					if (!isAbortError(e)) {
+						showSearchFailure(e);
+					}
+				}
 			}, SEARCH_DEBOUNCE_MS),
-		[clearLoadingDelay, clearSearchResult, locale, searchLoadingText, setServerError],
+		[clearLoadingDelay, searchApi, showLoading, showResult, showSearchFailure],
 	);
 
 	const cancelPendingSearch = useCallback(() => {
-		activeSearchIdRef.current += 1;
-		abortSearchClient();
+		searchApi.cancel();
 		runSearch.cancel();
 		clearLoadingDelay();
 		setIsLoading(false);
 		resetAddressState();
-	}, [clearLoadingDelay, resetAddressState, runSearch]);
+	}, [clearLoadingDelay, resetAddressState, runSearch, searchApi]);
 
 	const closeAddressDropdown = useCallback(() => {
 		cancelPendingSearch();
@@ -242,7 +251,7 @@ export const SearchForm = () => {
 	};
 
 	const selectAddress = useCallback(
-		(adresse: Adresse) => {
+		async (adresse: Adresse) => {
 			const label = formatAddressLabel(adresse);
 			const { bydelsnummer, kommunenummer } = adresse;
 
@@ -251,40 +260,36 @@ export const SearchForm = () => {
 			resetError();
 			setStatusMessage(localeString('addressSuggestionSelected', locale, [label]) as string);
 
-			const geoid = bydelsnummer ?? kommunenummer;
-			if (!geoid) {
+			const showNoOffice = (messageId: LocaleStringId) => {
 				setSearchResult(undefined);
 				setAddressResultInput(null);
 				setStatusMessage('');
-				setServerError('errorServerError');
+				setServerError(messageId);
+			};
+
+			const geoid = bydelsnummer ?? kommunenummer;
+			if (!geoid) {
+				showNoOffice('errorServerError');
 				return;
 			}
 
-			const officeSearch = fetchGeoidClient(geoid);
-			const searchId = activeSearchIdRef.current + 1;
-			activeSearchIdRef.current = searchId;
-			officeSearch.then((result) => {
-				if (searchId !== activeSearchIdRef.current) {
-					return;
-				}
-
+			try {
+				const office = await searchApi.office(geoid);
 				setIsLoading(false);
-
-				if (result.type === 'error') {
-					setSearchResult(undefined);
-					setAddressResultInput(null);
-					setStatusMessage('');
-					setServerError(result.messageId || 'errorServerError');
-				} else {
-					setAddressResultInput(label);
-					setSearchResult(result);
+				setAddressResultInput(label);
+				setSearchResult(office);
+			} catch (e) {
+				// An AbortError means the user moved on before the office was found
+				if (!isAbortError(e)) {
+					setIsLoading(false);
+					showNoOffice(errorMessageOf(e));
 				}
-			});
+			}
 		},
-		[closeAddressDropdown, locale, setServerError],
+		[closeAddressDropdown, locale, searchApi, setServerError],
 	);
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		handleInput(true, inputValue);
 	};

@@ -1,4 +1,4 @@
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, screen, waitFor } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, onTestFinished, test, vi } from 'vitest';
@@ -391,6 +391,40 @@ describe('OfficeSearch', () => {
 			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
 		});
 
+		test('lasting av adresseforslag tar ikke høyden fra et vanlig søkeresultat', async () => {
+			mockApi('search/name', { json: evjeNameResult });
+			await searchFor('evje og hornnes');
+			const previousResult = (await findLink('Nav Evje og Hornnes')).closest('[data-result-type]');
+			expect(previousResult).toHaveAttribute('data-result-type', 'name');
+			vi.spyOn(previousResult as HTMLElement, 'getBoundingClientRect').mockReturnValue(
+				DOMRect.fromRect({ width: 480, height: 300 }),
+			);
+
+			mockApi('search/name', { json: nameResult('storgata 2') });
+			mockApi('search/address', pending);
+			await replaceQuery('storgata 2');
+			await waitForDebounce();
+
+			expect(await screen.findByRole('option', { name: 'Søker...' })).toBeInTheDocument();
+			expect(screen.getByRole('listbox')).not.toHaveAttribute('style');
+		});
+
+		test('lasteindikatoren for postnummer tar høyden fra resultatet den erstatter', async () => {
+			mockApi('search/name', { json: evjeNameResult });
+			await searchFor('evje og hornnes');
+			const previousResult = (await findLink('Nav Evje og Hornnes')).closest('[data-result-type]');
+			vi.spyOn(previousResult as HTMLElement, 'getBoundingClientRect').mockReturnValue(
+				DOMRect.fromRect({ width: 480, height: 300 }),
+			);
+
+			mockApi('search', pending);
+			await replaceQuery('4737');
+			await waitForDebounce();
+			await advance(POSTNR_SPINNER_DELAY_MS);
+
+			expect(screen.getByLabelText('Søker...', { selector: 'div' })).toHaveStyle({ height: '300px' });
+		});
+
 		test('fjerner gamle søkeresultater uten lasting ved nytt vanlig søk', async () => {
 			mockApi('search/name', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
@@ -698,6 +732,29 @@ describe('OfficeSearch', () => {
 			expect(getLiveRegion()).toBeEmptyDOMElement();
 			await refocusSearchInput();
 			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+		});
+
+		test('viser ingen feil når brukeren avbryter et adressesøk', async () => {
+			mockApi('search/name', { json: nameResult('storgata 1') });
+			mockApi('search/address', pending);
+			await typeQuery('storgata 1');
+			await screen.findByRole('option', { name: 'Søker...' });
+
+			await user.keyboard('{Escape}');
+			await waitForDebounce();
+
+			expect(wasAborted('search/address?query=storgata+1')).toBe(true);
+			expect(screen.queryByText('Ukjent server-feil')).not.toBeInTheDocument();
+		});
+
+		test('avbryter søket som pågår når skjemaet forsvinner', async () => {
+			mockApi('search/name', Promise.withResolvers<Reply>().promise);
+			await typeQuery('oslo');
+			expect(apiRequests()).toEqual(['search/name?query=oslo']);
+
+			cleanup();
+
+			expect(wasAborted('search/name?query=oslo')).toBe(true);
 		});
 	});
 });
