@@ -1,29 +1,19 @@
+import { schema } from '@itsy/corgi/schema';
 import { logger } from '@navikt/navno-logger';
-import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
-import type { Bydel } from '#shared/types/data.ts';
-import { normalizeString } from '#shared/normalizeString.ts';
-import { fetchJson } from '#server/utils/fetch.ts';
+import { officeLookups } from '#server/external/officeInfo.ts';
+import { ssbClassificationSchema, ssbVersionSchema } from '#server/external/schemas.ts';
 import { serverUrls } from '#server/urls.ts';
+import { DOWNLOAD_TIMEOUT_MS, failureOf, upstreamClient } from '#server/utils/upstream.ts';
+import { normalizeString } from '#shared/normalizeString.ts';
+import type { Bydel } from '#shared/types/data.ts';
 
 const invalidName = 'Uoppgitt';
+
+const ssb = upstreamClient('ssb', { timeout: DOWNLOAD_TIMEOUT_MS, headers: { accept: 'application/json' } });
 
 type SSB_BydelData = {
 	code: string;
 	name: string;
-};
-
-type SSB_ClassificationResponse = {
-	error: undefined;
-	versions: {
-		_links: { self: { href: string } };
-		validFrom: string;
-		validTo: string;
-	}[];
-};
-
-type SSB_VersionResponse = {
-	error: undefined;
-	classificationItems: SSB_BydelData[];
 };
 
 type BydelerByBydelsnrMap = { [bydelnr: string]: Bydel };
@@ -58,6 +48,7 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 	const newBydelerMap: BydelerByBydelsnrMap = {};
 	const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
 	const newBydelerWithoutOffice: string[] = [];
+	const offices = officeLookups('bydeler');
 
 	for (const item of bydelerDataRaw) {
 		const { code: bydelsnr, name } = item;
@@ -66,9 +57,9 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 			continue;
 		}
 
-		const officeInfo = await fetchOfficeInfoByGeoId(bydelsnr);
+		const officeInfo = await offices.find(bydelsnr);
 
-		if (!officeInfo.error) {
+		if (officeInfo) {
 			const bydel = {
 				bydelsnr,
 				navn: name,
@@ -90,6 +81,7 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 		}
 	}
 
+	offices.logFailures();
 	const newArray = Object.values(newBydelerMap);
 
 	bydelerData.bydelerByBydelsnr = newBydelerMap;
@@ -100,53 +92,45 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 	logger.info('Finished loading data for bydeler', { entries: newArray.length });
 };
 
+// The bydeler in the version of SSB's classification that is valid today
 const fetchBydelerRawData = async () => {
 	logger.info('Fetching SSB classification for bydeler', { url: serverUrls.ssbBydelerClassification });
-	const bydelerClassification = await fetchJson<SSB_ClassificationResponse>(serverUrls.ssbBydelerClassification);
-
-	if (bydelerClassification.error) {
-		logger.error('Fetching SSB classification for bydeler failed', { error: bydelerClassification.message });
-		return null;
-	}
+	const { versions } = await ssb.get(serverUrls.ssbBydelerClassification, {
+		transform: schema(ssbClassificationSchema),
+	});
 
 	const now = new Date();
 
-	const currentVersion = bydelerClassification.versions.find((version) => {
+	const currentVersion = versions.find((version) => {
 		const validTo = version.validTo && new Date(version.validTo);
-		const validFrom = version.validFrom && new Date(version.validFrom);
+		const validFrom = new Date(version.validFrom);
 
 		return now >= validFrom && (!validTo || now <= validTo);
 	});
 
-	const currentVersionUrl = currentVersion?._links?.self?.href;
-
-	if (!currentVersionUrl) {
-		logger.error('Could not find valid version for bydeler from SSB');
-		return null;
+	if (!currentVersion) {
+		throw new Error('SSB has no version of its classification of bydeler that is valid today');
 	}
 
-	const currentBydelerVersion = await fetchJson<SSB_VersionResponse>(currentVersionUrl);
-
-	if (currentBydelerVersion.error) {
-		logger.error('Fetching current bydeler version failed', { error: currentBydelerVersion.message });
-		return null;
-	}
-
-	return currentBydelerVersion.classificationItems;
+	const { classificationItems } = await ssb.get(currentVersion._links.self.href, {
+		transform: schema(ssbVersionSchema),
+	});
+	return classificationItems;
 };
 
 export const loadBydelerData = async () => {
-	const bydelerRawData = await fetchBydelerRawData();
+	let bydelerRawData: SSB_BydelData[];
+	try {
+		bydelerRawData = await fetchBydelerRawData();
+	} catch (e) {
+		if (bydelerData.bydelerArray.length === 0) {
+			throw new Error('Failed to load bydeler from SSB and no previously cached data exists!', { cause: e });
+		}
 
-	if (bydelerRawData) {
-		logger.info('Refreshed data for bydeler');
-		await populateBydelerCache(bydelerRawData);
-	} else if (bydelerData.bydelerArray.length > 0) {
-		logger.error('Failed to load bydeler from SSB - keeping current data for this cycle');
-	} else {
-		const msg = 'Failed to load bydeler from SSB and no previously cached data exists!';
-
-		logger.error(msg);
-		throw new Error(msg);
+		logger.error('Failed to load bydeler from SSB - keeping current data', failureOf(e));
+		return;
 	}
+
+	logger.info('Refreshed data for bydeler');
+	await populateBydelerCache(bydelerRawData);
 };

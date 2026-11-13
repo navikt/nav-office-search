@@ -1,5 +1,5 @@
 import { logger } from '@navikt/navno-logger';
-import type { ApiResponse } from '#server/api/apiResponse.ts';
+import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
 import type { NameHit, SearchResultProps } from '#shared/types/results.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
 import { getBydelerArray } from '#server/data/bydeler.ts';
@@ -8,7 +8,6 @@ import { getPoststedArray } from '#server/data/poststeder.ts';
 import type { Kommune, OfficeInfo } from '#shared/types/data.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
 import { norskSort, sortOfficeNames } from '#server/utils/sort.ts';
-import { apiErrorResponse } from '#server/utils/fetch.ts';
 
 const buildOfficeHit = (officeInfo: OfficeInfo, hitString: string): OfficeInfo => ({
 	...officeInfo,

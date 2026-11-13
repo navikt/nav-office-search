@@ -40,5 +40,4 @@ export type OfficeInfo = {
 	url: string;
 	hitString: string;
 	geoId: string;
-	error?: undefined;
 };

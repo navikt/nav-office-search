@@ -5,7 +5,7 @@ import { brotliCompressSync, gunzipSync, gzipSync, inflateSync } from 'node:zlib
 import { logger } from '@navikt/navno-logger';
 import { HTTPException } from 'hono/http-exception';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import { upstreamCalls, upstreams } from '#test/upstream/mswServer.ts';
+import { installUpstreams } from '#test/upstream/upstreams.ts';
 import { BASE_PATH } from '#shared/basePath.ts';
 import type { AppLocale } from '#shared/localization/types.ts';
 import { createApp } from './app.ts';
@@ -50,23 +50,21 @@ const expectTheNotFoundPage = async (response: Response) => {
 	expect([response.status, mediaType(response), await response.text()]).toEqual([404, 'text/html', NOT_FOUND_HTML]);
 };
 
+const { calls: upstreamCalls } = installUpstreams();
+
 beforeAll(async () => {
-	upstreams.listen();
 	await loadData();
 });
 
 beforeEach(() => {
-	upstreamCalls.length = 0;
 	registry.resetMetrics();
 });
 
 afterEach(() => {
-	upstreams.resetHandlers();
 	vi.restoreAllMocks();
 });
 
 afterAll(() => {
-	upstreams.close();
 	rmSync(buildDir, { recursive: true });
 });
 
@@ -129,7 +127,7 @@ describe('the API', () => {
 		const response = await app.request(`${API}/loginstatus`, { headers: { cookie } });
 
 		expect(await response.json()).toEqual({ isUserLoggedIn: true });
-		expect(upstreamCalls.map(({ url, headers }) => [url, headers.cookie])).toEqual([
+		expect(upstreamCalls().map(({ url, headers }) => [url, headers.cookie])).toEqual([
 			[env.LOGIN_SESSION_API_URL, cookie],
 		]);
 	});

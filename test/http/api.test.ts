@@ -189,7 +189,7 @@ describe('/api/search/address', () => {
 			adresser: recordedAdresser['storgata 1'].body.adresser,
 			totalHits: 412,
 		});
-		expect(upstreamCalls()).toEqual([`GET ${ORIGINS.api}/adresse?queryString=storgata%201`]);
+		expect(upstreamCalls()).toEqual([`GET ${ORIGINS.api}/adresse?queryString=storgata+1`]);
 		expect(server.stub.requests[0].headers.authorization).toBe(AUTHORIZATION);
 	});
 
@@ -264,14 +264,18 @@ describe('/api/geoid', () => {
 		});
 	});
 
-	test.each(['', '?id=', '?id=%20'])('answers 400 for %j', async (queryString) => {
-		expect(await get(`${API}/geoid${queryString}`)).toEqual({
-			status: 400,
-			type: 'application/json',
-			body: { type: 'error', messageId: 'errorInvalidQuery' },
-		});
-		expect(upstreamCalls()).toEqual([]);
-	});
+	// Only a kommunenr (4 digits) or a bydelsnr (6) reaches nav-office-search-api, which crashes on ?id=constructor
+	test.each(['', '?id=', '?id=%20', '?id=constructor', '?id=__proto__', '?id=03010', '?id=0301%0A%0D030101'])(
+		'answers 400 for %j, without asking nav-office-search-api',
+		async (queryString) => {
+			expect(await get(`${API}/geoid${queryString}`)).toEqual({
+				status: 400,
+				type: 'application/json',
+				body: { type: 'error', messageId: 'errorInvalidQuery' },
+			});
+			expect(upstreamCalls()).toEqual([]);
+		},
+	);
 });
 
 describe('/api/loginstatus', () => {

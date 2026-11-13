@@ -1,27 +1,10 @@
-import { getAuthorizationHeader } from './auth.ts';
-import type { Adresse } from '#shared/types/results.ts';
-import { fetchErrorResponse, type FetchErrorResponse, fetchJson } from '#server/utils/fetch.ts';
+import { schema } from '@itsy/corgi/schema';
 import { serverUrls } from '#server/urls.ts';
+import { officeSearchApi } from './officeSearchApi.ts';
+import { adresseSokSchema } from './schemas.ts';
 
-export type AdresseSokResponse = {
-	adresser: Adresse[];
-	totalHits: number;
-};
+const adresseApi = officeSearchApi('adresse');
 
-export const fetchPdlAdresseSok = async (adresse: string): Promise<AdresseSokResponse | FetchErrorResponse> => {
-	const authorizationHeader = await getAuthorizationHeader();
-
-	if (!authorizationHeader) {
-		return fetchErrorResponse(500, 'Failed to get authorization header');
-	}
-
-	return await fetchJson(
-		serverUrls.adresseApi,
-		{
-			queryString: adresse,
-		},
-		{
-			headers: { Authorization: authorizationHeader },
-		},
-	);
-};
+/** PDL's addresses matching what someone typed, through nav-office-search-api. Throws when it can't answer. */
+export const fetchPdlAdresseSok = (adresse: string) =>
+	adresseApi.get(serverUrls.adresseApi, { query: { queryString: adresse }, transform: schema(adresseSokSchema) });

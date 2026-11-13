@@ -1,8 +1,9 @@
 import { readFileSync } from 'node:fs';
+import type { MockCall } from '@itsy/corgi/testing';
 
 /*
  * Fakes of every service the server calls, answering from test/fixtures/upstream/ in each service's own wire format.
- * Offline development (test/mocks/dev.ts) and in-process tests (mswServer.ts) run on these. Node loads this file
+ * Offline development (test/mocks/dev.ts) and in-process tests (upstreams.ts) run on these. Node loads this file
  * directly in development, so it can only import built-ins, and only use TypeScript that Node can strip.
  */
 
@@ -41,16 +42,17 @@ export const originsFromEnv = (): UpstreamOrigins => {
 	};
 };
 
-export const toUpstreamRequest = async (request: Request): Promise<UpstreamRequest> => {
-	const url = new URL(request.url);
+/** A request corgi's mockFetch got. The server always asks for absolute URLs. */
+export const fromMockCall = (call: MockCall): UpstreamRequest => {
+	const url = new URL(call.url);
 	return {
-		method: request.method,
+		method: call.method,
 		url: url.href,
 		host: url.host,
 		path: url.pathname,
 		query: url.searchParams,
-		headers: Object.fromEntries(request.headers),
-		body: await request.clone().text(),
+		headers: Object.fromEntries(call.headers),
+		body: call.body ?? '',
 	};
 };
 

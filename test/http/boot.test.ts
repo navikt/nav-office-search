@@ -36,6 +36,14 @@ const DECORATOR_PARAMS = {
 const withParams = (requests: StubRequest[]) =>
 	requests.map((request) => [routeOf(request), Object.fromEntries(request.query)]);
 
+// The server's output, after the harness' own first line: one JSON object per line, or JSON.parse fails the test
+const logLines = (failure: string) =>
+	failure
+		.split('\n')
+		.slice(1)
+		.filter((line) => line.trim())
+		.map((line) => JSON.parse(line) as { level: string; message: string });
+
 const deferred = () => {
 	let resolve = () => {};
 	const promise = new Promise<void>((done) => (resolve = done));
@@ -79,7 +87,7 @@ describe('a normal boot', () => {
 			[ROUTES.ssbVersion]: 1,
 			[ROUTES.token]: 1,
 			[ROUTES.bring]: 1,
-			[ROUTES.geoid]: 393,
+			[ROUTES.geoid]: 392,
 			[ROUTES.notFoundPage]: 1,
 		});
 	});
@@ -96,8 +104,9 @@ describe('a normal boot', () => {
 		expect(ids).not.toContain('2211');
 		// The fixture register is from before 2024, when Tromsø was 5401
 		expect(ids).toContain('5401');
-		// Bug: the register's trailing newline becomes a row without kommunenr, looked up without an id
-		expect(ids.filter((id) => id === null)).toHaveLength(1);
+		// The register's trailing newline becomes a row without kommunenr (bug), but only a kommunenr or bydelsnr is
+		// looked up
+		expect(ids.filter((id) => !/^\d{4}(\d{2})?$/.test(id ?? ''))).toEqual([]);
 	});
 
 	test('gets one client-credentials token from Azure and sends it base64-encoded to nav-office-search-api', () => {
@@ -168,8 +177,12 @@ test("doesn't listen until the reference data has loaded, so the probes are refu
 
 describe('startup failures', () => {
 	test.each([
-		['XP fails', on(ROUTES.xp, () => json({ message: 'Internal Server Error' }, 500)), 'Failed to load office urls!'],
-		['XP is unreachable', on(ROUTES.xp, () => Response.error()), 'Error loading office URLs: '],
+		[
+			'XP fails',
+			on(ROUTES.xp, () => json({ message: 'Internal Server Error' }, 500)),
+			'Failed to load office URLs from XP: HTTP 500',
+		],
+		['XP is unreachable', on(ROUTES.xp, () => Response.error()), 'Failed to load office URLs from XP: fetch failed'],
 		[
 			'the SSB classification fails',
 			on(ROUTES.ssbClassification, () => json({ error: 'Internal Server Error' }, 500)),
@@ -193,6 +206,21 @@ describe('startup failures', () => {
 
 		expect(error.message).toContain('exited with code 1 before it was ready');
 		expect(error.message).toContain(message);
+		// Once, as JSON: Node doesn't print it again as plain text
+		expect(logLines(error.message).filter((line) => line.message === 'Server failed to start')).toHaveLength(1);
+	});
+
+	test('exits with code 1 when the environment is invalid, having said why once, as JSON', async () => {
+		const error = await startServer({ env: { API_ORIGIN: 'not-a-url' } }).then(
+			() => new Error('started'),
+			(e: Error) => e,
+		);
+
+		expect(error.message).toContain('exited with code 1 before it was ready');
+		expect(error.message).toContain('at API_ORIGIN');
+		expect(logLines(error.message)).toEqual([
+			expect.objectContaining({ level: 'error', message: 'Server failed to start' }),
+		]);
 	});
 
 	test('with nav-office-search-api down, it becomes ready without a single office (bug)', async () => {
@@ -212,15 +240,14 @@ describe('startup failures', () => {
 		}
 	});
 
-	test('with the token endpoint down, it asks for a token before every lookup and finds no offices (bug)', async () => {
+	test('with the token endpoint down, it asks for a token once and finds no offices (bug)', async () => {
 		const server = await startServer({
 			overrides: [on(ROUTES.token, () => json({ error: 'invalid_client' }, 401))],
 		});
 		try {
 			const routes = countBy(server.stub.requests, routeOf);
-			// A normal boot's 393 lookups, plus Oslo, Bergen, Stavanger and Trondheim: with every bydel failed, they
-			// count as kommuner without bydeler
-			expect(routes[ROUTES.token]).toBe(397);
+			// The lookups after a failed token request go without asking again for 10 seconds, and fail without a token
+			expect(routes[ROUTES.token]).toBe(1);
 			expect(routes[ROUTES.geoid]).toBeUndefined();
 			expect(await (await server.fetch(`${API}/data/kommuner`)).json()).toEqual([]);
 		} finally {

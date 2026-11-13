@@ -1,6 +1,5 @@
 GET https://data.ssb.no/api/klass/v1/classifications/103
 GET https://data.ssb.no/api/klass/v1/versions/1168
-GET https://nav-office-search-api.prod-fss-pub.nais.io/geoid
 GET https://nav-office-search-api.prod-fss-pub.nais.io/geoid?id=030101
 GET https://nav-office-search-api.prod-fss-pub.nais.io/geoid?id=030102
 GET https://nav-office-search-api.prod-fss-pub.nais.io/geoid?id=030103

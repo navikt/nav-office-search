@@ -1,25 +1,10 @@
-import { getAuthorizationHeader } from './auth.ts';
-import { fetchErrorResponse, type FetchErrorResponse, fetchJson } from '#server/utils/fetch.ts';
+import { schema } from '@itsy/corgi/schema';
 import { serverUrls } from '#server/urls.ts';
+import { officeSearchApi } from './officeSearchApi.ts';
+import { bydelSokSchema } from './schemas.ts';
 
-export type BydelSokResponse = {
-	bydeler: string[];
-};
+const bydelApi = officeSearchApi('bydel');
 
-export const fetchPdlBydelsok = async (postnummer: string): Promise<BydelSokResponse | FetchErrorResponse> => {
-	const authorizationHeader = await getAuthorizationHeader();
-
-	if (!authorizationHeader) {
-		return fetchErrorResponse(500, 'Failed to get authorization header');
-	}
-
-	return await fetchJson(
-		serverUrls.bydelApi,
-		{
-			postnummer,
-		},
-		{
-			headers: { Authorization: authorizationHeader },
-		},
-	);
-};
+/** The bydeler PDL has addresses in for a postnummer, through nav-office-search-api. Throws when it can't answer. */
+export const fetchPdlBydelsok = (postnummer: string) =>
+	bydelApi.get(serverUrls.bydelApi, { query: { postnummer }, transform: schema(bydelSokSchema) });

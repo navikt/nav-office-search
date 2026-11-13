@@ -1,7 +1,8 @@
-import { HttpResponse, http } from 'msw';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
+import { networkError } from '@itsy/corgi/testing';
+import { logger } from '@navikt/navno-logger';
+import { afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 import recordedAdresser from '#test/fixtures/upstream/office-search-api/adresse.json' with { type: 'json' };
-import { upstreamCalls, upstreams } from '#test/upstream/mswServer.ts';
+import { installUpstreams } from '#test/upstream/upstreams.ts';
 import type { SearchResultProps } from '#shared/types/results.ts';
 import { loadData } from '#server/data/data.ts';
 import { geoidSearchHandler } from './geoid/geoidSearchHandler.ts';
@@ -19,28 +20,30 @@ const NAVNO = env.NAVNO_ORIGIN;
 // The access token, base64-encoded. nav-office-search-api never checks it.
 const AUTHORIZATION = 'Bearer YXp1cmUtdG9rZW4=';
 
-const upstreamUrls = () => upstreamCalls.map(({ method, url }) => `${method} ${url}`);
+const { upstreams, calls: upstreamCalls } = installUpstreams();
+
+const upstreamUrls = () => upstreamCalls().map(({ method, url }) => `${method} ${url}`);
 
 const officeNames = (body: SearchResultProps) =>
 	body.type === 'postnr' ? body.officeInfo.map(({ name }) => name) : [];
 
 const error = (messageId: string) => ({ type: 'error', messageId });
 
+// Everything the server logged, as one string per call
+const logged = (level: 'info' | 'warn' | 'error') =>
+	vi
+		.mocked(logger[level])
+		.mock.calls.map((args) =>
+			JSON.stringify(args, (_, value) => (value instanceof Error ? `${value.name}: ${value.message}` : value)),
+		);
+
 beforeAll(async () => {
-	upstreams.listen();
 	await loadData();
 });
 
-beforeEach(() => {
-	upstreamCalls.length = 0;
-});
-
 afterEach(() => {
-	upstreams.resetHandlers();
-});
-
-afterAll(() => {
-	upstreams.close();
+	vi.useRealTimers();
+	vi.restoreAllMocks();
 });
 
 describe('searchHandler', () => {
@@ -86,7 +89,7 @@ describe('searchHandler', () => {
 			`GET ${API}/geoid?id=030105`,
 			`GET ${API}/geoid?id=030104`,
 		]);
-		expect(upstreamCalls.map(({ headers }) => headers.authorization)).toEqual([
+		expect(upstreamCalls().map(({ headers }) => headers.authorization)).toEqual([
 			AUTHORIZATION,
 			AUTHORIZATION,
 			AUTHORIZATION,
@@ -100,11 +103,21 @@ describe('searchHandler', () => {
 	});
 
 	test('answers without offices when the bydel search fails (bug)', async () => {
-		upstreams.use(http.get(`${API}/bydel`, () => HttpResponse.json({ error: 'PDL is down' }, { status: 502 })));
+		upstreams.get(`${API}/bydel`, { json: { error: 'PDL is down' }, status: 502 });
 
 		const { status, body } = await searchHandler('0150');
 
 		expect([status, officeNames(body)]).toEqual([200, []]);
+	});
+
+	test('leaves out the office of a bydel whose lookup fails', async () => {
+		upstreams.get(`${API}/geoid`, ({ query }) =>
+			query.get('id') === '030104' ? { json: { enhetNr: '0313', navn: 'Nav St. Hanshaugen' } } : { status: 503 },
+		);
+
+		const { status, body } = await searchHandler('0354');
+
+		expect([status, officeNames(body)]).toEqual([200, ['Nav St. Hanshaugen']]);
 	});
 
 	test('answers 404 for an unknown postnummer', async () => {
@@ -123,7 +136,7 @@ describe('searchHandler', () => {
 		const response = await searchHandler('storgata 1');
 
 		expect(response.body.type).toBe('adresse');
-		expect(upstreamUrls()).toEqual([`GET ${API}/adresse?queryString=storgata%201`]);
+		expect(upstreamUrls()).toEqual([`GET ${API}/adresse?queryString=storgata+1`]);
 	});
 
 	test.each([undefined, '', ' '])('answers 400 for the query %j', async (query) => {
@@ -177,8 +190,8 @@ describe('addressSearchHandler', () => {
 				totalHits: 412,
 			},
 		});
-		expect(upstreamUrls()).toEqual([`GET ${API}/adresse?queryString=storgata%201`]);
-		expect(upstreamCalls[0].headers.authorization).toBe(AUTHORIZATION);
+		expect(upstreamUrls()).toEqual([`GET ${API}/adresse?queryString=storgata+1`]);
+		expect(upstreamCalls()[0].headers.authorization).toBe(AUTHORIZATION);
 	});
 
 	test('answers an empty result when nothing is found', async () => {
@@ -189,15 +202,45 @@ describe('addressSearchHandler', () => {
 	});
 
 	test.each([503, 400])('passes on status %i from nav-office-search-api (bug)', async (status) => {
-		upstreams.use(http.get(`${API}/adresse`, () => HttpResponse.json({ error: 'Upstream error' }, { status })));
+		upstreams.get(`${API}/adresse`, { json: { error: 'Upstream error' }, status });
 
 		expect(await addressSearchHandler('storgata 1')).toEqual({ status, body: error('errorServerError') });
 	});
 
 	test('answers 500 when nav-office-search-api is unreachable', async () => {
-		upstreams.use(http.get(`${API}/adresse`, () => HttpResponse.error()));
+		upstreams.get(`${API}/adresse`, networkError());
 
 		expect(await addressSearchHandler('storgata 1')).toEqual({ status: 500, body: error('errorServerError') });
+	});
+
+	test('answers 500 when nav-office-search-api answers without addresses, which the browser would choke on', async () => {
+		upstreams.get(`${API}/adresse`, { json: { totalHits: 1 } });
+
+		expect(await addressSearchHandler('storgata 1')).toEqual({ status: 500, body: error('errorServerError') });
+	});
+
+	test('gives up after 5 seconds without an answer', async () => {
+		vi.useFakeTimers();
+		upstreams.get(`${API}/adresse`, { hang: true });
+
+		const response = addressSearchHandler('storgata 1');
+		await vi.advanceTimersByTimeAsync(5000);
+
+		expect(await response).toEqual({ status: 500, body: error('errorServerError') });
+	});
+
+	test.each([
+		['an error status', { json: { error: 'Upstream error' }, status: 503 }],
+		["an answer it can't use", { json: { totalHits: 1 } }],
+	] as const)('logs %s without the query', async (_, reply) => {
+		vi.spyOn(logger, 'error');
+		upstreams.get(`${API}/adresse`, reply);
+
+		await addressSearchHandler('storgata 1');
+
+		expect(logged('error')).toHaveLength(1);
+		expect(logged('error')[0]).toContain('Address search failed');
+		expect(logged('error')[0]).not.toMatch(/storgata/i);
 	});
 
 	test.each([undefined, '', ' '])('answers 400 for the query %j, without asking upstream', async (query) => {
@@ -236,10 +279,37 @@ describe('geoidSearchHandler', () => {
 	});
 
 	test("passes on nav-office-search-api's 404 for an id without an office, like Jan Mayen (bug)", async () => {
+		vi.spyOn(logger, 'info');
+		vi.spyOn(logger, 'error');
+
 		expect(await geoidSearchHandler('2211')).toEqual({ status: 404, body: error('errorServerError') });
+		// Anyone can ask for an id NORG doesn't map, so it's not an error
+		expect(logged('info')).toEqual([JSON.stringify(['No office for geoid', { geoId: '2211' }])]);
+		expect(logged('error')).toEqual([]);
 	});
 
-	test.each([undefined, '', ' '])('answers 400 for the id %j, without asking upstream', async (id) => {
+	test.each([503, 500])('passes on status %i from nav-office-search-api', async (status) => {
+		upstreams.get(`${API}/geoid`, { status });
+
+		expect(await geoidSearchHandler('030101')).toEqual({ status, body: error('errorServerError') });
+	});
+
+	test.each([
+		undefined,
+		'',
+		' ',
+		// nav-office-search-api crashes on this one
+		'constructor',
+		'__proto__',
+		'toString',
+		'030',
+		'03010',
+		'0301010',
+		'0301a',
+		'-0301',
+		'03 01',
+		'0301\n030101',
+	])('answers 400 for the id %j, without asking upstream', async (id) => {
 		expect(await geoidSearchHandler(id)).toEqual({ status: 400, body: error('errorInvalidQuery') });
 		expect(upstreamUrls()).toEqual([]);
 	});
@@ -250,18 +320,18 @@ describe('loginStatusHandler', () => {
 		const cookie = 'io.nais.wonderwall.session=abc; other=1';
 
 		expect(await loginStatusHandler(cookie)).toEqual({ status: 200, body: { isUserLoggedIn: true } });
-		expect(upstreamCalls.map(({ url, headers }) => [url, headers.cookie])).toEqual([
+		expect(upstreamCalls().map(({ url, headers }) => [url, headers.cookie])).toEqual([
 			[env.LOGIN_SESSION_API_URL, cookie],
 		]);
 	});
 
 	test('answers false without a session, and sends no cookie header', async () => {
 		expect(await loginStatusHandler(undefined)).toEqual({ status: 200, body: { isUserLoggedIn: false } });
-		expect(upstreamCalls[0].headers.cookie).toBeUndefined();
+		expect(upstreamCalls()[0].headers.cookie).toBeUndefined();
 	});
 
 	test('answers false when the login session endpoint is unreachable', async () => {
-		upstreams.use(http.get(env.LOGIN_SESSION_API_URL, () => HttpResponse.error()));
+		upstreams.get(env.LOGIN_SESSION_API_URL, networkError());
 
 		expect(await loginStatusHandler('a=b')).toEqual({ status: 200, body: { isUserLoggedIn: false } });
 	});

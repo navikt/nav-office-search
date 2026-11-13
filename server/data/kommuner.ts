@@ -1,7 +1,7 @@
 import { logger } from '@navikt/navno-logger';
 import { getBydelerForKommune } from './bydeler.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
-import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
+import { officeLookups } from '#server/external/officeInfo.ts';
 import type { PostnrRegisterItem } from './postnrRegister.ts';
 import type { Kommune } from '#shared/types/data.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
@@ -40,6 +40,7 @@ export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[
 	const uniqueKommuneItems = removeDuplicates(postnrRegister, (a, b) => a.kommunenr === b.kommunenr);
 
 	const kommuneMap: KommunerMap = {};
+	const offices = officeLookups('kommuner');
 
 	for (const item of uniqueKommuneItems) {
 		const { kommunenr, kommune } = item;
@@ -60,9 +61,9 @@ export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[
 				bydeler,
 			};
 		} else {
-			const officeInfo = await fetchOfficeInfoByGeoId(getOfficeInfoGeoIdForKommune(kommunenr));
+			const officeInfo = await offices.find(getOfficeInfoGeoIdForKommune(kommunenr));
 
-			if (!officeInfo.error) {
+			if (officeInfo) {
 				kommuneMap[kommunenr] = {
 					...kommuneDataPartial,
 					officeInfo,
@@ -71,6 +72,7 @@ export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[
 		}
 	}
 
+	offices.logFailures();
 	const kommuneArray = Object.values(kommuneMap);
 
 	kommunerData.kommunerMap = kommuneMap;

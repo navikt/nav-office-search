@@ -1,7 +1,6 @@
 import { logger } from '@navikt/navno-logger';
-import type { ApiResponse } from '#server/api/apiResponse.ts';
+import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
 import { getNameSearchResult } from './nameSearchHandler.ts';
-import { apiErrorResponse } from '#server/utils/fetch.ts';
 import type { SearchResultProps } from '#shared/types/results.ts';
 import { isValidPostnrQuery } from '#shared/validateInput.ts';
 import { postnrSearchHandler } from './postnrSearchHandler.ts';

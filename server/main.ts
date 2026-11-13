@@ -12,17 +12,17 @@ import { builtAssets, type ViteManifest } from './site/ssr/document.ts';
 import { prodRenderer } from './site/ssr/htmlRenderer.ts';
 import { fetchNotFoundHtml } from './utils/errorHandlers.ts';
 
-const manifest: ViteManifest = JSON.parse(
-	readFileSync(new URL(import.meta.resolve('#dist/client/.vite/manifest.json')), 'utf-8'),
-);
-
-// First, since nothing else is worth doing when the build can't render its pages
-const site = {
-	render: prodRenderer(render, builtAssets(manifest)),
-	clientDir: fileURLToPath(import.meta.resolve('#dist/client')),
-};
-
 try {
+	const manifest: ViteManifest = JSON.parse(
+		readFileSync(new URL(import.meta.resolve('#dist/client/.vite/manifest.json')), 'utf-8'),
+	);
+
+	// First, since nothing else is worth doing when the build can't render its pages
+	const site = {
+		render: prodRenderer(render, builtAssets(manifest)),
+		clientDir: fileURLToPath(import.meta.resolve('#dist/client')),
+	};
+
 	await loadDataAndStartSchedule();
 	const app = createApp({ site, notFoundHtml: await fetchNotFoundHtml() });
 	const server: ServerType = serve({ fetch: app.fetch, port: env.PORT, overrideGlobalObjects: false }, () => {
@@ -30,8 +30,9 @@ try {
 	});
 	setupShutdownHandlers(server);
 } catch (e) {
+	// Exits instead of rethrowing, which Node would print again as plain text
 	logger.error('Server failed to start', e);
-	throw e;
+	process.exit(1);
 }
 
 function setupShutdownHandlers(server: ServerType) {

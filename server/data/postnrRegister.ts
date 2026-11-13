@@ -1,9 +1,11 @@
 import { logger } from '@navikt/navno-logger';
 import type { PostnrKategori } from '#shared/types/data.ts';
 import { serverUrls } from '#server/urls.ts';
-import { observeUpstream } from '#server/metrics/metrics.ts';
+import { DOWNLOAD_TIMEOUT_MS, failureOf, upstreamClient } from '#server/utils/upstream.ts';
 
 const charEncodeFormat = 'windows-1252';
+
+const bring = upstreamClient('bring', { timeout: DOWNLOAD_TIMEOUT_MS });
 
 type PostnrRegisterItemRaw = [
 	postnr: string,
@@ -40,39 +42,28 @@ export const transformPostnrRegisterData = (rawText: string): PostnrRegisterItem
 	});
 };
 
-// This fetches a raw tab separated txt file from posten.no
-const fetchPostnummerTxtFromPosten = async (): Promise<string | null> => {
+// A tab separated text file from bring.no, in windows-1252
+const fetchPostnummerTxtFromPosten = async () => {
 	logger.info('Fetching postnr register', { url: serverUrls.postnrRegister });
-	try {
-		return await observeUpstream('bring', () => fetch(serverUrls.postnrRegister))
-			.then((res) => {
-				if (res.ok) {
-					return res.arrayBuffer();
-				}
-
-				throw new Error(`Error fetching postnr register: ${res.status} - ${res.statusText}`);
-			})
-			.then((buffer) => new TextDecoder(charEncodeFormat).decode(buffer));
-	} catch (e) {
-		logger.error('Fetching postnr register failed', e);
-		return null;
-	}
+	const buffer = await bring.get(serverUrls.postnrRegister, { responseType: 'arrayBuffer' });
+	return new TextDecoder(charEncodeFormat).decode(buffer);
 };
 
 export const loadPostnrRegister = async () => {
-	const postnrRegisterDataRaw = await fetchPostnummerTxtFromPosten();
+	let postnrRegisterDataRaw: string;
+	try {
+		postnrRegisterDataRaw = await fetchPostnummerTxtFromPosten();
+	} catch (e) {
+		if (postnrRegisterData.length === 0) {
+			throw new Error('Failed to fetch from postnr-register and no previously cached data exists!', { cause: e });
+		}
 
-	if (postnrRegisterDataRaw) {
-		logger.info('Refreshed postnr register');
-		postnrRegisterData = transformPostnrRegisterData(postnrRegisterDataRaw);
-	} else if (postnrRegisterData.length > 0) {
-		logger.error('Failed to fetch from postnr-register, keeping currently cached data');
-	} else {
-		const msg = 'Failed to fetch from postnr-register and no previously cached data exists!';
-		logger.error(msg);
-
-		throw new Error(msg);
+		logger.error('Failed to fetch from postnr-register - keeping current data', failureOf(e));
+		return;
 	}
+
+	logger.info('Refreshed postnr register');
+	postnrRegisterData = transformPostnrRegisterData(postnrRegisterDataRaw);
 };
 
 export const getPostnrRegister = () => {

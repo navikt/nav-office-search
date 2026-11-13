@@ -1,3 +1,4 @@
+import { isTimeoutError } from '@itsy/corgi';
 import { collectDefaultMetrics, Counter, Gauge, Histogram, Registry } from '@prometheus-io/client';
 import type { Handler } from 'hono';
 
@@ -83,12 +84,11 @@ export type Upstream =
 	| 'ssb'
 	| 'bring'
 	| 'azure-token'
-	| 'login-session'
-	| 'other';
+	| 'login-session';
 
 export const upstreamRequests = new Counter({
 	name: `${prefix}upstream_requests_total`,
-	help: 'Outbound requests by upstream and response status class (2xx, 4xx, 5xx, …) or network_error',
+	help: 'Outbound requests by upstream and response status class (2xx, 4xx, 5xx, …), timeout or network_error',
 	labelNames: ['upstream', 'status'] as const,
 	registers: [registry],
 });
@@ -101,21 +101,9 @@ export const upstreamDuration = new Histogram({
 	registers: [registry],
 });
 
-const upstreamPatterns: [RegExp, Upstream][] = [
-	[/\/geoid(\?|$)/, 'office-search-api/geoid'],
-	[/\/adresse(\?|$)/, 'office-search-api/adresse'],
-	[/\/bydel(\?|$)/, 'office-search-api/bydel'],
-	[/\/_\/service\/no\.nav\.navno\/officeInfo/, 'xp'],
-	[/^https:\/\/data\.ssb\.no\//, 'ssb'],
-	[/\/oauth2\/v2\.0\/token/, 'azure-token'],
-];
-
-export const upstreamForUrl = (url: string): Upstream =>
-	upstreamPatterns.find(([pattern]) => pattern.test(url))?.[1] ?? 'other';
-
 const statusClass = (status: number) => `${Math.floor(status / 100)}xx`;
 
-/** Runs an outbound request and records its status class and time to response */
+/** Runs an outbound request and records its status class and time to response. upstreamClient() does this for its requests. */
 export const observeUpstream = async (upstream: Upstream, request: () => Promise<Response>) => {
 	const stopTimer = upstreamDuration.startTimer({ upstream });
 	try {
@@ -123,7 +111,7 @@ export const observeUpstream = async (upstream: Upstream, request: () => Promise
 		upstreamRequests.inc({ upstream, status: statusClass(response.status) });
 		return response;
 	} catch (e) {
-		upstreamRequests.inc({ upstream, status: 'network_error' });
+		upstreamRequests.inc({ upstream, status: isTimeoutError(e) ? 'timeout' : 'network_error' });
 		throw e;
 	} finally {
 		stopTimer();

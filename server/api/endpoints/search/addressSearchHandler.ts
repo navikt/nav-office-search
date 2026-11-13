@@ -1,35 +1,22 @@
+import { isHttpError } from '@itsy/corgi';
 import { logger } from '@navikt/navno-logger';
-import type { ApiResponse } from '#server/api/apiResponse.ts';
-import { apiErrorResponse } from '#server/utils/fetch.ts';
-import { type AdresseSokResponse, fetchPdlAdresseSok } from '#server/external/adresse.ts';
-import type { SearchResultAdresseProps, SearchResultProps } from '#shared/types/results.ts';
-
-const toAddressSearchResult = (adresseQuery: string, response: AdresseSokResponse): SearchResultAdresseProps => {
-	return {
-		type: 'adresse',
-		adresseQuery,
-		adresser: response.adresser,
-		totalHits: response.totalHits,
-	};
-};
+import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
+import { fetchPdlAdresseSok } from '#server/external/adresse.ts';
+import { failureOf } from '#server/utils/upstream.ts';
+import type { SearchResultProps } from '#shared/types/results.ts';
 
 export const addressSearchHandler = async (query?: string): Promise<ApiResponse<SearchResultProps>> => {
+	if (!query?.trim()) {
+		return { status: 400, body: apiErrorResponse('errorMissingQuery') };
+	}
+
 	try {
-		if (!query?.trim()) {
-			return { status: 400, body: apiErrorResponse('errorMissingQuery') };
-		}
+		const { adresser, totalHits } = await fetchPdlAdresseSok(query);
 
-		const adresseSokResponse = await fetchPdlAdresseSok(query);
-
-		if ('error' in adresseSokResponse) {
-			logger.error('Address search failed', { query, error: adresseSokResponse.message });
-
-			return { status: adresseSokResponse.statusCode, body: apiErrorResponse('errorServerError') };
-		}
-
-		return { status: 200, body: toAddressSearchResult(query, adresseSokResponse) };
+		return { status: 200, body: { type: 'adresse', adresseQuery: query, adresser, totalHits } };
 	} catch (e) {
-		logger.error('Address search api error', e);
-		return { status: 500, body: apiErrorResponse('errorServerError') };
+		// Not the query, which is an address someone typed
+		logger.error('Address search failed', failureOf(e));
+		return { status: isHttpError(e) ? e.status : 500, body: apiErrorResponse('errorServerError') };
 	}
 };

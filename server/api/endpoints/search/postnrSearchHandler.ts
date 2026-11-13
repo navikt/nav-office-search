@@ -1,31 +1,39 @@
 import { logger } from '@navikt/navno-logger';
-import type { ApiResponse } from '#server/api/apiResponse.ts';
-import type { OfficeInfo, Poststed } from '#shared/types/data.ts';
-import type { SearchResultPostnrProps, SearchResultProps } from '#shared/types/results.ts';
-import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
-import { sortOfficeNames } from '#server/utils/sort.ts';
+import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
 import { getPoststed } from '#server/data/poststeder.ts';
-import { apiErrorResponse } from '#server/utils/fetch.ts';
 import { fetchPdlBydelsok } from '#server/external/bydel.ts';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
+import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
+import { sortOfficeNames } from '#server/utils/sort.ts';
+import { failureOf } from '#server/utils/upstream.ts';
+import type { OfficeInfo, Poststed } from '#shared/types/data.ts';
+import type { SearchResultPostnrProps, SearchResultProps } from '#shared/types/results.ts';
+
+const findBydelOffice = async (bydelsnr: string) => {
+	try {
+		return await fetchOfficeInfoByGeoId(bydelsnr);
+	} catch (e) {
+		logger.error('Looking up the office for a bydel failed', { bydelsnr }, failureOf(e));
+		return null;
+	}
+};
 
 const responseDataWithBydeler = async (poststedData: Poststed): Promise<SearchResultPostnrProps> => {
-	const bydelResponse = await fetchPdlBydelsok(poststedData.postnr);
-
-	if ('error' in bydelResponse) {
-		logger.error('Bydel search failed', { postnr: poststedData.postnr, error: bydelResponse.message });
+	let bydelsnumre: string[];
+	try {
+		({ bydeler: bydelsnumre } = await fetchPdlBydelsok(poststedData.postnr));
+	} catch (e) {
+		logger.error('Bydel search failed', { postnr: poststedData.postnr }, failureOf(e));
 		return { ...poststedData, type: 'postnr' };
 	}
-
-	const bydelsnumre = bydelResponse.bydeler;
 
 	if (bydelsnumre.length === 0) {
 		return { ...poststedData, type: 'postnr' };
 	}
 
-	const officeResults = await Promise.all(bydelsnumre.map((bydelsnr) => fetchOfficeInfoByGeoId(bydelsnr)));
+	const officeResults = await Promise.all(bydelsnumre.map(findBydelOffice));
 
-	const offices: OfficeInfo[] = officeResults.filter((result): result is OfficeInfo => !result.error);
+	const offices = officeResults.filter((office): office is OfficeInfo => office !== null);
 
 	const officeInfo = removeDuplicates(offices, (a, b) => a.enhetNr === b.enhetNr).sort(sortOfficeNames);
 

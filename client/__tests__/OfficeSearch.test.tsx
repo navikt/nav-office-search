@@ -21,7 +21,7 @@ import {
 	postnrResult,
 	storgataAdresser,
 } from './support/fixtures.ts';
-import { apiRequests, mockApi, type Reply, wasAborted } from './support/msw.ts';
+import { apiRequests, mockApi, type Reply, wasAborted } from './support/api.ts';
 import { renderAndSettle } from './support/render.tsx';
 
 let user: UserEvent;
@@ -117,7 +117,7 @@ describe('OfficeSearch', () => {
 			expect(input).toHaveValue('e');
 			expect(screen.queryByRole('link', { name: 'Nav Evje og Hornnes' })).not.toBeInTheDocument();
 			await waitForDebounce();
-			expect(apiRequests()).toEqual(['search/name?query=evje%20og%20hornnes']);
+			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
 		});
 	});
 
@@ -191,7 +191,7 @@ describe('OfficeSearch', () => {
 
 			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
 			expectSingleHitFor('evje og hornnes');
-			expect(apiRequests()).toEqual(['search/name?query=evje%20og%20hornnes']);
+			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
 		});
 
 		test('gir serverfeil og hopper over adressefallback når stedsnavnsøk feiler', async () => {
@@ -199,7 +199,7 @@ describe('OfficeSearch', () => {
 			await searchFor('evje og hornnes');
 
 			expect(await screen.findByText('Ukjent server-feil')).toBeInTheDocument();
-			expect(apiRequests()).toEqual(['search/name?query=evje%20og%20hornnes']);
+			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
 		});
 
 		test('gir riktig respons ved søk på stedsnavn uten søketreff', async () => {
@@ -207,10 +207,7 @@ describe('OfficeSearch', () => {
 			await searchFor('evje og hornnes');
 
 			expect(await screen.findByRole('option', { name: 'Ingen resultater for "evje og hornnes"' })).toBeInTheDocument();
-			expect(apiRequests()).toEqual([
-				'search/name?query=evje%20og%20hornnes',
-				'search/address?query=evje%20og%20hornnes',
-			]);
+			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes', 'search/address?query=evje+og+hornnes']);
 		});
 
 		test('sender ett søk når debounce-tiden har gått etter siste tastetrykk', async () => {
@@ -232,8 +229,8 @@ describe('OfficeSearch', () => {
 
 	describe('adresseforslag', () => {
 		test.each([
-			{ name: 'postnummer med gatenavn', query: '4737 storgata 1', encoded: '4737%20storgata%201' },
-			{ name: 'adresse med punktum', query: 'ole b. bergers veg', encoded: 'ole%20b.%20bergers%20veg' },
+			{ name: 'postnummer med gatenavn', query: '4737 storgata 1', encoded: '4737+storgata+1' },
+			{ name: 'adresse med punktum', query: 'ole b. bergers veg', encoded: 'ole+b.+bergers+veg' },
 		])('sender $name videre til adressesøket', async ({ query, encoded }) => {
 			mockAddressSuggestions(query, storgataAdresser(1));
 			await searchFor(query);
@@ -351,7 +348,7 @@ describe('OfficeSearch', () => {
 			await replaceQuery('ukjent adresse 1');
 			await waitForDebounce();
 
-			expect(apiRequests()).toContain('search/name?query=ukjent%20adresse%201');
+			expect(apiRequests()).toContain('search/name?query=ukjent+adresse+1');
 			expect(getLink('Nav Evje og Hornnes')).toBeInTheDocument();
 			expect(queryLoadingIndicators()).toHaveLength(0);
 
@@ -447,8 +444,8 @@ describe('OfficeSearch', () => {
 			expect(getLiveRegion()).toHaveTextContent(/^Adresse valgt: Storgata 2, 0184 OSLO$/);
 			await waitForDebounce();
 			expect(apiRequests()).toEqual([
-				'search/name?query=storgata%201',
-				'search/address?query=storgata%201',
+				'search/name?query=storgata+1',
+				'search/address?query=storgata+1',
 				'geoid?id=030102',
 			]);
 		});
@@ -572,8 +569,8 @@ describe('OfficeSearch', () => {
 			expect(await findLink('Nav Nordre Follo')).toBeInTheDocument();
 			expectSingleHitFor('Tamburveien 1A, 1406 SKI');
 			expect(apiRequests()).toEqual([
-				'search/name?query=tamburveien%201a',
-				'search/address?query=tamburveien%201a',
+				'search/name?query=tamburveien+1a',
+				'search/address?query=tamburveien+1a',
 				'geoid?id=3218',
 			]);
 		});
@@ -685,7 +682,7 @@ describe('OfficeSearch', () => {
 
 			expect(input).toHaveAttribute('aria-expanded', 'false');
 			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-			expect(wasAborted('search/address?query=ukjent%20adresse%201')).toBe(true);
+			expect(wasAborted('search/address?query=ukjent+adresse+1')).toBe(true);
 			if (keepsFocus) {
 				expect(input).toHaveFocus();
 			} else {

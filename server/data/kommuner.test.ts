@@ -1,12 +1,17 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { PostnrKategori } from '#shared/types/data.ts';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
-import { fetchErrorResponse } from '#server/utils/fetch.ts';
 import { buildKommuneDictionary, getKommune } from './kommuner.ts';
 import { getPoststed, loadPoststederData } from './poststeder.ts';
 import type { PostnrRegisterItem } from './postnrRegister.ts';
 
-vi.mock('#server/external/officeInfo.ts', () => ({ fetchOfficeInfoByGeoId: vi.fn() }));
+vi.mock('#server/external/officeInfo.ts', () => {
+	const fetchOfficeInfoByGeoId = vi.fn();
+	return {
+		fetchOfficeInfoByGeoId,
+		officeLookups: () => ({ find: fetchOfficeInfoByGeoId, logFailures: () => undefined }),
+	};
+});
 
 // What nav-office-search-api's /geoid answers today (checked against dev on 2026-10-08):
 // NORG maps Svalbard (2100) to Nav Tromsø, doesn't know Jan Mayen (2211), and Tromsø has been 5501 since 2024.
@@ -36,9 +41,7 @@ const register: PostnrRegisterItem[] = [
 beforeEach(() => {
 	vi.mocked(fetchOfficeInfoByGeoId).mockImplementation(async (geoId) => {
 		const office = norg[geoId];
-		return office
-			? { name: office.navn, enhetNr: office.enhetNr, geoId, url: '', hitString: '' }
-			: fetchErrorResponse(404, `No office info found for geoid ${geoId}`);
+		return office ? { name: office.navn, enhetNr: office.enhetNr, geoId, url: '', hitString: '' } : null;
 	});
 });
 

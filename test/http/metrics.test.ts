@@ -82,7 +82,7 @@ test('counts the startup data load, what it found and the requests it made', asy
 		'upstream_requests_total{upstream="azure-token",status="2xx"}': 1,
 		'upstream_requests_total{upstream="office-search-api/geoid",status="2xx"}': 390,
 		// Two ids without an office, and the register's empty last row
-		'upstream_requests_total{upstream="office-search-api/geoid",status="4xx"}': 3,
+		'upstream_requests_total{upstream="office-search-api/geoid",status="4xx"}': 2,
 		'upstream_requests_total{upstream="bring",status="2xx"}': 1,
 	});
 });

@@ -5,6 +5,7 @@ import type { PostnrRegisterItem } from './postnrRegister.ts';
 import type { Poststed } from '#shared/types/data.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
+import { failureOf } from '#server/utils/upstream.ts';
 
 type PoststederMap = Map<string, Poststed>;
 
@@ -36,17 +37,21 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
 			return localData;
 		}
 
-		const officeInfo = await fetchOfficeInfoByGeoId(getOfficeInfoGeoIdForKommune(localData.kommunenr));
+		try {
+			const officeInfo = await fetchOfficeInfoByGeoId(getOfficeInfoGeoIdForKommune(localData.kommunenr));
 
-		if (!('error' in officeInfo)) {
-			const poststedWithOfficeInfo = {
-				...localData,
-				officeInfo: [officeInfo],
-			};
+			if (officeInfo) {
+				const poststedWithOfficeInfo = {
+					...localData,
+					officeInfo: [officeInfo],
+				};
 
-			poststederData.poststederMap.set(postnr, poststedWithOfficeInfo);
+				poststederData.poststederMap.set(postnr, poststedWithOfficeInfo);
 
-			return poststedWithOfficeInfo;
+				return poststedWithOfficeInfo;
+			}
+		} catch (e) {
+			logger.error('Looking up the office for a postnummer failed', { postnr }, failureOf(e));
 		}
 	}
 

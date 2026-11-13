@@ -6,7 +6,6 @@ import {
 	registry,
 	searchDuration,
 	searchRequests,
-	upstreamForUrl,
 	upstreamRequests,
 	upstreamDuration,
 } from './metrics.ts';
@@ -69,21 +68,6 @@ describe('observeSearch', () => {
 	});
 });
 
-describe('upstreamForUrl', () => {
-	test.each([
-		['https://nav-office-search-api.prod-fss-pub.nais.io/geoid?id=2100', 'office-search-api/geoid'],
-		['https://nav-office-search-api.prod-fss-pub.nais.io/adresse?queryString=storgata', 'office-search-api/adresse'],
-		['https://nav-office-search-api.prod-fss-pub.nais.io/bydel?postnummer=0150', 'office-search-api/bydel'],
-		['https://www.nav.no/_/service/no.nav.navno/officeInfo', 'xp'],
-		['https://data.ssb.no/api/klass/v1/classifications/103', 'ssb'],
-		['https://data.ssb.no/api/klass/v1/versions/1168', 'ssb'],
-		['https://login.microsoftonline.com/62366534-1ec3-4962-8869-9b5535279d0b/oauth2/v2.0/token', 'azure-token'],
-		['https://example.com/geoidx', 'other'],
-	])('%s → %s', (url, expected) => {
-		expect(upstreamForUrl(url)).toBe(expected);
-	});
-});
-
 describe('observeUpstream', () => {
 	test('records the status class and the duration', async () => {
 		await observeUpstream('bring', async () => new Response('', { status: 200 }));
@@ -104,12 +88,13 @@ describe('observeUpstream', () => {
 		);
 	});
 
-	test('records network errors and rethrows them', async () => {
-		const failure = new TypeError('fetch failed');
-
+	test.each([
+		['network errors', new TypeError('fetch failed'), 'network_error'],
+		['timeouts', new DOMException('Request timed out after 5000ms', 'TimeoutError'), 'timeout'],
+	])('records %s and rethrows them', async (_, failure, status) => {
 		await expect(observeUpstream('ssb', () => Promise.reject(failure))).rejects.toBe(failure);
 		expect((await upstreamRequests.get()).values).toEqual([
-			expect.objectContaining({ labels: { upstream: 'ssb', status: 'network_error' }, value: 1 }),
+			expect.objectContaining({ labels: { upstream: 'ssb', status }, value: 1 }),
 		]);
 	});
 });

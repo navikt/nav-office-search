@@ -1,22 +1,29 @@
+import { corgi } from '@itsy/corgi';
+import { withTimeout } from '@itsy/corgi/timeout';
 import { logger } from '@navikt/navno-logger';
 import type { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { env } from '#server/env.ts';
+import { REQUEST_TIMEOUT_MS } from './upstream.ts';
 
-// Fetch static 404-page from the nav.no frontend
-export const fetchNotFoundHtml = () =>
-	fetch(`${env.NAVNO_ORIGIN}/404`)
-		.then((res) => {
-			if (res.status === 404) {
-				return res.text();
-			}
+const navno = corgi.create({ plugins: [withTimeout(REQUEST_TIMEOUT_MS)] });
 
-			throw Error(`${res.status} ${res.statusText}`);
-		})
-		.catch((e) => {
-			logger.error('Failed to fetch 404 html', e);
-			return 'Not found';
-		});
+/** The nav.no frontend's 404 page, to answer unknown paths with. A plain "Not found" when it can't be had. */
+export const fetchNotFoundHtml = async () => {
+	try {
+		const response = await navno.raw(`${env.NAVNO_ORIGIN}/404`);
+		if (response.status === 404) {
+			return await response.text();
+		}
+
+		void response.body?.cancel().catch(() => undefined);
+		logger.error('Failed to fetch 404 html', { status: response.status });
+	} catch (e) {
+		logger.error('Failed to fetch 404 html', e);
+	}
+
+	return 'Not found';
+};
 
 export const setupErrorHandlers = (app: Hono, notFoundHtml: string) => {
 	app.notFound((c) => c.html(notFoundHtml, 404));

@@ -46,7 +46,7 @@ spec:
           annotations:
             summary: nav-office-search has not loaded reference data for over 2 days
             consequence: Postnumre, kommuner, bydeler and office URLs may be out of date.
-            action: Check the logs for "Error loading data" and nav_office_search_upstream_requests_total for the failing upstream.
+            action: Check the logs for "Refreshing data failed" and "keeping current data", and nav_office_search_upstream_requests_total for the failing upstream.
           labels:
             namespace: navno
             severity: warning

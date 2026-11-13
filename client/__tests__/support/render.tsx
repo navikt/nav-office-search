@@ -2,7 +2,7 @@ import { act, render, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import type React from 'react';
 import { expect, vi } from 'vitest';
-import { isLoginStatusAnswered } from './msw.ts';
+import { isLoginStatusAnswered } from './api.ts';
 
 /** userEvent wired to Vitest's fake timers */
 export const setupUser = () => userEvent.setup({ advanceTimers: vi.advanceTimersByTime });

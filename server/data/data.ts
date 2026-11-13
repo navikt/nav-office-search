@@ -16,8 +16,12 @@ import { kommunerWithoutOffice, poststederWithoutOffice } from '#server/metrics/
 
 let isLoading = false;
 
-const listForLog = (items: string[], max = 20) =>
-	items.length > max ? `${items.slice(0, max).join(', ')} and ${items.length - max} more` : items.join(', ');
+// One message for all of them, with the numbers as fields, so the log groups them
+const logWithoutOffice = (dataset: 'kommuner' | 'poststeder' | 'bydeler', numbers: string[]) => {
+	if (numbers.length > 0) {
+		logger.warn('No office found', { dataset, count: numbers.length, numbers: numbers.slice(0, 20) });
+	}
+};
 
 const recordReferenceData = () => {
 	const register = getPostnrRegister();
@@ -37,15 +41,9 @@ const recordReferenceData = () => {
 	referenceDataWithoutOffice.set({ dataset: 'poststeder' }, missingPoststeder.length);
 	referenceDataWithoutOffice.set({ dataset: 'bydeler' }, missingBydeler.length);
 
-	if (missingKommuner.length > 0) {
-		logger.warn(`No office found for kommuner: ${listForLog(missingKommuner)}`);
-	}
-	if (missingPoststeder.length > 0) {
-		logger.warn(`No office found for postnr: ${listForLog(missingPoststeder)}`);
-	}
-	if (missingBydeler.length > 0) {
-		logger.warn(`No office found for bydeler: ${listForLog(missingBydeler)}`);
-	}
+	logWithoutOffice('kommuner', missingKommuner);
+	logWithoutOffice('poststeder', missingPoststeder);
+	logWithoutOffice('bydeler', missingBydeler);
 };
 
 export const loadData = async () => {
@@ -73,8 +71,8 @@ export const loadData = async () => {
 		recordReferenceData();
 		logger.info('Finished loading data', { durationSeconds: Number(durationSeconds.toFixed(1)) });
 	} catch (e) {
+		// Logged by whoever started the load
 		dataLoads.inc({ outcome: 'failure' });
-		logger.error('Loading data failed', e);
 		throw e;
 	} finally {
 		isLoading = false;
@@ -83,5 +81,8 @@ export const loadData = async () => {
 
 export const loadDataAndStartSchedule = () =>
 	loadData().then(() => {
-		schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, loadData);
+		// A refresh keeps whatever it can't replace, so it shouldn't fail. Should it anyway, the pod keeps serving.
+		schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, () =>
+			loadData().catch((e) => logger.error('Refreshing data failed', e)),
+		);
 	});

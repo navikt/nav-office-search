@@ -1,28 +1,25 @@
 import { logger } from '@navikt/navno-logger';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import { serverUrls } from '#server/urls.ts';
-import { observeUpstream } from '#server/metrics/metrics.ts';
+import { failureOf, REQUEST_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
 
 interface LoginStatusResponse {
 	isUserLoggedIn: boolean;
 }
 
+const loginSession = upstreamClient('login-session', { timeout: REQUEST_TIMEOUT_MS });
+
 export const loginStatusHandler = async (cookie = ''): Promise<ApiResponse<LoginStatusResponse>> => {
 	try {
-		const response = await observeUpstream('login-session', () =>
-			fetch(serverUrls.loginSessionApi, {
-				method: 'GET',
-				headers: {
-					...(cookie && { cookie }),
-				},
-			}),
-		);
+		// 200 with a session, 401 without
+		const response = await loginSession.raw(serverUrls.loginSessionApi, { headers: cookie ? { cookie } : undefined });
+		// Only the status matters, so the body is let go
+		void response.body?.cancel().catch(() => undefined);
 
 		return { status: 200, body: { isUserLoggedIn: response.status === 200 } };
 	} catch (e) {
-		// session endpoint will return 401 when user is not logged in. This causes
-		// messy errors in console. Keep it clean by returning 200 OK.
-		logger.error('Login status check failed', e);
+		// The page then offers to log in, which is what someone without a session gets too
+		logger.error('Login status check failed', failureOf(e));
 		return { status: 200, body: { isUserLoggedIn: false } };
 	}
 };
