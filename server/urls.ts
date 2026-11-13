@@ -4,7 +4,7 @@ export const serverUrls = {
 	azureAdTokenApi: env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
 	adresseApi: `${env.API_ORIGIN}/adresse`,
 	bydelApi: `${env.API_ORIGIN}/bydel`,
-	officeInfoApi: `${env.API_ORIGIN}/geoid`,
+	officesApi: `${env.API_ORIGIN}/geoids`,
 	xpOfficeInfoApi: `${env.XP_ORIGIN}/_/service/no.nav.navno/officeInfo`,
 	postnrRegister: 'https://www.bring.no/postnummerregister-ansi.txt',
 	ssbBydelerClassification: 'https://data.ssb.no/api/klass/v1/classifications/103',

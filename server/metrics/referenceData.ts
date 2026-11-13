@@ -1,11 +1,13 @@
-import type { Kommune, Poststed } from '#shared/types/data.ts';
+import type { SsbBydel } from '#server/data/bydeler.ts';
+import type { Offices } from '#server/data/offices.ts';
 import type { PostnrRegisterItem } from '#server/data/postnrRegister.ts';
+import type { Kommune, Poststed } from '#shared/types/data.ts';
 
 const byNumber = (a: string, b: string) => a.localeCompare(b);
 
 /**
- * Kommuner in the register that the load couldn't find an office for. They are left out of the kommune map
- * entirely, so their postnr and name searches find nothing. Kommuner with bydeler count as found.
+ * Kommuner in the register that the load couldn't find an office for. They are left out of the kommuner entirely, so
+ * their postnr and name searches find nothing. Kommuner with bydeler count as found.
  */
 export const kommunerWithoutOffice = (register: PostnrRegisterItem[], kommuner: Kommune[]): string[] => {
 	const loaded = new Set(kommuner.map(({ kommunenr }) => kommunenr));
@@ -15,11 +17,18 @@ export const kommunerWithoutOffice = (register: PostnrRegisterItem[], kommuner: 
 };
 
 /**
- * Poststeder without an office after the load. Poststeder in kommuner with bydeler are left out: their offices
- * are only looked up per search.
+ * Poststeder without an office after the load. Poststeder in kommuner with bydeler are left out: their offices are
+ * only looked up per search.
  */
-export const poststederWithoutOffice = (poststeder: Poststed[], hasBydeler: (kommunenr: string) => boolean): string[] =>
-	poststeder
-		.filter(({ kommunenr, officeInfo }) => officeInfo.length === 0 && !hasBydeler(kommunenr))
+export const poststederWithoutOffice = (poststeder: Iterable<Poststed>, kommuner: Kommune[]): string[] => {
+	const withBydeler = new Set(kommuner.filter(({ bydeler }) => bydeler).map(({ kommunenr }) => kommunenr));
+
+	return [...poststeder]
+		.filter(({ kommunenr, officeInfo }) => officeInfo.length === 0 && !withBydeler.has(kommunenr))
 		.map(({ postnr }) => postnr)
 		.sort(byNumber);
+};
+
+/** SSB's bydeler that the load couldn't find an office for */
+export const bydelerWithoutOffice = (ssbBydeler: SsbBydel[], offices: Offices): string[] =>
+	ssbBydeler.map(({ code }) => code).filter((bydelsnr) => !offices.has(bydelsnr));

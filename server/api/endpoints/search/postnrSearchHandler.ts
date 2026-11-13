@@ -1,24 +1,15 @@
 import { logger } from '@navikt/navno-logger';
 import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
-import { getPoststed } from '#server/data/poststeder.ts';
+import { referenceData } from '#server/data/data.ts';
+import type { Offices } from '#server/data/offices.ts';
 import { fetchPdlBydelsok } from '#server/external/bydel.ts';
-import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
 import { sortOfficeNames } from '#server/utils/sort.ts';
 import { failureOf } from '#server/utils/upstream.ts';
 import type { OfficeInfo, Poststed } from '#shared/types/data.ts';
 import type { SearchResultPostnrProps, SearchResultProps } from '#shared/types/results.ts';
 
-const findBydelOffice = async (bydelsnr: string) => {
-	try {
-		return await fetchOfficeInfoByGeoId(bydelsnr);
-	} catch (e) {
-		logger.error('Looking up the office for a bydel failed', { bydelsnr }, failureOf(e));
-		return null;
-	}
-};
-
-const responseDataWithBydeler = async (poststedData: Poststed): Promise<SearchResultPostnrProps> => {
+const responseDataWithBydeler = async (poststedData: Poststed, offices: Offices): Promise<SearchResultPostnrProps> => {
 	let bydelsnumre: string[];
 	try {
 		({ bydeler: bydelsnumre } = await fetchPdlBydelsok(poststedData.postnr));
@@ -31,11 +22,12 @@ const responseDataWithBydeler = async (poststedData: Poststed): Promise<SearchRe
 		return { ...poststedData, type: 'postnr' };
 	}
 
-	const officeResults = await Promise.all(bydelsnumre.map(findBydelOffice));
+	// A bydel without an office is left out
+	const bydelOffices = bydelsnumre
+		.map((bydelsnr) => offices.get(bydelsnr))
+		.filter((office): office is OfficeInfo => office !== undefined);
 
-	const offices = officeResults.filter((office): office is OfficeInfo => office !== null);
-
-	const officeInfo = removeDuplicates(offices, (a, b) => a.enhetNr === b.enhetNr).sort(sortOfficeNames);
+	const officeInfo = removeDuplicates(bydelOffices, (a, b) => a.enhetNr === b.enhetNr).sort(sortOfficeNames);
 
 	return {
 		...poststedData,
@@ -45,9 +37,9 @@ const responseDataWithBydeler = async (poststedData: Poststed): Promise<SearchRe
 };
 
 export const postnrSearchHandler = async (query: string): Promise<ApiResponse<SearchResultProps>> => {
-	const postnr = query.trim();
+	const { poststeder, offices } = referenceData();
 
-	const poststedData = await getPoststed(postnr);
+	const poststedData = poststeder.get(query.trim());
 
 	if (!poststedData) {
 		return { status: 404, body: apiErrorResponse('errorInvalidPostnr') };
@@ -57,5 +49,5 @@ export const postnrSearchHandler = async (query: string): Promise<ApiResponse<Se
 		return { status: 200, body: { ...poststedData, type: 'postnr' } };
 	}
 
-	return { status: 200, body: await responseDataWithBydeler(poststedData) };
+	return { status: 200, body: await responseDataWithBydeler(poststedData, offices) };
 };

@@ -2,7 +2,7 @@
 
 Web-app for å søke etter Nav-kontor med postnummer, by/stedsnavn eller adresse.
 
-Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot PDL og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot PDL og norg-tjenester i FSS (ved lokal kjøring benyttes mocks). Kontorene for alle kommuner og bydeler hentes derfra med `/geoids` ved oppstart og hver dag kl. 06:00 UTC. Adressesøk og bydelene i et postnummer hentes derfra per søk.
 
 ## Struktur
 
@@ -67,8 +67,7 @@ Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics
 - `nav_office_search_search_requests_total{route, outcome}`: søk per endepunkt, med utfall `hits`, `empty` (gyldig søk uten treff), `invalid` (4xx) eller `error` (5xx). Varighet i `nav_office_search_search_request_duration_seconds`.
 - `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, XP, SSB, Bring, Azure og innloggingsstatus, per statusklasse, `timeout` eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
 - `nav_office_search_reference_data_without_office{dataset}`: kommuner, bydeler og postnumre som siste datalasting ikke fant Nav-kontor for. Bør være 0 for kommuner; hvilke det gjelder står i loggen ("No office found", med datasett og numre).
-- `nav_office_search_data_loads_total{outcome}`, `nav_office_search_data_last_success_timestamp_seconds` og `nav_office_search_data_load_duration_seconds`: oppstart og daglig oppfrisking av referansedata. Utfallet er `success` når alt ble byttet ut, `partial` når noe beholdt de gamle dataene, og `failure`; tidspunktet og varigheten gjelder siste `success`.
-- `nav_office_search_data_rejections_total{dataset}`: nye referansedata som ble avvist fordi de var for små: under et gulv, eller over 10 % mindre enn det som er i bruk. Da beholdes de gamle. Loggen har størrelsene ("Refused new reference data").
+- `nav_office_search_data_loads_total{outcome}`, `nav_office_search_data_last_success_timestamp_seconds` og `nav_office_search_data_load_duration_seconds`: oppstart og daglig oppfrisking av referansedata. Utfallet er `success` eller `failure`: feiler en kilde, eller er de nye dataene for små (under et gulv), beholdes alt som er i bruk, og loggen sier hvorfor ("Refreshing data failed"). Tidspunktet og varigheten gjelder siste `success`.
 - `nav_office_search_page_renders_total{locale, outcome}`: sidevisninger rendret på server (`ssr`), med fallback til klient (`csr_fallback`) eller med feil.
 
 I tillegg kommer standardmetrikkene for Node.js-prosessen (`nodejs_*`, `process_*`).

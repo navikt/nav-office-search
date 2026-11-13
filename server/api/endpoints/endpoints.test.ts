@@ -79,21 +79,21 @@ describe('searchHandler', () => {
 		expect(officeNames((await searchHandler(postnr)).body)).toEqual(['Nav Tromsø']);
 	});
 
-	test('looks up the bydeler of a postnummer in a kommune with bydeler, and their offices', async () => {
+	test('looks up the bydeler of a postnummer in a kommune with bydeler, and finds their offices in the data', async () => {
 		const { status, body } = await searchHandler('0354');
 
 		expect(status).toBe(200);
 		expect(officeNames(body)).toEqual(['Nav Frogner', 'Nav St. Hanshaugen']);
-		expect(upstreamUrls()).toEqual([
-			`GET ${API}/bydel?postnummer=0354`,
-			`GET ${API}/geoid?id=030105`,
-			`GET ${API}/geoid?id=030104`,
-		]);
-		expect(upstreamCalls().map(({ headers }) => headers.authorization)).toEqual([
-			AUTHORIZATION,
-			AUTHORIZATION,
-			AUTHORIZATION,
-		]);
+		expect(upstreamUrls()).toEqual([`GET ${API}/bydel?postnummer=0354`]);
+		expect(upstreamCalls().map(({ headers }) => headers.authorization)).toEqual([AUTHORIZATION]);
+	});
+
+	test('asks only for the bydeler of a postnummer in a kommune NORG has no office for', async () => {
+		// 3560 is in Hemsedal (3042), which has no office in the fixtures
+		const { status, body } = await searchHandler('3560');
+
+		expect([status, officeNames(body)]).toEqual([200, []]);
+		expect(upstreamUrls()).toEqual([`GET ${API}/bydel?postnummer=3560`]);
 	});
 
 	test('answers without offices when the postnummer has no bydel', async () => {
@@ -110,10 +110,8 @@ describe('searchHandler', () => {
 		expect([status, officeNames(body)]).toEqual([200, []]);
 	});
 
-	test('leaves out the office of a bydel whose lookup fails', async () => {
-		upstreams.get(`${API}/geoid`, ({ query }) =>
-			query.get('id') === '030104' ? { json: { enhetNr: '0313', navn: 'Nav St. Hanshaugen' } } : { status: 503 },
-		);
+	test('leaves out a bydel NORG has no office for', async () => {
+		upstreams.get(`${API}/bydel`, { json: { bydeler: ['030104', '030199'] } });
 
 		const { status, body } = await searchHandler('0354');
 
@@ -286,11 +284,11 @@ describe('geoidSearchHandler', () => {
 		};
 
 		expect(await geoidSearchHandler('030101')).toEqual(expected);
-		expect(upstreamUrls()).toEqual([`GET ${API}/geoid?id=030101`]);
 		expect(await geoidSearchHandler(' 030101 ')).toEqual(expected);
+		expect(upstreamUrls()).toEqual([]);
 	});
 
-	test("passes on nav-office-search-api's 404 for an id without an office, like Jan Mayen (bug)", async () => {
+	test('answers 404 for an id NORG has no office for, like Jan Mayen (bug)', async () => {
 		vi.spyOn(logger, 'info');
 		vi.spyOn(logger, 'error');
 
@@ -300,17 +298,10 @@ describe('geoidSearchHandler', () => {
 		expect(logged('error')).toEqual([]);
 	});
 
-	test.each([503, 500])('passes on status %i from nav-office-search-api', async (status) => {
-		upstreams.get(`${API}/geoid`, { status });
-
-		expect(await geoidSearchHandler('030101')).toEqual({ status, body: error('errorServerError') });
-	});
-
 	test.each([
 		undefined,
 		'',
 		' ',
-		// nav-office-search-api crashes on this one
 		'constructor',
 		'__proto__',
 		'toString',
@@ -321,7 +312,7 @@ describe('geoidSearchHandler', () => {
 		'-0301',
 		'03 01',
 		'0301\n030101',
-	])('answers 400 for the id %j, without asking upstream', async (id) => {
+	])('answers 400 for the id %j', async (id) => {
 		expect(await geoidSearchHandler(id)).toEqual({ status: 400, body: error('errorInvalidQuery') });
 		expect(upstreamUrls()).toEqual([]);
 	});

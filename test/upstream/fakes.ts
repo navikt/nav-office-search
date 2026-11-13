@@ -83,7 +83,6 @@ const fixtureJson = <T>(path: string): T => JSON.parse(fixture(path).toString('u
 
 type Recorded = Record<string, { status: number; body: unknown }>;
 
-const offices = fixtureJson<Record<string, { enhetNr: string; navn: string }>>('office-search-api/geoid.json');
 const adresser = fixtureJson<Recorded>('office-search-api/adresse.json');
 const bydeler = fixtureJson<Recorded>('office-search-api/bydel.json');
 
@@ -100,19 +99,8 @@ const single = (query: URLSearchParams, name: string) => {
 	return values.length === 1 ? values[0] : undefined;
 };
 
-// nav-office-search-api, mirroring its handlers (src/handlers/ in that repo). Ids, queries and postnumre without a
-// recording get what the backend answers for ones it doesn't know.
-const geoid = ({ query }: UpstreamRequest) => {
-	const id = single(query, 'id');
-	if (id === undefined) {
-		return new Response("Invalid request - 'id' parameter is required", {
-			status: 400,
-			headers: { 'content-type': 'text/html; charset=utf-8' },
-		});
-	}
-	return offices[id] ? json(offices[id]) : json({ message: `No office info found for geoid ${id}` }, 404);
-};
-
+// nav-office-search-api, mirroring its routes. Queries and postnumre without a recording get what the backend answers
+// for ones it doesn't know.
 const adresse = ({ query }: UpstreamRequest) => {
 	const queryString = single(query, 'queryString');
 	if (!queryString?.trim()) {
@@ -157,7 +145,7 @@ export const createUpstreamFakes = (origins: UpstreamOrigins) => {
 		ssbVersion: 'GET data.ssb.no/api/klass/v1/versions/1168',
 		bring: 'GET www.bring.no/postnummerregister-ansi.txt',
 		token: routeTo('POST', origins.tokenEndpoint),
-		geoid: routeTo('GET', `${origins.api}/geoid`),
+		geoids: routeTo('GET', `${origins.api}/geoids`),
 		adresse: routeTo('GET', `${origins.api}/adresse`),
 		bydel: routeTo('GET', `${origins.api}/bydel`),
 		loginSession: routeTo('GET', origins.loginSession),
@@ -171,7 +159,7 @@ export const createUpstreamFakes = (origins: UpstreamOrigins) => {
 		[routes.bring]: () => file('bring/postnummerregister-ansi.txt', 'text/plain'),
 		[routes.token]: () =>
 			json({ token_type: 'Bearer', expires_in: 3599, ext_expires_in: 3599, access_token: ACCESS_TOKEN }),
-		[routes.geoid]: geoid,
+		[routes.geoids]: () => file('office-search-api/geoids.json', 'application/json'),
 		[routes.adresse]: adresse,
 		[routes.bydel]: bydel,
 		[routes.loginSession]: loginSession,

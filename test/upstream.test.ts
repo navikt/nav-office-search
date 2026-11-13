@@ -4,7 +4,7 @@ import type { z } from 'zod';
 import {
 	adresseSokSchema,
 	bydelSokSchema,
-	officeSchema,
+	officesSchema,
 	ssbClassificationSchema,
 	ssbVersionSchema,
 	tokenSchema,
@@ -40,15 +40,9 @@ describe('fixtures', () => {
 		['xp/office-info.json', xpOfficeInfoSchema],
 		['ssb/classification-103.json', ssbClassificationSchema],
 		['ssb/version.json', ssbVersionSchema],
+		['office-search-api/geoids.json', officesSchema],
 	] as const)('%s', (path, schema) => {
 		expect(failures(schema, { [path]: fixture(path) })).toEqual([]);
-	});
-
-	test('office-search-api/geoid.json, each office', () => {
-		const offices = fixture('office-search-api/geoid.json');
-
-		expect(Object.keys(offices).length).toBeGreaterThan(300);
-		expect(failures(officeSchema, offices)).toEqual([]);
 	});
 
 	test.each([

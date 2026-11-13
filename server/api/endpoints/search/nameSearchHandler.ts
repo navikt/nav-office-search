@@ -2,10 +2,8 @@ import { logger } from '@navikt/navno-logger';
 import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
 import type { NameHit, SearchResultProps } from '#shared/types/results.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
-import { getBydelerArray } from '#server/data/bydeler.ts';
-import { getKommunerArray } from '#server/data/kommuner.ts';
-import { getPoststedArray } from '#server/data/poststeder.ts';
-import type { Kommune, OfficeInfo } from '#shared/types/data.ts';
+import { referenceData } from '#server/data/data.ts';
+import type { Bydel, Kommune, OfficeInfo, Poststed } from '#shared/types/data.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
 import { norskSort, sortOfficeNames } from '#server/utils/sort.ts';
 
@@ -30,11 +28,11 @@ const getBydelFromKommune = (kommune: Kommune, normalizedQuery: string) => {
 		.map((bydel) => buildOfficeHit(bydel.officeInfo, bydel.navn));
 };
 
-const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
+const findOfficeName = (kommuner: Kommune[], normalizedQuery: string): OfficeInfo[] => {
 	// The office names is buried in the kommuner array,
 	// so start from there
 	let officeHits: OfficeInfo[] = [];
-	getKommunerArray().forEach((kommune) => {
+	kommuner.forEach((kommune) => {
 		const bydelerOfficeHits = getBydelFromKommune(kommune, normalizedQuery);
 
 		const isMatch = kommune.officeInfo && officeNameMatches(kommune.officeInfo, normalizedQuery);
@@ -47,14 +45,14 @@ const findOfficeName = (normalizedQuery: string): OfficeInfo[] => {
 	return officeHits;
 };
 
-const findBydeler = (normalizedQuery: string): OfficeInfo[] => {
-	const bydelerMatches = getBydelerArray().filter((bydel) => bydel.navnNormalized.includes(normalizedQuery));
+const findBydeler = (bydeler: Bydel[], normalizedQuery: string): OfficeInfo[] => {
+	const bydelerMatches = bydeler.filter((bydel) => bydel.navnNormalized.includes(normalizedQuery));
 
 	return bydelerMatches.map((bydel) => buildOfficeHit(bydel.officeInfo, bydel.navn));
 };
 
-const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
-	return getPoststedArray().reduce((matches, poststed) => {
+const findPoststeder = (poststeder: Poststed[], normalizedQuery: string): OfficeInfo[] => {
+	return poststeder.reduce((matches, poststed) => {
 		const isMatch = poststed.poststedNormalized.includes(normalizedQuery) && poststed.officeInfo.length > 0;
 		if (!isMatch) {
 			return matches;
@@ -64,8 +62,8 @@ const findPoststeder = (normalizedQuery: string): OfficeInfo[] => {
 	}, [] as OfficeInfo[]);
 };
 
-const findKommuner = (normalizedQuery: string): OfficeInfo[] => {
-	return getKommunerArray().reduce((matches, kommune) => {
+const findKommuner = (kommuner: Kommune[], normalizedQuery: string): OfficeInfo[] => {
+	return kommuner.reduce((matches, kommune) => {
 		const isMatch = kommune.kommuneNavnNormalized.includes(normalizedQuery);
 		if (!isMatch) {
 			return matches;
@@ -123,15 +121,16 @@ const transformHits = (officeHits: OfficeInfo[], normalizedQuery: string): NameH
 };
 
 export const getNameSearchResult = (query: string) => {
+	const { poststeder, kommuner, bydeler } = referenceData();
 	const queryWithoutNAVPrefix = query.trim().replace(/^nav /i, '');
 	const normalizedQuery = normalizeString(queryWithoutNAVPrefix);
 
 	const hits = transformHits(
 		[
-			...findPoststeder(normalizedQuery),
-			...findKommuner(normalizedQuery),
-			...findBydeler(normalizedQuery),
-			...findOfficeName(normalizedQuery),
+			...findPoststeder([...poststeder.values()], normalizedQuery),
+			...findKommuner(kommuner, normalizedQuery),
+			...findBydeler(bydeler, normalizedQuery),
+			...findOfficeName(kommuner, normalizedQuery),
 		],
 		normalizedQuery,
 	);

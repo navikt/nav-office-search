@@ -9,10 +9,7 @@ import { installUpstreams } from '#test/upstream/upstreams.ts';
 import { BASE_PATH } from '#shared/basePath.ts';
 import type { AppLocale } from '#shared/localization/types.ts';
 import { createApp } from './app.ts';
-import { loadData } from './data/data.ts';
-import { getBydelerArray } from './data/bydeler.ts';
-import { getKommunerArray } from './data/kommuner.ts';
-import { getPoststedArray } from './data/poststeder.ts';
+import { loadData, referenceData } from './data/data.ts';
 import { pageRenders, registry, searchDuration, searchRequests } from './metrics/metrics.ts';
 import type { HtmlRenderer } from './site/ssr/htmlRenderer.ts';
 import { env } from '#server/env.ts';
@@ -95,9 +92,9 @@ describe('the API', () => {
 	});
 
 	test.each([
-		['/data/kommuner', getKommunerArray],
-		['/data/poststeder', getPoststedArray],
-		['/data/bydeler', getBydelerArray],
+		['/data/kommuner', () => referenceData().kommuner],
+		['/data/poststeder', () => [...referenceData().poststeder.values()]],
+		['/data/bydeler', () => referenceData().bydeler],
 	])('%s dumps the loaded data', async (path, loaded) => {
 		const response = await app.request(`${API}${path}`);
 

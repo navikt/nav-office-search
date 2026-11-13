@@ -77,7 +77,7 @@ export const observeSearch = async <Response extends { status: number; body: unk
 // Upstream calls
 
 export type Upstream =
-	| 'office-search-api/geoid'
+	| 'office-search-api/geoids'
 	| 'office-search-api/adresse'
 	| 'office-search-api/bydel'
 	| 'xp'
@@ -131,27 +131,20 @@ export const pageRenders = new Counter({
 
 export const dataLoads = new Counter({
 	name: `${prefix}data_loads_total`,
-	help: 'Reference data loads (startup and the daily refresh) by outcome: success when every dataset was replaced, partial when some kept their data, failure',
+	help: 'Reference data loads (startup and the daily refresh) by outcome: success, or failure when a source failed or the new data was too small. A failed load keeps the data in use.',
 	labelNames: ['outcome'] as const,
 	registers: [registry],
 });
 
 export const dataLoadDuration = new Gauge({
 	name: `${prefix}data_load_duration_seconds`,
-	help: 'Duration of the last reference data load that replaced every dataset',
+	help: 'Duration of the last successful reference data load',
 	registers: [registry],
 });
 
 export const dataLastSuccess = new Gauge({
 	name: `${prefix}data_last_success_timestamp_seconds`,
-	help: 'Unix time of the last reference data load that replaced every dataset',
-	registers: [registry],
-});
-
-export const dataRejections = new Counter({
-	name: `${prefix}data_rejections_total`,
-	help: 'New reference data refused for being too small, by dataset. The data in use is kept.',
-	labelNames: ['dataset'] as const,
+	help: 'Unix time of the last successful reference data load',
 	registers: [registry],
 });
 

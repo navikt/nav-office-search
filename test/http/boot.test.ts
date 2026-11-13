@@ -80,32 +80,16 @@ describe('a normal boot', () => {
 		await expect(requestLines(boot)).toMatchFileSnapshot('__goldens__/boot-requests.txt');
 	});
 
-	test('fetches each source once, then looks up the offices one at a time', () => {
+	test('fetches each source once, the offices of every kommune and bydel included', () => {
 		expect(countBy(boot, routeOf)).toEqual({
 			[ROUTES.xp]: 1,
 			[ROUTES.ssbClassification]: 1,
 			[ROUTES.ssbVersion]: 1,
 			[ROUTES.token]: 1,
 			[ROUTES.bring]: 1,
-			[ROUTES.geoid]: 392,
+			[ROUTES.geoids]: 1,
 			[ROUTES.notFoundPage]: 1,
 		});
-	});
-
-	test('looks up an office per bydel, and per kommune without bydeler', () => {
-		const ids = boot.filter((request) => routeOf(request) === ROUTES.geoid).map(({ query }) => query.get('id'));
-
-		// Oslo is looked up per bydel; SSB's "Uoppgitt" bydeler are skipped
-		expect(ids).not.toContain('0301');
-		expect(ids).toContain('030101');
-		expect(ids).not.toContain('030199');
-		// Svalbard (2100) as itself, and Jan Mayen (2211) as Svalbard
-		expect(ids.filter((id) => id === '2100')).toHaveLength(2);
-		expect(ids).not.toContain('2211');
-		// The fixture register is from before 2024, when Tromsø was 5401
-		expect(ids).toContain('5401');
-		// Only a kommunenr or bydelsnr: the register's trailing newline is no row
-		expect(ids.filter((id) => !/^\d{4}(\d{2})?$/.test(id ?? ''))).toEqual([]);
 	});
 
 	test('gets one client-credentials token from Azure and sends it base64-encoded to nav-office-search-api', () => {
@@ -128,7 +112,7 @@ describe('a normal boot', () => {
 				`${ROUTES.ssbVersion} accept: application/json`,
 				`${ROUTES.token} accept: application/json`,
 				`${ROUTES.bring} accept: */*`,
-				`${ROUTES.geoid} accept: application/json`,
+				`${ROUTES.geoids} accept: application/json`,
 				`${ROUTES.notFoundPage} accept: */*`,
 			].sort(),
 		);
@@ -239,7 +223,9 @@ describe('startup failures', () => {
 		expect(logLines(error.message)).toContainEqual(
 			expect.objectContaining({
 				message: 'Server failed to start',
-				err: expect.objectContaining({ message: 'Too little reference data to start with: bydeler from SSB' }),
+				err: expect.objectContaining({
+					message: expect.stringMatching(/^Failed to load offices from nav-office-search-api: /),
+				}),
 			}),
 		);
 	});

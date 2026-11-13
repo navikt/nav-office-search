@@ -8,9 +8,7 @@ import { geoidSearchHandler } from './endpoints/geoid/geoidSearchHandler.ts';
 import { nameSearchHandler } from './endpoints/search/nameSearchHandler.ts';
 import { addressSearchHandler } from './endpoints/search/addressSearchHandler.ts';
 import { loginStatusHandler } from './endpoints/loginstatus/loginStatusHandler.ts';
-import { getKommunerArray } from '#server/data/kommuner.ts';
-import { getPoststedArray } from '#server/data/poststeder.ts';
-import { getBydelerArray } from '#server/data/bydeler.ts';
+import { referenceData } from '#server/data/data.ts';
 import { metricsHandler, observeSearch, type SearchRoute } from '#server/metrics/metrics.ts';
 
 const respond =
@@ -49,13 +47,13 @@ api.get(
 
 api.get(
 	'/data/kommuner',
-	respond(() => ({ status: 200, body: getKommunerArray() })),
+	respond(() => ({ status: 200, body: referenceData().kommuner })),
 );
 api.get(
 	'/data/poststeder',
-	respond(() => ({ status: 200, body: getPoststedArray() })),
+	respond(() => ({ status: 200, body: [...referenceData().poststeder.values()] })),
 );
 api.get(
 	'/data/bydeler',
-	respond(() => ({ status: 200, body: getBydelerArray() })),
+	respond(() => ({ status: 200, body: referenceData().bydeler })),
 );

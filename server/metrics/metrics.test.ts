@@ -71,19 +71,19 @@ describe('observeSearch', () => {
 describe('observeUpstream', () => {
 	test('records the status class and the duration', async () => {
 		await observeUpstream('bring', async () => new Response('', { status: 200 }));
-		await observeUpstream('office-search-api/geoid', async () => new Response('', { status: 404 }));
+		await observeUpstream('office-search-api/geoids', async () => new Response('', { status: 404 }));
 
 		expect((await upstreamRequests.get()).values).toEqual(
 			expect.arrayContaining([
 				expect.objectContaining({ labels: { upstream: 'bring', status: '2xx' }, value: 1 }),
-				expect.objectContaining({ labels: { upstream: 'office-search-api/geoid', status: '4xx' }, value: 1 }),
+				expect.objectContaining({ labels: { upstream: 'office-search-api/geoids', status: '4xx' }, value: 1 }),
 			]),
 		);
 		const counts = (await upstreamDuration.get()).values.filter(({ metricName }) => metricName?.endsWith('_count'));
 		expect(counts.map(({ labels, value }) => [labels.upstream, value])).toEqual(
 			expect.arrayContaining([
 				['bring', 1],
-				['office-search-api/geoid', 1],
+				['office-search-api/geoids', 1],
 			]),
 		);
 	});

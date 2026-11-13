@@ -33,8 +33,8 @@ export const tokenSchema = z.looseObject({
 	expires_in: z.number(),
 });
 
-/** nav-office-search-api's /geoid: the office NORG has for a kommune or bydel */
-export const officeSchema = z.looseObject({ enhetNr: z.string(), navn: z.string() });
+/** nav-office-search-api's /geoids: the office NORG has for each kommune and bydel, by kommunenr or bydelsnr */
+export const officesSchema = z.record(z.string(), z.looseObject({ enhetNr: z.string(), navn: z.string() }));
 
 /** nav-office-search-api's /adresse: PDL's addresses, passed on to the browser as they are */
 export const adresseSokSchema = z.looseObject({

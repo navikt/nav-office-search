@@ -68,7 +68,7 @@ describe('/api/search with a postnummer', () => {
 		expect(officeNames((await search('search', '8099')).body.officeInfo)).toEqual(['Nav Tromsø']);
 	});
 
-	test('looks up the bydeler of a postnummer in a kommune with bydeler, and their offices', async () => {
+	test('looks up the bydeler of a postnummer in a kommune with bydeler, and finds their offices in the data', async () => {
 		const { status, body } = await search('search', '0354');
 
 		expect(status).toBe(200);
@@ -88,16 +88,8 @@ describe('/api/search with a postnummer', () => {
 				hitString: '',
 			},
 		]);
-		expect(upstreamCalls()).toEqual([
-			`GET ${ORIGINS.api}/bydel?postnummer=0354`,
-			`GET ${ORIGINS.api}/geoid?id=030105`,
-			`GET ${ORIGINS.api}/geoid?id=030104`,
-		]);
-		expect(server.stub.requests.map(({ headers }) => headers.authorization)).toEqual([
-			AUTHORIZATION,
-			AUTHORIZATION,
-			AUTHORIZATION,
-		]);
+		expect(upstreamCalls()).toEqual([`GET ${ORIGINS.api}/bydel?postnummer=0354`]);
+		expect(server.stub.requests.map(({ headers }) => headers.authorization)).toEqual([AUTHORIZATION]);
 	});
 
 	test('answers without offices when the postnummer has no bydel', async () => {
@@ -230,7 +222,7 @@ describe('/api/search/address', () => {
 });
 
 describe('/api/geoid', () => {
-	test('answers the office for a geografisk id as a postnummer result', async () => {
+	test('answers the office for a geografisk id as a postnummer result, from the loaded data', async () => {
 		expect(await get(`${API}/geoid?id=030101`)).toEqual({
 			status: 200,
 			type: 'application/json',
@@ -253,10 +245,10 @@ describe('/api/geoid', () => {
 				],
 			},
 		});
-		expect(upstreamCalls()).toEqual([`GET ${ORIGINS.api}/geoid?id=030101`]);
+		expect(upstreamCalls()).toEqual([]);
 	});
 
-	test("passes on nav-office-search-api's 404 for an id without an office, like Jan Mayen", async () => {
+	test('answers 404 for an id NORG has no office for, like Jan Mayen', async () => {
 		expect(await get(`${API}/geoid?id=2211`)).toEqual({
 			status: 404,
 			type: 'application/json',
@@ -264,9 +256,9 @@ describe('/api/geoid', () => {
 		});
 	});
 
-	// Only a kommunenr (4 digits) or a bydelsnr (6) reaches nav-office-search-api, which crashes on ?id=constructor
+	// Only a kommunenr (4 digits) or a bydelsnr (6)
 	test.each(['', '?id=', '?id=%20', '?id=constructor', '?id=__proto__', '?id=03010', '?id=0301%0A%0D030101'])(
-		'answers 400 for %j, without asking nav-office-search-api',
+		'answers 400 for %j',
 		async (queryString) => {
 			expect(await get(`${API}/geoid${queryString}`)).toEqual({
 				status: 400,

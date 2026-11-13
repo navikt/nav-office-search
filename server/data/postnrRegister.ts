@@ -2,7 +2,6 @@ import { logger } from '@navikt/navno-logger';
 import type { PostnrKategori } from '#shared/types/data.ts';
 import { serverUrls } from '#server/urls.ts';
 import { DOWNLOAD_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
-import { getSnapshot } from './snapshot.ts';
 
 const charEncodeFormat = 'windows-1252';
 
@@ -54,5 +53,3 @@ export const fetchPostnrRegister = async () => {
 
 	return rows;
 };
-
-export const getPostnrRegister = () => getSnapshot()?.register ?? [];
