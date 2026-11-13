@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { PostnrKategori } from '#shared/types/data.ts';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
-import { buildKommuner, getKommune, setKommuner } from './kommuner.ts';
-import { buildPoststeder, getPoststed, setPoststeder } from './poststeder.ts';
+import type { BydelerData } from './bydeler.ts';
+import { buildKommuner, getKommune } from './kommuner.ts';
+import { buildPoststeder, getPoststed } from './poststeder.ts';
 import type { PostnrRegisterItem } from './postnrRegister.ts';
+import { setSnapshot } from './snapshot.ts';
 
 vi.mock('#server/external/officeInfo.ts', () => {
 	const fetchOfficeInfoByGeoId = vi.fn();
@@ -45,20 +47,38 @@ beforeEach(() => {
 	});
 });
 
+const noBydeler: BydelerData = {
+	bydelerByBydelsnr: {},
+	bydelerByKommunenr: {},
+	bydelerArray: [],
+	bydelerWithoutOffice: [],
+};
+
+// The kommuner and poststeder of the register above, in use
+const load = async () => {
+	const kommuner = await buildKommuner(register, noBydeler, new Map());
+	setSnapshot({
+		officePaths: new Map(),
+		bydeler: noBydeler,
+		register,
+		kommuner,
+		poststeder: buildPoststeder(register, kommuner),
+	});
+};
+
 describe.each([
 	['2100', 'SVALBARD', '9170'],
 	['2211', 'JAN MAYEN', '8099'],
 	['5501', 'TROMSØ', '9008'],
 ])('kommune %s (%s)', (kommunenr, kommuneNavn, postnr) => {
 	test('is served by Nav Tromsø', async () => {
-		setKommuner(await buildKommuner(register));
+		await load();
 
 		expect(getKommune(kommunenr)).toMatchObject({ kommuneNavn, officeInfo: { enhetNr: '1902', name: 'Nav Tromsø' } });
 	});
 
 	test(`postnr ${postnr} gets Nav Tromsø`, async () => {
-		setKommuner(await buildKommuner(register));
-		setPoststeder(buildPoststeder(register));
+		await load();
 
 		expect((await getPoststed(postnr))?.officeInfo).toMatchObject([{ enhetNr: '1902', name: 'Nav Tromsø' }]);
 	});

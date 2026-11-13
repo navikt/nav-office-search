@@ -1,5 +1,7 @@
 import { schema } from '@itsy/corgi/schema';
 import { officeLookups } from '#server/external/officeInfo.ts';
+import type { OfficePaths } from './officeUrls.ts';
+import { getSnapshot } from './snapshot.ts';
 import { ssbClassificationSchema, ssbVersionSchema } from '#server/external/schemas.ts';
 import { serverUrls } from '#server/urls.ts';
 import { DOWNLOAD_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
@@ -24,32 +26,21 @@ export type BydelerData = {
 	bydelerByKommunenr: BydelerByKommunenrMap;
 	/** The bydeler with an office */
 	bydelerArray: Bydel[];
+	/** Bydeler from SSB that the load couldn't find an office for */
 	bydelerWithoutOffice: string[];
 };
 
-let bydelerData: BydelerData = {
-	bydelerByBydelsnr: {},
-	bydelerByKommunenr: {},
-	bydelerArray: [],
-	bydelerWithoutOffice: [],
-};
-
-export const getBydelerArray = () => bydelerData.bydelerArray;
-
-/** Bydeler from SSB that the last load couldn't find an office for */
-export const getBydelerWithoutOffice = () => bydelerData.bydelerWithoutOffice;
-
-export const getBydel = (bydelnr: string) => bydelerData.bydelerByBydelsnr[bydelnr];
+export const getBydelerArray = () => getSnapshot()?.bydeler.bydelerArray ?? [];
 
 export const getBydelerForKommune = (kommunenr: string): Bydel[] | undefined =>
-	bydelerData.bydelerByKommunenr[kommunenr];
+	getSnapshot()?.bydeler.bydelerByKommunenr[kommunenr];
 
 // Each bydel's office, from SSB's list of them
-const findOffices = async (bydelerDataRaw: SSB_BydelData[]): Promise<BydelerData> => {
+const findOffices = async (bydelerDataRaw: SSB_BydelData[], officePaths: OfficePaths): Promise<BydelerData> => {
 	const newBydelerMap: BydelerByBydelsnrMap = {};
 	const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
 	const newBydelerWithoutOffice: string[] = [];
-	const offices = officeLookups('bydeler');
+	const offices = officeLookups('bydeler', officePaths);
 
 	for (const item of bydelerDataRaw) {
 		const { code: bydelsnr, name } = item;
@@ -117,9 +108,5 @@ const fetchBydelerRawData = async () => {
 	return classificationItems;
 };
 
-/** The bydeler SSB has now, with their offices. Throws when SSB can't tell. */
-export const fetchBydeler = async () => findOffices(await fetchBydelerRawData());
-
-export const setBydeler = (data: BydelerData) => {
-	bydelerData = data;
-};
+/** The bydeler SSB has now, with their offices and those offices' pages. Throws when SSB can't tell. */
+export const fetchBydeler = async (officePaths: OfficePaths) => findOffices(await fetchBydelerRawData(), officePaths);

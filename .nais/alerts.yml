@@ -34,7 +34,7 @@ spec:
           annotations:
             summary: Some kommuner have no Nav office in nav-office-search
             consequence: Searches in those kommuner find no office.
-            action: The logs say which ("No office found", dataset kommuner). Check nav-office-search-api's NORG metrics; restart the pods once it's fixed, or wait for the next load at 06:00.
+            action: The logs say which ("No office found", dataset kommuner). Check nav-office-search-api's NORG metrics; restart the pods once it's fixed, or wait for the next load at 06:00 UTC.
           labels:
             namespace: navno
             severity: warning
@@ -57,7 +57,7 @@ spec:
           annotations:
             summary: nav-office-search refused new reference data and kept the old
             consequence: The dataset stays as it was until a refresh gets as much data again.
-            action: The logs have the sizes ("Refused new reference data"). An upstream failing, like nav-office-search-api, resolves itself at the next refresh at 06:00. A real drop, like merged kommuner, is taken by a restart, which has nothing to compare with.
+            action: The logs have the sizes ("Refused new reference data"). An upstream failing, like nav-office-search-api, resolves itself at the next refresh at 06:00 UTC. A real drop, like merged kommuner, is taken by a restart, which has nothing to compare with.
           labels:
             namespace: navno
             severity: warning

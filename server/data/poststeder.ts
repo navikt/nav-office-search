@@ -1,6 +1,7 @@
 import { logger } from '@navikt/navno-logger';
 import { getBydelerForKommune } from './bydeler.ts';
-import { getKommune, getOfficeInfoGeoIdForKommune } from './kommuner.ts';
+import { getOfficeInfoGeoIdForKommune, type KommunerData } from './kommuner.ts';
+import { getSnapshot } from './snapshot.ts';
 import type { PostnrRegisterItem } from './postnrRegister.ts';
 import type { Poststed } from '#shared/types/data.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
@@ -9,63 +10,46 @@ import { failureOf } from '#server/utils/upstream.ts';
 
 type PoststederMap = Map<string, Poststed>;
 
-type PoststederData = {
+export type PoststederData = {
 	poststederMap: PoststederMap;
 	poststederArray: Poststed[];
 };
 
-let poststederData: PoststederData = {
-	poststederMap: new Map(),
-	poststederArray: [],
-};
+export const getPoststedArray = () => getSnapshot()?.poststeder.poststederArray ?? [];
 
-export const getPoststedArray = () => poststederData.poststederArray;
-
+/**
+ * The poststed for a postnummer, with its office. One whose kommune the load found no office for, outside the kommuner
+ * with bydeler, is looked up again, since that can have been a failed lookup. What it finds is for this search only:
+ * the data in use doesn't change.
+ */
 export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
-	const localData = poststederData.poststederMap.get(postnr);
+	const poststed = getSnapshot()?.poststeder.poststederMap.get(postnr);
 
-	// Postnr was not found
-	if (!localData) {
+	if (!poststed) {
 		return null;
 	}
 
-	// For most postnr, the office info is already mapped (officeInfo)
-	// If the postnr is in a kommune with bydeler, we have to
-	// make some separate mapping.
-	if (localData.officeInfo.length === 0) {
-		if (getBydelerForKommune(localData.kommunenr)) {
-			return localData;
-		}
-
-		try {
-			const officeInfo = await fetchOfficeInfoByGeoId(getOfficeInfoGeoIdForKommune(localData.kommunenr));
-
-			if (officeInfo) {
-				const poststedWithOfficeInfo = {
-					...localData,
-					officeInfo: [officeInfo],
-				};
-
-				poststederData.poststederMap.set(postnr, poststedWithOfficeInfo);
-
-				return poststedWithOfficeInfo;
-			}
-		} catch (e) {
-			logger.error('Looking up the office for a postnummer failed', { postnr }, failureOf(e));
-		}
+	if (poststed.officeInfo.length > 0 || getBydelerForKommune(poststed.kommunenr)) {
+		return poststed;
 	}
 
-	return localData;
+	try {
+		const officeInfo = await fetchOfficeInfoByGeoId(getOfficeInfoGeoIdForKommune(poststed.kommunenr));
+		return officeInfo ? { ...poststed, officeInfo: [officeInfo] } : poststed;
+	} catch (e) {
+		logger.error('Looking up the office for a postnummer failed', { postnr }, failureOf(e));
+		return poststed;
+	}
 };
 
-/** A poststed per row of the register, with its kommune's office from the kommuner in use */
-export const buildPoststeder = (postnrRegister: PostnrRegisterItem[]): PoststederData => {
+/** A poststed per row of the register, with its kommune's office */
+export const buildPoststeder = (postnrRegister: PostnrRegisterItem[], kommuner: KommunerData): PoststederData => {
 	const newPoststederMap: PoststederMap = new Map();
 
 	for (const item of postnrRegister) {
 		const { postnr, poststed, kommunenr, kategori, kommune } = item;
 
-		const kommuneData = getKommune(kommunenr);
+		const kommuneData = kommuner.kommunerMap[kommunenr];
 
 		newPoststederMap.set(postnr, {
 			postnr,
@@ -79,8 +63,4 @@ export const buildPoststeder = (postnrRegister: PostnrRegisterItem[]): Poststede
 	}
 
 	return { poststederMap: newPoststederMap, poststederArray: Array.from(newPoststederMap.values()) };
-};
-
-export const setPoststeder = (data: PoststederData) => {
-	poststederData = data;
 };

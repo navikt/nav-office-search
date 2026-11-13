@@ -1,5 +1,5 @@
 import { logger } from '@navikt/navno-logger';
-import schedule from 'node-schedule';
+import { Cron } from 'croner';
 import {
 	dataLastSuccess,
 	dataLoadDuration,
@@ -10,11 +10,12 @@ import {
 } from '#server/metrics/metrics.ts';
 import { kommunerWithoutOffice, poststederWithoutOffice } from '#server/metrics/referenceData.ts';
 import { failureOf } from '#server/utils/upstream.ts';
-import { fetchBydeler, getBydelerArray, getBydelerForKommune, getBydelerWithoutOffice, setBydeler } from './bydeler.ts';
-import { buildKommuner, getKommunerArray, setKommuner } from './kommuner.ts';
-import { fetchOfficePaths, getOfficeUrlCount, setOfficePaths } from './officeUrls.ts';
-import { fetchPostnrRegister, getPostnrRegister, setPostnrRegister } from './postnrRegister.ts';
-import { buildPoststeder, getPoststedArray, setPoststeder } from './poststeder.ts';
+import { fetchBydeler } from './bydeler.ts';
+import { buildKommuner } from './kommuner.ts';
+import { fetchOfficePaths } from './officeUrls.ts';
+import { fetchPostnrRegister } from './postnrRegister.ts';
+import { buildPoststeder } from './poststeder.ts';
+import { getSnapshot, setSnapshot, type Snapshot } from './snapshot.ts';
 
 type Dataset = 'office_urls' | 'bydeler' | 'postnr_register' | 'kommuner';
 
@@ -38,51 +39,47 @@ for (const dataset of Object.keys(floors) as Dataset[]) {
 // an upstream failing, like every office lookup failing when nav-office-search-api or its token is down.
 const maxDrop = 0.1;
 
-type Replacement<Data> = {
+type Choice<Data> = {
 	dataset: Dataset;
 	/** The new data, or throws when its source can't give it */
 	load: () => Promise<Data>;
 	size: (data: Data) => number;
-	/** The size of the data in use, 0 before the first load */
-	current: () => number;
-	set: (data: Data) => void;
+	/** The data in use, undefined before the first load */
+	inUse: Data | undefined;
 };
 
 /**
- * Replaces a dataset with what its source has now, unless the source fails, or the new data is below the dataset's
- * floor or too much smaller than the data in use. Then the data in use is kept; with none in use yet, this throws, so
- * the server doesn't start without it. Says whether it replaced the data.
+ * Chooses between what a dataset's source has now and the data in use. The new data, unless the source fails, or the
+ * new data is below the dataset's floor or too much smaller than the data in use; then the data in use. With none in
+ * use yet, that throws, so the server doesn't start without it.
  */
-const replace = async <Data>({ dataset, load, size, current, set }: Replacement<Data>) => {
-	const inUse = current();
+const choose = async <Data>({ dataset, load, size, inUse }: Choice<Data>) => {
+	const sizeInUse = inUse === undefined ? 0 : size(inUse);
 
 	let data: Data;
 	try {
 		data = await load();
 	} catch (e) {
-		if (inUse === 0) {
+		if (inUse === undefined) {
 			throw new Error(`Failed to load ${sources[dataset]}`, { cause: e });
 		}
 		logger.error('Failed to load reference data - keeping current data', { dataset }, failureOf(e));
-		return false;
+		return { data: inUse, replaced: false };
 	}
 
-	const sizes = { dataset, size: size(data), current: inUse, floor: floors[dataset] };
-	if (sizes.size < sizes.floor || sizes.size < inUse * (1 - maxDrop)) {
+	const sizes = { dataset, size: size(data), current: sizeInUse, floor: floors[dataset] };
+	if (sizes.size < sizes.floor || sizes.size < sizeInUse * (1 - maxDrop)) {
 		dataRejections.inc({ dataset });
-		if (inUse === 0) {
+		if (inUse === undefined) {
 			throw Object.assign(new Error(`Too little reference data to start with: ${sources[dataset]}`), sizes);
 		}
 		logger.error('Refused new reference data - keeping current data', sizes);
-		return false;
+		return { data: inUse, replaced: false };
 	}
 
-	set(data);
 	logger.info('Loaded reference data', { dataset, size: sizes.size });
-	return true;
+	return { data, replaced: true };
 };
-
-let isLoading = false;
 
 // One message for all of them, with the numbers as fields, so the log groups them
 const logWithoutOffice = (dataset: 'kommuner' | 'poststeder' | 'bydeler', numbers: string[]) => {
@@ -91,19 +88,18 @@ const logWithoutOffice = (dataset: 'kommuner' | 'poststeder' | 'bydeler', number
 	}
 };
 
-const recordReferenceData = () => {
-	const register = getPostnrRegister();
-	const missingKommuner = kommunerWithoutOffice(register, getKommunerArray());
-	const missingPoststeder = poststederWithoutOffice(getPoststedArray(), (kommunenr) =>
-		Boolean(getBydelerForKommune(kommunenr)),
+const recordReferenceData = ({ officePaths, bydeler, register, kommuner, poststeder }: Snapshot) => {
+	const missingKommuner = kommunerWithoutOffice(register, kommuner.kommunerArray);
+	const missingPoststeder = poststederWithoutOffice(poststeder.poststederArray, (kommunenr) =>
+		Boolean(bydeler.bydelerByKommunenr[kommunenr]),
 	);
-	const missingBydeler = getBydelerWithoutOffice();
+	const missingBydeler = bydeler.bydelerWithoutOffice;
 
 	referenceDataEntries.set({ dataset: 'postnr_register' }, register.length);
-	referenceDataEntries.set({ dataset: 'kommuner' }, getKommunerArray().length);
-	referenceDataEntries.set({ dataset: 'poststeder' }, getPoststedArray().length);
-	referenceDataEntries.set({ dataset: 'bydeler' }, getBydelerArray().length);
-	referenceDataEntries.set({ dataset: 'office_urls' }, getOfficeUrlCount());
+	referenceDataEntries.set({ dataset: 'kommuner' }, kommuner.kommunerArray.length);
+	referenceDataEntries.set({ dataset: 'poststeder' }, poststeder.poststederArray.length);
+	referenceDataEntries.set({ dataset: 'bydeler' }, bydeler.bydelerArray.length);
+	referenceDataEntries.set({ dataset: 'office_urls' }, officePaths.size);
 
 	referenceDataWithoutOffice.set({ dataset: 'kommuner' }, missingKommuner.length);
 	referenceDataWithoutOffice.set({ dataset: 'poststeder' }, missingPoststeder.length);
@@ -115,79 +111,80 @@ const recordReferenceData = () => {
 };
 
 /**
- * Loads the reference data, one dataset at a time, each building on the ones before it as they are in use: the office
- * lookups need the office URLs, and the kommuner need the bydeler and the register. The poststeder are made from the
- * register and the kommuner, so there's nothing to check.
+ * Loads the reference data into a new snapshot, one dataset at a time, each building on the ones chosen before it: the
+ * office lookups need the office URLs, and the kommuner need the bydeler and the register. The poststeder are made from
+ * the register and the kommuner, so there's nothing to check. The snapshot then replaces the one in use, all at once.
  */
-export const loadData = async () => {
-	if (isLoading) {
-		return;
-	}
-
-	isLoading = true;
+const load = async () => {
 	logger.info('Started loading data');
 	const startedAt = performance.now();
+	const inUse = getSnapshot();
 
 	try {
-		const replaced = [
-			await replace({
-				dataset: 'office_urls',
-				load: fetchOfficePaths,
-				size: (paths) => paths.size,
-				current: getOfficeUrlCount,
-				set: setOfficePaths,
-			}),
-			await replace({
-				dataset: 'bydeler',
-				load: fetchBydeler,
-				size: ({ bydelerArray }) => bydelerArray.length,
-				current: () => getBydelerArray().length,
-				set: setBydeler,
-			}),
-			await replace({
-				dataset: 'postnr_register',
-				load: fetchPostnrRegister,
-				size: (rows) => rows.length,
-				current: () => getPostnrRegister().length,
-				set: setPostnrRegister,
-			}),
-			await replace({
-				dataset: 'kommuner',
-				load: () => buildKommuner(getPostnrRegister()),
-				size: ({ kommunerArray }) => kommunerArray.length,
-				current: () => getKommunerArray().length,
-				set: setKommuner,
-			}),
-		];
-		setPoststeder(buildPoststeder(getPostnrRegister()));
+		const officePaths = await choose({
+			dataset: 'office_urls',
+			load: fetchOfficePaths,
+			size: (paths) => paths.size,
+			inUse: inUse?.officePaths,
+		});
+		const bydeler = await choose({
+			dataset: 'bydeler',
+			load: () => fetchBydeler(officePaths.data),
+			size: ({ bydelerArray }) => bydelerArray.length,
+			inUse: inUse?.bydeler,
+		});
+		const register = await choose({
+			dataset: 'postnr_register',
+			load: fetchPostnrRegister,
+			size: (rows) => rows.length,
+			inUse: inUse?.register,
+		});
+		const kommuner = await choose({
+			dataset: 'kommuner',
+			load: () => buildKommuner(register.data, bydeler.data, officePaths.data),
+			size: ({ kommunerArray }) => kommunerArray.length,
+			inUse: inUse?.kommuner,
+		});
 
-		const complete = replaced.every(Boolean);
+		const snapshot: Snapshot = {
+			officePaths: officePaths.data,
+			bydeler: bydeler.data,
+			register: register.data,
+			kommuner: kommuner.data,
+			poststeder: buildPoststeder(register.data, kommuner.data),
+		};
+		setSnapshot(snapshot);
+
+		const complete = [officePaths, bydeler, register, kommuner].every(({ replaced }) => replaced);
 		const durationSeconds = (performance.now() - startedAt) / 1000;
 		dataLoads.inc({ outcome: complete ? 'success' : 'partial' });
 		if (complete) {
 			dataLoadDuration.set(durationSeconds);
 			dataLastSuccess.setToCurrentTime();
 		}
-		recordReferenceData();
+		recordReferenceData(snapshot);
 		logger.info('Finished loading data', { durationSeconds: Number(durationSeconds.toFixed(1)), complete });
 	} catch (e) {
 		// Logged by whoever started the load
 		dataLoads.inc({ outcome: 'failure' });
 		throw e;
-	} finally {
-		isLoading = false;
 	}
 };
 
-export const loadDataAndStartSchedule = async () => {
-	await loadData();
+let loading: Promise<void> | undefined;
 
-	// A refresh keeps whatever it can't replace, so it shouldn't fail. Should it anyway, the pod keeps serving.
-	schedule.scheduleJob({ hour: 6, minute: 0, second: 0 }, async () => {
-		try {
-			await loadData();
-		} catch (e) {
-			logger.error('Refreshing data failed', e);
-		}
+/** Loads the reference data, or waits for the load already running and settles as it does */
+export const loadData = () => {
+	loading ??= load().finally(() => {
+		loading = undefined;
 	});
+	return loading;
 };
+
+/**
+ * Loads the reference data again every day at 06:00 UTC, whatever the machine's time zone. A refresh keeps whatever it
+ * can't replace, so it shouldn't fail; should it anyway, it's logged, and the pod keeps serving. Stop the job on
+ * shutdown.
+ */
+export const scheduleRefresh = () =>
+	new Cron('0 0 6 * * *', { timezone: 'Etc/UTC', catch: (e) => logger.error('Refreshing data failed', e) }, loadData);

@@ -31,9 +31,9 @@
 		"@navikt/nav-dekoratoren-moduler": "4.5.3",
 		"@navikt/navno-logger": "1.1.0",
 		"@prometheus-io/client": "0.16.1",
+		"croner": "11.0.0",
 		"hono": "4.13.16",
 		"html-react-parser": "6.1.9",
-		"node-schedule": "2.1.2",
 		"react": "19.3.1",
 		"react-dom": "19.3.1",
 		"zod": "4.6.7"
@@ -48,7 +48,6 @@
 		"@testing-library/user-event": "14.6.8",
 		"@types/jsdom": "30.0.0",
 		"@types/node": "26.6.6",
-		"@types/node-schedule": "2.1.8",
 		"@types/react": "19.3.0",
 		"@types/react-dom": "19.3.0",
 		"@vitejs/plugin-react": "6.2.1",

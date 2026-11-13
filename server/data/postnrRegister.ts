@@ -2,6 +2,7 @@ import { logger } from '@navikt/navno-logger';
 import type { PostnrKategori } from '#shared/types/data.ts';
 import { serverUrls } from '#server/urls.ts';
 import { DOWNLOAD_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
+import { getSnapshot } from './snapshot.ts';
 
 const charEncodeFormat = 'windows-1252';
 
@@ -14,8 +15,6 @@ export type PostnrRegisterItem = {
 	kommunenr: string;
 	kategori: PostnrKategori;
 };
-
-let postnrRegisterData: PostnrRegisterItem[] = [];
 
 const isFourDigits = (value: string) => /^\d{4}$/.test(value);
 
@@ -56,10 +55,4 @@ export const fetchPostnrRegister = async () => {
 	return rows;
 };
 
-export const setPostnrRegister = (rows: PostnrRegisterItem[]) => {
-	postnrRegisterData = rows;
-};
-
-export const getPostnrRegister = () => {
-	return postnrRegisterData;
-};
+export const getPostnrRegister = () => getSnapshot()?.register ?? [];
