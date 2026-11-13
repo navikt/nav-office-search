@@ -14,7 +14,7 @@ type PoststederData = {
 	poststederArray: Poststed[];
 };
 
-const poststederData: PoststederData = {
+let poststederData: PoststederData = {
 	poststederMap: new Map(),
 	poststederArray: [],
 };
@@ -58,10 +58,8 @@ export const getPoststed = async (postnr: string): Promise<Poststed | null> => {
 	return localData;
 };
 
-// This function is used at startup and data kept in memory
-export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) => {
-	logger.info('Loading data for poststeder');
-
+/** A poststed per row of the register, with its kommune's office from the kommuner in use */
+export const buildPoststeder = (postnrRegister: PostnrRegisterItem[]): PoststederData => {
 	const newPoststederMap: PoststederMap = new Map();
 
 	for (const item of postnrRegister) {
@@ -80,10 +78,9 @@ export const loadPoststederData = async (postnrRegister: PostnrRegisterItem[]) =
 		});
 	}
 
-	const newPoststederArray = Array.from(newPoststederMap.values());
+	return { poststederMap: newPoststederMap, poststederArray: Array.from(newPoststederMap.values()) };
+};
 
-	poststederData.poststederMap = newPoststederMap;
-	poststederData.poststederArray = newPoststederArray;
-
-	logger.info('Finished loading data for poststeder', { entries: newPoststederArray.length });
+export const setPoststeder = (data: PoststederData) => {
+	poststederData = data;
 };

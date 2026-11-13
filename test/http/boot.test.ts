@@ -185,17 +185,17 @@ describe('startup failures', () => {
 		[
 			'the SSB classification fails',
 			on(ROUTES.ssbClassification, () => json({ error: 'Internal Server Error' }, 500)),
-			'Failed to load bydeler from SSB and no previously cached data exists!',
+			'Failed to load bydeler from SSB',
 		],
 		[
 			"SSB's current version fails",
 			on(ROUTES.ssbVersion, () => json({ error: 'Internal Server Error' }, 500)),
-			'Failed to load bydeler from SSB and no previously cached data exists!',
+			'Failed to load bydeler from SSB',
 		],
 		[
 			'the postnummerregister fails',
 			on(ROUTES.bring, () => new Response('', { status: 503 })),
-			'Failed to fetch from postnr-register and no previously cached data exists!',
+			'Failed to load the postnr register from bring',
 		],
 	])('exits with code 1 when %s', async (_, override, message) => {
 		const error = await startServer({ overrides: [override] }).then(
@@ -222,36 +222,26 @@ describe('startup failures', () => {
 		]);
 	});
 
-	test('with nav-office-search-api down, it becomes ready without a single office (bug)', async () => {
-		const server = await startServer({
-			overrides: [({ host }) => (host === API_HOST ? json({ error: 'Internal server error' }, 500) : undefined)],
-		});
-		try {
-			expect((await server.fetch(`${API}/internal/isReady`)).status).toBe(200);
-			expect(await (await server.fetch(`${API}/data/kommuner`)).json()).toEqual([]);
-			expect(await (await server.fetch(`${API}/data/bydeler`)).json()).toEqual([]);
+	// Without offices every search would find none, from a pod that looks healthy. NAIS keeps the old pods instead.
+	test.each([
+		[
+			'nav-office-search-api is down',
+			({ host }: StubRequest) => (host === API_HOST ? json({ error: 'Internal server error' }, 500) : undefined),
+		],
+		['the token endpoint is down', on(ROUTES.token, () => json({ error: 'invalid_client' }, 401))],
+	])('exits with code 1, without a single office, when %s', async (_, override) => {
+		const error = await startServer({ overrides: [override] }).then(
+			() => new Error('started'),
+			(e: Error) => e,
+		);
 
-			const poststeder = (await (await server.fetch(`${API}/data/poststeder`)).json()) as { officeInfo: unknown[] }[];
-			expect(poststeder).toHaveLength(5136);
-			expect(poststeder.filter(({ officeInfo }) => officeInfo.length > 0)).toEqual([]);
-		} finally {
-			await server.stop();
-		}
-	});
-
-	test('with the token endpoint down, it asks for a token once and finds no offices (bug)', async () => {
-		const server = await startServer({
-			overrides: [on(ROUTES.token, () => json({ error: 'invalid_client' }, 401))],
-		});
-		try {
-			const routes = countBy(server.stub.requests, routeOf);
-			// The lookups after a failed token request go without asking again for 10 seconds, and fail without a token
-			expect(routes[ROUTES.token]).toBe(1);
-			expect(routes[ROUTES.geoid]).toBeUndefined();
-			expect(await (await server.fetch(`${API}/data/kommuner`)).json()).toEqual([]);
-		} finally {
-			await server.stop();
-		}
+		expect(error.message).toContain('exited with code 1 before it was ready');
+		expect(logLines(error.message)).toContainEqual(
+			expect.objectContaining({
+				message: 'Server failed to start',
+				err: expect.objectContaining({ message: 'Too little reference data to start with: bydeler from SSB' }),
+			}),
+		);
 	});
 
 	test('without the nav.no 404 page, unknown paths get a plain "Not found"', async () => {

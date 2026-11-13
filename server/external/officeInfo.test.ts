@@ -2,7 +2,7 @@ import { isHttpError } from '@itsy/corgi';
 import { networkError } from '@itsy/corgi/testing';
 import { logger } from '@navikt/navno-logger';
 import { afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
-import { loadOfficeUrlsFromXP } from '#server/data/officeUrls.ts';
+import { fetchOfficePaths, setOfficePaths } from '#server/data/officeUrls.ts';
 import { env } from '#server/env.ts';
 import { installUpstreams } from '#test/upstream/upstreams.ts';
 import { fetchOfficeInfoByGeoId, isGeoId, officeLookups } from './officeInfo.ts';
@@ -15,7 +15,7 @@ const geoidRequests = () => calls().filter(({ path }) => path === '/geoid');
 
 beforeAll(async () => {
 	// The offices' pages
-	await loadOfficeUrlsFromXP();
+	setOfficePaths(await fetchOfficePaths());
 });
 
 afterEach(() => {

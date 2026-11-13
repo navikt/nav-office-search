@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { PostnrKategori } from '#shared/types/data.ts';
 import { fetchOfficeInfoByGeoId } from '#server/external/officeInfo.ts';
-import { buildKommuneDictionary, getKommune } from './kommuner.ts';
-import { getPoststed, loadPoststederData } from './poststeder.ts';
+import { buildKommuner, getKommune, setKommuner } from './kommuner.ts';
+import { buildPoststeder, getPoststed, setPoststeder } from './poststeder.ts';
 import type { PostnrRegisterItem } from './postnrRegister.ts';
 
 vi.mock('#server/external/officeInfo.ts', () => {
@@ -51,14 +51,14 @@ describe.each([
 	['5501', 'TROMSØ', '9008'],
 ])('kommune %s (%s)', (kommunenr, kommuneNavn, postnr) => {
 	test('is served by Nav Tromsø', async () => {
-		await buildKommuneDictionary(register);
+		setKommuner(await buildKommuner(register));
 
 		expect(getKommune(kommunenr)).toMatchObject({ kommuneNavn, officeInfo: { enhetNr: '1902', name: 'Nav Tromsø' } });
 	});
 
 	test(`postnr ${postnr} gets Nav Tromsø`, async () => {
-		await buildKommuneDictionary(register);
-		await loadPoststederData(register);
+		setKommuner(await buildKommuner(register));
+		setPoststeder(buildPoststeder(register));
 
 		expect((await getPoststed(postnr))?.officeInfo).toMatchObject([{ enhetNr: '1902', name: 'Nav Tromsø' }]);
 	});

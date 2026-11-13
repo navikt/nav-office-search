@@ -48,6 +48,7 @@ test('serves the app metrics and the Node.js defaults as Prometheus text', async
 		'# TYPE nav_office_search_data_loads_total counter',
 		'# TYPE nav_office_search_data_load_duration_seconds gauge',
 		'# TYPE nav_office_search_data_last_success_timestamp_seconds gauge',
+		'# TYPE nav_office_search_data_rejections_total counter',
 		'# TYPE nav_office_search_reference_data_entries gauge',
 		'# TYPE nav_office_search_reference_data_without_office gauge',
 	]);

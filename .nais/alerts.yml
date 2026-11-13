@@ -34,19 +34,30 @@ spec:
           annotations:
             summary: Some kommuner have no Nav office in nav-office-search
             consequence: Searches in those kommuner find no office.
-            action: The logs say which ("No office found for kommuner"). Check nav-office-search-api's NORG metrics; restart the pods once it's fixed, or wait for the next load at 06:00.
+            action: The logs say which ("No office found", dataset kommuner). Check nav-office-search-api's NORG metrics; restart the pods once it's fixed, or wait for the next load at 06:00.
           labels:
             namespace: navno
             severity: warning
 
-        # The daily load can fail while the pods keep serving the previous data
+        # The daily load keeps what it can't replace, so the pods keep serving the previous data
         - alert: NavOfficeSearchDataStale
           expr: time() - max(nav_office_search_data_last_success_timestamp_seconds) > 2 * 86400
           for: 1h
           annotations:
-            summary: nav-office-search has not loaded reference data for over 2 days
+            summary: nav-office-search has not replaced all its reference data for over 2 days
             consequence: Postnumre, kommuner, bydeler and office URLs may be out of date.
-            action: Check the logs for "Refreshing data failed" and "keeping current data", and nav_office_search_upstream_requests_total for the failing upstream.
+            action: Check the logs for "keeping current data" and "Refreshing data failed", and nav_office_search_upstream_requests_total for the failing upstream.
+          labels:
+            namespace: navno
+            severity: warning
+
+        # A refresh got much less data than is in use, so it kept the old: an upstream failing, or a real change
+        - alert: NavOfficeSearchDataRejected
+          expr: sum by (dataset) (increase(nav_office_search_data_rejections_total[1d])) > 0
+          annotations:
+            summary: nav-office-search refused new reference data and kept the old
+            consequence: The dataset stays as it was until a refresh gets as much data again.
+            action: The logs have the sizes ("Refused new reference data"). An upstream failing, like nav-office-search-api, resolves itself at the next refresh at 06:00. A real drop, like merged kommuner, is taken by a restart, which has nothing to compare with.
           labels:
             namespace: navno
             severity: warning

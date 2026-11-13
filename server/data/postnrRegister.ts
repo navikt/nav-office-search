@@ -1,7 +1,7 @@
 import { logger } from '@navikt/navno-logger';
 import type { PostnrKategori } from '#shared/types/data.ts';
 import { serverUrls } from '#server/urls.ts';
-import { DOWNLOAD_TIMEOUT_MS, failureOf, upstreamClient } from '#server/utils/upstream.ts';
+import { DOWNLOAD_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
 
 const charEncodeFormat = 'windows-1252';
 
@@ -44,37 +44,19 @@ export const parsePostnrRegister = (text: string) => {
 	return { rows, malformed };
 };
 
-// A tab separated text file from bring.no, in windows-1252
-const fetchPostnrRegister = async () => {
-	logger.info('Fetching postnr register', { url: serverUrls.postnrRegister });
+/** The register as bring has it now: a tab separated text file in windows-1252. Throws when bring can't tell. */
+export const fetchPostnrRegister = async () => {
 	const buffer = await bring.get(serverUrls.postnrRegister, { responseType: 'arrayBuffer' });
 	const { rows, malformed } = parsePostnrRegister(new TextDecoder(charEncodeFormat).decode(buffer));
 
 	if (malformed > 0) {
 		logger.warn('Left out lines of the postnr register that are not rows', { malformed });
 	}
-	// Bring answering with something non-data, like an error page
-	if (rows.length === 0) {
-		throw new Error('The postnr register has no rows');
-	}
 
 	return rows;
 };
 
-export const loadPostnrRegister = async () => {
-	let rows: PostnrRegisterItem[];
-	try {
-		rows = await fetchPostnrRegister();
-	} catch (e) {
-		if (postnrRegisterData.length === 0) {
-			throw new Error('Failed to fetch from postnr-register and no previously cached data exists!', { cause: e });
-		}
-
-		logger.error('Failed to fetch from postnr-register - keeping current data', failureOf(e));
-		return;
-	}
-
-	logger.info('Refreshed postnr register', { rows: rows.length });
+export const setPostnrRegister = (rows: PostnrRegisterItem[]) => {
 	postnrRegisterData = rows;
 };
 

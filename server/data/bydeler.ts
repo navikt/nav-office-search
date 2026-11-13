@@ -1,9 +1,8 @@
 import { schema } from '@itsy/corgi/schema';
-import { logger } from '@navikt/navno-logger';
 import { officeLookups } from '#server/external/officeInfo.ts';
 import { ssbClassificationSchema, ssbVersionSchema } from '#server/external/schemas.ts';
 import { serverUrls } from '#server/urls.ts';
-import { DOWNLOAD_TIMEOUT_MS, failureOf, upstreamClient } from '#server/utils/upstream.ts';
+import { DOWNLOAD_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
 import { normalizeString } from '#shared/normalizeString.ts';
 import type { Bydel } from '#shared/types/data.ts';
 
@@ -20,14 +19,15 @@ type BydelerByBydelsnrMap = { [bydelnr: string]: Bydel };
 
 type BydelerByKommunenrMap = { [kommunenr: string]: Bydel[] };
 
-type BydelerData = {
+export type BydelerData = {
 	bydelerByBydelsnr: BydelerByBydelsnrMap;
 	bydelerByKommunenr: BydelerByKommunenrMap;
+	/** The bydeler with an office */
 	bydelerArray: Bydel[];
 	bydelerWithoutOffice: string[];
 };
 
-const bydelerData: BydelerData = {
+let bydelerData: BydelerData = {
 	bydelerByBydelsnr: {},
 	bydelerByKommunenr: {},
 	bydelerArray: [],
@@ -44,7 +44,8 @@ export const getBydel = (bydelnr: string) => bydelerData.bydelerByBydelsnr[bydel
 export const getBydelerForKommune = (kommunenr: string): Bydel[] | undefined =>
 	bydelerData.bydelerByKommunenr[kommunenr];
 
-const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
+// Each bydel's office, from SSB's list of them
+const findOffices = async (bydelerDataRaw: SSB_BydelData[]): Promise<BydelerData> => {
 	const newBydelerMap: BydelerByBydelsnrMap = {};
 	const newBydelerByKommunenrMap: BydelerByKommunenrMap = {};
 	const newBydelerWithoutOffice: string[] = [];
@@ -82,19 +83,17 @@ const populateBydelerCache = async (bydelerDataRaw: SSB_BydelData[]) => {
 	}
 
 	offices.logFailures();
-	const newArray = Object.values(newBydelerMap);
 
-	bydelerData.bydelerByBydelsnr = newBydelerMap;
-	bydelerData.bydelerByKommunenr = newBydelerByKommunenrMap;
-	bydelerData.bydelerArray = newArray;
-	bydelerData.bydelerWithoutOffice = newBydelerWithoutOffice;
-
-	logger.info('Finished loading data for bydeler', { entries: newArray.length });
+	return {
+		bydelerByBydelsnr: newBydelerMap,
+		bydelerByKommunenr: newBydelerByKommunenrMap,
+		bydelerArray: Object.values(newBydelerMap),
+		bydelerWithoutOffice: newBydelerWithoutOffice,
+	};
 };
 
 // The bydeler in the version of SSB's classification that is valid today
 const fetchBydelerRawData = async () => {
-	logger.info('Fetching SSB classification for bydeler', { url: serverUrls.ssbBydelerClassification });
 	const { versions } = await ssb.get(serverUrls.ssbBydelerClassification, {
 		transform: schema(ssbClassificationSchema),
 	});
@@ -118,19 +117,9 @@ const fetchBydelerRawData = async () => {
 	return classificationItems;
 };
 
-export const loadBydelerData = async () => {
-	let bydelerRawData: SSB_BydelData[];
-	try {
-		bydelerRawData = await fetchBydelerRawData();
-	} catch (e) {
-		if (bydelerData.bydelerArray.length === 0) {
-			throw new Error('Failed to load bydeler from SSB and no previously cached data exists!', { cause: e });
-		}
+/** The bydeler SSB has now, with their offices. Throws when SSB can't tell. */
+export const fetchBydeler = async () => findOffices(await fetchBydelerRawData());
 
-		logger.error('Failed to load bydeler from SSB - keeping current data', failureOf(e));
-		return;
-	}
-
-	logger.info('Refreshed data for bydeler');
-	await populateBydelerCache(bydelerRawData);
+export const setBydeler = (data: BydelerData) => {
+	bydelerData = data;
 };

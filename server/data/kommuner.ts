@@ -1,4 +1,3 @@
-import { logger } from '@navikt/navno-logger';
 import { getBydelerForKommune } from './bydeler.ts';
 import { removeDuplicates } from '#server/utils/removeDuplicates.ts';
 import { officeLookups } from '#server/external/officeInfo.ts';
@@ -8,12 +7,13 @@ import { normalizeString } from '#shared/normalizeString.ts';
 
 type KommunerMap = { [kommunenr: string]: Kommune };
 
-type KommunerData = {
+export type KommunerData = {
 	kommunerMap: KommunerMap;
+	/** The kommuner with an office, or with bydeler */
 	kommunerArray: Kommune[];
 };
 
-const kommunerData: KommunerData = {
+let kommunerData: KommunerData = {
 	kommunerMap: {},
 	kommunerArray: [],
 };
@@ -31,12 +31,11 @@ export const getKommunerArray = () => kommunerData.kommunerArray;
 
 export const getKommune = (kommunenr: string) => kommunerData.kommunerMap[kommunenr];
 
-// Takes all kommuner (from postnummerregister), and one by one
-// fetch the Nav-kontor from NORG via nav-office-search-api). This is the geoId endpoint
-// If the kommune has bydeler, we skip the office info fetch.
-export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[]) => {
-	logger.info('Building kommune dictionary by loading offices one by one');
-
+/**
+ * The register's kommuner with their offices, from NORG through nav-office-search-api, one at a time. A kommune with
+ * bydeler gets those (the bydeler in use) instead, and one without an office is left out.
+ */
+export const buildKommuner = async (postnrRegister: PostnrRegisterItem[]): Promise<KommunerData> => {
 	const uniqueKommuneItems = removeDuplicates(postnrRegister, (a, b) => a.kommunenr === b.kommunenr);
 
 	const kommuneMap: KommunerMap = {};
@@ -73,10 +72,10 @@ export const buildKommuneDictionary = async (postnrRegister: PostnrRegisterItem[
 	}
 
 	offices.logFailures();
-	const kommuneArray = Object.values(kommuneMap);
 
-	kommunerData.kommunerMap = kommuneMap;
-	kommunerData.kommunerArray = kommuneArray;
+	return { kommunerMap: kommuneMap, kommunerArray: Object.values(kommuneMap) };
+};
 
-	logger.info('Finished loading data for kommuner', { entries: kommuneArray.length });
+export const setKommuner = (data: KommunerData) => {
+	kommunerData = data;
 };
