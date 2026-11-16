@@ -11,6 +11,8 @@ export default defineConfig(({ command, isSsrBuild }) => ({
 	server: { port: 3005, strictPort: true, open: BASE_PATH },
 	// There's no index.html to find the client's dependencies in
 	optimizeDeps: { entries: ['client/main-client.tsx'] },
+	// For @nais/apm's version (client/utils/apm.ts): the commit, which GitHub Actions sets for the build. Left out locally
+	define: process.env.GITHUB_SHA ? { 'import.meta.env.GITHUB_SHA': JSON.stringify(process.env.GITHUB_SHA) } : {},
 	plugins: [
 		react(),
 		// In dev, Hono answers every request except Vite's own and the client files Vite serves

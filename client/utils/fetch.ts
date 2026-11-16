@@ -1,6 +1,7 @@
 import type { SearchResultErrorProps, SearchResultProps } from '#shared/types/results.ts';
 import { isValidPostnrQuery } from '#shared/validateInput.ts';
 import { clientUrls } from '#client/urls.ts';
+import { captureException } from '#client/utils/apm.ts';
 
 let abortController = typeof window !== 'undefined' ? new AbortController() : null;
 
@@ -47,6 +48,7 @@ export const fetchSearchClient = (
 		if (e.name === 'AbortError') {
 			return { type: 'error', aborted: true };
 		}
+		captureException(e, { fingerprint: 'fetch.search' });
 		return { type: 'error', messageId: 'errorServerError' };
 	});
 };
@@ -59,6 +61,7 @@ export const fetchGeoidClient = (id: string): Promise<SearchResultProps> => {
 		if (e.name === 'AbortError') {
 			return { type: 'error', aborted: true };
 		}
+		captureException(e, { fingerprint: 'fetch.geoid' });
 		return { type: 'error', messageId: 'errorServerError' };
 	});
 };
