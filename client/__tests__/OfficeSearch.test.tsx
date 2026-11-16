@@ -24,10 +24,15 @@ import {
 import { apiRequests, mockApi, type Reply, wasAborted } from './support/msw.ts';
 import { renderAndSettle } from './support/render.tsx';
 
+// APM itself stays out of the tests
+const apm = vi.hoisted(() => ({ loadApm: vi.fn(), captureException: vi.fn() }));
+vi.mock('#client/utils/apm.ts', () => apm);
+
 let user: UserEvent;
 
 beforeEach(() => {
 	vi.useFakeTimers();
+	apm.captureException.mockClear();
 });
 
 afterEach(() => {
@@ -69,6 +74,22 @@ describe('OfficeSearch', () => {
 				expect(apiRequests()).toEqual(['search?query=0000']);
 			},
 		);
+
+		test('rapporterer til APM når søket feiler uten et svar appen kan lese', async () => {
+			mockApi('search', { status: 500 });
+			await searchFor('0000');
+
+			expect(await screen.findByText('Ukjent server-feil')).toBeInTheDocument();
+			expect(apm.captureException).toHaveBeenCalledExactlyOnceWith(expect.any(Error), { fingerprint: 'fetch.search' });
+		});
+
+		test('rapporterer ikke til APM når serveren svarer med en feil appen kjenner', async () => {
+			mockApi('search', { status: 404, json: errorResult('errorInvalidPostnr') });
+			await searchFor('0000');
+
+			expect(await screen.findByText('Postnummeret finnes ikke')).toBeInTheDocument();
+			expect(apm.captureException).not.toHaveBeenCalled();
+		});
 
 		test.each([
 			{ name: 'tomt input-felt', query: '', message: 'Skriv inn minst to bokstaver eller et postnummer' },
