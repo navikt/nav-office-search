@@ -1,10 +1,16 @@
 import { isHttpError } from '@itsy/corgi';
 import { schema } from '@itsy/corgi/schema';
 import { logger } from '@navikt/navno-logger';
+import { z } from 'zod';
 import { env } from '#server/env.ts';
 import { serverUrls } from '#server/urls.ts';
 import { failureOf, REQUEST_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
-import { tokenSchema } from './schemas.ts';
+
+// Azure AD's client credentials token: what is read of it. Its other fields are allowed, and kept.
+const tokenSchema = z.looseObject({
+	access_token: z.string().min(1),
+	expires_in: z.number(),
+});
 
 const azureAd = upstreamClient('azure-token', { timeout: REQUEST_TIMEOUT_MS, headers: { accept: 'application/json' } });
 

@@ -35,8 +35,6 @@ spec:
       value: {{appOrigin}}
     - name: NAVNO_ORIGIN
       value: {{navnoOrigin}}
-    - name: XP_ORIGIN
-      value: {{xpOrigin}}
     - name: API_ORIGIN
       value: {{apiOrigin}}
     - name: LOGIN_SESSION_API_URL

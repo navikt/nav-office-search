@@ -26,7 +26,7 @@ afterAll(() => {
 	restore();
 });
 
-const OFFICES = 'https://xp.test/offices';
+const SESSION = 'https://login.test/session';
 
 const requestCounts = async () =>
 	(await upstreamRequests.get()).values.map(({ labels, value }) => ({ ...labels, value }));
@@ -45,52 +45,52 @@ const rejectionOf = async (promise: Promise<unknown>) => {
 
 describe('upstreamClient', () => {
 	test('counts and times each request under the upstream it was made for', async () => {
-		http.get(OFFICES, { json: { offices: [] } });
-		http.get('https://xp.test/missing', { status: 404 });
-		const xp = upstreamClient('xp', { timeout: 1000 });
+		http.get(SESSION, { json: { session: { active: true } } });
+		http.get('https://login.test/missing', { status: 404 });
+		const login = upstreamClient('login-session', { timeout: 1000 });
 
-		expect(await xp.get(OFFICES)).toEqual({ offices: [] });
-		await expect(xp.get('https://xp.test/missing')).rejects.toSatisfy(isHttpError);
+		expect(await login.get(SESSION)).toEqual({ session: { active: true } });
+		await expect(login.get('https://login.test/missing')).rejects.toSatisfy(isHttpError);
 
 		expect(await requestCounts()).toEqual([
-			{ upstream: 'xp', status: '2xx', value: 1 },
-			{ upstream: 'xp', status: '4xx', value: 1 },
+			{ upstream: 'login-session', status: '2xx', value: 1 },
+			{ upstream: 'login-session', status: '4xx', value: 1 },
 		]);
 		expect(await timedCount()).toBe(2);
 	});
 
 	test('counts a network error', async () => {
-		http.get(OFFICES, networkError());
+		http.get(SESSION, networkError());
 
-		await expect(upstreamClient('ssb', { timeout: 1000 }).get(OFFICES)).rejects.toThrow('fetch failed');
-		expect(await requestCounts()).toEqual([{ upstream: 'ssb', status: 'network_error', value: 1 }]);
+		await expect(upstreamClient('login-session', { timeout: 1000 }).get(SESSION)).rejects.toThrow('fetch failed');
+		expect(await requestCounts()).toEqual([{ upstream: 'login-session', status: 'network_error', value: 1 }]);
 	});
 
 	test('gives up on an upstream that takes longer than its timeout, and counts that', async () => {
 		vi.useFakeTimers();
-		http.get(OFFICES, { hang: true });
+		http.get(SESSION, { hang: true });
 
-		const failure = rejectionOf(upstreamClient('bring', { timeout: 30_000 }).get(OFFICES));
-		await vi.advanceTimersByTimeAsync(29_999);
+		const failure = rejectionOf(upstreamClient('login-session', { timeout: 5000 }).get(SESSION));
+		await vi.advanceTimersByTimeAsync(4999);
 		expect(await requestCounts()).toEqual([]);
 		await vi.advanceTimersByTimeAsync(1);
 
 		expect(isTimeoutError(await failure)).toBe(true);
-		expect(await requestCounts()).toEqual([{ upstream: 'bring', status: 'timeout', value: 1 }]);
+		expect(await requestCounts()).toEqual([{ upstream: 'login-session', status: 'timeout', value: 1 }]);
 	});
 
 	test('throws when an answer fails its schema', async () => {
-		http.get(OFFICES, { json: { offices: 'none' } });
+		http.get(SESSION, { json: { session: 'none' } });
 
 		const failure = await rejectionOf(
-			upstreamClient('xp', { timeout: 1000 }).get(OFFICES, {
-				transform: schema(z.object({ offices: z.array(z.string()) })),
+			upstreamClient('login-session', { timeout: 1000 }).get(SESSION, {
+				transform: schema(z.object({ session: z.object({ active: z.boolean() }) })),
 			}),
 		);
 
 		expect(isValidationError(failure)).toBe(true);
 		// The request itself went fine
-		expect(await requestCounts()).toEqual([{ upstream: 'xp', status: '2xx', value: 1 }]);
+		expect(await requestCounts()).toEqual([{ upstream: 'login-session', status: '2xx', value: 1 }]);
 	});
 });
 
@@ -98,8 +98,8 @@ describe('failureOf', () => {
 	test('gives only the status of an HttpError, whose message and URL have the query', () => {
 		const error = httpError(
 			503,
-			{ error: 'PDL svarte ikke' },
-			{ url: 'https://api.test/adresse?queryString=storgata+1' },
+			{ type: 'error', messageId: 'errorServerError' },
+			{ url: 'https://api.test/search?query=storgata+1' },
 		);
 
 		expect(failureOf(error)).toEqual({ status: 503 });

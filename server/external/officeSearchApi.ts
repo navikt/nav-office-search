@@ -14,10 +14,9 @@ const withToken: Plugin = order(ORDER.retry - 1, (next) => async (url, init) => 
 	return next(url, { ...init, headers });
 });
 
-/** A client for one of nav-office-search-api's endpoints, with Azure AD's token */
-export const officeSearchApi = (endpoint: 'geoids' | 'adresse' | 'bydel', timeout = REQUEST_TIMEOUT_MS) =>
-	upstreamClient(`office-search-api/${endpoint}`, {
-		timeout,
-		headers: { accept: 'application/json' },
-		plugins: [withToken],
-	});
+/** nav-office-search-api's search, asked with Azure AD's token */
+export const officeSearchApi = upstreamClient('office-search-api/search', {
+	timeout: REQUEST_TIMEOUT_MS,
+	headers: { accept: 'application/json' },
+	plugins: [withToken],
+});

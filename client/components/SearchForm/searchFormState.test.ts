@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
 import {
 	addressResult,
-	geoidResult,
 	nameHit,
 	nameResult,
 	offices,
+	postnrResult,
 	storgataAdresser,
 } from '#client/__tests__/support/fixtures.ts';
 import { initialState, type SearchFormAction, searchFormReducer, type SearchFormState } from './searchFormState.ts';
@@ -16,7 +16,7 @@ const run = (...actions: SearchFormAction[]) => actions.reduce(searchFormReducer
 
 const addresses = addressResult('storgata', storgataAdresser(3));
 const names = nameResult('oslo', [nameHit('OSLO', [offices.alna])]);
-const office = geoidResult('030105', offices.frogner);
+const office = postnrResult({ officeInfo: [offices.frogner] });
 
 const showingAddresses = run({ type: 'found', result: addresses });
 
@@ -91,7 +91,7 @@ describe('cancelling', () => {
 });
 
 describe('picking an address', () => {
-	test('puts it in the field, clears any error, and says it was picked while its office is looked up', () => {
+	test('puts it in the field, clears any error, and says it was picked', () => {
 		const withError = searchFormReducer(showingAddresses, {
 			type: 'invalid',
 			messageId: 'errorInputValidationPostnr',
@@ -154,6 +154,28 @@ describe('the address dropdown', () => {
 		expect(searchFormReducer(closed, { type: 'dropdownOpened' }).results).toMatchObject({ open: true });
 	});
 
+	test('closes while its spinner shows, and the addresses that come stay closed until it opens again', () => {
+		const closed = run({ type: 'loading', kind: 'addresses', height: 120 }, { type: 'dropdownClosed' });
+		expect(closed.results).toEqual({ view: 'loading', kind: 'addresses', open: false, height: 120 });
+		// Focus is still in the form, as after Tab to its button
+		expect(closed.focused).toBe(true);
+
+		const found = searchFormReducer(closed, { type: 'found', result: addresses });
+		expect(found.results).toEqual({ view: 'addresses', result: addresses, open: false, activeIndex: null });
+
+		expect(searchFormReducer(found, { type: 'dropdownOpened' }).results).toMatchObject({ open: true });
+	});
+
+	test('shows offices that come after it closed while its spinner showed', () => {
+		const state = run(
+			{ type: 'loading', kind: 'addresses', height: null },
+			{ type: 'dropdownClosed' },
+			{ type: 'found', result: names },
+		);
+
+		expect(state.results).toEqual({ view: 'offices', result: names, selectedAddress: null });
+	});
+
 	test("isn't there for other results", () => {
 		const shown = run({ type: 'found', result: names });
 
@@ -176,7 +198,7 @@ describe('focus', () => {
 
 	test.each([
 		['addresses', { type: 'found', result: addresses }],
-		['the addresses’ spinner', { type: 'loading', kind: 'addresses', height: null }],
+		['the dropdown’s spinner', { type: 'loading', kind: 'addresses', height: null }],
 	] satisfies [string, SearchFormAction][])(
 		'%s that come while it is elsewhere stay in a closed dropdown, which opens with focus',
 		(_, action) => {

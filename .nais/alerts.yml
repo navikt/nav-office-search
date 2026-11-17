@@ -22,34 +22,10 @@ spec:
           annotations:
             summary: Over 5 % of searches in nav-office-search fail
             consequence: Users get an error instead of an office.
-            action: See which route fails in nav_office_search_search_requests_total, and which upstream in nav_office_search_upstream_requests_total.
+            action: nav_office_search_upstream_requests_total says whether nav-office-search-api answers, and with what. The searching is done there, so its logs and metrics say why a search fails.
           labels:
             namespace: navno
             severity: critical
-
-        # Monitor for a data change in NORG data
-        - alert: NavOfficeSearchKommunerWithoutOffice
-          expr: max(nav_office_search_reference_data_without_office{dataset="kommuner"}) > 0
-          for: 30m
-          annotations:
-            summary: Some kommuner have no Nav office in nav-office-search
-            consequence: Searches in those kommuner find no office.
-            action: The logs say which ("No office found", dataset kommuner). Check nav-office-search-api's NORG metrics; restart the pods once it's fixed, or wait for the next load at 06:00 UTC.
-          labels:
-            namespace: navno
-            severity: warning
-
-        # A daily load that fails keeps the data in use, so the pods keep serving the previous data
-        - alert: NavOfficeSearchDataStale
-          expr: time() - max(nav_office_search_data_last_success_timestamp_seconds) > 2 * 86400
-          for: 1h
-          annotations:
-            summary: nav-office-search has not loaded its reference data for over 2 days
-            consequence: Postnumre, kommuner, bydeler and offices may be out of date.
-            action: Check the logs for "Refreshing data failed", which says which source failed or which dataset was too small, and nav_office_search_upstream_requests_total for the failing upstream.
-          labels:
-            namespace: navno
-            severity: warning
 
         # Health signal, searches are happening during sane hours
         # "or vector(0)" covers the series not existing at all. hour() and day_of_week() are UTC, so 08-15 is 09-16 Oslo-time in winter and 10-17 in summer (always inside 09-17). Weekdays only (1-5): weekend traffic is too sparse to expect a hit every hour.

@@ -3,7 +3,6 @@ import type { ViteDevServer } from 'vite';
 import { render as renderApp } from '#client/main-server.tsx';
 import { BASE_PATH } from '#shared/basePath.ts';
 import { createApp } from './app.ts';
-import { loadData } from './data/data.ts';
 import { devAssets, fetchDecorator, renderDocument } from './site/ssr/document.ts';
 import type { HtmlRenderer } from './site/ssr/htmlRenderer.ts';
 import { fetchNotFoundHtml } from './utils/errorHandlers.ts';
@@ -26,8 +25,6 @@ const render: HtmlRenderer = async (locale, env) => {
 		throw e;
 	}
 };
-
-await loadData();
 
 const app = createApp({ site: { render }, notFoundHtml: await fetchNotFoundHtml() });
 

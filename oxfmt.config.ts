@@ -12,7 +12,6 @@ export default defineConfig({
 		// Handlebars templates: oxfmt fails on them and would turn {{image}} into { { image } }
 		'.nais/**',
 		'test/fixtures/**',
-		'**/__goldens__/**',
 		'**/__snapshots__/**',
 		'wcag-rapport.json',
 	],

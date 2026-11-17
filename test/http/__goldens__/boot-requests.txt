@@ -1,7 +1,0 @@
-GET https://data.ssb.no/api/klass/v1/classifications/103
-GET https://data.ssb.no/api/klass/v1/versions/1168
-GET https://nav-office-search-api.prod-fss-pub.nais.io/geoids
-GET https://www.bring.no/postnummerregister-ansi.txt
-GET https://www.nav.no/404
-GET https://www.nav.no/_/service/no.nav.navno/officeInfo
-POST https://login.microsoftonline.com/test-tenant/oauth2/v2.0/token

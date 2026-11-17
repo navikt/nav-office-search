@@ -4,11 +4,9 @@ import { z } from 'zod';
 const schema = z.object({
 	// Where the page is served from, for its og: tags
 	APP_ORIGIN: z.url(),
-	// The nav.no frontend: the 404 page, and where the offices' pages are
+	// The nav.no frontend, for its 404 page
 	NAVNO_ORIGIN: z.url(),
-	// XP, which knows the offices' paths
-	XP_ORIGIN: z.url(),
-	// nav-office-search-api, and the client id its tokens are for
+	// nav-office-search-api, which does the searching, and the client id its tokens are for
 	API_ORIGIN: z.url(),
 	API_CLIENT_ID: z.string().min(1),
 	// NAIS injects these for azure.application

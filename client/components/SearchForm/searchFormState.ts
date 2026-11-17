@@ -10,9 +10,9 @@ export type OfficeResult = SearchResultPostnrProps | SearchResultNameProps;
 /** What's below the search field */
 export type Results =
 	| { view: 'none' }
-	/** The postnummer search's spinner, where the results go, as tall as what it replaced */
+	/** A postnummer search's spinner, where the results go, as tall as what it replaced */
 	| { view: 'loading'; kind: 'postnr'; height: number | null }
-	/** The address dropdown's spinner while addresses load, as tall as the addresses it replaced */
+	/** Any other search's spinner, in the address dropdown, as tall as the addresses it replaced */
 	| { view: 'loading'; kind: 'addresses'; open: boolean; height: number | null }
 	/**
 	 * Offices for a postnummer or a name, or for the address the user picked (selectedAddress). The address stays with
@@ -54,6 +54,7 @@ export type SearchFormAction =
 	| { type: 'addressSelected'; label: string }
 	| { type: 'officeFound'; result: SearchResultPostnrProps; label: string }
 	| { type: 'dropdownOpened' }
+	/** The dropdown closes, whether it holds addresses or a search's spinner. The search carries on. */
 	| { type: 'dropdownClosed' }
 	| { type: 'activeMoved'; by: 1 | -1 }
 	| { type: 'activeSet'; index: number }
@@ -120,7 +121,13 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 			return action.result.type === 'adresse'
 				? {
 						...state,
-						results: { view: 'addresses', result: action.result, open: state.focused, activeIndex: null },
+						results: {
+							view: 'addresses',
+							result: action.result,
+							// A dropdown that was closed while the addresses loaded stays closed, until the user comes back to it
+							open: state.results.view === 'loading' && isDropdown(state.results) ? state.results.open : state.focused,
+							activeIndex: null,
+						},
 						status: { kind: 'suggestions', result: action.result },
 					}
 				: {
@@ -159,7 +166,9 @@ export const searchFormReducer = (state: SearchFormState, action: SearchFormActi
 			return isDropdown(state.results) ? { ...state, results: { ...state.results, open: true } } : state;
 
 		case 'dropdownClosed':
-			return updateAddresses(state, () => ({ open: false, activeIndex: null }));
+			return state.results.view === 'loading' && isDropdown(state.results)
+				? { ...state, results: { ...state.results, open: false } }
+				: updateAddresses(state, () => ({ open: false, activeIndex: null }));
 
 		case 'activeMoved':
 			return updateAddresses(state, ({ result, activeIndex }) =>

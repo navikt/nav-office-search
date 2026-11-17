@@ -15,6 +15,8 @@ export type Adresse = {
 	poststed: string;
 	kommunenummer: string | null;
 	bydelsnummer: string | null;
+	/** The office of its bydel or, without a bydel, of its kommune. Null when that area has none. */
+	officeInfo: OfficeInfo | null;
 };
 
 export type SearchResultNameProps = {

@@ -2,7 +2,7 @@ import { mockFetch } from '@itsy/corgi/testing';
 import { type MockInstance, vi } from 'vitest';
 import type { SearchResultProps } from '#shared/types/results.ts';
 
-export type ApiEndpoint = 'search' | 'search/name' | 'search/address' | 'geoid' | 'loginstatus';
+export type ApiEndpoint = 'search' | 'loginstatus';
 
 export type Reply = {
 	status?: number;

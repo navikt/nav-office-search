@@ -4,7 +4,8 @@ import { Loader, Search } from '@navikt/ds-react';
 import { LocaleString } from '#client/localization/LocaleString.tsx';
 import { ErrorBoundary } from '#client/components/ErrorBoundary/ErrorBoundary.tsx';
 import { SearchResult } from '#client/components/SearchResult/SearchResult.tsx';
-import type { Adresse, SearchResultAdresseProps } from '#shared/types/results.ts';
+import { type OfficeInfo, PostnrKategori } from '#shared/types/data.ts';
+import type { Adresse, SearchResultAdresseProps, SearchResultPostnrProps } from '#shared/types/results.ts';
 import { createSearchApi, errorMessageOf } from '#client/utils/searchApi.ts';
 import { useDebouncedCallback } from '#client/hooks/useDebouncedCallback.ts';
 import type { AppLocale } from '#shared/localization/types.ts';
@@ -27,7 +28,20 @@ const isValidInput = (input: string): boolean => input.trim().length >= 2;
 const focusScrollOffset = 16;
 const focusScrollDelayMs = 300;
 export const SEARCH_DEBOUNCE_MS = 500;
-export const POSTNR_SPINNER_DELAY_MS = 250;
+export const SPINNER_DELAY_MS = 250;
+
+// The office of an address the user picked, shown the way a postnummer's offices are, under the address. Of the
+// poststed, only the offices are read then.
+const officeResult = (office: OfficeInfo): SearchResultPostnrProps => ({
+	type: 'postnr',
+	postnr: '',
+	poststed: office.name,
+	poststedNormalized: '',
+	kommuneNavn: '',
+	kommunenr: office.geoId,
+	kategori: PostnrKategori.Gateadresser,
+	officeInfo: [office],
+});
 
 const shouldAdjustMobileFocusScroll = () =>
 	typeof window !== 'undefined' && window.matchMedia?.('(max-width: 768px) and (pointer: coarse)').matches;
@@ -110,24 +124,16 @@ export const SearchForm = () => {
 	const runSearch = useDebouncedCallback(async (input: string) => {
 		clearLoadingDelay();
 		dispatch({ type: 'searchStarted' });
+		// The spinner only if the answer takes a moment, so a quick one doesn't flicker. It goes where the answer most
+		// likely will: a postnummer's offices below the field, and anything else in the dropdown, since what takes a
+		// moment to find is addresses.
+		loadingDelayTimeoutRef.current = setTimeout(
+			() => showLoading(isValidPostnrQuery(input) ? 'postnr' : 'addresses'),
+			SPINNER_DELAY_MS,
+		);
 
 		try {
-			if (isValidPostnrQuery(input)) {
-				// The spinner only if the answer takes a moment, so a quick one doesn't flicker
-				loadingDelayTimeoutRef.current = setTimeout(() => showLoading('postnr'), POSTNR_SPINNER_DELAY_MS);
-				showFound(await searchApi.postnr(input));
-				return;
-			}
-
-			const names = await searchApi.name(input);
-			if (names.hits.length > 0) {
-				showFound(names);
-				return;
-			}
-
-			// No place or office by that name, so it's probably an address
-			showLoading('addresses');
-			showFound(await searchApi.address(input));
+			showFound(await searchApi.search(input));
 		} catch (e) {
 			// An AbortError means a newer search took over, or the user moved on: nothing to show
 			if (!isAbortError(e)) {
@@ -149,12 +155,13 @@ export const SearchForm = () => {
 		dispatch({ type: 'resultsCleared' });
 	}, [cancelSearch]);
 
-	// Closing the dropdown stops the addresses loading in it. The postnummer spinner isn't in it, so it carries on.
-	const hideAddressPopup = () => {
-		if (results.view !== 'loading') {
-			dispatch({ type: 'dropdownClosed' });
-		} else if (results.kind === 'addresses') {
+	// Escape stops the search whose spinner is in the dropdown. Leaving the field only closes the dropdown: the search
+	// carries on, since what it finds may be offices, which don't go in the dropdown. Addresses wait in it, closed.
+	const hideAddressPopup = (stopsSearch: boolean) => {
+		if (stopsSearch && results.view === 'loading' && results.kind === 'addresses') {
 			cancelSearch();
+		} else {
+			dispatch({ type: 'dropdownClosed' });
 		}
 	};
 
@@ -190,28 +197,21 @@ export const SearchForm = () => {
 		runSearch(input);
 	};
 
+	// An address comes with its office, so picking one asks for nothing
 	const selectAddress = useCallback(
-		async (adresse: Adresse) => {
+		(adresse: Adresse) => {
 			const label = formatAddressLabel(adresse);
 			cancelSearch();
 			dispatch({ type: 'addressSelected', label });
 
-			const geoid = adresse.bydelsnummer ?? adresse.kommunenummer;
-			if (!geoid) {
+			if (adresse.officeInfo) {
+				dispatch({ type: 'officeFound', result: officeResult(adresse.officeInfo), label });
+			} else {
+				// Its bydel or kommune has no office
 				dispatch({ type: 'failed', messageId: 'errorServerError' });
-				return;
-			}
-
-			try {
-				dispatch({ type: 'officeFound', result: await searchApi.office(geoid), label });
-			} catch (e) {
-				// An AbortError means the user moved on before the office was found
-				if (!isAbortError(e)) {
-					dispatch({ type: 'failed', messageId: errorMessageOf(e) });
-				}
 			}
 		},
-		[cancelSearch, searchApi],
+		[cancelSearch],
 	);
 
 	const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -223,21 +223,21 @@ export const SearchForm = () => {
 		if (event.key === 'Escape' && isAddressDropdownOpen) {
 			event.preventDefault();
 			event.stopPropagation();
-			hideAddressPopup();
+			hideAddressPopup(true);
 			return;
 		}
 
 		if (event.key === 'Tab' && isAddressDropdownOpen) {
-			hideAddressPopup();
+			hideAddressPopup(false);
 			return;
 		}
 
 		if (event.key === 'Enter' && isAddressDropdownOpen) {
 			event.preventDefault();
 			if (activeAddressIndex !== null && hasAddressSuggestions) {
-				void selectAddress(addressSuggestions[activeAddressIndex]);
+				selectAddress(addressSuggestions[activeAddressIndex]);
 			} else if (hasFreshSingleAddressSuggestion) {
-				void selectAddress(addressSuggestions[0]);
+				selectAddress(addressSuggestions[0]);
 			}
 			return;
 		}
@@ -252,13 +252,6 @@ export const SearchForm = () => {
 			dispatch({ type: 'activeMoved', by: event.key === 'ArrowDown' ? 1 : -1 });
 		}
 	};
-
-	const handleAddressSelect = useCallback(
-		(adresse: Adresse) => {
-			void selectAddress(adresse);
-		},
-		[selectAddress],
-	);
 
 	const handleAddressMouseEnter = useCallback((index: number) => {
 		activeAddressNavigationSourceRef.current = 'mouse';
@@ -294,7 +287,7 @@ export const SearchForm = () => {
 			onBlur={(event) => {
 				if (!event.currentTarget.contains(event.relatedTarget)) {
 					dispatch({ type: 'focusLeft' });
-					hideAddressPopup();
+					hideAddressPopup(false);
 				}
 			}}
 		>
@@ -382,7 +375,7 @@ export const SearchForm = () => {
 								>
 									<SearchResult
 										searchResult={searchResult}
-										onAddressSelect={handleAddressSelect}
+										onAddressSelect={selectAddress}
 										onAddressMouseEnter={handleAddressMouseEnter}
 										activeAddressIndex={activeAddressIndex}
 										addressListboxId={addressListboxId}

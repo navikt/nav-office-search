@@ -11,9 +11,6 @@ export const clientUrls = {
 		en: joinURL(BASE_PATH, 'en'),
 	},
 	searchApi: api('search'),
-	searchNameApi: api('search/name'),
-	searchAddressApi: api('search/address'),
-	geoidApi: api('geoid'),
 	loginStatusApi: api('loginstatus'),
 	// Same host as the app: www.nav.no in prod, www.ansatt.dev.nav.no in dev
 	dittNavKontor: (locale: AppLocale) => `/person/personopplysninger/${locale}/#ditt-nav-kontor`,

@@ -1,6 +1,6 @@
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 
-// The server listens only once the reference data has loaded, so it's ready whenever it answers
+// The server has nothing to load before it can answer, so it's ready whenever it does
 export const isReadyHandler = (): ApiResponse<{ message: string }> => ({
 	status: 200,
 	body: { message: 'I am ready!' },

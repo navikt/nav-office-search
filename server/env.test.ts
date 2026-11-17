@@ -6,7 +6,6 @@ import { parseEnv } from './env.ts';
 const valid = {
 	APP_ORIGIN: 'https://www.nav.test',
 	NAVNO_ORIGIN: 'https://www.nav.test',
-	XP_ORIGIN: 'https://xp.test',
 	API_ORIGIN: 'https://api.test',
 	API_CLIENT_ID: 'api-client-id',
 	AZURE_APP_CLIENT_ID: 'azure-client-id',
@@ -40,20 +39,16 @@ test.each(Object.keys(valid))('rejects an empty %s', (name) => {
 	expect(() => parseEnv({ ...valid, [name]: '' })).toThrow(`at ${name}`);
 });
 
-test.each([
-	'APP_ORIGIN',
-	'NAVNO_ORIGIN',
-	'XP_ORIGIN',
-	'API_ORIGIN',
-	'AZURE_OPENID_CONFIG_TOKEN_ENDPOINT',
-	'LOGIN_SESSION_API_URL',
-])('requires %s to be a URL', (name) => {
-	expect(() => parseEnv({ ...valid, [name]: 'www.nav.no' })).toThrow(`at ${name}`);
-});
+test.each(['APP_ORIGIN', 'NAVNO_ORIGIN', 'API_ORIGIN', 'AZURE_OPENID_CONFIG_TOKEN_ENDPOINT', 'LOGIN_SESSION_API_URL'])(
+	'requires %s to be a URL',
+	(name) => {
+		expect(() => parseEnv({ ...valid, [name]: 'www.nav.no' })).toThrow(`at ${name}`);
+	},
+);
 
 test('reports everything wrong at once, by name', () => {
-	expect(() => parseEnv({ ...valid, XP_ORIGIN: undefined, API_ORIGIN: 'nope' })).toThrow(
-		/Invalid environment variables:[\s\S]*at XP_ORIGIN[\s\S]*at API_ORIGIN/,
+	expect(() => parseEnv({ ...valid, NAVNO_ORIGIN: undefined, API_ORIGIN: 'nope' })).toThrow(
+		/Invalid environment variables:[\s\S]*at NAVNO_ORIGIN[\s\S]*at API_ORIGIN/,
 	);
 });
 

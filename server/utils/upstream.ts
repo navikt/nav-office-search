@@ -3,11 +3,8 @@ import { isValidationError, type StandardSchemaV1 } from '@itsy/corgi/schema';
 import { withTimeout } from '@itsy/corgi/timeout';
 import { observeUpstream, type Upstream } from '#server/metrics/metrics.ts';
 
-/** For an API's answer, which someone may be waiting for: a search, the login status, a token */
+/** For an API's answer, which someone is waiting for: a search, the login status, a token */
 export const REQUEST_TIMEOUT_MS = 5_000;
-
-/** For the reference data, downloaded at startup and every morning */
-export const DOWNLOAD_TIMEOUT_MS = 30_000;
 
 // Counts and times each request, just outside its deadline, so one that times out is counted too
 const observe = (upstream: Upstream): Plugin =>

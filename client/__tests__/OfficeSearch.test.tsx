@@ -1,4 +1,4 @@
-import { act, cleanup, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, screen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, onTestFinished, test, vi } from 'vitest';
@@ -7,13 +7,12 @@ import type { AppLocale } from '#shared/localization/types.ts';
 import type { SearchResultProps } from '#shared/types/results.ts';
 import { OfficeSearch } from '#client/components/OfficeSearch.tsx';
 import { formatAddressLabel } from '#client/components/SearchResult/SearchResultAdresse/addressSuggestions.ts';
-import { POSTNR_SPINNER_DELAY_MS, SEARCH_DEBOUNCE_MS } from '#client/components/SearchForm/SearchForm.tsx';
+import { SEARCH_DEBOUNCE_MS, SPINNER_DELAY_MS } from '#client/components/SearchForm/SearchForm.tsx';
 import { LocaleProvider } from '#client/localization/useLocale.tsx';
 import {
 	addressResult,
 	adresse,
 	errorResult,
-	geoidResult,
 	nameHit,
 	nameResult,
 	offices,
@@ -114,13 +113,13 @@ describe('OfficeSearch', () => {
 			// React logs the render error
 			vi.spyOn(console, 'error').mockImplementation(() => undefined);
 			const unrenderable = { type: 'name', input: 'oslo', hits: [{ name: 'OSLO' }] } as unknown as SearchResultProps;
-			mockApi('search/name', { json: unrenderable });
+			mockApi('search', { json: unrenderable });
 			await searchFor('oslo');
 
 			expect(await screen.findByText('Server-feil: Feil i søke-resultatet')).toBeInTheDocument();
 			expect(getSearchInput()).toHaveValue('oslo');
 
-			mockApi('search/name', { json: nameResult('oslo sentrum', [nameHit('OSLO', [offices.alna])]) });
+			mockApi('search', { json: nameResult('oslo sentrum', [nameHit('OSLO', [offices.alna])]) });
 			await searchFor(' sentrum');
 
 			expect(await findLink('Nav Alna')).toBeInTheDocument();
@@ -128,7 +127,7 @@ describe('OfficeSearch', () => {
 		});
 
 		test('fjerner gamle søkeresultater når input blir for kort', async () => {
-			mockApi('search/name', { json: evjeNameResult });
+			mockApi('search', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
 			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
 
@@ -138,7 +137,7 @@ describe('OfficeSearch', () => {
 			expect(input).toHaveValue('e');
 			expect(screen.queryByRole('link', { name: 'Nav Evje og Hornnes' })).not.toBeInTheDocument();
 			await waitForDebounce();
-			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
+			expect(apiRequests()).toEqual(['search?query=evje+og+hornnes']);
 		});
 
 		test.each([
@@ -208,7 +207,7 @@ describe('OfficeSearch', () => {
 			const search = Promise.withResolvers<Reply>();
 			mockApi('search', search.promise);
 			await typeQuery('4737');
-			await advance(POSTNR_SPINNER_DELAY_MS);
+			await advance(SPINNER_DELAY_MS);
 			expect(screen.getByLabelText('Søker...', { selector: 'div' })).toBeInTheDocument();
 
 			await user.click(document.body);
@@ -225,7 +224,7 @@ describe('OfficeSearch', () => {
 			await typeQuery('4737');
 
 			expect(apiRequests()).toEqual(['search?query=4737']);
-			await advance(POSTNR_SPINNER_DELAY_MS - 1);
+			await advance(SPINNER_DELAY_MS - 1);
 			expect(queryLoadingIndicators()).toHaveLength(0);
 
 			await advance(1);
@@ -240,45 +239,66 @@ describe('OfficeSearch', () => {
 
 	describe('stedsnavnsøk', () => {
 		test('gir riktig respons ved søk på stedsnavn med søketreff', async () => {
-			mockApi('search/name', { json: evjeNameResult });
+			mockApi('search', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
 
 			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
 			expectSingleHitFor('evje og hornnes');
-			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
+			expect(apiRequests()).toEqual(['search?query=evje+og+hornnes']);
 		});
 
 		test('uthever treffene etter søket som fant dem, også mens brukeren skriver videre', async () => {
-			mockApi('search/name', { json: nameResult('frogner', [nameHit('Frogner', [offices.frogner])]) });
+			mockApi('search', { json: nameResult('frogner', [nameHit('Frogner', [offices.frogner])]) });
 			await searchFor('frogner');
 			expect(await findLink('Nav Frogner')).toBeInTheDocument();
 			expect(getHighlightedHitParts('Frogner')).toEqual(['Frogner']);
 
-			mockApi('search/name', pending);
+			mockApi('search', pending);
 			await user.type(getSearchInput(), '{Backspace}{Backspace}{Backspace}');
 
 			expect(getSearchInput()).toHaveValue('frog');
 			expect(getHighlightedHitParts('Frogner')).toEqual(['Frogner']);
 		});
 
-		test('gir serverfeil og hopper over adressefallback når stedsnavnsøk feiler', async () => {
-			mockApi('search/name', { status: 500 });
+		test('gir serverfeil når søket feiler, uten å søke en gang til', async () => {
+			mockApi('search', { status: 500 });
 			await searchFor('evje og hornnes');
 
 			expect(await screen.findByText('Ukjent server-feil')).toBeInTheDocument();
-			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes']);
+			await advance(SPINNER_DELAY_MS);
+			expect(queryLoadingIndicators()).toHaveLength(0);
+			expect(apiRequests()).toEqual(['search?query=evje+og+hornnes']);
 		});
 
-		test('gir riktig respons ved søk på stedsnavn uten søketreff', async () => {
+		test('gir riktig respons ved søk på stedsnavn uten søketreff, med ett kall', async () => {
 			mockAddressSuggestions('evje og hornnes', []);
 			await searchFor('evje og hornnes');
 
 			expect(await screen.findByRole('option', { name: 'Ingen resultater for "evje og hornnes"' })).toBeInTheDocument();
-			expect(apiRequests()).toEqual(['search/name?query=evje+og+hornnes', 'search/address?query=evje+og+hornnes']);
+			expect(apiRequests()).toEqual(['search?query=evje+og+hornnes']);
+		});
+
+		test('viser lasting i adresseforslagene når søket tar tid, og kontorene når svaret er et stedsnavn', async () => {
+			const search = Promise.withResolvers<Reply>();
+			mockApi('search', search.promise);
+			await typeQuery('evje og hornnes');
+
+			await advance(SPINNER_DELAY_MS - 1);
+			expect(queryLoadingIndicators()).toHaveLength(0);
+			await advance(1);
+			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
+			expect(getLiveRegion()).toHaveTextContent(/^Søker\.\.\.$/);
+
+			search.resolve({ json: evjeNameResult });
+
+			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
+			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+			expect(getSearchInput()).toHaveAttribute('aria-expanded', 'false');
+			expect(getLiveRegion()).toBeEmptyDOMElement();
 		});
 
 		test('sender ett søk når debounce-tiden har gått etter siste tastetrykk', async () => {
-			mockApi('search/name', { json: nameResult('oslo', [nameHit('OSLO', [offices.alna])]) });
+			mockApi('search', { json: nameResult('oslo', [nameHit('OSLO', [offices.alna])]) });
 			await user.click(getSearchInput());
 			// Pause just under the debounce between keystrokes: each one restarts it
 			for (const char of 'oslo') {
@@ -290,7 +310,7 @@ describe('OfficeSearch', () => {
 			await advance(1);
 
 			expect(await findLink('Nav Alna')).toBeInTheDocument();
-			expect(apiRequests()).toEqual(['search/name?query=oslo']);
+			expect(apiRequests()).toEqual(['search?query=oslo']);
 		});
 	});
 
@@ -298,13 +318,13 @@ describe('OfficeSearch', () => {
 		test.each([
 			{ name: 'postnummer med gatenavn', query: '4737 storgata 1', encoded: '4737+storgata+1' },
 			{ name: 'adresse med punktum', query: 'ole b. bergers veg', encoded: 'ole+b.+bergers+veg' },
-		])('sender $name videre til adressesøket', async ({ query, encoded }) => {
+		])('sender $name som ett søk', async ({ query, encoded }) => {
 			mockAddressSuggestions(query, storgataAdresser(1));
 			await searchFor(query);
 
 			expect(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
 			expect(screen.queryByText('Søket inneholder ugyldige tegn')).not.toBeInTheDocument();
-			expect(apiRequests()).toEqual([`search/name?query=${encoded}`, `search/address?query=${encoded}`]);
+			expect(apiRequests()).toEqual([`search?query=${encoded}`]);
 		});
 
 		test('gir riktig respons ved adressesøk uten søketreff', async () => {
@@ -403,31 +423,29 @@ describe('OfficeSearch', () => {
 			}
 		});
 
-		test('fjerner gamle søkeresultater og viser lasting ved nytt adressesøk', async () => {
-			mockApi('search/name', { json: evjeNameResult });
+		test('fjerner gamle søkeresultater og viser lasting når et nytt søk tar tid', async () => {
+			mockApi('search', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
 			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
 
-			const nameSearch = Promise.withResolvers<Reply>();
-			const addressSearch = Promise.withResolvers<Reply>();
-			mockApi('search/name', nameSearch.promise);
-			mockApi('search/address', addressSearch.promise);
+			const search = Promise.withResolvers<Reply>();
+			mockApi('search', search.promise);
 			await replaceQuery('ukjent adresse 1');
 			await waitForDebounce();
 
-			expect(apiRequests()).toContain('search/name?query=ukjent+adresse+1');
+			expect(apiRequests()).toContain('search?query=ukjent+adresse+1');
 			expect(getLink('Nav Evje og Hornnes')).toBeInTheDocument();
 			expect(queryLoadingIndicators()).toHaveLength(0);
 
-			nameSearch.resolve({ json: nameResult('ukjent adresse 1') });
+			await advance(SPINNER_DELAY_MS);
 
-			const loadingOption = await screen.findByRole('option', { name: 'Søker...' });
+			const loadingOption = screen.getByRole('option', { name: 'Søker...' });
 			expect(loadingOption).toHaveAttribute('aria-disabled', 'true');
 			expect(getSearchInput()).toHaveAttribute('aria-expanded', 'true');
 			expect(getSearchInput()).toHaveAttribute('aria-controls', screen.getByRole('listbox').id);
 			expect(screen.queryByRole('link', { name: 'Nav Evje og Hornnes' })).not.toBeInTheDocument();
 
-			addressSearch.resolve({ json: addressResult('ukjent adresse 1', []) });
+			search.resolve({ json: addressResult('ukjent adresse 1', []) });
 
 			expect(
 				await screen.findByRole('option', { name: 'Ingen resultater for "ukjent adresse 1"' }),
@@ -445,21 +463,17 @@ describe('OfficeSearch', () => {
 				DOMRect.fromRect({ width: 480, height: 240 }),
 			);
 
-			const nameSearch = Promise.withResolvers<Reply>();
-			mockApi('search/name', nameSearch.promise);
-			mockApi('search/address', pending);
+			mockApi('search', pending);
 			await replaceQuery('storgata 2');
 			await waitForDebounce();
-			nameSearch.resolve({ json: nameResult('storgata 2') });
+			await advance(SPINNER_DELAY_MS);
 
-			await waitFor(() => {
-				expect(screen.getByRole('listbox')).toHaveStyle({ height: '240px' });
-			});
+			expect(screen.getByRole('listbox')).toHaveStyle({ height: '240px' });
 			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
 		});
 
 		test('lasting av adresseforslag tar ikke høyden fra et vanlig søkeresultat', async () => {
-			mockApi('search/name', { json: evjeNameResult });
+			mockApi('search', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
 			const previousResult = (await findLink('Nav Evje og Hornnes')).closest('[data-result-type]');
 			expect(previousResult).toHaveAttribute('data-result-type', 'name');
@@ -467,17 +481,17 @@ describe('OfficeSearch', () => {
 				DOMRect.fromRect({ width: 480, height: 300 }),
 			);
 
-			mockApi('search/name', { json: nameResult('storgata 2') });
-			mockApi('search/address', pending);
+			mockApi('search', pending);
 			await replaceQuery('storgata 2');
 			await waitForDebounce();
+			await advance(SPINNER_DELAY_MS);
 
-			expect(await screen.findByRole('option', { name: 'Søker...' })).toBeInTheDocument();
+			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
 			expect(screen.getByRole('listbox')).not.toHaveAttribute('style');
 		});
 
 		test('lasteindikatoren for postnummer tar høyden fra resultatet den erstatter', async () => {
-			mockApi('search/name', { json: evjeNameResult });
+			mockApi('search', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
 			const previousResult = (await findLink('Nav Evje og Hornnes')).closest('[data-result-type]');
 			vi.spyOn(previousResult as HTMLElement, 'getBoundingClientRect').mockReturnValue(
@@ -487,31 +501,36 @@ describe('OfficeSearch', () => {
 			mockApi('search', pending);
 			await replaceQuery('4737');
 			await waitForDebounce();
-			await advance(POSTNR_SPINNER_DELAY_MS);
+			await advance(SPINNER_DELAY_MS);
 
 			expect(screen.getByLabelText('Søker...', { selector: 'div' })).toHaveStyle({ height: '300px' });
 		});
 
-		test('fjerner gamle søkeresultater uten lasting ved nytt vanlig søk', async () => {
-			mockApi('search/name', { json: evjeNameResult });
+		test('bytter gamle søkeresultater med nye uten lasting når svaret kommer raskt', async () => {
+			mockApi('search', { json: evjeNameResult });
 			await searchFor('evje og hornnes');
 			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
 
-			const nameSearch = Promise.withResolvers<Reply>();
-			mockApi('search/name', nameSearch.promise);
+			const search = Promise.withResolvers<Reply>();
+			mockApi('search', search.promise);
 			await replaceQuery('kristiansand');
 			await waitForDebounce();
+			await advance(SPINNER_DELAY_MS - 1);
 
-			expect(apiRequests()).toContain('search/name?query=kristiansand');
+			expect(apiRequests()).toContain('search?query=kristiansand');
 			expect(getLink('Nav Evje og Hornnes')).toBeInTheDocument();
 			expect(queryLoadingIndicators()).toHaveLength(0);
 
-			nameSearch.resolve({
+			search.resolve({
 				json: nameResult('kristiansand', [nameHit('KRISTIANSAND', [offices.kristiansand])]),
 			});
 
 			expect(await findLink('Nav Kristiansand')).toBeInTheDocument();
 			expect(screen.queryByRole('link', { name: 'Nav Evje og Hornnes' })).not.toBeInTheDocument();
+			// The spinner that was a millisecond away never comes
+			await advance(SPINNER_DELAY_MS);
+			expect(queryLoadingIndicators()).toHaveLength(0);
+			expect(getLink('Nav Kristiansand')).toBeInTheDocument();
 		});
 	});
 
@@ -519,7 +538,6 @@ describe('OfficeSearch', () => {
 		test('kan navigere adresseforslag med piltaster og velge med enter', async () => {
 			const scrollIntoView = stubScrollIntoView();
 			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			mockApi('geoid', { json: geoidResult('030102', offices.frogner) });
 			await typeQuery('storgata 1');
 			const input = getSearchInput();
 
@@ -540,15 +558,12 @@ describe('OfficeSearch', () => {
 			await user.keyboard('{Enter}');
 
 			expect(input).toHaveValue('Storgata 2, 0184 OSLO');
-			expect(await findLink('Nav Frogner')).toBeInTheDocument();
+			expect(getLink('Nav Grünerløkka')).toBeInTheDocument();
 			expectSingleHitFor('Storgata 2, 0184 OSLO');
 			expect(getLiveRegion()).toHaveTextContent(/^Adresse valgt: Storgata 2, 0184 OSLO$/);
+			// The address came with its office, so picking it asks for nothing
 			await waitForDebounce();
-			expect(apiRequests()).toEqual([
-				'search/name?query=storgata+1',
-				'search/address?query=storgata+1',
-				'geoid?id=030102',
-			]);
+			expect(apiRequests()).toEqual(['search?query=storgata+1']);
 		});
 
 		test('pil opp starter nederst og stopper øverst', async () => {
@@ -583,7 +598,6 @@ describe('OfficeSearch', () => {
 
 		test('enter velger eneste adresseforslag uten piltastnavigering', async () => {
 			mockAddressSuggestions('storgata 1', storgataAdresser(1));
-			mockApi('geoid', { json: geoidResult('030102', offices.frogner) });
 			await typeQuery('storgata 1');
 			const input = getSearchInput();
 
@@ -594,13 +608,12 @@ describe('OfficeSearch', () => {
 			await user.keyboard('{Enter}');
 
 			expect(input).toHaveValue('Storgata 1, 0184 OSLO');
-			expect(await findLink('Nav Frogner')).toBeInTheDocument();
+			expect(getLink('Nav Grünerløkka')).toBeInTheDocument();
 			expectSingleHitFor('Storgata 1, 0184 OSLO');
 		});
 
 		test('enter velger ikke utdatert eneste adresseforslag når input er endret', async () => {
 			mockAddressSuggestions('storgata 1', storgataAdresser(1));
-			mockApi('geoid', { json: geoidResult('030102', offices.frogner) });
 			await typeQuery('storgata 1');
 			await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
 
@@ -610,7 +623,7 @@ describe('OfficeSearch', () => {
 			await user.keyboard('{Enter}');
 
 			expect(getSearchInput()).toHaveValue('storgata 12');
-			expect(apiRequests()).not.toContain('geoid?id=030102');
+			expect(screen.queryByRole('link', { name: 'Nav Grünerløkka' })).not.toBeInTheDocument();
 			expect(screen.queryByText(/treff for/)).not.toBeInTheDocument();
 		});
 
@@ -628,87 +641,73 @@ describe('OfficeSearch', () => {
 
 		test('kan velge adresseforslag med mus', async () => {
 			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			mockApi('geoid', { json: geoidResult('030102', offices.frogner) });
 			await typeQuery('storgata 1');
 
 			await user.click(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' }));
 
 			expect(getSearchInput()).toHaveValue('Storgata 1, 0184 OSLO');
 			expect(getSearchInput()).toHaveFocus();
-			expect(await findLink('Nav Frogner')).toBeInTheDocument();
+			expect(getLink('Nav Grünerløkka')).toBeInTheDocument();
 			expectSingleHitFor('Storgata 1, 0184 OSLO');
 		});
 
 		test('beholder overskriften for valgt adresse mens brukeren skriver videre', async () => {
 			mockAddressSuggestions('storgata 1', storgataAdresser(2));
-			mockApi('geoid', { json: geoidResult('030102', offices.frogner) });
 			await typeQuery('storgata 1');
 			await user.click(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' }));
-			expect(await findLink('Nav Frogner')).toBeInTheDocument();
+			expect(getLink('Nav Grünerløkka')).toBeInTheDocument();
 
-			mockApi('search/name', pending);
+			mockApi('search', pending);
 			await user.type(getSearchInput(), 'x');
 			expectSingleHitFor('Storgata 1, 0184 OSLO');
 
 			await waitForDebounce();
-			expect(apiRequests()).toContain('search/name?query=Storgata+1%2C+0184+OSLOx');
-			expect(getLink('Nav Frogner')).toBeInTheDocument();
+			expect(apiRequests()).toContain('search?query=Storgata+1%2C+0184+OSLOx');
+			expect(getLink('Nav Grünerløkka')).toBeInTheDocument();
 			expectSingleHitFor('Storgata 1, 0184 OSLO');
 		});
 
-		test('tømmer statusmelding når valgt adresse gir serverfeil', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(1));
-			mockApi('geoid', { status: 500 });
-			await typeQuery('storgata 1');
-
-			await user.click(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' }));
-
-			expect(await screen.findByText('Ukjent server-feil')).toBeInTheDocument();
-			expect(getLiveRegion()).toBeEmptyDOMElement();
-		});
-
-		test('slår opp valgt adresse med kommunenummer når bydelsnummer mangler', async () => {
-			mockAddressSuggestions('tamburveien 1a', [
-				adresse({
-					adressenavn: 'Tamburveien',
-					husnummer: 1,
-					husbokstav: 'A',
-					postnummer: '1406',
-					poststed: 'SKI',
-					kommunenummer: '3218',
-					bydelsnummer: null,
-				}),
-			]);
-			mockApi('geoid', { json: geoidResult('3218', offices.nordreFollo) });
+		test('viser kontoret til adressen som velges, også når forslagene har ulike kontor', async () => {
+			const tamburveien = adresse({
+				adressenavn: 'Tamburveien',
+				husnummer: 1,
+				husbokstav: 'A',
+				postnummer: '1406',
+				poststed: 'SKI',
+				kommunenummer: '3218',
+				bydelsnummer: null,
+				officeInfo: offices.nordreFollo,
+			});
+			mockAddressSuggestions('tamburveien 1a', [adresse(), tamburveien]);
 			await typeQuery('tamburveien 1a');
 
 			await user.click(await screen.findByRole('option', { name: 'Tamburveien 1A, 1406 SKI' }));
 
-			expect(await findLink('Nav Nordre Follo')).toBeInTheDocument();
+			expect(getLink('Nav Nordre Follo')).toHaveAttribute('href', offices.nordreFollo.url);
+			expect(screen.queryByRole('link', { name: 'Nav Grünerløkka' })).not.toBeInTheDocument();
 			expectSingleHitFor('Tamburveien 1A, 1406 SKI');
-			expect(apiRequests()).toEqual([
-				'search/name?query=tamburveien+1a',
-				'search/address?query=tamburveien+1a',
-				'geoid?id=3218',
-			]);
+			expect(apiRequests()).toEqual(['search?query=tamburveien+1a']);
 		});
 
-		test('ignorerer avbrutt adresseoppslag når brukeren skriver videre', async () => {
-			mockAddressSuggestions('storgata 1', storgataAdresser(1));
-			const geoid = Promise.withResolvers<Reply>();
-			mockApi('geoid', geoid.promise);
-			await typeQuery('storgata 1');
-			await user.click(await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' }));
-			await waitFor(() => expect(apiRequests()).toContain('geoid?id=030102'));
+		test('gir feilmelding og tømmer statusmeldingen når valgt adresse ikke har noe kontor', async () => {
+			mockAddressSuggestions('fergeleiet 1', [
+				adresse({
+					adressenavn: 'Fergeleiet',
+					postnummer: '5004',
+					poststed: 'BERGEN',
+					kommunenummer: null,
+					bydelsnummer: null,
+					officeInfo: null,
+				}),
+			]);
+			await typeQuery('fergeleiet 1');
 
-			await user.keyboard(' x');
+			await user.click(await screen.findByRole('option', { name: 'Fergeleiet 1, 5004 BERGEN' }));
 
-			// Without the guard, the aborted lookup shows "Ukjent server-feil" until the next search starts
-			expect(wasAborted('geoid?id=030102')).toBe(true);
-			expect(screen.queryByText('Ukjent server-feil')).not.toBeInTheDocument();
-			await waitForDebounce();
-			expect(screen.queryByText('Ukjent server-feil')).not.toBeInTheDocument();
-			geoid.resolve({ json: geoidResult('030102', offices.frogner) });
+			expect(screen.getByText('Ukjent server-feil')).toBeInTheDocument();
+			expect(getSearchInput()).toHaveValue('Fergeleiet 1, 5004 BERGEN');
+			expect(screen.queryByRole('link', { name: /^Nav / })).not.toBeInTheDocument();
+			expect(getLiveRegion()).toBeEmptyDOMElement();
 		});
 	});
 
@@ -749,15 +748,13 @@ describe('OfficeSearch', () => {
 		);
 
 		test.each([
-			{ name: 'mens stedsnavnsøket pågår', leave: 'search' },
+			{ name: 'mens søket pågår', leave: 'search' },
 			{ name: 'før søket starter', leave: 'debounce' },
 		])(
 			'åpner ikke adresseforslag når fokus forlot feltet $name, men viser dem når det får fokus igjen',
 			async ({ leave }) => {
-				const nameSearch = Promise.withResolvers<Reply>();
-				mockApi('search/name', nameSearch.promise);
-				const addressSearch = Promise.withResolvers<Reply>();
-				mockApi('search/address', addressSearch.promise);
+				const search = Promise.withResolvers<Reply>();
+				mockApi('search', search.promise);
 				const input = getSearchInput();
 				await user.type(input, 'storgata 1');
 				if (leave === 'search') {
@@ -766,14 +763,14 @@ describe('OfficeSearch', () => {
 
 				await user.click(document.body);
 				await waitForDebounce();
-				nameSearch.resolve({ json: nameResult('storgata 1') });
-				await waitFor(() => expect(apiRequests()).toContain('search/address?query=storgata+1'));
+				await advance(SPINNER_DELAY_MS);
+				expect(apiRequests()).toEqual(['search?query=storgata+1']);
 
 				// No spinner while the addresses load, in the dropdown or elsewhere
 				expect(input).toHaveAttribute('aria-expanded', 'false');
 				expect(queryLoadingIndicators()).toHaveLength(0);
 
-				addressSearch.resolve({ json: addressResult('storgata 1', storgataAdresser(2)) });
+				search.resolve({ json: addressResult('storgata 1', storgataAdresser(2)) });
 				await act(() => vi.runOnlyPendingTimersAsync());
 
 				expect(input).toHaveAttribute('aria-expanded', 'false');
@@ -822,29 +819,22 @@ describe('OfficeSearch', () => {
 			expect(screen.queryByText('Søket inneholder ugyldige tegn')).not.toBeInTheDocument();
 		});
 
-		test.each([
-			{ name: 'escape', close: () => user.keyboard('{Escape}'), keepsFocus: true },
-			{ name: 'tab', close: () => user.tab(), keepsFocus: false },
-		])('$name lukker lasting av adresseforslag og ignorerer sent svar', async ({ close, keepsFocus }) => {
-			const addressSearch = Promise.withResolvers<Reply>();
-			mockApi('search/name', { json: nameResult('ukjent adresse 1') });
-			mockApi('search/address', addressSearch.promise);
+		test('escape lukker lastingen i adresseforslagene, avbryter søket og ignorerer sent svar', async () => {
+			const search = Promise.withResolvers<Reply>();
+			mockApi('search', search.promise);
 			await typeQuery('ukjent adresse 1');
+			await advance(SPINNER_DELAY_MS);
 			const input = getSearchInput();
-			await screen.findByRole('option', { name: 'Søker...' });
+			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
 
-			await close();
+			await user.keyboard('{Escape}');
 
 			expect(input).toHaveAttribute('aria-expanded', 'false');
 			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-			expect(wasAborted('search/address?query=ukjent+adresse+1')).toBe(true);
-			if (keepsFocus) {
-				expect(input).toHaveFocus();
-			} else {
-				expect(input).not.toHaveFocus();
-			}
+			expect(wasAborted('search?query=ukjent+adresse+1')).toBe(true);
+			expect(input).toHaveFocus();
 
-			addressSearch.resolve({ json: addressResult('ukjent adresse 1', storgataAdresser(2)) });
+			search.resolve({ json: addressResult('ukjent adresse 1', storgataAdresser(2)) });
 			await act(() => vi.runOnlyPendingTimersAsync());
 
 			expect(input).toHaveValue('ukjent adresse 1');
@@ -855,27 +845,74 @@ describe('OfficeSearch', () => {
 			expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
 		});
 
-		test('viser ingen feil når brukeren avbryter et adressesøk', async () => {
-			mockApi('search/name', { json: nameResult('storgata 1') });
-			mockApi('search/address', pending);
+		// Leaving the field doesn't stop the search: what it finds may be offices, which aren't in the dropdown
+		test.each([
+			{ name: 'tab', leave: () => user.tab() },
+			{ name: 'klikk utenfor', leave: () => user.click(document.body) },
+		])(
+			'$name lukker lastingen i adresseforslagene, og adressene venter til feltet får fokus igjen',
+			async ({ leave }) => {
+				const search = Promise.withResolvers<Reply>();
+				mockApi('search', search.promise);
+				await typeQuery('storgata 1');
+				await advance(SPINNER_DELAY_MS);
+				const input = getSearchInput();
+				expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
+
+				await leave();
+
+				expect(input).not.toHaveFocus();
+				expect(input).toHaveAttribute('aria-expanded', 'false');
+				expect(queryLoadingIndicators()).toHaveLength(0);
+				expect(wasAborted('search?query=storgata+1')).toBe(false);
+
+				search.resolve({ json: addressResult('storgata 1', storgataAdresser(2)) });
+				await act(() => vi.runOnlyPendingTimersAsync());
+
+				expect(input).toHaveAttribute('aria-expanded', 'false');
+				expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+
+				await user.click(input);
+				expect(screen.getByRole('option', { name: 'Storgata 1, 0184 OSLO' })).toBeInTheDocument();
+				expect(input).toHaveAttribute('aria-expanded', 'true');
+			},
+		);
+
+		test('viser kontorene for et stedsnavn selv om fokus forlot feltet mens søket lastet', async () => {
+			const search = Promise.withResolvers<Reply>();
+			mockApi('search', search.promise);
+			await typeQuery('evje og hornnes');
+			await advance(SPINNER_DELAY_MS);
+			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
+
+			await user.click(document.body);
+			search.resolve({ json: evjeNameResult });
+
+			expect(await findLink('Nav Evje og Hornnes')).toBeInTheDocument();
+			expect(wasAborted('search?query=evje+og+hornnes')).toBe(false);
+		});
+
+		test('viser ingen feil når brukeren avbryter et søk', async () => {
+			mockApi('search', pending);
 			await typeQuery('storgata 1');
-			await screen.findByRole('option', { name: 'Søker...' });
+			await advance(SPINNER_DELAY_MS);
+			expect(screen.getByRole('option', { name: 'Søker...' })).toBeInTheDocument();
 
 			await user.keyboard('{Escape}');
 			await waitForDebounce();
 
-			expect(wasAborted('search/address?query=storgata+1')).toBe(true);
+			expect(wasAborted('search?query=storgata+1')).toBe(true);
 			expect(screen.queryByText('Ukjent server-feil')).not.toBeInTheDocument();
 		});
 
 		test('avbryter søket som pågår når skjemaet forsvinner', async () => {
-			mockApi('search/name', Promise.withResolvers<Reply>().promise);
+			mockApi('search', Promise.withResolvers<Reply>().promise);
 			await typeQuery('oslo');
-			expect(apiRequests()).toEqual(['search/name?query=oslo']);
+			expect(apiRequests()).toEqual(['search?query=oslo']);
 
 			cleanup();
 
-			expect(wasAborted('search/name?query=oslo')).toBe(true);
+			expect(wasAborted('search?query=oslo')).toBe(true);
 		});
 	});
 });
@@ -919,7 +956,6 @@ describe('språk', () => {
 	test.each(['nn', 'en'] as const)('viser tekster og resultater på %s', async (locale) => {
 		const t = texts[locale];
 		mockApi('search', { json: postnrResult({ officeInfo: [] }) });
-		mockAddressSuggestions('storgata 1', storgataAdresser(2));
 		await renderOfficeSearch(locale);
 
 		const input = screen.getByRole('combobox', { name: t.label });
@@ -938,6 +974,7 @@ describe('språk', () => {
 		expect(await findByFullText(t.postnrNone)).toBeInTheDocument();
 
 		await user.clear(input);
+		mockAddressSuggestions('storgata 1', storgataAdresser(2));
 		await typeQuery('storgata 1');
 		await screen.findByRole('option', { name: 'Storgata 1, 0184 OSLO' });
 		expect(getLiveRegion()).toHaveTextContent(new RegExp(`^${escapeRegExp(t.suggestions)}$`));
@@ -952,9 +989,9 @@ const pending = new Promise<Reply>(() => undefined);
 
 const evjeNameResult = nameResult('evje og hornnes', [nameHit('EVJE OG HORNNES', [offices.evjeOgHornnes])]);
 
+/** What the search answers when no name matches: the addresses it found */
 const mockAddressSuggestions = (query: string, adresser: ReturnType<typeof storgataAdresser>, totalHits?: number) => {
-	mockApi('search/name', { json: nameResult(query) });
-	mockApi('search/address', { json: addressResult(query, adresser, totalHits) });
+	mockApi('search', { json: addressResult(query, adresser, totalHits) });
 };
 
 const getSearchInput = (): HTMLInputElement => screen.getByRole('combobox');

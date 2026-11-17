@@ -19,15 +19,11 @@ test.each([
 ])('joins an origin %s and its path with one slash', async (_, slash) => {
 	const urls = await urlsWith({
 		API_ORIGIN: `https://api.test${slash}`,
-		XP_ORIGIN: `https://xp.test${slash}`,
 		NAVNO_ORIGIN: `https://www.nav.test${slash}`,
 	});
 
 	expect(urls).toMatchObject({
-		adresseApi: 'https://api.test/adresse',
-		bydelApi: 'https://api.test/bydel',
-		officesApi: 'https://api.test/geoids',
-		xpOfficeInfoApi: 'https://xp.test/_/service/no.nav.navno/officeInfo',
+		searchApi: 'https://api.test/search',
 		notFoundPage: 'https://www.nav.test/404',
 	});
 });

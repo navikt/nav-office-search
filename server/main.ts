@@ -4,10 +4,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { type ServerType, serve } from '@hono/node-server';
 import { logger } from '@navikt/navno-logger';
-import type { Cron } from 'croner';
 import { render } from '#client/main-server.tsx';
 import { createApp } from './app.ts';
-import { loadData, scheduleRefresh } from './data/data.ts';
 import { env } from './env.ts';
 import { builtAssets, type ViteManifest } from './site/ssr/document.ts';
 import { prodRenderer } from './site/ssr/htmlRenderer.ts';
@@ -24,23 +22,20 @@ try {
 		clientDir: fileURLToPath(import.meta.resolve('#dist/client')),
 	};
 
-	await loadData();
-	const refresh = scheduleRefresh();
 	const app = createApp({ site, notFoundHtml: await fetchNotFoundHtml() });
 	const server: ServerType = serve({ fetch: app.fetch, port: env.PORT, overrideGlobalObjects: false }, () => {
 		logger.info('Server listening', { port: env.PORT });
 	});
-	setupShutdownHandlers(server, refresh);
+	setupShutdownHandlers(server);
 } catch (e) {
 	// Exits instead of rethrowing, which Node would print again as plain text
 	logger.error('Server failed to start', e);
 	process.exit(1);
 }
 
-function setupShutdownHandlers(server: ServerType, refresh: Cron) {
+function setupShutdownHandlers(server: ServerType) {
 	const shutdown = () => {
 		logger.info('Server shutting down');
-		refresh.stop();
 		server.close(() => {
 			logger.info('Shutdown complete!');
 			process.exit(0);

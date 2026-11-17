@@ -26,7 +26,7 @@ describe.each(['vars-dev.yml', 'vars-prod.yml'])('%s', (file) => {
 		expect(parseEnv({ ...fromConfig, ...fromPlatform })).toMatchObject(fromConfig);
 	});
 
-	test.each(['XP_ORIGIN', 'API_ORIGIN', 'LOGIN_SESSION_API_URL'])('lets the server call %s', (name) => {
+	test.each(['API_ORIGIN', 'LOGIN_SESSION_API_URL'])('lets the server call %s', (name) => {
 		expect(allowedHosts).toContain(new URL(fromConfig[name] ?? '').host);
 	});
 });

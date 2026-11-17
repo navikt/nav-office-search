@@ -1,8 +1,8 @@
 import { mockFetch, networkError } from '@itsy/corgi/testing';
 import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
-import { createUpstreamFakes, fromMockCall, originsFromEnv } from './fakes.ts';
+import { createUpstreamFakes, fromMockCall } from './fakes.ts';
 
-const { answer } = createUpstreamFakes(originsFromEnv());
+const answer = createUpstreamFakes();
 
 /**
  * The fakes as the test file's fetch, for tests that run server code in-process, on the origins in the environment
