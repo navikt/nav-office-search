@@ -11,11 +11,17 @@ vi.mock('react-dom/client', async (importOriginal) => {
 	return { ...spied, default: spied };
 });
 
+// APM itself stays out of the tests
+const apm = vi.hoisted(() => ({ loadApm: vi.fn(), captureException: vi.fn() }));
+vi.mock('#client/utils/apm.ts', () => apm);
+
 let mountedRoot: Root | undefined;
 
 beforeEach(() => {
 	vi.mocked(hydrateRoot).mockClear();
 	vi.mocked(createRoot).mockClear();
+	apm.loadApm.mockClear();
+	apm.captureException.mockClear();
 	vi.resetModules();
 });
 
@@ -43,7 +49,11 @@ test('hydrerer når #maincontent har server-rendret innhold, med språket fra <h
 	mountedRoot = vi.mocked(hydrateRoot).mock.results[0]?.value;
 
 	expect(hydrateRoot).toHaveBeenCalledTimes(1);
-	expect(hydrateRoot).toHaveBeenCalledWith(document.getElementById('maincontent'), expect.anything());
+	expect(hydrateRoot).toHaveBeenCalledWith(
+		document.getElementById('maincontent'),
+		expect.anything(),
+		expect.anything(),
+	);
 	expect(createRoot).not.toHaveBeenCalled();
 	expect(screen.getByRole('combobox')).toHaveAccessibleName('Skriv inn adresse, postnummer eller stad/by');
 	expect(consoleError).not.toHaveBeenCalled();
@@ -59,7 +69,7 @@ test.each(['', '\n  ', '<!-- kommentar -->'])(
 		mountedRoot = vi.mocked(createRoot).mock.results[0]?.value;
 
 		expect(createRoot).toHaveBeenCalledTimes(1);
-		expect(createRoot).toHaveBeenCalledWith(document.getElementById('maincontent'));
+		expect(createRoot).toHaveBeenCalledWith(document.getElementById('maincontent'), expect.anything());
 		expect(hydrateRoot).not.toHaveBeenCalled();
 		expect(screen.getByRole('combobox')).toHaveAccessibleName('Enter address, post code or town/city');
 	},
@@ -73,4 +83,30 @@ test('faller tilbake til bokmål for et ukjent språk i <html lang>', async () =
 	mountedRoot = vi.mocked(createRoot).mock.results[0]?.value;
 
 	expect(screen.getByRole('combobox')).toHaveAccessibleName('Skriv inn adresse, postnummer eller sted/by');
+});
+
+test('laster APM én gang, før appen rendres', async () => {
+	document.body.innerHTML = '<main id="maincontent"></main>';
+
+	await runMainClient();
+	mountedRoot = vi.mocked(createRoot).mock.results[0]?.value;
+
+	expect(apm.loadApm).toHaveBeenCalledTimes(1);
+	expect(apm.loadApm.mock.invocationCallOrder[0]).toBeLessThan(vi.mocked(createRoot).mock.invocationCallOrder[0]!);
+});
+
+test('rapporterer til APM når hydreringen ikke stemmer med serverens HTML, og rendrer på klienten', async () => {
+	const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+	document.documentElement.lang = 'en';
+	document.body.innerHTML = `<main id="maincontent">${renderToHtml('nn')}</main>`;
+
+	await runMainClient();
+	mountedRoot = vi.mocked(hydrateRoot).mock.results[0]?.value;
+
+	expect(apm.captureException).toHaveBeenCalledWith(
+		expect.anything(),
+		expect.objectContaining({ fingerprint: 'root.recoverable-error' }),
+	);
+	expect(consoleWarn).toHaveBeenCalled();
+	expect(screen.getByRole('combobox')).toHaveAccessibleName('Enter address, post code or town/city');
 });
