@@ -1,4 +1,5 @@
-import { collectDefaultMetrics, Counter, Gauge, Histogram, Registry } from '@prometheus-io/client';
+import { isTimeoutError } from '@itsy/corgi';
+import { collectDefaultMetrics, Counter, Histogram, Registry } from '@prometheus-io/client';
 import type { Handler } from 'hono';
 
 export const registry = new Registry();
@@ -12,7 +13,8 @@ const prefix = 'nav_office_search_';
 
 // Searches
 
-export type SearchRoute = 'search' | 'search/name' | 'search/address' | 'geoid';
+// The one search route. Its label is from when there were more, and stays for the dashboards and alerts that read it.
+const route = 'search';
 
 /** hits: at least one office or address. empty: a valid search with nothing found. invalid: 4xx. error: 5xx. */
 export type SearchOutcome = 'hits' | 'empty' | 'invalid' | 'error';
@@ -57,7 +59,6 @@ export const classifySearchResponse = (status: number, body: unknown): SearchOut
 
 /** Runs a search and records its outcome and duration */
 export const observeSearch = async <Response extends { status: number; body: unknown }>(
-	route: SearchRoute,
 	search: () => Promise<Response>,
 ) => {
 	const stopTimer = searchDuration.startTimer({ route });
@@ -75,20 +76,11 @@ export const observeSearch = async <Response extends { status: number; body: unk
 
 // Upstream calls
 
-export type Upstream =
-	| 'office-search-api/geoid'
-	| 'office-search-api/adresse'
-	| 'office-search-api/bydel'
-	| 'xp'
-	| 'ssb'
-	| 'bring'
-	| 'azure-token'
-	| 'login-session'
-	| 'other';
+export type Upstream = 'office-search-api/search' | 'azure-token' | 'login-session';
 
 export const upstreamRequests = new Counter({
 	name: `${prefix}upstream_requests_total`,
-	help: 'Outbound requests by upstream and response status class (2xx, 4xx, 5xx, …) or network_error',
+	help: 'Outbound requests by upstream and response status class (2xx, 4xx, 5xx, …), timeout or network_error',
 	labelNames: ['upstream', 'status'] as const,
 	registers: [registry],
 });
@@ -101,21 +93,9 @@ export const upstreamDuration = new Histogram({
 	registers: [registry],
 });
 
-const upstreamPatterns: [RegExp, Upstream][] = [
-	[/\/geoid(\?|$)/, 'office-search-api/geoid'],
-	[/\/adresse(\?|$)/, 'office-search-api/adresse'],
-	[/\/bydel(\?|$)/, 'office-search-api/bydel'],
-	[/\/_\/service\/no\.nav\.navno\/officeInfo/, 'xp'],
-	[/^https:\/\/data\.ssb\.no\//, 'ssb'],
-	[/\/oauth2\/v2\.0\/token/, 'azure-token'],
-];
-
-export const upstreamForUrl = (url: string): Upstream =>
-	upstreamPatterns.find(([pattern]) => pattern.test(url))?.[1] ?? 'other';
-
 const statusClass = (status: number) => `${Math.floor(status / 100)}xx`;
 
-/** Runs an outbound request and records its status class and time to response */
+/** Runs an outbound request and records its status class and time to response. upstreamClient() does this for its requests. */
 export const observeUpstream = async (upstream: Upstream, request: () => Promise<Response>) => {
 	const stopTimer = upstreamDuration.startTimer({ upstream });
 	try {
@@ -123,7 +103,7 @@ export const observeUpstream = async (upstream: Upstream, request: () => Promise
 		upstreamRequests.inc({ upstream, status: statusClass(response.status) });
 		return response;
 	} catch (e) {
-		upstreamRequests.inc({ upstream, status: 'network_error' });
+		upstreamRequests.inc({ upstream, status: isTimeoutError(e) ? 'timeout' : 'network_error' });
 		throw e;
 	} finally {
 		stopTimer();
@@ -136,40 +116,5 @@ export const pageRenders = new Counter({
 	name: `${prefix}page_renders_total`,
 	help: 'Page renders by locale and outcome (ssr, csr_fallback when server rendering failed, error). Cached pages are not counted.',
 	labelNames: ['locale', 'outcome'] as const,
-	registers: [registry],
-});
-
-// Reference data (postnummerregister, kommuner, bydeler, office URLs)
-
-export const dataLoads = new Counter({
-	name: `${prefix}data_loads_total`,
-	help: 'Reference data loads (startup and the daily refresh) by outcome',
-	labelNames: ['outcome'] as const,
-	registers: [registry],
-});
-
-export const dataLoadDuration = new Gauge({
-	name: `${prefix}data_load_duration_seconds`,
-	help: 'Duration of the last successful reference data load',
-	registers: [registry],
-});
-
-export const dataLastSuccess = new Gauge({
-	name: `${prefix}data_last_success_timestamp_seconds`,
-	help: 'Unix time of the last successful reference data load',
-	registers: [registry],
-});
-
-export const referenceDataEntries = new Gauge({
-	name: `${prefix}reference_data_entries`,
-	help: 'Entries in the loaded reference data, by dataset',
-	labelNames: ['dataset'] as const,
-	registers: [registry],
-});
-
-export const referenceDataWithoutOffice = new Gauge({
-	name: `${prefix}reference_data_without_office`,
-	help: 'Kommuner, bydeler and poststeder the last load could not find an office for',
-	labelNames: ['dataset'] as const,
 	registers: [registry],
 });

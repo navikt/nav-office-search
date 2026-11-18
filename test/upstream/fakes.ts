@@ -1,9 +1,10 @@
 import { readFileSync } from 'node:fs';
+import type { MockCall } from '@itsy/corgi/testing';
 
 /*
- * Fakes of every service the server calls, answering from test/fixtures/upstream/ in each service's own wire format.
- * Offline development (test/mocks/dev.ts) and in-process tests (mswServer.ts) run on these. Node loads this file
- * directly in development, so it can only import built-ins, and only use TypeScript that Node can strip.
+ * Fakes of every service the server calls, each answering in its own wire format. Offline development
+ * (test/mocks/dev.ts) and in-process tests (upstreams.ts) run on these. Node loads this file directly in development,
+ * so it can only import built-ins, and only use TypeScript that Node can strip.
  */
 
 export type UpstreamRequest = {
@@ -17,128 +18,55 @@ export type UpstreamRequest = {
 	body: string;
 };
 
-export type UpstreamOrigins = {
-	navno: string;
-	xp: string;
-	api: string;
-	tokenEndpoint: string;
-	loginSession: string;
-	/** The decorator's base URLs to fake */
-	decorators: string[];
-};
-
-/** The origins the server gets from its environment. The decorator isn't among them, so it isn't faked. */
-export const originsFromEnv = (): UpstreamOrigins => {
-	const env = process.env as Record<string, string>;
-
+/** A request corgi's mockFetch got. The server always asks for absolute URLs. */
+export const fromMockCall = (call: MockCall): UpstreamRequest => {
+	const url = new URL(call.url);
 	return {
-		navno: env.NAVNO_ORIGIN,
-		xp: env.XP_ORIGIN,
-		api: env.API_ORIGIN,
-		tokenEndpoint: env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
-		loginSession: env.LOGIN_SESSION_API_URL,
-		decorators: [],
-	};
-};
-
-export const toUpstreamRequest = async (request: Request): Promise<UpstreamRequest> => {
-	const url = new URL(request.url);
-	return {
-		method: request.method,
+		method: call.method,
 		url: url.href,
 		host: url.host,
 		path: url.pathname,
 		query: url.searchParams,
-		headers: Object.fromEntries(request.headers),
-		body: await request.clone().text(),
+		headers: Object.fromEntries(call.headers),
+		body: call.body ?? '',
 	};
 };
 
-/** Method, host and path, e.g. 'GET www.nav.no/404' */
-export const routeOf = ({ method, host, path }: UpstreamRequest) => `${method} ${host}${path}`;
+// Method, host and path, e.g. 'GET www.nav.no/404'
+const routeOf = ({ method, host, path }: UpstreamRequest) => `${method} ${host}${path}`;
 
-/** The route of a method and URL. A trailing slash on the URL doesn't count. */
-export const routeTo = (method: string, url: string) => {
+// The route of a method and URL. A trailing slash on the URL doesn't count.
+const routeTo = (method: string, url: string) => {
 	const { host, pathname } = new URL(url);
 	return `${method} ${host}${pathname.replace(/\/$/, '')}`;
 };
 
-export const ACCESS_TOKEN = 'azure-token';
-
-export const NOT_FOUND_HTML = '<!doctype html><html><body><h1 data-stub="nav-404">Fant ikke siden</h1></body></html>';
-
-export const DECORATOR = {
-	headAssets: '<link rel="stylesheet" href="https://decorator.test/client.css" data-stub="decorator-head-assets" />',
-	header: '<div data-stub="decorator-header"></div>',
-	footer: '<div data-stub="decorator-footer"></div>',
-	scripts: '<script src="https://decorator.test/client.js" data-stub="decorator-scripts"></script>',
-	versionId: 'stub-version',
-};
-
-const fixture = (path: string) => readFileSync(new URL(`../fixtures/upstream/${path}`, import.meta.url));
-
-const fixtureJson = <T>(path: string): T => JSON.parse(fixture(path).toString('utf-8'));
-
 type Recorded = Record<string, { status: number; body: unknown }>;
 
-const offices = fixtureJson<Record<string, { enhetNr: string; navn: string }>>('office-search-api/geoid.json');
-const adresser = fixtureJson<Recorded>('office-search-api/adresse.json');
-const bydeler = fixtureJson<Recorded>('office-search-api/bydel.json');
+// What nav-office-search-api answered each query with, when the recording was made
+const searches: Recorded = JSON.parse(
+	readFileSync(new URL('../fixtures/upstream/office-search-api/search.json', import.meta.url), 'utf-8'),
+);
 
-/** What Express' res.send(object) sends, as nav-office-search-api does */
-export const json = (body: unknown, status = 200) =>
-	new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8' } });
+// What Hono's c.json() sends, as nav-office-search-api does
+const json = (body: unknown, status = 200) =>
+	new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
-const file = (path: string, contentType: string) =>
-	new Response(fixture(path), { headers: { 'content-type': contentType } });
+// nav-office-search-api's /search. A query without a recording gets what the API answers when it finds nothing: an
+// unknown postnummer, or no addresses. Like the API, it counts a repeated query as a missing one.
+const search = ({ query }: UpstreamRequest) => {
+	const queries = query.getAll('query');
+	const asked = queries.length === 1 ? queries[0] : undefined;
 
-// Express gives a repeated parameter as an array, which the backend's handlers reject like a missing one
-const single = (query: URLSearchParams, name: string) => {
-	const values = query.getAll(name);
-	return values.length === 1 ? values[0] : undefined;
-};
-
-// nav-office-search-api, mirroring its handlers (src/handlers/ in that repo). Ids, queries and postnumre without a
-// recording get what the backend answers for ones it doesn't know.
-const geoid = ({ query }: UpstreamRequest) => {
-	const id = single(query, 'id');
-	if (id === undefined) {
-		return new Response("Invalid request - 'id' parameter is required", {
-			status: 400,
-			headers: { 'content-type': 'text/html; charset=utf-8' },
-		});
+	if (!asked?.trim()) {
+		return json({ type: 'error', messageId: 'errorMissingQuery' }, 400);
 	}
-	return offices[id] ? json(offices[id]) : json({ message: `No office info found for geoid ${id}` }, 404);
-};
-
-const adresse = ({ query }: UpstreamRequest) => {
-	const queryString = single(query, 'queryString');
-	if (!queryString?.trim()) {
-		return json({ error: 'Query string is required and must be a non-empty string' }, 400);
+	if (Object.hasOwn(searches, asked)) {
+		return json(searches[asked].body, searches[asked].status);
 	}
-	const recorded = adresser[queryString];
-	if (recorded) {
-		return json(recorded.body, recorded.status);
-	}
-	if (queryString.length > 150) {
-		return json({ error: 'Query string exceeds maximum length of 150 characters' }, 400);
-	}
-	if (!queryString.replace(/[^\p{L}\p{N}\s.,-]/gu, '').trim()) {
-		return json({ error: 'Query string is empty or invalid' }, 400);
-	}
-	return json({ totalHits: 0, adresser: [] });
-};
-
-const bydel = ({ query }: UpstreamRequest) => {
-	const postnummer = single(query, 'postnummer');
-	if (!postnummer?.trim()) {
-		return json({ error: 'Postnummer is required' }, 400);
-	}
-	const recorded = bydeler[postnummer];
-	if (recorded) {
-		return json(recorded.body, recorded.status);
-	}
-	return /^\d{4}$/.test(postnummer.trim()) ? json({ bydeler: [] }) : json({ error: 'Invalid postnummer' }, 400);
+	return /^\d{4}$/.test(asked.trim())
+		? json({ type: 'error', messageId: 'errorInvalidPostnr' }, 404)
+		: json({ type: 'adresse', adresseQuery: asked, adresser: [], totalHits: 0 });
 };
 
 // Wonderwall's session endpoint: 200 with a session cookie, 401 without
@@ -147,42 +75,24 @@ const loginSession = ({ headers }: UpstreamRequest) =>
 		? json({ session: { active: true } })
 		: json({ error: 'unauthenticated' }, 401);
 
-export const createUpstreamFakes = (origins: UpstreamOrigins) => {
-	/** What the server calls, for overrides and assertions */
-	const routes = {
-		xp: routeTo('GET', `${origins.xp}/_/service/no.nav.navno/officeInfo`),
-		ssbClassification: 'GET data.ssb.no/api/klass/v1/classifications/103',
-		ssbVersion: 'GET data.ssb.no/api/klass/v1/versions/1168',
-		bring: 'GET www.bring.no/postnummerregister-ansi.txt',
-		token: routeTo('POST', origins.tokenEndpoint),
-		geoid: routeTo('GET', `${origins.api}/geoid`),
-		adresse: routeTo('GET', `${origins.api}/adresse`),
-		bydel: routeTo('GET', `${origins.api}/bydel`),
-		loginSession: routeTo('GET', origins.loginSession),
-		notFoundPage: routeTo('GET', `${origins.navno}/404`),
-	};
+/**
+ * The fakes, on the origins the server gets from its environment: what they answer a request with, or undefined for
+ * one they don't know. The decorator isn't in the environment, so it isn't faked.
+ */
+export const createUpstreamFakes = () => {
+	const env = process.env as Record<string, string>;
 
 	const fakes: Record<string, (request: UpstreamRequest) => Response> = {
-		[routes.xp]: () => file('xp/office-info.json', 'application/json'),
-		[routes.ssbClassification]: () => file('ssb/classification-103.json', 'application/json'),
-		[routes.ssbVersion]: () => file('ssb/version.json', 'application/json'),
-		[routes.bring]: () => file('bring/postnummerregister-ansi.txt', 'text/plain'),
-		[routes.token]: () =>
-			json({ token_type: 'Bearer', expires_in: 3599, ext_expires_in: 3599, access_token: ACCESS_TOKEN }),
-		[routes.geoid]: geoid,
-		[routes.adresse]: adresse,
-		[routes.bydel]: bydel,
-		[routes.loginSession]: loginSession,
-		[routes.notFoundPage]: () =>
-			new Response(NOT_FOUND_HTML, { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' } }),
+		[routeTo('POST', env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT)]: () =>
+			json({ token_type: 'Bearer', expires_in: 3599, ext_expires_in: 3599, access_token: 'azure-token' }),
+		[routeTo('GET', `${env.API_ORIGIN}/search`)]: search,
+		[routeTo('GET', env.LOGIN_SESSION_API_URL)]: loginSession,
+		[routeTo('GET', `${env.NAVNO_ORIGIN}/404`)]: () =>
+			new Response('<!doctype html><html><body><h1>Fant ikke siden</h1></body></html>', {
+				status: 404,
+				headers: { 'content-type': 'text/html; charset=utf-8' },
+			}),
 	};
-	for (const decorator of origins.decorators) {
-		fakes[routeTo('GET', `${decorator}/ssr`)] = () => json(DECORATOR);
-		fakes[routeTo('GET', `${decorator}/api/version`)] = () => json({ latestVersion: DECORATOR.versionId });
-	}
 
-	/** undefined for what isn't faked */
-	const answer = (request: UpstreamRequest): Response | undefined => fakes[routeOf(request)]?.(request);
-
-	return { routes, answer };
+	return (request: UpstreamRequest): Response | undefined => fakes[routeOf(request)]?.(request);
 };

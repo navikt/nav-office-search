@@ -2,7 +2,7 @@
 
 Web-app for å søke etter Nav-kontor med postnummer, by/stedsnavn eller adresse.
 
-Avhengig av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) for proxy mot PDL og norg-tjenester i FSS (ved lokal kjøring benyttes mocks).
+Selve søket gjøres av [nav-office-search-api](https://github.com/navikt/nav-office-search-api) i FSS, som også eier dataene det søker i (postnumre, kommuner, bydeler, kontorer og adresser). Denne appen er siden og en videresender: nettleseren gjør ett kall per søk, `GET /finn-nav-kontor/api/search?query=`, og serveren sender det videre til API-ets `/search` og svaret tilbake som det er. Ved lokal kjøring benyttes mocks.
 
 ## Struktur
 
@@ -11,7 +11,7 @@ nav-office-search/
 ├── client/          # Vite/React-frontend (SSR + klient)
 ├── server/          # Hono-server (frackend, API-proxy, SSR-hosting)
 ├── shared/          # Delt kode: typer, lokalisering, validering
-├── test/            # Fixtures, mocks og HTTP-tester
+├── test/            # Fixtures og mocks
 ├── vite-plugins/    # Vite-plugins for bygget
 └── vite.config.ts   # Bygger klient og server til dist/
 ```
@@ -36,7 +36,15 @@ Kjører lokalt på [http://localhost:3005/finn-nav-kontor](http://localhost:3005
 
 `pnpm dev`
 
-Vite kjører både server og klient, og siden rendres på serveren også her. En endring i `client/` byttes inn uten å laste siden, og en endring i `server/` gjelder fra neste forespørsel. Alle eksterne tjenester unntatt dekoratøren er mocket fra `test/fixtures/upstream/`, og dekoratøren hentes fra www.nav.no. Sett `MOCKS=false` for å slå mockene av.
+Vite kjører både server og klient, og siden rendres på serveren også her. En endring i `client/` byttes inn uten å laste siden, og en endring i `server/` gjelder fra neste forespørsel. Alle eksterne tjenester unntatt dekoratøren er mocket, og dekoratøren hentes fra www.nav.no. Sett `MOCKS=false` for å slå mockene av.
+
+Søket svares fra et opptak av API-ets svar på et utvalg søk, som `4737`, `0354`, `oslo`, `frogner`, `storgata 1` og `tamburveien 1a` ([test/fixtures/upstream/README.md](test/fixtures/upstream/README.md) har hele listen). Andre søk gir ukjent postnummer eller ingen treff.
+
+For å søke i alt, start nav-office-search-api ved siden av (`pnpm dev` der, port 3003) og pek denne appen dit. Et API på localhost mockes ikke:
+
+```bash
+API_ORIGIN=http://localhost:3003 pnpm dev
+```
 
 #### Start i production mode:
 
@@ -58,19 +66,17 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 `pnpm test` kjører klient- og servertestene.
 
-`pnpm test:http` bygger appen og kjører midlertidige HTTP-tester mot den bygde serveren, med alle eksterne tjenester erstattet av fixtures. De låser dagens oppførsel mens serveren bygges om, og kjøres bare i PR-sjekkene. Se [test/http/README.md](test/http/README.md).
-
 ## Metrikker
 
 Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics`, som NAIS skraper. De viktigste:
 
-- `nav_office_search_search_requests_total{route, outcome}`: søk per endepunkt, med utfall `hits`, `empty` (gyldig søk uten treff), `invalid` (4xx) eller `error` (5xx). Varighet i `nav_office_search_search_request_duration_seconds`.
-- `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, XP, SSB, Bring, Azure og innloggingsstatus, per statusklasse eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
-- `nav_office_search_reference_data_without_office{dataset}`: kommuner, bydeler og postnumre som siste datalasting ikke fant Nav-kontor for. Bør være 0 for kommuner; hvilke det gjelder står i loggen ("No office found for …").
-- `nav_office_search_data_loads_total{outcome}`, `nav_office_search_data_last_success_timestamp_seconds` og `nav_office_search_data_load_duration_seconds`: oppstart og daglig oppfrisking av referansedata.
+- `nav_office_search_search_requests_total{route, outcome}`: søk etter utfall: `hits`, `empty` (gyldig søk uten treff), `invalid` (4xx) eller `error` (5xx). `route` er alltid `search`. Varighet i `nav_office_search_search_request_duration_seconds`.
+- `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, Azure og innloggingsstatus, per statusklasse, `timeout` eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
 - `nav_office_search_page_renders_total{locale, outcome}`: sidevisninger rendret på server (`ssr`), med fallback til klient (`csr_fallback`) eller med feil.
 
 I tillegg kommer standardmetrikkene for Node.js-prosessen (`nodejs_*`, `process_*`).
+
+Metrikkene for dataene søket bruker (lasting, kommuner uten kontor) og for PDL og NORG er nav-office-search-api sine (`nav_office_search_api_*`).
 
 ## Konfigurasjon
 

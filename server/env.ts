@@ -1,13 +1,12 @@
+import { logger } from '@navikt/navno-logger';
 import { z } from 'zod';
 
 const schema = z.object({
 	// Where the page is served from, for its og: tags
 	APP_ORIGIN: z.url(),
-	// The nav.no frontend: the 404 page, and where the offices' pages are
+	// The nav.no frontend, for its 404 page
 	NAVNO_ORIGIN: z.url(),
-	// XP, which knows the offices' paths
-	XP_ORIGIN: z.url(),
-	// nav-office-search-api, and the client id its tokens are for
+	// nav-office-search-api, which does the searching, and the client id its tokens are for
 	API_ORIGIN: z.url(),
 	API_CLIENT_ID: z.string().min(1),
 	// NAIS injects these for azure.application
@@ -28,5 +27,16 @@ export const parseEnv = (source: Record<string, string | undefined>) => {
 	return parsed.data;
 };
 
+const readEnv = () => {
+	try {
+		return parseEnv(process.env);
+	} catch (e) {
+		// It happens while the server's modules load, before main.ts can catch anything. Logged and exited here, since
+		// Node would print a thrown error as plain text.
+		logger.error('Server failed to start', e);
+		process.exit(1);
+	}
+};
+
 // Read when the server starts, so a misconfigured pod crashes before it takes traffic
-export const env = parseEnv(process.env);
+export const env = readEnv();

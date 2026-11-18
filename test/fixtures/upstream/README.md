@@ -1,29 +1,31 @@
 # Upstream fixtures
 
-Responses from the services the server depends on, shaped exactly like each service's own wire format. Nothing in
-here is computed by this app's code, so tests that use them can't pass just by agreeing with themselves.
+What the services the server depends on answer, in their own wire format. Nothing in here is computed by this app's
+code.
 
 | File | Upstream | Origin |
 | --- | --- | --- |
-| `bring/postnummerregister-ansi.txt` | `https://www.bring.no/postnummerregister-ansi.txt` | Earlier capture, bytes unchanged (windows-1252, tab-separated, trailing newline). Pre-2024 kommune numbers. |
-| `ssb/classification-103.json` | `https://data.ssb.no/api/klass/v1/classifications/103` | Captured 2026-10-07. |
-| `ssb/version.json` | `https://data.ssb.no/api/klass/v1/versions/1168` (Bydelsinndeling 2020, the current version) | Captured 2026-10-07. Its `classificationItems` are identical to the earlier capture this replaced. |
-| `xp/office-info.json` | XP `/_/service/no.nav.navno/officeInfo` | Earlier dev capture (`{ offices: [{ enhetNr, path }] }`). |
-| `office-search-api/geoid.json` | nav-office-search-api `GET /geoid?id=<geoId>` | Body per geoId: `{ enhetNr, navn }`. Derived once from the old dev snapshot's office lookups, keyed by the id actually sent. Ids missing here get the backend's 404 `{ message: "No office info found for geoid <id>" }`. `2100` (Svalbard → Nav Tromsø) and the 404 for `2211` (Jan Mayen) were checked against the dev API on 2026-10-08. Note that the live backend no longer knows `5401` (Tromsø is `5501` since 2024); it stays here because this snapshot's register still uses it. |
-| `office-search-api/adresse.json` | nav-office-search-api `GET /adresse?queryString=<query>` | Hand-written `{ status, body }` per query string, in the backend's shapes: `{ totalHits, adresser }` (at most 30 per page) or `{ error }`. |
-| `office-search-api/bydel.json` | nav-office-search-api `GET /bydel?postnummer=<postnummer>` | Hand-written `{ status, body }` per postnummer: `{ bydeler }` or `{ error }`. |
+| `office-search-api/search.json` | nav-office-search-api `GET /search?query=<query>` | `{ status, body }` per query, as the API's own code answered on 2026-11-17 (its commit `6ca6396`), run on its test snapshot (`test/fixtures` there: NORG, XP and the two data files) with `NAVNO_ORIGIN=https://www.nav.no`. PDL isn't in that snapshot, so it answered from hand-written addresses and bydeler. |
 
-The register, the office ids and the hand-written addresses come from the same pre-2024 dev snapshot, so they agree
-with each other, even though they are out of date (e.g. Nordre Follo is 3020, Tromsø is 5401). Refreshing them is a
-fixture-only change that should regenerate them together.
+The snapshot is from dev before 2024, so it is out of date (Nordre Follo is 3020, Tromsø is 5401), but it agrees with
+itself.
 
-nav-office-search-api's behaviour that the fixtures mirror (see its `src/handlers/`):
+What is recorded:
 
-- `/geoid`: unknown id → 404 `{ message }`; missing id → 400 plain text.
-- `/adresse`: query over 150 characters, or empty after stripping everything but letters, digits, whitespace and
-  `.,-` → 400 `{ error }`; PDL failure → 502 `{ error }`.
-- `/bydel`: missing or non-four-digit postnummer → 400 `{ error }`.
+- Postnumre: `4737` (one office), `0354` (two bydeler, two offices), `0150`, `0184`, `0560`, `4014`, `5003` and `7014`
+  (one bydel each), `1001` and `3560` (no office), `9170` and `8099` (Svalbard and Jan Mayen, which Nav Tromsø covers).
+- Names: `oslo`, `bergen`, `frogner`, `unjarga`, `evje`, `trondheim`, `tromsø`, `stavanger`, `hornnes`, `ski` and
+  `jevnaker`.
+- Addresses: `storgata 1` (30 of 412), `tamburveien 1a`, `trondheimsveien 2`, `bryggen 1`, `vei 230 4`,
+  `ole b. bergers veg 5`, `fergeleiet 1` (in an area without an office: its `officeInfo` is null),
+  `ukjent adresse 1` (none found) and `???` (400 `errorInvalidQuery`).
 
-`test/upstream/fakes.ts` answers from these files, in offline development and in the HTTP tests.
+`test/upstream/fakes.ts` answers from it, in offline development and in the server's tests. A query that isn't recorded
+gets what the API answers when it finds nothing: 404 `errorInvalidPostnr` for four digits, and no addresses for
+anything else. Without a query it answers 400 `errorMissingQuery`, as the API does.
 
-These files are not formatted by oxfmt.
+To add an answer, or replace one, take it from a running nav-office-search-api. Its `pnpm dev` answers on
+`http://localhost:3003/search?query=<query>`. PDL is faked there with the same two addresses for every search, so an
+address answer needs its addresses written in by hand.
+
+This file is not formatted by oxfmt.

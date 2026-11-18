@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
-import { logRequests, server } from './__tests__/support/msw.ts';
+import { answerLoginStatus, http, logRequests } from './__tests__/support/api.ts';
 
 // Testing Library only does these two automatically when test globals are enabled.
 
@@ -16,18 +16,26 @@ afterEach(() => {
 // drive Vitest's fake timers too. It has no effect while real timers are in use.
 Object.assign(globalThis, { jest: { advanceTimersByTime: vi.advanceTimersByTime } });
 
+let restoreFetch = () => {};
+
 beforeAll(() => {
-	server.listen({ onUnhandledFrame: 'error' });
+	restoreFetch = http.install();
 });
 
 beforeEach(() => {
+	answerLoginStatus();
 	logRequests();
 });
 
+// A request the test didn't mock fails it, even when the app shows it as a failed search
 afterEach(() => {
-	server.resetHandlers();
+	const unmatched = http.unmatchedCalls.map(({ method, url }) => `${method} ${url}`);
+	http.reset();
+	if (unmatched.length > 0) {
+		throw new Error(`No mock for ${unmatched.join(', ')}`);
+	}
 });
 
 afterAll(() => {
-	server.close();
+	restoreFetch();
 });

@@ -1,247 +1,130 @@
-import { HttpResponse, http } from 'msw';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
-import recordedAdresser from '#test/fixtures/upstream/office-search-api/adresse.json' with { type: 'json' };
-import { upstreamCalls, upstreams } from '#test/upstream/mswServer.ts';
-import type { SearchResultProps } from '#shared/types/results.ts';
-import { loadData } from '#server/data/data.ts';
-import { geoidSearchHandler } from './geoid/geoidSearchHandler.ts';
+import { networkError } from '@itsy/corgi/testing';
+import { logger } from '@navikt/navno-logger';
+import { afterEach, describe, expect, test, vi } from 'vitest';
+import recorded from '#test/fixtures/upstream/office-search-api/search.json' with { type: 'json' };
+import { installUpstreams } from '#test/upstream/upstreams.ts';
 import { isAliveHandler } from './isAlive/isAliveHandler.ts';
 import { isReadyHandler } from './isReady/isReadyHandler.ts';
 import { loginStatusHandler } from './loginstatus/loginStatusHandler.ts';
-import { addressSearchHandler } from './search/addressSearchHandler.ts';
-import { nameSearchHandler } from './search/nameSearchHandler.ts';
 import { searchHandler } from './search/searchHandler.ts';
 import { env } from '#server/env.ts';
 
-const API = env.API_ORIGIN;
-const NAVNO = env.NAVNO_ORIGIN;
+const SEARCH = `${env.API_ORIGIN}/search`;
 
 // The access token, base64-encoded. nav-office-search-api never checks it.
 const AUTHORIZATION = 'Bearer YXp1cmUtdG9rZW4=';
 
-const upstreamUrls = () => upstreamCalls.map(({ method, url }) => `${method} ${url}`);
+const { upstreams, calls: upstreamCalls } = installUpstreams();
 
-const officeNames = (body: SearchResultProps) =>
-	body.type === 'postnr' ? body.officeInfo.map(({ name }) => name) : [];
+// What nav-office-search-api was asked. The token request, before the first search, isn't among them.
+const searches = () => upstreamCalls().filter(({ url }) => url.startsWith(SEARCH));
 
 const error = (messageId: string) => ({ type: 'error', messageId });
 
-beforeAll(async () => {
-	upstreams.listen();
-	await loadData();
-});
-
-beforeEach(() => {
-	upstreamCalls.length = 0;
-});
+// Everything the server logged, as one string per call
+const logged = (level: 'info' | 'warn' | 'error') =>
+	vi
+		.mocked(logger[level])
+		.mock.calls.map((args) =>
+			JSON.stringify(args, (_, value) => (value instanceof Error ? `${value.name}: ${value.message}` : value)),
+		);
 
 afterEach(() => {
-	upstreams.resetHandlers();
-});
-
-afterAll(() => {
-	upstreams.close();
+	vi.useRealTimers();
+	vi.restoreAllMocks();
 });
 
 describe('searchHandler', () => {
-	test('answers a postnummer from the loaded data', async () => {
-		const response = await searchHandler('4737');
+	test.each([
+		['a postnummer', '4737', 'postnr'],
+		['a name', 'oslo', 'name'],
+		['an address', 'storgata 1', 'adresse'],
+	] as const)("passes on nav-office-search-api's answer to %s", async (_, query, type) => {
+		const response = await searchHandler(query);
 
-		expect(response).toEqual({
-			status: 200,
-			body: {
-				type: 'postnr',
-				postnr: '4737',
-				poststed: 'HORNNES',
-				poststedNormalized: 'hornnes',
-				kommuneNavn: 'EVJE OG HORNNES',
-				kommunenr: '4219',
-				kategori: 'G',
-				officeInfo: [
-					{
-						name: 'Nav Evje og Hornnes',
-						url: `${NAVNO}/kontor/nav-evje-og-hornnes`,
-						geoId: '4219',
-						enhetNr: '0937',
-						hitString: '',
-					},
-				],
-			},
-		});
-		expect(upstreamUrls()).toEqual([]);
-		expect(await searchHandler(' 4737 ')).toEqual(response);
+		expect(response).toEqual(recorded[query]);
+		expect(response.body.type).toBe(type);
 	});
 
-	test.each(['9170', '8099'])('finds Nav Tromsø for %s, on Svalbard and Jan Mayen', async (postnr) => {
-		expect(officeNames((await searchHandler(postnr)).body)).toEqual(['Nav Tromsø']);
+	test('asks with the query as it was typed, and with the token', async () => {
+		const query = ' Ole B. Bergers veg 5, Jevnaker ';
+
+		await searchHandler(query);
+
+		expect(
+			searches().map((call) => [call.method, call.path, call.query.get('query'), call.headers.authorization]),
+		).toEqual([['GET', '/search', query, AUTHORIZATION]]);
+		expect(searches()[0].headers.accept).toBe('application/json');
 	});
 
-	test('looks up the bydeler of a postnummer in a kommune with bydeler, and their offices', async () => {
-		const { status, body } = await searchHandler('0354');
+	test.each([
+		['an unknown postnummer', '0000', 404, 'errorInvalidPostnr'],
+		['a query with nothing to search for', '???', 400, 'errorInvalidQuery'],
+		['an empty query', ' ', 400, 'errorMissingQuery'],
+	])("passes on the API's answer to %s, with its status", async (_, query, status, messageId) => {
+		vi.spyOn(logger, 'error');
 
-		expect(status).toBe(200);
-		expect(officeNames(body)).toEqual(['Nav Frogner', 'Nav St. Hanshaugen']);
-		expect(upstreamUrls()).toEqual([
-			`GET ${API}/bydel?postnummer=0354`,
-			`GET ${API}/geoid?id=030105`,
-			`GET ${API}/geoid?id=030104`,
-		]);
-		expect(upstreamCalls.map(({ headers }) => headers.authorization)).toEqual([
-			AUTHORIZATION,
-			AUTHORIZATION,
-			AUTHORIZATION,
-		]);
+		expect(await searchHandler(query)).toEqual({ status, body: error(messageId) });
+		expect(logged('error')).toEqual([]);
 	});
 
-	test('answers without offices when the postnummer has no bydel', async () => {
-		const { status, body } = await searchHandler('1001');
-
-		expect([status, officeNames(body)]).toEqual([200, []]);
+	test('asks without a query when it got none, and passes on the answer to that', async () => {
+		expect(await searchHandler(undefined)).toEqual({ status: 400, body: error('errorMissingQuery') });
+		expect(searches().map(({ url }) => url)).toEqual([SEARCH]);
 	});
 
-	test('answers without offices when the bydel search fails (bug)', async () => {
-		upstreams.use(http.get(`${API}/bydel`, () => HttpResponse.json({ error: 'PDL is down' }, { status: 502 })));
+	test.each([500, 502, 504])("passes on the API's own %i, and logs the status", async (status) => {
+		vi.spyOn(logger, 'error');
+		upstreams.get(SEARCH, { json: error('errorServerError'), status });
 
-		const { status, body } = await searchHandler('0150');
-
-		expect([status, officeNames(body)]).toEqual([200, []]);
+		expect(await searchHandler('storgata 1')).toEqual({ status, body: error('errorServerError') });
+		expect(logged('error')).toEqual([JSON.stringify(['Search failed', { status }])]);
 	});
 
-	test('answers 404 for an unknown postnummer', async () => {
-		expect(await searchHandler('0000')).toEqual({ status: 404, body: error('errorInvalidPostnr') });
+	test('answers 502 when nav-office-search-api is unreachable', async () => {
+		upstreams.get(SEARCH, networkError());
+
+		expect(await searchHandler('storgata 1')).toEqual({ status: 502, body: error('errorServerError') });
 	});
 
-	test('answers a name with hits like the name search, without asking upstream', async () => {
-		const response = await searchHandler('oslo');
+	test("answers 502 when the answer isn't JSON, like an ingress with no pod to ask", async () => {
+		upstreams.get(SEARCH, { text: '<html><h1>503 Service Temporarily Unavailable</h1></html>', status: 503 });
 
-		expect(response).toEqual(await nameSearchHandler('oslo'));
-		expect(response.body.type).toBe('name');
-		expect(upstreamUrls()).toEqual([]);
+		expect(await searchHandler('storgata 1')).toEqual({ status: 502, body: error('errorServerError') });
 	});
 
-	test('falls back to an address search when no names match', async () => {
-		const response = await searchHandler('storgata 1');
+	test('answers 504 after 5 seconds without an answer', async () => {
+		vi.useFakeTimers();
+		upstreams.get(SEARCH, { hang: true });
 
-		expect(response.body.type).toBe('adresse');
-		expect(upstreamUrls()).toEqual([`GET ${API}/adresse?queryString=storgata%201`]);
+		const response = searchHandler('storgata 1');
+		await vi.advanceTimersByTimeAsync(5000);
+
+		expect(await response).toEqual({ status: 504, body: error('errorServerError') });
 	});
 
-	test.each([undefined, '', ' '])('answers 400 for the query %j', async (query) => {
-		expect(await searchHandler(query)).toEqual({ status: 400, body: error('errorMissingQuery') });
-	});
-});
+	test('answers 502 without a token, and never asks the API', async () => {
+		// Its own modules, so the searches after this one don't go without a token too
+		vi.resetModules();
+		const { searchHandler: searchWithoutToken } = await import('./search/searchHandler.ts');
+		upstreams.post(env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT, { json: { error: 'invalid_client' }, status: 401 });
 
-describe('nameSearchHandler', () => {
-	test('groups the offices under the names that match', async () => {
-		const { status, body } = await nameSearchHandler('frogner');
-
-		expect(status).toBe(200);
-		expect(body).toMatchObject({
-			type: 'name',
-			input: 'frogner',
-			hits: [
-				{ name: 'Frogner', officeHits: [{ name: 'Nav Frogner', hitString: 'Frogner' }] },
-				{ name: 'FROGNER', officeHits: [{ name: 'Nav Lillestrøm', hitString: 'FROGNER' }] },
-			],
-		});
+		expect(await searchWithoutToken('4737')).toEqual({ status: 502, body: error('errorServerError') });
+		expect(searches()).toEqual([]);
 	});
 
-	test('ignores a "nav " prefix, but keeps the input as written', async () => {
-		const withPrefix = await nameSearchHandler('nav oslo');
-		const withoutPrefix = await nameSearchHandler('oslo');
+	test.each([
+		['an unreachable API', networkError()],
+		["an answer that isn't JSON", { text: 'Bad Gateway', status: 502 }],
+	] as const)('logs %s without the query', async (_, reply) => {
+		vi.spyOn(logger, 'error');
+		upstreams.get(SEARCH, reply);
 
-		expect(withPrefix.body).toEqual({ ...withoutPrefix.body, input: 'nav oslo' });
-	});
+		await searchHandler('storgata 1');
 
-	test('answers no hits, without trying addresses', async () => {
-		expect(await nameSearchHandler('xyzzy')).toEqual({
-			status: 200,
-			body: { type: 'name', input: 'xyzzy', hits: [] },
-		});
-		expect(upstreamUrls()).toEqual([]);
-	});
-
-	test.each([undefined, '', ' '])('answers 400 for the query %j', async (query) => {
-		expect(await nameSearchHandler(query)).toEqual({ status: 400, body: error('errorMissingQuery') });
-	});
-});
-
-describe('addressSearchHandler', () => {
-	test('passes on what nav-office-search-api found', async () => {
-		expect(await addressSearchHandler('storgata 1')).toEqual({
-			status: 200,
-			body: {
-				type: 'adresse',
-				adresseQuery: 'storgata 1',
-				adresser: recordedAdresser['storgata 1'].body.adresser,
-				totalHits: 412,
-			},
-		});
-		expect(upstreamUrls()).toEqual([`GET ${API}/adresse?queryString=storgata%201`]);
-		expect(upstreamCalls[0].headers.authorization).toBe(AUTHORIZATION);
-	});
-
-	test('answers an empty result when nothing is found', async () => {
-		expect(await addressSearchHandler('ukjent adresse 1')).toEqual({
-			status: 200,
-			body: { type: 'adresse', adresseQuery: 'ukjent adresse 1', adresser: [], totalHits: 0 },
-		});
-	});
-
-	test.each([503, 400])('passes on status %i from nav-office-search-api (bug)', async (status) => {
-		upstreams.use(http.get(`${API}/adresse`, () => HttpResponse.json({ error: 'Upstream error' }, { status })));
-
-		expect(await addressSearchHandler('storgata 1')).toEqual({ status, body: error('errorServerError') });
-	});
-
-	test('answers 500 when nav-office-search-api is unreachable', async () => {
-		upstreams.use(http.get(`${API}/adresse`, () => HttpResponse.error()));
-
-		expect(await addressSearchHandler('storgata 1')).toEqual({ status: 500, body: error('errorServerError') });
-	});
-
-	test.each([undefined, '', ' '])('answers 400 for the query %j, without asking upstream', async (query) => {
-		expect(await addressSearchHandler(query)).toEqual({ status: 400, body: error('errorMissingQuery') });
-		expect(upstreamUrls()).toEqual([]);
-	});
-});
-
-describe('geoidSearchHandler', () => {
-	test('answers the office for a geografisk id as a postnummer result', async () => {
-		const expected = {
-			status: 200,
-			body: {
-				type: 'postnr',
-				postnr: '',
-				poststed: 'Nav Gamle Oslo',
-				poststedNormalized: '',
-				kommuneNavn: '',
-				kommunenr: '030101',
-				kategori: 'G',
-				officeInfo: [
-					{
-						name: 'Nav Gamle Oslo',
-						url: `${NAVNO}/kontor/nav-gamle-oslo`,
-						geoId: '030101',
-						enhetNr: '0316',
-						hitString: '',
-					},
-				],
-			},
-		};
-
-		expect(await geoidSearchHandler('030101')).toEqual(expected);
-		expect(upstreamUrls()).toEqual([`GET ${API}/geoid?id=030101`]);
-		expect(await geoidSearchHandler(' 030101 ')).toEqual(expected);
-	});
-
-	test("passes on nav-office-search-api's 404 for an id without an office, like Jan Mayen (bug)", async () => {
-		expect(await geoidSearchHandler('2211')).toEqual({ status: 404, body: error('errorServerError') });
-	});
-
-	test.each([undefined, '', ' '])('answers 400 for the id %j, without asking upstream', async (id) => {
-		expect(await geoidSearchHandler(id)).toEqual({ status: 400, body: error('errorInvalidQuery') });
-		expect(upstreamUrls()).toEqual([]);
+		expect(logged('error')).toHaveLength(1);
+		expect(logged('error')[0]).toContain('Search failed');
+		expect(logged('error')[0]).not.toMatch(/storgata/i);
 	});
 });
 
@@ -250,18 +133,18 @@ describe('loginStatusHandler', () => {
 		const cookie = 'io.nais.wonderwall.session=abc; other=1';
 
 		expect(await loginStatusHandler(cookie)).toEqual({ status: 200, body: { isUserLoggedIn: true } });
-		expect(upstreamCalls.map(({ url, headers }) => [url, headers.cookie])).toEqual([
+		expect(upstreamCalls().map(({ url, headers }) => [url, headers.cookie])).toEqual([
 			[env.LOGIN_SESSION_API_URL, cookie],
 		]);
 	});
 
 	test('answers false without a session, and sends no cookie header', async () => {
 		expect(await loginStatusHandler(undefined)).toEqual({ status: 200, body: { isUserLoggedIn: false } });
-		expect(upstreamCalls[0].headers.cookie).toBeUndefined();
+		expect(upstreamCalls()[0].headers.cookie).toBeUndefined();
 	});
 
 	test('answers false when the login session endpoint is unreachable', async () => {
-		upstreams.use(http.get(env.LOGIN_SESSION_API_URL, () => HttpResponse.error()));
+		upstreams.get(env.LOGIN_SESSION_API_URL, networkError());
 
 		expect(await loginStatusHandler('a=b')).toEqual({ status: 200, body: { isUserLoggedIn: false } });
 	});

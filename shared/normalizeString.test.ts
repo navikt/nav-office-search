@@ -43,8 +43,4 @@ describe('normalizeString', () => {
 	test('returns an empty string for empty input', () => {
 		expect(normalizeString('')).toBe('');
 	});
-
-	test('returns an empty string for undefined, which the phantom register row passes in', () => {
-		expect(normalizeString(undefined as unknown as string)).toBe('');
-	});
 });

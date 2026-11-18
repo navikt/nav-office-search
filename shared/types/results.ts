@@ -3,26 +3,26 @@ import type { OfficeInfo, Poststed } from './data.ts';
 
 export type SearchResultPostnrProps = {
 	type: 'postnr';
-	error?: undefined;
 } & Poststed;
 
 export type NameHit = { name: string; officeHits: OfficeInfo[] };
 
 export type Adresse = {
 	adressenavn: string;
-	husnummer: number;
+	husnummer: number | null;
 	husbokstav: string | null;
 	postnummer: string;
 	poststed: string;
-	kommunenummer: string;
+	kommunenummer: string | null;
 	bydelsnummer: string | null;
+	/** The office of its bydel or, without a bydel, of its kommune. Null when that area has none. */
+	officeInfo: OfficeInfo | null;
 };
 
 export type SearchResultNameProps = {
 	type: 'name';
 	hits: NameHit[];
 	input: string;
-	error?: undefined;
 };
 
 export type SearchResultAdresseProps = {
@@ -30,12 +30,10 @@ export type SearchResultAdresseProps = {
 	adresseQuery: string;
 	adresser: Adresse[];
 	totalHits: number;
-	error?: undefined;
 };
 
 export type SearchResultErrorProps = {
 	type: 'error';
-	aborted?: boolean;
 	messageId?: LocaleStringId;
 };
 

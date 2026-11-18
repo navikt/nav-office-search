@@ -2,17 +2,14 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { brotliCompressSync, gunzipSync, gzipSync, inflateSync } from 'node:zlib';
+import { networkError } from '@itsy/corgi/testing';
 import { logger } from '@navikt/navno-logger';
 import { HTTPException } from 'hono/http-exception';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-import { upstreamCalls, upstreams } from '#test/upstream/mswServer.ts';
+import { afterAll, afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { installUpstreams } from '#test/upstream/upstreams.ts';
 import { BASE_PATH } from '#shared/basePath.ts';
 import type { AppLocale } from '#shared/localization/types.ts';
 import { createApp } from './app.ts';
-import { loadData } from './data/data.ts';
-import { getBydelerArray } from './data/bydeler.ts';
-import { getKommunerArray } from './data/kommuner.ts';
-import { getPoststedArray } from './data/poststeder.ts';
 import { pageRenders, registry, searchDuration, searchRequests } from './metrics/metrics.ts';
 import type { HtmlRenderer } from './site/ssr/htmlRenderer.ts';
 import { env } from '#server/env.ts';
@@ -50,37 +47,27 @@ const expectTheNotFoundPage = async (response: Response) => {
 	expect([response.status, mediaType(response), await response.text()]).toEqual([404, 'text/html', NOT_FOUND_HTML]);
 };
 
-beforeAll(async () => {
-	upstreams.listen();
-	await loadData();
-});
+const { upstreams, calls: upstreamCalls } = installUpstreams();
 
 beforeEach(() => {
-	upstreamCalls.length = 0;
 	registry.resetMetrics();
 });
 
 afterEach(() => {
-	upstreams.resetHandlers();
 	vi.restoreAllMocks();
 });
 
 afterAll(() => {
-	upstreams.close();
 	rmSync(buildDir, { recursive: true });
 });
 
 describe('the API', () => {
 	test.each([
 		['/search?query=4737', { type: 'postnr', postnr: '4737' }],
-		['/search?query=oslo', { type: 'name' }],
+		['/search?query=oslo', { type: 'name', input: 'oslo' }],
 		['/search/?query=4737', { type: 'postnr', postnr: '4737' }],
-		['/search/name?query=oslo', { type: 'name' }],
-		// The search route would fall back to an address search here
-		['/search/name?query=ingen+treff', { type: 'name', hits: [] }],
-		['/search/address?query=storgata%201', { type: 'adresse', adresseQuery: 'storgata 1' }],
-		['/search/address?query=storgata+1', { type: 'adresse', adresseQuery: 'storgata 1' }],
-		['/geoid?id=030101', { type: 'postnr', kommunenr: '030101' }],
+		['/search?query=storgata%201', { type: 'adresse', adresseQuery: 'storgata 1' }],
+		['/search?query=storgata+1', { type: 'adresse', adresseQuery: 'storgata 1' }],
 		['/loginstatus', { isUserLoggedIn: false }],
 		['/internal/isReady', { message: 'I am ready!' }],
 	])('%s answers JSON', async (path, expected) => {
@@ -96,28 +83,18 @@ describe('the API', () => {
 		expect([response.status, mediaType(response), await response.text()]).toEqual([200, 'text/html', 'I am alive!']);
 	});
 
-	test.each([
-		['/data/kommuner', getKommunerArray],
-		['/data/poststeder', getPoststedArray],
-		['/data/bydeler', getBydelerArray],
-	])('%s dumps the loaded data', async (path, loaded) => {
-		const response = await app.request(`${API}${path}`);
+	test.each(['/search', '/search?query=4737&query=0150'])(
+		'%s asks nav-office-search-api without a query: a repeated one counts as missing',
+		async (path) => {
+			const response = await app.request(`${API}${path}`);
 
-		expect([response.status, mediaType(response)]).toEqual([200, 'application/json']);
-		expect(loaded().length).toBeGreaterThan(0);
-		expect(await response.json()).toEqual(JSON.parse(JSON.stringify(loaded())));
-	});
-
-	test.each([
-		['/search?query=4737&query=0150', 'errorMissingQuery'],
-		['/search/name?query=oslo&query=bergen', 'errorMissingQuery'],
-		['/search/address?query=a&query=b', 'errorMissingQuery'],
-		['/geoid?id=030101&id=030102', 'errorInvalidQuery'],
-	])('%s counts a repeated parameter as a missing one', async (path, messageId) => {
-		const response = await app.request(`${API}${path}`);
-
-		expect([response.status, await response.json()]).toEqual([400, { type: 'error', messageId }]);
-	});
+			expect([response.status, await response.json()]).toEqual([
+				400,
+				{ type: 'error', messageId: 'errorMissingQuery' },
+			]);
+			expect(upstreamCalls().at(-1)?.url).toBe(`${env.API_ORIGIN}/search`);
+		},
+	);
 
 	test('passes the status on from the handler', async () => {
 		expect((await app.request(`${API}/search?query=0000`)).status).toBe(404);
@@ -129,9 +106,39 @@ describe('the API', () => {
 		const response = await app.request(`${API}/loginstatus`, { headers: { cookie } });
 
 		expect(await response.json()).toEqual({ isUserLoggedIn: true });
-		expect(upstreamCalls.map(({ url, headers }) => [url, headers.cookie])).toEqual([
+		expect(upstreamCalls().map(({ url, headers }) => [url, headers.cookie])).toEqual([
 			[env.LOGIN_SESSION_API_URL, cookie],
 		]);
+	});
+});
+
+// What the browser code of that time asks for, until its page is loaded again
+describe('for a page loaded before the search moved to nav-office-search-api', () => {
+	test.each([
+		['a name', 'oslo'],
+		['an address', 'storgata+1'],
+		['what nothing matches', 'ukjent+adresse+1'],
+		['what the API refuses', '%3F%3F%3F'],
+	])('the name and address paths answer %s as the search does', async (_, query) => {
+		const search = await app.request(`${API}/search?query=${query}`);
+		const answer = [search.status, await search.json()];
+
+		for (const path of ['/search/name', '/search/address']) {
+			const response = await app.request(`${API}${path}?query=${query}`);
+
+			expect([path, response.status, await response.json()]).toEqual([path, ...answer]);
+		}
+	});
+
+	test('the office of a picked address is a link that loads the page again, and asks nobody', async () => {
+		const response = await app.request(`${API}/geoid?id=030101`);
+
+		expect([response.status, mediaType(response)]).toEqual([200, 'application/json']);
+		expect(await response.json()).toEqual({
+			type: 'postnr',
+			officeInfo: [{ name: expect.stringMatching(/Last den inn på nytt.+Reload it/), url: '?', enhetNr: '' }],
+		});
+		expect(upstreamCalls()).toEqual([]);
 	});
 });
 
@@ -151,29 +158,37 @@ describe('metrics', () => {
 		expect(text).toContain('nodejs_eventloop_lag_seconds');
 	});
 
-	test('counts each search route by outcome and times it, with or without a trailing slash', async () => {
+	test('counts each search by outcome and times it, with or without a trailing slash', async () => {
 		await app.request(`${API}/search?query=4737`);
-		await app.request(`${API}/search/?query=1001`);
-		await app.request(`${API}/search/name?query=oslo`);
-		await app.request(`${API}/search/name/?query=oslo`);
-		await app.request(`${API}/search/address`);
-		await app.request(`${API}/geoid?id=030101`);
+		await app.request(`${API}/search/?query=oslo`);
+		await app.request(`${API}/search?query=storgata+1`);
+		await app.request(`${API}/search?query=1001`);
+		await app.request(`${API}/search?query=ukjent+adresse+1`);
+		await app.request(`${API}/search?query=0000`);
+		upstreams.get(`${env.API_ORIGIN}/search`, networkError());
+		await app.request(`${API}/search?query=4737`);
 
 		expect(await searchCounts()).toEqual([
-			{ route: 'search', outcome: 'hits', value: 1 },
-			{ route: 'search', outcome: 'empty', value: 1 },
-			{ route: 'search/name', outcome: 'hits', value: 2 },
-			{ route: 'search/address', outcome: 'invalid', value: 1 },
-			{ route: 'geoid', outcome: 'hits', value: 1 },
+			{ route: 'search', outcome: 'hits', value: 3 },
+			{ route: 'search', outcome: 'empty', value: 2 },
+			{ route: 'search', outcome: 'invalid', value: 1 },
+			{ route: 'search', outcome: 'error', value: 1 },
 		]);
 		const timed = (await searchDuration.get()).values.filter(({ metricName }) => metricName?.endsWith('_count'));
-		expect(timed.reduce((sum, { value }) => sum + value, 0)).toBe(6);
+		expect(timed.map(({ labels, value }) => [labels.route, value])).toEqual([['search', 7]]);
+	});
+
+	test('counts a search on the old name and address paths as any other', async () => {
+		await app.request(`${API}/search/name?query=oslo`);
+		await app.request(`${API}/search/address?query=storgata+1`);
+
+		expect(await searchCounts()).toEqual([{ route: 'search', outcome: 'hits', value: 2 }]);
 	});
 
 	test('counts only searches', async () => {
 		await app.request(`${API}/loginstatus`);
 		await app.request(`${API}/internal/isAlive`);
-		await app.request(`${API}/data/bydeler`);
+		await app.request(`${API}/geoid?id=030101`);
 		await app.request(`${API}/finnes-ikke`);
 		await app.request(`${BASE}/nn`);
 		await app.request(`${API}/search?query=4737`, { method: 'POST' });
@@ -342,7 +357,8 @@ describe('everything else', () => {
 		['an unknown page', `${BASE}/finnes-ikke`],
 		['a path below a page', `${BASE}/nn/finnes-ikke`],
 		['an unknown API path', `${API}/finnes-ikke`],
-		['a data dump that does not exist', `${API}/data/finnes-ikke`],
+		// These worked prior to the data-move to office-search-api
+		['a data dump', `${API}/data/kommuner`],
 		['outside the base path', '/finnes-ikke'],
 		['the root', '/'],
 		['a path that starts like the base path', `${BASE}-2`],

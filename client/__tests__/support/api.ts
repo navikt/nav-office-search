@@ -1,9 +1,8 @@
-import { http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
+import { mockFetch } from '@itsy/corgi/testing';
 import { type MockInstance, vi } from 'vitest';
 import type { SearchResultProps } from '#shared/types/results.ts';
 
-export type ApiEndpoint = 'search' | 'search/name' | 'search/address' | 'geoid' | 'loginstatus';
+export type ApiEndpoint = 'search' | 'loginstatus';
 
 export type Reply = {
 	status?: number;
@@ -13,29 +12,30 @@ export type Reply = {
 
 const apiPrefix = '/finn-nav-kontor/api/';
 
-export const server = setupServer(
-	http.get(`*${apiPrefix}loginstatus`, () => HttpResponse.json({ isUserLoggedIn: false })),
-);
+/** The API, as corgi's fake fetch. vitest.setup.ts installs it, and resets it after each test. */
+export const http = mockFetch();
+
+/** What every test starts with: nobody is logged in */
+export const answerLoginStatus = () => {
+	http.get(`${apiPrefix}loginstatus`, { json: { isUserLoggedIn: false } });
+};
 
 /**
  * Replies to every GET of the endpoint until the test ends; the latest call for an endpoint wins.
  * Pass a pending promise (e.g. from Promise.withResolvers) to hold requests in flight.
  */
 export const mockApi = (endpoint: ApiEndpoint, reply: Reply | Promise<Reply>) => {
-	server.use(
-		http.get(`*${apiPrefix}${endpoint}`, async () => {
-			const { status = 200, json } = await reply;
-			return json === undefined ? new HttpResponse(null, { status }) : HttpResponse.json(json, { status });
-		}),
-	);
+	http.get(`${apiPrefix}${endpoint}`, async () => {
+		const { status = 200, json } = await reply;
+		return json === undefined ? { status } : { json, status };
+	});
 };
 
-// The request log is a pass-through spy on fetch; msw still answers. msw's own lifecycle events fire
-// asynchronously, and its copy of the request stops seeing the client's abort once GC collects undici's
-// WeakRef link to it. The spy sees each call synchronously, with the client's own signal.
+// The request log is a pass-through spy on fetch, in front of the fake: it sees each call as it's made, with the
+// client's own signal, and whether it has settled
 let fetchSpy: MockInstance<typeof fetch>;
 
-/** Call before each test, after server.listen(). restoreMocks removes the spy after the test. */
+/** Call before each test, after the fake is installed. restoreMocks removes the spy after the test. */
 export const logRequests = () => {
 	fetchSpy = vi.spyOn(globalThis, 'fetch');
 };

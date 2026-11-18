@@ -1,3 +1,4 @@
+import { corgi } from '@itsy/corgi';
 import { useEffect, useState } from 'react';
 import { clientUrls } from '#client/urls.ts';
 
@@ -13,8 +14,9 @@ export const useLoginStatus = (): UseLoginStatusReturn => {
 	useEffect(() => {
 		const checkLoginStatus = async () => {
 			try {
-				const response = await fetch(clientUrls.loginStatusApi);
-				const data = (await response.json()) as { isUserLoggedIn: boolean };
+				const data = await corgi.get<{ isUserLoggedIn: boolean }>(clientUrls.loginStatusApi, {
+					responseType: 'json',
+				});
 				setIsUserLoggedIn(data.isUserLoggedIn);
 			} catch (e) {
 				console.error('Failed to check login status:', e);

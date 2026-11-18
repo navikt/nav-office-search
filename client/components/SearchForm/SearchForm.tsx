@@ -1,12 +1,14 @@
-import React, { type CSSProperties, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
-import debounce from 'lodash.debounce';
+import { isAbortError } from '@itsy/corgi';
+import React, { type CSSProperties, useCallback, useEffect, useId, useReducer, useRef, useState } from 'react';
 import { Loader, Search } from '@navikt/ds-react';
 import { LocaleString } from '#client/localization/LocaleString.tsx';
 import { ErrorBoundary } from '#client/components/ErrorBoundary/ErrorBoundary.tsx';
 import { SearchResult } from '#client/components/SearchResult/SearchResult.tsx';
-import type { Adresse, SearchResultProps } from '#shared/types/results.ts';
-import { abortSearchClient, fetchGeoidClient, fetchSearchClient } from '#client/utils/fetch.ts';
-import type { LocaleStringId, SearchError } from '#shared/localization/types.ts';
+import { type OfficeInfo, PostnrKategori } from '#shared/types/data.ts';
+import type { Adresse, SearchResultAdresseProps, SearchResultPostnrProps } from '#shared/types/results.ts';
+import { createSearchApi, errorMessageOf } from '#client/utils/searchApi.ts';
+import { useDebouncedCallback } from '#client/hooks/useDebouncedCallback.ts';
+import type { AppLocale } from '#shared/localization/types.ts';
 import { isValidNameQuery, isValidPostnrQuery } from '#shared/validateInput.ts';
 import { localeString } from '#shared/localization/localeString.ts';
 import { useLocale } from '#client/localization/useLocale.tsx';
@@ -15,6 +17,7 @@ import {
 	getAddressOptionId,
 	getAddressSuggestionsStatusMessage,
 } from '#client/components/SearchResult/SearchResultAdresse/addressSuggestions.ts';
+import { initialState, type OfficeResult, searchFormReducer, type Status } from './searchFormState.ts';
 
 import style from './SearchForm.module.css';
 
@@ -25,22 +28,41 @@ const isValidInput = (input: string): boolean => input.trim().length >= 2;
 const focusScrollOffset = 16;
 const focusScrollDelayMs = 300;
 export const SEARCH_DEBOUNCE_MS = 500;
-export const POSTNR_SPINNER_DELAY_MS = 250;
+export const SPINNER_DELAY_MS = 250;
+
+// The office of an address the user picked, shown the way a postnummer's offices are, under the address. Of the
+// poststed, only the offices are read then.
+const officeResult = (office: OfficeInfo): SearchResultPostnrProps => ({
+	type: 'postnr',
+	postnr: '',
+	poststed: office.name,
+	poststedNormalized: '',
+	kommuneNavn: '',
+	kommunenr: office.geoId,
+	kategori: PostnrKategori.Gateadresser,
+	officeInfo: [office],
+});
 
 const shouldAdjustMobileFocusScroll = () =>
 	typeof window !== 'undefined' && window.matchMedia?.('(max-width: 768px) and (pointer: coarse)').matches;
 
+const statusText = (status: Status, locale: AppLocale): string => {
+	switch (status.kind) {
+		case 'loading':
+			return localeString('searchLoading', locale) as string;
+		case 'suggestions':
+			return getAddressSuggestionsStatusMessage(status.result, locale);
+		case 'selected':
+			return localeString('addressSuggestionSelected', locale, [status.label]) as string;
+		case 'none':
+			return '';
+	}
+};
+
 export const SearchForm = () => {
-	const [inputValue, setInputValue] = useState('');
-	const [searchResult, setSearchResult] = useState<SearchResultProps>();
-	const [error, setError] = useState<SearchError | null>();
-	const [isLoading, setIsLoading] = useState(false);
-	const [isAddressPopupOpen, setIsAddressPopupOpen] = useState(false);
-	const [activeAddressIndex, setActiveAddressIndex] = useState<number | null>(null);
-	const [statusMessage, setStatusMessage] = useState('');
-	const [addressLoadingHeight, setAddressLoadingHeight] = useState<number | null>(null);
-	const [addressResultInput, setAddressResultInput] = useState<string | null>(null);
-	const activeSearchIdRef = useRef(0);
+	const [{ input: inputValue, results, status, error }, dispatch] = useReducer(searchFormReducer, initialState);
+	// This form's own client, so its requests only ever cancel each other
+	const [searchApi] = useState(createSearchApi);
 	const searchFormRef = useRef<HTMLDivElement>(null);
 	const resultHeightRef = useRef<HTMLDivElement>(null);
 	const loadingDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -49,31 +71,22 @@ export const SearchForm = () => {
 	const locale = useLocale();
 	const searchLoadingText = localeString('searchLoading', locale) as string;
 	const addressSuggestionsLabel = localeString('addressSuggestionsLabel', locale) as string;
-	const isAddressResult = searchResult?.type === 'adresse';
-	const addressSuggestions = isAddressResult ? searchResult.adresser : [];
+	const isLoading = results.view === 'loading';
+	const isAddressResult = results.view === 'addresses';
+	const searchResult = results.view === 'offices' || results.view === 'addresses' ? results.result : undefined;
+	const addressSuggestions = isAddressResult ? results.result.adresser : [];
+	const activeAddressIndex = isAddressResult ? results.activeIndex : null;
 	const hasAddressSuggestions = addressSuggestions.length > 0;
-	const hasAddressPopup = isLoading || isAddressResult;
-	const isAddressDropdownOpen = isAddressPopupOpen && hasAddressPopup;
+	const isPostnrLoading = results.view === 'loading' && results.kind === 'postnr';
+	const isAddressDropdownOpen = 'open' in results && results.open;
 	const hasFreshSingleAddressSuggestion =
-		isAddressResult && addressSuggestions.length === 1 && inputValue.trim() === searchResult.adresseQuery.trim();
+		isAddressResult && addressSuggestions.length === 1 && inputValue.trim() === results.result.adresseQuery.trim();
 	const activeAddressOptionId =
 		isAddressDropdownOpen && activeAddressIndex !== null && hasAddressSuggestions
 			? getAddressOptionId(addressListboxId, activeAddressIndex)
 			: undefined;
 	const loadingStyle: CSSProperties | undefined =
-		addressLoadingHeight === null ? undefined : { height: `${addressLoadingHeight}px` };
-
-	const setClientError = (id: LocaleStringId) => {
-		setError({ id: id, type: 'clientError' });
-	};
-
-	const setServerError = useCallback((id: LocaleStringId) => {
-		setError({ id: id, type: 'serverError' });
-	}, []);
-
-	const resetError = () => {
-		setError(null);
-	};
+		isLoading && results.height !== null ? { height: `${results.height}px` } : undefined;
 
 	const clearLoadingDelay = useCallback(() => {
 		if (loadingDelayTimeoutRef.current !== null) {
@@ -82,20 +95,10 @@ export const SearchForm = () => {
 		}
 	}, []);
 
-	const resetAddressState = useCallback(() => {
-		setActiveAddressIndex(null);
-		setStatusMessage('');
-		setAddressLoadingHeight(null);
-		setAddressResultInput(null);
-	}, []);
-
-	const clearSearchResult = useCallback(() => {
-		setIsAddressPopupOpen(false);
-		setSearchResult(undefined);
-		resetAddressState();
-	}, [resetAddressState]);
-
 	useEffect(() => clearLoadingDelay, [clearLoadingDelay]);
+
+	// Nobody is waiting for the request in flight once the form is gone
+	useEffect(() => searchApi.cancel, [searchApi]);
 
 	useEffect(() => {
 		if (!activeAddressOptionId || activeAddressNavigationSourceRef.current !== 'keyboard') {
@@ -105,124 +108,79 @@ export const SearchForm = () => {
 		document.getElementById(activeAddressOptionId)?.scrollIntoView?.({ block: 'nearest' });
 	}, [activeAddressOptionId]);
 
-	const runSearch = useMemo(
-		() =>
-			debounce((input: string) => {
-				const searchId = activeSearchIdRef.current + 1;
-				activeSearchIdRef.current = searchId;
-				setError(null);
-				setIsLoading(false);
-				setAddressResultInput(null);
+	// Swaps the results for a spinner with the right height
+	// The dropdown only keeps the height of addresses it showed
+	const showLoading = (kind: 'postnr' | 'addresses') => {
+		const shown = resultHeightRef.current;
+		const keepsHeight = kind === 'postnr' || shown?.dataset.resultType === 'adresse';
+		dispatch({ type: 'loading', kind, height: (keepsHeight && shown?.getBoundingClientRect().height) || null });
+	};
+
+	const showFound = (result: OfficeResult | SearchResultAdresseProps) => {
+		clearLoadingDelay();
+		dispatch({ type: 'found', result });
+	};
+
+	const runSearch = useDebouncedCallback(async (input: string) => {
+		clearLoadingDelay();
+		dispatch({ type: 'searchStarted' });
+		// The spinner only if the answer takes a moment, so a quick one doesn't flicker. It goes where the answer most
+		// likely will: a postnummer's offices below the field, and anything else in the dropdown, since what takes a
+		// moment to find is addresses.
+		loadingDelayTimeoutRef.current = setTimeout(
+			() => showLoading(isValidPostnrQuery(input) ? 'postnr' : 'addresses'),
+			SPINNER_DELAY_MS,
+		);
+
+		try {
+			showFound(await searchApi.search(input));
+		} catch (e) {
+			// An AbortError means a newer search took over, or the user moved on: nothing to show
+			if (!isAbortError(e)) {
 				clearLoadingDelay();
+				dispatch({ type: 'failed', messageId: errorMessageOf(e) });
+			}
+		}
+	}, SEARCH_DEBOUNCE_MS);
 
-				if (isValidPostnrQuery(input)) {
-					loadingDelayTimeoutRef.current = setTimeout(() => {
-						if (searchId === activeSearchIdRef.current) {
-							const currentResultHeight = resultHeightRef.current?.getBoundingClientRect().height;
-							setAddressLoadingHeight(currentResultHeight || null);
-							setSearchResult(undefined);
-							setIsAddressPopupOpen(false);
-							setActiveAddressIndex(null);
-							setStatusMessage(searchLoadingText);
-							setIsLoading(true);
-						}
-					}, POSTNR_SPINNER_DELAY_MS);
-				}
-
-				fetchSearchClient(input, {
-					onAddressSearchStart: () => {
-						if (searchId === activeSearchIdRef.current) {
-							const currentResultEl = resultHeightRef.current;
-							const currentDropdownHeight =
-								currentResultEl?.dataset.resultType === 'adresse'
-									? currentResultEl.getBoundingClientRect().height
-									: undefined;
-							setAddressLoadingHeight(currentDropdownHeight || null);
-							setSearchResult(undefined);
-							setIsLoading(true);
-							setIsAddressPopupOpen(true);
-							setActiveAddressIndex(null);
-							setStatusMessage(searchLoadingText);
-						}
-					},
-				}).then((result) => {
-					if (searchId !== activeSearchIdRef.current) {
-						return;
-					}
-
-					clearLoadingDelay();
-					setIsLoading(false);
-					setAddressLoadingHeight(null);
-
-					if (result.type === 'error') {
-						if (result.aborted) {
-							return;
-						}
-						clearSearchResult();
-						setServerError(result.messageId || 'errorServerError');
-					} else {
-						setSearchResult(result);
-						if (result.type === 'adresse') {
-							setIsAddressPopupOpen(true);
-							setActiveAddressIndex(null);
-							setStatusMessage(getAddressSuggestionsStatusMessage(result, locale));
-						} else {
-							setIsAddressPopupOpen(false);
-							setActiveAddressIndex(null);
-							setStatusMessage('');
-						}
-					}
-				});
-			}, SEARCH_DEBOUNCE_MS),
-		[clearLoadingDelay, clearSearchResult, locale, searchLoadingText, setServerError],
-	);
-
-	const cancelPendingSearch = useCallback(() => {
-		activeSearchIdRef.current += 1;
-		abortSearchClient();
+	const cancelSearch = useCallback(() => {
+		searchApi.cancel();
 		runSearch.cancel();
 		clearLoadingDelay();
-		setIsLoading(false);
-		resetAddressState();
-	}, [clearLoadingDelay, resetAddressState, runSearch]);
+		dispatch({ type: 'searchCancelled' });
+	}, [clearLoadingDelay, runSearch, searchApi]);
 
-	const closeAddressDropdown = useCallback(() => {
-		cancelPendingSearch();
-		setIsAddressPopupOpen(false);
-		setSearchResult(undefined);
-	}, [cancelPendingSearch]);
+	const closeResults = useCallback(() => {
+		cancelSearch();
+		dispatch({ type: 'resultsCleared' });
+	}, [cancelSearch]);
 
-	const hideAddressPopup = useCallback(() => {
-		if (isLoading) {
-			cancelPendingSearch();
-			setIsAddressPopupOpen(false);
-			return;
+	// Escape stops the search whose spinner is in the dropdown. Leaving the field only closes the dropdown: the search
+	// carries on, since what it finds may be offices, which don't go in the dropdown. Addresses wait in it, closed.
+	const hideAddressPopup = (stopsSearch: boolean) => {
+		if (stopsSearch && results.view === 'loading' && results.kind === 'addresses') {
+			cancelSearch();
+		} else {
+			dispatch({ type: 'dropdownClosed' });
 		}
-
-		setIsAddressPopupOpen(false);
-		setActiveAddressIndex(null);
-	}, [cancelPendingSearch, isLoading]);
+	};
 
 	const handleInput = (submit: boolean, input: string) => {
-		cancelPendingSearch();
+		cancelSearch();
 
 		if (isEmptyInput(input)) {
-			clearSearchResult();
+			dispatch({ type: 'resultsCleared' });
 		}
 
 		if (!isValidNameQuery(input) && !isValidPostnrQuery(input) && Number.isNaN(Number(input))) {
-			setClientError('errorInputValidationName');
-			clearSearchResult();
+			dispatch({ type: 'invalid', messageId: 'errorInputValidationName' });
+			dispatch({ type: 'resultsCleared' });
 			return;
 		}
 
 		if (!isValidInput(input)) {
-			clearSearchResult();
-			if (submit) {
-				setClientError('errorInputValidationLength');
-			} else {
-				resetError();
-			}
+			dispatch({ type: 'resultsCleared' });
+			dispatch(submit ? { type: 'invalid', messageId: 'errorInputValidationLength' } : { type: 'errorCleared' });
 			return;
 		}
 
@@ -230,61 +188,33 @@ export const SearchForm = () => {
 			runSearch(input);
 			return;
 		} else if (!Number.isNaN(Number(input))) {
-			if (submit) {
-				setClientError('errorInputValidationPostnr');
-			} else {
-				resetError();
-			}
+			// A number that isn't a postnummer isn't searched, so what's shown is for something else
+			dispatch({ type: 'resultsCleared' });
+			dispatch(submit ? { type: 'invalid', messageId: 'errorInputValidationPostnr' } : { type: 'errorCleared' });
 			return;
 		}
 
 		runSearch(input);
 	};
 
+	// An address comes with its office, so picking one asks for nothing
 	const selectAddress = useCallback(
 		(adresse: Adresse) => {
 			const label = formatAddressLabel(adresse);
-			const { bydelsnummer, kommunenummer } = adresse;
+			cancelSearch();
+			dispatch({ type: 'addressSelected', label });
 
-			setInputValue(label);
-			closeAddressDropdown();
-			resetError();
-			setStatusMessage(localeString('addressSuggestionSelected', locale, [label]) as string);
-
-			const geoid = bydelsnummer ?? kommunenummer;
-			if (!geoid) {
-				setSearchResult(undefined);
-				setAddressResultInput(null);
-				setStatusMessage('');
-				setServerError('errorServerError');
-				return;
+			if (adresse.officeInfo) {
+				dispatch({ type: 'officeFound', result: officeResult(adresse.officeInfo), label });
+			} else {
+				// Its bydel or kommune has no office
+				dispatch({ type: 'failed', messageId: 'errorServerError' });
 			}
-
-			const officeSearch = fetchGeoidClient(geoid);
-			const searchId = activeSearchIdRef.current + 1;
-			activeSearchIdRef.current = searchId;
-			officeSearch.then((result) => {
-				if (searchId !== activeSearchIdRef.current) {
-					return;
-				}
-
-				setIsLoading(false);
-
-				if (result.type === 'error') {
-					setSearchResult(undefined);
-					setAddressResultInput(null);
-					setStatusMessage('');
-					setServerError(result.messageId || 'errorServerError');
-				} else {
-					setAddressResultInput(label);
-					setSearchResult(result);
-				}
-			});
 		},
-		[closeAddressDropdown, locale, setServerError],
+		[cancelSearch],
 	);
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		handleInput(true, inputValue);
 	};
@@ -293,12 +223,12 @@ export const SearchForm = () => {
 		if (event.key === 'Escape' && isAddressDropdownOpen) {
 			event.preventDefault();
 			event.stopPropagation();
-			hideAddressPopup();
+			hideAddressPopup(true);
 			return;
 		}
 
 		if (event.key === 'Tab' && isAddressDropdownOpen) {
-			hideAddressPopup();
+			hideAddressPopup(false);
 			return;
 		}
 
@@ -316,30 +246,16 @@ export const SearchForm = () => {
 			return;
 		}
 
-		if (event.key === 'ArrowDown') {
+		if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
 			event.preventDefault();
 			activeAddressNavigationSourceRef.current = 'keyboard';
-			setActiveAddressIndex((current) => (current === null ? 0 : Math.min(current + 1, addressSuggestions.length - 1)));
-			return;
-		}
-
-		if (event.key === 'ArrowUp') {
-			event.preventDefault();
-			activeAddressNavigationSourceRef.current = 'keyboard';
-			setActiveAddressIndex((current) => (current === null ? addressSuggestions.length - 1 : Math.max(current - 1, 0)));
+			dispatch({ type: 'activeMoved', by: event.key === 'ArrowDown' ? 1 : -1 });
 		}
 	};
 
-	const handleAddressSelect = useCallback(
-		(adresse: Adresse) => {
-			selectAddress(adresse);
-		},
-		[selectAddress],
-	);
-
 	const handleAddressMouseEnter = useCallback((index: number) => {
 		activeAddressNavigationSourceRef.current = 'mouse';
-		setActiveAddressIndex(index);
+		dispatch({ type: 'activeSet', index });
 	}, []);
 
 	const scrollSearchFormToViewportTop = useCallback(() => {
@@ -358,20 +274,20 @@ export const SearchForm = () => {
 		}, focusScrollDelayMs);
 	}, []);
 
-	const handleSearchFocus = useCallback(() => {
+	const handleSearchFocus = () => {
 		scrollSearchFormToViewportTop();
-		if (isAddressResult) {
-			setIsAddressPopupOpen(true);
-		}
-	}, [isAddressResult, scrollSearchFormToViewportTop]);
+		dispatch({ type: 'dropdownOpened' });
+	};
 
 	return (
 		<div
 			className={style.searchForm}
 			ref={searchFormRef}
+			onFocus={() => dispatch({ type: 'focusEntered' })}
 			onBlur={(event) => {
 				if (!event.currentTarget.contains(event.relatedTarget)) {
-					hideAddressPopup();
+					dispatch({ type: 'focusLeft' });
+					hideAddressPopup(false);
 				}
 			}}
 		>
@@ -394,13 +310,13 @@ export const SearchForm = () => {
 					onFocus={handleSearchFocus}
 					onKeyDown={handleSearchKeyDown}
 					onChange={(val) => {
-						setInputValue(val);
+						dispatch({ type: 'typed', input: val });
 						handleInput(false, val);
 					}}
 					onClear={() => {
-						setInputValue('');
-						closeAddressDropdown();
-						resetError();
+						dispatch({ type: 'typed', input: '' });
+						closeResults();
+						dispatch({ type: 'errorCleared' });
 					}}
 					error={error?.type === 'clientError' && <LocaleString id={error.id} />}
 				/>
@@ -411,7 +327,7 @@ export const SearchForm = () => {
 						<LocaleString id={error.id} />
 					</div>
 				)}
-				{isLoading && !isAddressDropdownOpen && (
+				{isPostnrLoading && (
 					<div className={style.searchResult}>
 						<div className={style.loading} aria-busy="true" aria-label={searchLoadingText} style={loadingStyle}>
 							<div className={style.loadingStatus}>
@@ -459,13 +375,12 @@ export const SearchForm = () => {
 								>
 									<SearchResult
 										searchResult={searchResult}
-										onAddressSelect={handleAddressSelect}
+										onAddressSelect={selectAddress}
 										onAddressMouseEnter={handleAddressMouseEnter}
 										activeAddressIndex={activeAddressIndex}
 										addressListboxId={addressListboxId}
 										addressSuggestionsLabel={addressSuggestionsLabel}
-										addressResultInput={addressResultInput}
-										input={inputValue}
+										addressResultInput={results.view === 'offices' ? results.selectedAddress : null}
 									/>
 								</ErrorBoundary>
 							)
@@ -474,7 +389,7 @@ export const SearchForm = () => {
 				)}
 			</div>
 			<div className="aksel-sr-only" aria-live="polite">
-				{statusMessage}
+				{statusText(status, locale)}
 			</div>
 		</div>
 	);

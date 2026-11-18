@@ -1,0 +1,1377 @@
+{
+	"1001": {
+		"status": 200,
+		"body": {
+			"postnr": "1001",
+			"poststed": "OSLO",
+			"poststedNormalized": "oslo",
+			"kommuneNavn": "OSLO",
+			"kommunenr": "0301",
+			"kategori": "P",
+			"officeInfo": [],
+			"type": "postnr"
+		}
+	},
+	"3560": {
+		"status": 200,
+		"body": {
+			"postnr": "3560",
+			"poststed": "HEMSEDAL",
+			"poststedNormalized": "hemsedal",
+			"kommuneNavn": "HEMSEDAL",
+			"kommunenr": "3042",
+			"kategori": "G",
+			"officeInfo": [],
+			"type": "postnr"
+		}
+	},
+	"4014": {
+		"status": 200,
+		"body": {
+			"postnr": "4014",
+			"poststed": "STAVANGER",
+			"poststedNormalized": "stavanger",
+			"kommuneNavn": "STAVANGER",
+			"kommunenr": "1103",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Hundvåg og Storhaug",
+					"url": "https://www.nav.no/kontor/nav-hundvag-og-storhaug",
+					"geoId": "110301",
+					"enhetNr": "1162",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"4737": {
+		"status": 200,
+		"body": {
+			"postnr": "4737",
+			"poststed": "HORNNES",
+			"poststedNormalized": "hornnes",
+			"kommuneNavn": "EVJE OG HORNNES",
+			"kommunenr": "4219",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Evje og Hornnes",
+					"url": "https://www.nav.no/kontor/nav-evje-og-hornnes",
+					"geoId": "4219",
+					"enhetNr": "0937",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"5003": {
+		"status": 200,
+		"body": {
+			"postnr": "5003",
+			"poststed": "BERGEN",
+			"poststedNormalized": "bergen",
+			"kommuneNavn": "BERGEN",
+			"kommunenr": "4601",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Bergenhus",
+					"url": "https://www.nav.no/kontor/nav-bergenhus",
+					"geoId": "460102",
+					"enhetNr": "1209",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"7014": {
+		"status": 200,
+		"body": {
+			"postnr": "7014",
+			"poststed": "TRONDHEIM",
+			"poststedNormalized": "trondheim",
+			"kommuneNavn": "TRONDHEIM",
+			"kommunenr": "5001",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Falkenborg",
+					"url": "https://www.nav.no/kontor/nav-falkenborg",
+					"geoId": "500101",
+					"enhetNr": "5701",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"8099": {
+		"status": 200,
+		"body": {
+			"postnr": "8099",
+			"poststed": "JAN MAYEN",
+			"poststedNormalized": "jan mayen",
+			"kommuneNavn": "JAN MAYEN",
+			"kommunenr": "2211",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Tromsø",
+					"url": "https://www.nav.no/kontor/nav-tromso",
+					"geoId": "2100",
+					"enhetNr": "1902",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"9170": {
+		"status": 200,
+		"body": {
+			"postnr": "9170",
+			"poststed": "LONGYEARBYEN",
+			"poststedNormalized": "longyearbyen",
+			"kommuneNavn": "SVALBARD",
+			"kommunenr": "2100",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Tromsø",
+					"url": "https://www.nav.no/kontor/nav-tromso",
+					"geoId": "2100",
+					"enhetNr": "1902",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"0354": {
+		"status": 200,
+		"body": {
+			"postnr": "0354",
+			"poststed": "OSLO",
+			"poststedNormalized": "oslo",
+			"kommuneNavn": "OSLO",
+			"kommunenr": "0301",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Frogner",
+					"url": "https://www.nav.no/kontor/nav-frogner",
+					"geoId": "030105",
+					"enhetNr": "0312",
+					"hitString": ""
+				},
+				{
+					"name": "Nav St. Hanshaugen",
+					"url": "https://www.nav.no/kontor/nav-st.hanshaugen",
+					"geoId": "030104",
+					"enhetNr": "0313",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"0150": {
+		"status": 200,
+		"body": {
+			"postnr": "0150",
+			"poststed": "OSLO",
+			"poststedNormalized": "oslo",
+			"kommuneNavn": "OSLO",
+			"kommunenr": "0301",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Gamle Oslo",
+					"url": "https://www.nav.no/kontor/nav-gamle-oslo",
+					"geoId": "030101",
+					"enhetNr": "0316",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"0184": {
+		"status": 200,
+		"body": {
+			"postnr": "0184",
+			"poststed": "OSLO",
+			"poststedNormalized": "oslo",
+			"kommuneNavn": "OSLO",
+			"kommunenr": "0301",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Grünerløkka",
+					"url": "https://www.nav.no/kontor/nav-grunerlokka",
+					"geoId": "030102",
+					"enhetNr": "0315",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"0560": {
+		"status": 200,
+		"body": {
+			"postnr": "0560",
+			"poststed": "OSLO",
+			"poststedNormalized": "oslo",
+			"kommuneNavn": "OSLO",
+			"kommunenr": "0301",
+			"kategori": "G",
+			"officeInfo": [
+				{
+					"name": "Nav Grünerløkka",
+					"url": "https://www.nav.no/kontor/nav-grunerlokka",
+					"geoId": "030102",
+					"enhetNr": "0315",
+					"hitString": ""
+				}
+			],
+			"type": "postnr"
+		}
+	},
+	"oslo": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "OSLO",
+					"officeHits": [
+						{
+							"name": "Nav Alna",
+							"url": "https://www.nav.no/kontor/nav-alna",
+							"geoId": "030112",
+							"enhetNr": "0326",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Bjerke",
+							"url": "https://www.nav.no/kontor/nav-bjerke",
+							"geoId": "030109",
+							"enhetNr": "0330",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Frogner",
+							"url": "https://www.nav.no/kontor/nav-frogner",
+							"geoId": "030105",
+							"enhetNr": "0312",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Gamle Oslo",
+							"url": "https://www.nav.no/kontor/nav-gamle-oslo",
+							"geoId": "030101",
+							"enhetNr": "0316",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Grorud",
+							"url": "https://www.nav.no/kontor/nav-grorud",
+							"geoId": "030110",
+							"enhetNr": "0328",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Grünerløkka",
+							"url": "https://www.nav.no/kontor/nav-grunerlokka",
+							"geoId": "030102",
+							"enhetNr": "0315",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Nordre Aker",
+							"url": "https://www.nav.no/kontor/nav-nordre-aker",
+							"geoId": "030108",
+							"enhetNr": "0331",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Nordstrand",
+							"url": "https://www.nav.no/kontor/nav-nordstrand",
+							"geoId": "030114",
+							"enhetNr": "0318",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Sagene",
+							"url": "https://www.nav.no/kontor/nav-sagene",
+							"geoId": "030103",
+							"enhetNr": "0314",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav St. Hanshaugen",
+							"url": "https://www.nav.no/kontor/nav-st.hanshaugen",
+							"geoId": "030104",
+							"enhetNr": "0313",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Stovner",
+							"url": "https://www.nav.no/kontor/nav-stovner",
+							"geoId": "030111",
+							"enhetNr": "0327",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Søndre Nordstrand",
+							"url": "https://www.nav.no/kontor/nav-sondre-nordstrand",
+							"geoId": "030115",
+							"enhetNr": "0319",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Ullern",
+							"url": "https://www.nav.no/kontor/nav-ullern",
+							"geoId": "030106",
+							"enhetNr": "0335",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Vestre Aker",
+							"url": "https://www.nav.no/kontor/nav-vestre-aker",
+							"geoId": "030107",
+							"enhetNr": "0334",
+							"hitString": "OSLO"
+						},
+						{
+							"name": "Nav Østensjø",
+							"url": "https://www.nav.no/kontor/nav-ostensjo",
+							"geoId": "030113",
+							"enhetNr": "0321",
+							"hitString": "OSLO"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "oslo"
+		}
+	},
+	"bergen": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "BERGEN",
+					"officeHits": [
+						{
+							"name": "Nav Bergen nord",
+							"url": "https://www.nav.no/kontor/nav-bergen-nord",
+							"geoId": "460101",
+							"enhetNr": "1203",
+							"hitString": "BERGEN"
+						},
+						{
+							"name": "Nav Bergen sør",
+							"url": "https://www.nav.no/kontor/nav-bergen-sor",
+							"geoId": "460103",
+							"enhetNr": "1202",
+							"hitString": "BERGEN"
+						},
+						{
+							"name": "Nav Bergen vest",
+							"url": "https://www.nav.no/kontor/nav-bergen-vest",
+							"geoId": "460104",
+							"enhetNr": "1206",
+							"hitString": "BERGEN"
+						},
+						{
+							"name": "Nav Bergenhus",
+							"url": "https://www.nav.no/kontor/nav-bergenhus",
+							"geoId": "460102",
+							"enhetNr": "1209",
+							"hitString": "BERGEN"
+						},
+						{
+							"name": "Nav Årstad",
+							"url": "https://www.nav.no/kontor/nav-arstad",
+							"geoId": "460107",
+							"enhetNr": "1208",
+							"hitString": "BERGEN"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "bergen"
+		}
+	},
+	"frogner": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "Frogner",
+					"officeHits": [
+						{
+							"name": "Nav Frogner",
+							"url": "https://www.nav.no/kontor/nav-frogner",
+							"geoId": "030105",
+							"enhetNr": "0312",
+							"hitString": "Frogner"
+						}
+					]
+				},
+				{
+					"name": "FROGNER",
+					"officeHits": [
+						{
+							"name": "Nav Lillestrøm",
+							"url": "https://www.nav.no/kontor/nav-lillestrom",
+							"geoId": "3030",
+							"enhetNr": "0231",
+							"hitString": "FROGNER"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "frogner"
+		}
+	},
+	"unjarga": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "UNJARGGA NESSEBY",
+					"officeHits": [
+						{
+							"name": "Nav Unjárga/Nesseby",
+							"url": "https://www.nav.no/kontor/nav-unjarga-nesseby",
+							"geoId": "5442",
+							"enhetNr": "2027",
+							"hitString": "UNJARGGA NESSEBY"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "unjarga"
+		}
+	},
+	"evje": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "EVJE",
+					"officeHits": [
+						{
+							"name": "Nav Evje og Hornnes",
+							"url": "https://www.nav.no/kontor/nav-evje-og-hornnes",
+							"geoId": "4219",
+							"enhetNr": "0937",
+							"hitString": "EVJE"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "evje"
+		}
+	},
+	"trondheim": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "TRONDHEIM",
+					"officeHits": [
+						{
+							"name": "Nav Falkenborg",
+							"url": "https://www.nav.no/kontor/nav-falkenborg",
+							"geoId": "500101",
+							"enhetNr": "5701",
+							"hitString": "TRONDHEIM"
+						},
+						{
+							"name": "Nav Lerkendal",
+							"url": "https://www.nav.no/kontor/nav-lerkendal",
+							"geoId": "500103",
+							"enhetNr": "5702",
+							"hitString": "TRONDHEIM"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "trondheim"
+		}
+	},
+	"tromsø": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "TROMSØ",
+					"officeHits": [
+						{
+							"name": "Nav Tromsø",
+							"url": "https://www.nav.no/kontor/nav-tromso",
+							"geoId": "5401",
+							"enhetNr": "1902",
+							"hitString": "TROMSØ"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "tromsø"
+		}
+	},
+	"stavanger": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "STAVANGER",
+					"officeHits": [
+						{
+							"name": "Nav Eiganes og Tasta",
+							"url": "https://www.nav.no/kontor/nav-eiganes-og-tasta",
+							"geoId": "110302",
+							"enhetNr": "1161",
+							"hitString": "STAVANGER"
+						},
+						{
+							"name": "Nav Hillevåg og Hinna",
+							"url": "https://www.nav.no/kontor/nav-hillevag-og-hinna",
+							"geoId": "110306",
+							"enhetNr": "1164",
+							"hitString": "STAVANGER"
+						},
+						{
+							"name": "Nav Hundvåg og Storhaug",
+							"url": "https://www.nav.no/kontor/nav-hundvag-og-storhaug",
+							"geoId": "110301",
+							"enhetNr": "1162",
+							"hitString": "STAVANGER"
+						},
+						{
+							"name": "Nav Madla",
+							"url": "https://www.nav.no/kontor/nav-madla",
+							"geoId": "110304",
+							"enhetNr": "1165",
+							"hitString": "STAVANGER"
+						},
+						{
+							"name": "Nav Rennesøy og Finnøy",
+							"url": "https://www.nav.no/kontor/nav-rennesoy-og-finnoy",
+							"geoId": "110308",
+							"enhetNr": "1169",
+							"hitString": "STAVANGER"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "stavanger"
+		}
+	},
+	"hornnes": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "HORNNES",
+					"officeHits": [
+						{
+							"name": "Nav Evje og Hornnes",
+							"url": "https://www.nav.no/kontor/nav-evje-og-hornnes",
+							"geoId": "4219",
+							"enhetNr": "0937",
+							"hitString": "HORNNES"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "hornnes"
+		}
+	},
+	"ski": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "SKI",
+					"officeHits": [
+						{
+							"name": "Nav Nordre Follo",
+							"url": "https://www.nav.no/kontor/nav-nordre-follo",
+							"geoId": "3020",
+							"enhetNr": "0213",
+							"hitString": "SKI"
+						}
+					]
+				},
+				{
+					"name": "SKIBOTN",
+					"officeHits": [
+						{
+							"name": "Nav Balsfjord-Storfjord",
+							"url": "https://www.nav.no/kontor/nav-balsfjord-storfjord",
+							"geoId": "5425",
+							"enhetNr": "1933",
+							"hitString": "SKIBOTN"
+						}
+					]
+				},
+				{
+					"name": "SKIEN",
+					"officeHits": [
+						{
+							"name": "Nav Skien",
+							"url": "https://www.nav.no/kontor/nav-skien",
+							"geoId": "3807",
+							"enhetNr": "0806",
+							"hitString": "SKIEN"
+						}
+					]
+				},
+				{
+					"name": "SKIFTUN",
+					"officeHits": [
+						{
+							"name": "Nav Hjelmeland",
+							"url": "https://www.nav.no/kontor/nav-hjelmeland",
+							"geoId": "1133",
+							"enhetNr": "1133",
+							"hitString": "SKIFTUN"
+						}
+					]
+				},
+				{
+					"name": "SKILBREI",
+					"officeHits": [
+						{
+							"name": "Nav Sunnfjord",
+							"url": "https://www.nav.no/kontor/nav-sunnfjord",
+							"geoId": "4647",
+							"enhetNr": "1432",
+							"hitString": "SKILBREI"
+						}
+					]
+				},
+				{
+					"name": "SKIPTVET",
+					"officeHits": [
+						{
+							"name": "Nav Skiptvet Marker",
+							"url": "https://www.nav.no/kontor/nav-marker",
+							"geoId": "3015",
+							"enhetNr": "0119",
+							"hitString": "SKIPTVET"
+						}
+					]
+				},
+				{
+					"name": "ASKIM",
+					"officeHits": [
+						{
+							"name": "Nav Indre Østfold",
+							"url": "https://www.nav.no/kontor/nav-indre-ostfold",
+							"geoId": "3014",
+							"enhetNr": "0124",
+							"hitString": "ASKIM"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "ski"
+		}
+	},
+	"jevnaker": {
+		"status": 200,
+		"body": {
+			"hits": [
+				{
+					"name": "JEVNAKER",
+					"officeHits": [
+						{
+							"name": "Nav Jevnaker",
+							"url": "https://www.nav.no/kontor/nav-jevnaker",
+							"geoId": "3053",
+							"enhetNr": "0532",
+							"hitString": "JEVNAKER"
+						}
+					]
+				}
+			],
+			"type": "name",
+			"input": "jevnaker"
+		}
+	},
+	"storgata 1": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "storgata 1",
+			"adresser": [
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "0184",
+					"poststed": "OSLO",
+					"kommunenummer": "0301",
+					"bydelsnummer": "030102",
+					"officeInfo": {
+						"name": "Nav Grünerløkka",
+						"url": "https://www.nav.no/kontor/nav-grunerlokka",
+						"geoId": "030102",
+						"enhetNr": "0315",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "1607",
+					"poststed": "FREDRIKSTAD",
+					"kommunenummer": "3004",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Fredrikstad",
+						"url": "https://www.nav.no/kontor/nav-fredrikstad",
+						"geoId": "3004",
+						"enhetNr": "0106",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2000",
+					"poststed": "LILLESTRØM",
+					"kommunenummer": "3030",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Lillestrøm",
+						"url": "https://www.nav.no/kontor/nav-lillestrom",
+						"geoId": "3030",
+						"enhetNr": "0231",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2317",
+					"poststed": "HAMAR",
+					"kommunenummer": "3403",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Hamar",
+						"url": "https://www.nav.no/kontor/nav-hamar",
+						"geoId": "3403",
+						"enhetNr": "0403",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2615",
+					"poststed": "LILLEHAMMER",
+					"kommunenummer": "3405",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Lillehammer-Gausdal",
+						"url": "https://www.nav.no/kontor/nav-lillehammer-gausdal",
+						"geoId": "3405",
+						"enhetNr": "0501",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "2815",
+					"poststed": "GJØVIK",
+					"kommunenummer": "3407",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Gjøvik",
+						"url": "https://www.nav.no/kontor/nav-gjovik",
+						"geoId": "3407",
+						"enhetNr": "0502",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3015",
+					"poststed": "DRAMMEN",
+					"kommunenummer": "3005",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Drammen",
+						"url": "https://www.nav.no/kontor/nav-drammen",
+						"geoId": "3005",
+						"enhetNr": "0602",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3111",
+					"poststed": "TØNSBERG",
+					"kommunenummer": "3803",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Tønsberg",
+						"url": "https://www.nav.no/kontor/nav-tonsberg",
+						"geoId": "3803",
+						"enhetNr": "0704",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3256",
+					"poststed": "LARVIK",
+					"kommunenummer": "3805",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Larvik",
+						"url": "https://www.nav.no/kontor/nav-larvik",
+						"geoId": "3805",
+						"enhetNr": "5303",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3510",
+					"poststed": "HØNEFOSS",
+					"kommunenummer": "3007",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Ringerike",
+						"url": "https://www.nav.no/kontor/nav-ringerike",
+						"geoId": "3007",
+						"enhetNr": "0605",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3724",
+					"poststed": "SKIEN",
+					"kommunenummer": "3807",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Skien",
+						"url": "https://www.nav.no/kontor/nav-skien",
+						"geoId": "3807",
+						"enhetNr": "0806",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "3915",
+					"poststed": "PORSGRUNN",
+					"kommunenummer": "3806",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Porsgrunn",
+						"url": "https://www.nav.no/kontor/nav-porsgrunn",
+						"geoId": "3806",
+						"enhetNr": "0805",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "4014",
+					"poststed": "STAVANGER",
+					"kommunenummer": "1103",
+					"bydelsnummer": "110301",
+					"officeInfo": {
+						"name": "Nav Hundvåg og Storhaug",
+						"url": "https://www.nav.no/kontor/nav-hundvag-og-storhaug",
+						"geoId": "110301",
+						"enhetNr": "1162",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "4612",
+					"poststed": "KRISTIANSAND S",
+					"kommunenummer": "4204",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Kristiansand",
+						"url": "https://www.nav.no/kontor/nav-kristiansand",
+						"geoId": "4204",
+						"enhetNr": "1001",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "4836",
+					"poststed": "ARENDAL",
+					"kommunenummer": "4203",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Arendal",
+						"url": "https://www.nav.no/kontor/nav-arendal",
+						"geoId": "4203",
+						"enhetNr": "0906",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5004",
+					"poststed": "BERGEN",
+					"kommunenummer": "4601",
+					"bydelsnummer": "460102",
+					"officeInfo": {
+						"name": "Nav Bergenhus",
+						"url": "https://www.nav.no/kontor/nav-bergenhus",
+						"geoId": "460102",
+						"enhetNr": "1209",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5528",
+					"poststed": "HAUGESUND",
+					"kommunenummer": "1106",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Haugesund-Utsira",
+						"url": "https://www.nav.no/kontor/nav-haugesund-utsira",
+						"geoId": "1106",
+						"enhetNr": "1106",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "6413",
+					"poststed": "MOLDE",
+					"kommunenummer": "1506",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Molde",
+						"url": "https://www.nav.no/kontor/nav-molde",
+						"geoId": "1506",
+						"enhetNr": "1502",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "6509",
+					"poststed": "KRISTIANSUND N",
+					"kommunenummer": "1505",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Kristiansund",
+						"url": "https://www.nav.no/kontor/nav-kristiansund",
+						"geoId": "1505",
+						"enhetNr": "1505",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7014",
+					"poststed": "TRONDHEIM",
+					"kommunenummer": "5001",
+					"bydelsnummer": "500101",
+					"officeInfo": {
+						"name": "Nav Falkenborg",
+						"url": "https://www.nav.no/kontor/nav-falkenborg",
+						"geoId": "500101",
+						"enhetNr": "5701",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7600",
+					"poststed": "LEVANGER",
+					"kommunenummer": "5037",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Levanger",
+						"url": "https://www.nav.no/kontor/nav-levanger",
+						"geoId": "5037",
+						"enhetNr": "1719",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7713",
+					"poststed": "STEINKJER",
+					"kommunenummer": "5006",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Inn-Trøndelag",
+						"url": "https://www.nav.no/kontor/nav-inn-trondelag",
+						"geoId": "5006",
+						"enhetNr": "1702",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "7800",
+					"poststed": "NAMSOS",
+					"kommunenummer": "5007",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Midtre Namdal",
+						"url": "https://www.nav.no/kontor/nav-midtre-namdal",
+						"geoId": "5007",
+						"enhetNr": "1703",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8006",
+					"poststed": "BODØ",
+					"kommunenummer": "1804",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Bodø",
+						"url": "https://www.nav.no/kontor/nav-bodo",
+						"geoId": "1804",
+						"enhetNr": "1804",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8514",
+					"poststed": "NARVIK",
+					"kommunenummer": "1806",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Narvik",
+						"url": "https://www.nav.no/kontor/nav-narvik",
+						"geoId": "1806",
+						"enhetNr": "1805",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8622",
+					"poststed": "MO I RANA",
+					"kommunenummer": "1833",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Rana",
+						"url": "https://www.nav.no/kontor/nav-rana",
+						"geoId": "1833",
+						"enhetNr": "1833",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8657",
+					"poststed": "MOSJØEN",
+					"kommunenummer": "1824",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Mosjøen",
+						"url": "https://www.nav.no/kontor/nav-mosjoen",
+						"geoId": "1824",
+						"enhetNr": "1824",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "8900",
+					"poststed": "BRØNNØYSUND",
+					"kommunenummer": "1813",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Sør-Helgeland",
+						"url": "https://www.nav.no/kontor/nav-bronnoy",
+						"geoId": "1813",
+						"enhetNr": "1813",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "9008",
+					"poststed": "TROMSØ",
+					"kommunenummer": "5401",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Tromsø",
+						"url": "https://www.nav.no/kontor/nav-tromso",
+						"geoId": "5401",
+						"enhetNr": "1902",
+						"hitString": ""
+					}
+				},
+				{
+					"adressenavn": "Storgata",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "9405",
+					"poststed": "HARSTAD",
+					"kommunenummer": "5402",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Harstad",
+						"url": "https://www.nav.no/kontor/nav-harstad",
+						"geoId": "5402",
+						"enhetNr": "1903",
+						"hitString": ""
+					}
+				}
+			],
+			"totalHits": 412
+		}
+	},
+	"tamburveien 1a": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "tamburveien 1a",
+			"adresser": [
+				{
+					"adressenavn": "Tamburveien",
+					"husnummer": 1,
+					"husbokstav": "A",
+					"postnummer": "1406",
+					"poststed": "SKI",
+					"kommunenummer": "3020",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Nordre Follo",
+						"url": "https://www.nav.no/kontor/nav-nordre-follo",
+						"geoId": "3020",
+						"enhetNr": "0213",
+						"hitString": ""
+					}
+				}
+			],
+			"totalHits": 1
+		}
+	},
+	"trondheimsveien 2": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "trondheimsveien 2",
+			"adresser": [
+				{
+					"adressenavn": "Trondheimsveien",
+					"husnummer": 2,
+					"husbokstav": null,
+					"postnummer": "0560",
+					"poststed": "OSLO",
+					"kommunenummer": "0301",
+					"bydelsnummer": "030102",
+					"officeInfo": {
+						"name": "Nav Grünerløkka",
+						"url": "https://www.nav.no/kontor/nav-grunerlokka",
+						"geoId": "030102",
+						"enhetNr": "0315",
+						"hitString": ""
+					}
+				}
+			],
+			"totalHits": 1
+		}
+	},
+	"bryggen 1": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "bryggen 1",
+			"adresser": [
+				{
+					"adressenavn": "Bryggen",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5003",
+					"poststed": "BERGEN",
+					"kommunenummer": "4601",
+					"bydelsnummer": "460102",
+					"officeInfo": {
+						"name": "Nav Bergenhus",
+						"url": "https://www.nav.no/kontor/nav-bergenhus",
+						"geoId": "460102",
+						"enhetNr": "1209",
+						"hitString": ""
+					}
+				}
+			],
+			"totalHits": 1
+		}
+	},
+	"vei 230 4": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "vei 230 4",
+			"adresser": [
+				{
+					"adressenavn": "Vei 230",
+					"husnummer": 4,
+					"husbokstav": null,
+					"postnummer": "9170",
+					"poststed": "LONGYEARBYEN",
+					"kommunenummer": "2100",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Tromsø",
+						"url": "https://www.nav.no/kontor/nav-tromso",
+						"geoId": "2100",
+						"enhetNr": "1902",
+						"hitString": ""
+					}
+				}
+			],
+			"totalHits": 1
+		}
+	},
+	"ole b. bergers veg 5": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "ole b. bergers veg 5",
+			"adresser": [
+				{
+					"adressenavn": "Ole B. Bergers veg",
+					"husnummer": 5,
+					"husbokstav": null,
+					"postnummer": "3520",
+					"poststed": "JEVNAKER",
+					"kommunenummer": "3053",
+					"bydelsnummer": null,
+					"officeInfo": {
+						"name": "Nav Jevnaker",
+						"url": "https://www.nav.no/kontor/nav-jevnaker",
+						"geoId": "3053",
+						"enhetNr": "0532",
+						"hitString": ""
+					}
+				}
+			],
+			"totalHits": 1
+		}
+	},
+	"fergeleiet 1": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "fergeleiet 1",
+			"adresser": [
+				{
+					"adressenavn": "Fergeleiet",
+					"husnummer": 1,
+					"husbokstav": null,
+					"postnummer": "5004",
+					"poststed": "BERGEN",
+					"kommunenummer": null,
+					"bydelsnummer": null,
+					"officeInfo": null
+				}
+			],
+			"totalHits": 1
+		}
+	},
+	"ukjent adresse 1": {
+		"status": 200,
+		"body": {
+			"type": "adresse",
+			"adresseQuery": "ukjent adresse 1",
+			"adresser": [],
+			"totalHits": 0
+		}
+	},
+	"???": {
+		"status": 400,
+		"body": {
+			"type": "error",
+			"messageId": "errorInvalidQuery"
+		}
+	}
+}

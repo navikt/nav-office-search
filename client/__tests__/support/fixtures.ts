@@ -23,6 +23,7 @@ export const offices = {
 	alna: office('Nav Alna', '0326', '030112'),
 	bjerke: office('Nav Bjerke', '0330', '030109'),
 	frogner: office('Nav Frogner', '0312', '030105'),
+	grunerlokka: office('Nav Grünerløkka', '0315', '030102'),
 	kristiansand: office('Nav Kristiansand', '1001', '4204'),
 	nordreFollo: office('Nav Nordre Follo', '0213', '3207'),
 } satisfies Record<string, OfficeInfo>;
@@ -55,7 +56,7 @@ export const osloPostnrResult = (
 		officeInfo,
 	});
 
-/** GET /api/search/name?query=… */
+/** GET /api/search?query=<a name> */
 export const nameResult = (input: string, hits: NameHit[] = []): SearchResultNameProps => ({
 	type: 'name',
 	hits,
@@ -75,14 +76,15 @@ export const adresse = (overrides: Partial<Adresse> = {}): Adresse => ({
 	poststed: 'OSLO',
 	kommunenummer: '0301',
 	bydelsnummer: '030102',
+	officeInfo: offices.grunerlokka,
 	...overrides,
 });
 
-/** Storgata 1, Storgata 2, … in 0184 OSLO */
+/** Storgata 1, Storgata 2, … in 0184 OSLO, where the office is Nav Grünerløkka */
 export const storgataAdresser = (count: number): Adresse[] =>
 	Array.from({ length: count }, (_, index) => adresse({ husnummer: index + 1 }));
 
-/** GET /api/search/address?query=… */
+/** GET /api/search?query=<what no name matches> */
 export const addressResult = (
 	adresseQuery: string,
 	adresser: Adresse[],
@@ -94,19 +96,7 @@ export const addressResult = (
 	totalHits,
 });
 
-/** GET /api/geoid?id=… — mirrors geoidSearchHandler, which wraps a single office in a postnr-shaped result */
-export const geoidResult = (geoId: string, officeInfo: OfficeInfo): SearchResultPostnrProps => ({
-	type: 'postnr',
-	postnr: '',
-	poststed: officeInfo.name,
-	poststedNormalized: '',
-	kommuneNavn: '',
-	kommunenr: geoId,
-	kategori: PostnrKategori.Gateadresser,
-	officeInfo: [{ ...officeInfo, geoId, hitString: '' }],
-});
-
-/** Error body from apiErrorResponse() */
+/** The body of an error answer */
 export const errorResult = (messageId: LocaleStringId): SearchResultErrorProps => ({
 	type: 'error',
 	messageId,

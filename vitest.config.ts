@@ -34,11 +34,10 @@ export default defineConfig({
 					include: ['server/**/*.test.ts', 'shared/**/*.test.ts', 'vite-plugins/**/*.test.ts', 'test/*.test.ts'],
 					// For its development build, where check() finds things
 					server: { deps: { inline: ['@itsy/html'] } },
-					// What server/env.ts checks when it loads. test/upstream/mswServer.ts fakes these origins.
+					// What server/env.ts checks when it loads. test/upstream/fakes.ts fakes these origins.
 					env: {
 						APP_ORIGIN: 'https://www.nav.test',
 						NAVNO_ORIGIN: 'https://www.nav.test',
-						XP_ORIGIN: 'https://xp.test',
 						API_ORIGIN: 'https://nav-office-search-api.test',
 						API_CLIENT_ID: 'api-client-id',
 						AZURE_APP_CLIENT_ID: 'azure-client-id',
