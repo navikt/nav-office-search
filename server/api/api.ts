@@ -29,9 +29,24 @@ api.get('/internal/isReady', respond(isReadyHandler));
 api.get('/internal/metrics', metricsHandler);
 
 // The one search. A missing or repeated query is passed on as none, for the API to answer.
-api.get(
-	'/search',
-	respond((c) => observeSearch(() => searchHandler(singleParam(c, 'query')))),
+const search = respond((c) => observeSearch(() => searchHandler(singleParam(c, 'query'))));
+
+api.get('/search', search);
+
+// DEPRECATED: Fallback solution for one week-ish
+api.get('/search/name', search);
+api.get('/search/address', search);
+api.get('/geoid', (c) =>
+	c.json({
+		type: 'postnr',
+		officeInfo: [
+			{
+				name: 'Siden er oppdatert. Last den inn på nytt og søk igjen. / This page has been updated. Reload it and search again.',
+				url: '?',
+				enhetNr: '',
+			},
+		],
+	}),
 );
 
 api.get(

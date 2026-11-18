@@ -112,6 +112,36 @@ describe('the API', () => {
 	});
 });
 
+// What the browser code of that time asks for, until its page is loaded again
+describe('for a page loaded before the search moved to nav-office-search-api', () => {
+	test.each([
+		['a name', 'oslo'],
+		['an address', 'storgata+1'],
+		['what nothing matches', 'ukjent+adresse+1'],
+		['what the API refuses', '%3F%3F%3F'],
+	])('the name and address paths answer %s as the search does', async (_, query) => {
+		const search = await app.request(`${API}/search?query=${query}`);
+		const answer = [search.status, await search.json()];
+
+		for (const path of ['/search/name', '/search/address']) {
+			const response = await app.request(`${API}${path}?query=${query}`);
+
+			expect([path, response.status, await response.json()]).toEqual([path, ...answer]);
+		}
+	});
+
+	test('the office of a picked address is a link that loads the page again, and asks nobody', async () => {
+		const response = await app.request(`${API}/geoid?id=030101`);
+
+		expect([response.status, mediaType(response)]).toEqual([200, 'application/json']);
+		expect(await response.json()).toEqual({
+			type: 'postnr',
+			officeInfo: [{ name: expect.stringMatching(/Last den inn på nytt.+Reload it/), url: '?', enhetNr: '' }],
+		});
+		expect(upstreamCalls()).toEqual([]);
+	});
+});
+
 describe('metrics', () => {
 	const searchCounts = async () =>
 		(await searchRequests.get()).values.map(({ labels, value }) => ({ ...labels, value }));
@@ -148,10 +178,17 @@ describe('metrics', () => {
 		expect(timed.map(({ labels, value }) => [labels.route, value])).toEqual([['search', 7]]);
 	});
 
+	test('counts a search on the old name and address paths as any other', async () => {
+		await app.request(`${API}/search/name?query=oslo`);
+		await app.request(`${API}/search/address?query=storgata+1`);
+
+		expect(await searchCounts()).toEqual([{ route: 'search', outcome: 'hits', value: 2 }]);
+	});
+
 	test('counts only searches', async () => {
 		await app.request(`${API}/loginstatus`);
 		await app.request(`${API}/internal/isAlive`);
-		await app.request(`${API}/search/name?query=oslo`);
+		await app.request(`${API}/geoid?id=030101`);
 		await app.request(`${API}/finnes-ikke`);
 		await app.request(`${BASE}/nn`);
 		await app.request(`${API}/search?query=4737`, { method: 'POST' });
@@ -320,10 +357,7 @@ describe('everything else', () => {
 		['an unknown page', `${BASE}/finnes-ikke`],
 		['a path below a page', `${BASE}/nn/finnes-ikke`],
 		['an unknown API path', `${API}/finnes-ikke`],
-		// These answered before the search moved to nav-office-search-api
-		['the name search', `${API}/search/name?query=oslo`],
-		['the address search', `${API}/search/address?query=storgata+1`],
-		['the office of a geografisk id', `${API}/geoid?id=030101`],
+		// These worked prior to the data-move to office-search-api
 		['a data dump', `${API}/data/kommuner`],
 		['outside the base path', '/finnes-ikke'],
 		['the root', '/'],
