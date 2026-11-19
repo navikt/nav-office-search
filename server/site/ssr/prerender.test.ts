@@ -1,15 +1,15 @@
 import { expect, test, vi } from 'vitest';
-import { assertRenderable } from './selfCheck.ts';
+import { prerender } from './prerender.ts';
 
-test('accepts an app that renders every locale', () => {
+test('renders every locale once, and gives back the markup', () => {
 	const render = vi.fn((locale: string) => `<div>${locale}</div>`);
 
-	expect(() => assertRenderable(render)).not.toThrow();
+	expect(prerender(render)).toEqual({ nb: '<div>nb</div>', nn: '<div>nn</div>', en: '<div>en</div>' });
 	expect(render.mock.calls.flat()).toEqual(['nb', 'nn', 'en']);
 });
 
 test('rejects an app that renders nothing for a locale, and says which', () => {
-	expect(() => assertRenderable((locale) => (locale === 'nn' ? '' : '<div></div>'))).toThrow('the nn page');
+	expect(() => prerender((locale) => (locale === 'nn' ? '' : '<div></div>'))).toThrow('the nn page');
 });
 
 test('lets a render that throws stop the boot', () => {
@@ -17,5 +17,5 @@ test('lets a render that throws stop the boot', () => {
 		throw new Error('Rendering failed');
 	};
 
-	expect(() => assertRenderable(failing)).toThrow('Rendering failed');
+	expect(() => prerender(failing)).toThrow('Rendering failed');
 });

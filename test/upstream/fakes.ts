@@ -32,7 +32,7 @@ export const fromMockCall = (call: MockCall): UpstreamRequest => {
 	};
 };
 
-// Method, host and path, e.g. 'GET www.nav.no/404'
+// Method, host and path, e.g. 'GET login.nav.no/oauth2/session'
 const routeOf = ({ method, host, path }: UpstreamRequest) => `${method} ${host}${path}`;
 
 // The route of a method and URL. A trailing slash on the URL doesn't count.
@@ -83,15 +83,10 @@ export const createUpstreamFakes = () => {
 	const env = process.env as Record<string, string>;
 
 	const fakes: Record<string, (request: UpstreamRequest) => Response> = {
-		[routeTo('POST', env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT)]: () =>
-			json({ token_type: 'Bearer', expires_in: 3599, ext_expires_in: 3599, access_token: 'azure-token' }),
+		[routeTo('POST', env.NAIS_TOKEN_ENDPOINT)]: () =>
+			json({ access_token: 'texas-token', expires_in: 3599, token_type: 'Bearer' }),
 		[routeTo('GET', `${env.API_ORIGIN}/search`)]: search,
 		[routeTo('GET', env.LOGIN_SESSION_API_URL)]: loginSession,
-		[routeTo('GET', `${env.NAVNO_ORIGIN}/404`)]: () =>
-			new Response('<!doctype html><html><body><h1>Fant ikke siden</h1></body></html>', {
-				status: 404,
-				headers: { 'content-type': 'text/html; charset=utf-8' },
-			}),
 	};
 
 	return (request: UpstreamRequest): Response | undefined => fakes[routeOf(request)]?.(request);

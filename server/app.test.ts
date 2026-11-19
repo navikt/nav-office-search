@@ -16,7 +16,6 @@ import { env } from '#server/env.ts';
 
 const BASE = BASE_PATH;
 const API = `${BASE}/api`;
-const NOT_FOUND_HTML = '<h1>Fant ikke siden</h1>';
 const SCRIPT = 'console.log("hei");\n'.repeat(100);
 const SMALL_SCRIPT = 'console.log("hei");';
 // What the build writes next to a script over 1 KB
@@ -37,14 +36,14 @@ writeFileSync(join(clientDir, 'assets', 'small.js'), SMALL_SCRIPT);
 const fakePage = (locale: AppLocale) => `<html lang="${locale}"></html>`;
 
 const appWith = (render: HtmlRenderer = async (locale) => fakePage(locale)) =>
-	createApp({ site: { render, clientDir }, notFoundHtml: NOT_FOUND_HTML });
+	createApp({ site: { render, clientDir } });
 
 const app = appWith();
 
 const mediaType = (response: Response) => response.headers.get('content-type')?.split(';')[0];
 
-const expectTheNotFoundPage = async (response: Response) => {
-	expect([response.status, mediaType(response), await response.text()]).toEqual([404, 'text/html', NOT_FOUND_HTML]);
+const expectNotFound = async (response: Response) => {
+	expect([response.status, mediaType(response), await response.text()]).toEqual([404, 'text/plain', 'Not found']);
 };
 
 const { upstreams, calls: upstreamCalls } = installUpstreams();
@@ -239,12 +238,12 @@ describe('pages', () => {
 		]);
 	});
 
-	test('an HTTP error under 500 answers the 404 page', async () => {
+	test('an HTTP error under 500 answers a plain 404', async () => {
 		const rejecting = appWith(async () => {
 			throw new HTTPException(400);
 		});
 
-		await expectTheNotFoundPage(await rejecting.request(`${BASE}/nn`));
+		await expectNotFound(await rejecting.request(`${BASE}/nn`));
 	});
 });
 
@@ -332,7 +331,7 @@ describe('static files', () => {
 		const response = await app.request(`${BASE}/assets/${file}`);
 
 		expect(response.headers.get('cache-control')).toBeNull();
-		await expectTheNotFoundPage(response);
+		await expectNotFound(response);
 	});
 
 	test.each([
@@ -343,12 +342,12 @@ describe('static files', () => {
 		'..%2ffavicon.ico',
 		'%',
 	])('assets/%s stays inside the assets', async (file) => {
-		await expectTheNotFoundPage(await app.request(`${BASE}/assets/${file}`));
+		await expectNotFound(await app.request(`${BASE}/assets/${file}`));
 	});
 
 	test('are served only under the base path', async () => {
-		await expectTheNotFoundPage(await app.request('/assets/index-abc.js'));
-		await expectTheNotFoundPage(await app.request('/favicon.ico'));
+		await expectNotFound(await app.request('/assets/index-abc.js'));
+		await expectNotFound(await app.request('/favicon.ico'));
 	});
 });
 
@@ -363,13 +362,13 @@ describe('everything else', () => {
 		['the root', '/'],
 		['a path that starts like the base path', `${BASE}-2`],
 		['a path that only differs in case', `${BASE}/NN`],
-	])('%s gets the 404 page', async (_, path) => {
-		await expectTheNotFoundPage(await app.request(path));
+	])('%s gets a plain 404', async (_, path) => {
+		await expectNotFound(await app.request(path));
 	});
 
-	test.each(['POST', 'PUT', 'DELETE', 'OPTIONS'])('%s gets the 404 page', async (method) => {
+	test.each(['POST', 'PUT', 'DELETE', 'OPTIONS'])('%s gets a plain 404', async (method) => {
 		for (const path of [`${API}/search?query=4737`, `${API}/internal/isAlive`, `${BASE}/nn`, `${BASE}/favicon.ico`]) {
-			await expectTheNotFoundPage(await app.request(path, { method }));
+			await expectNotFound(await app.request(path, { method }));
 		}
 	});
 

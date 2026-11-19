@@ -9,10 +9,9 @@ import { setupErrorHandlers } from './utils/errorHandlers.ts';
 
 type Deps = {
 	site: Site;
-	notFoundHtml: string;
 };
 
-export const createApp = ({ site, notFoundHtml }: Deps) => {
+export const createApp = ({ site }: Deps) => {
 	// strict: false matches routes with or without a trailing slash
 	const app = new Hono({ strict: false });
 
@@ -27,7 +26,7 @@ export const createApp = ({ site, notFoundHtml }: Deps) => {
 	base.route('/api', api);
 	base.route('/', createSite(site));
 
-	setupErrorHandlers(app, notFoundHtml);
+	setupErrorHandlers(app);
 
 	return app;
 };

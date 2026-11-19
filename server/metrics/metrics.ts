@@ -76,7 +76,7 @@ export const observeSearch = async <Response extends { status: number; body: unk
 
 // Upstream calls
 
-export type Upstream = 'office-search-api/search' | 'azure-token' | 'login-session';
+export type Upstream = 'office-search-api/search' | 'texas' | 'login-session';
 
 export const upstreamRequests = new Counter({
 	name: `${prefix}upstream_requests_total`,
@@ -114,7 +114,7 @@ export const observeUpstream = async (upstream: Upstream, request: () => Promise
 
 export const pageRenders = new Counter({
 	name: `${prefix}page_renders_total`,
-	help: 'Page renders by locale and outcome (ssr, csr_fallback when server rendering failed, error). Cached pages are not counted.',
+	help: 'Pages served by locale and outcome: ssr, or error when the document could not be put together',
 	labelNames: ['locale', 'outcome'] as const,
 	registers: [registry],
 });

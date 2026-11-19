@@ -11,12 +11,12 @@ import { env } from '#server/env.ts';
 
 const SEARCH = `${env.API_ORIGIN}/search`;
 
-// The access token, base64-encoded. nav-office-search-api never checks it.
-const AUTHORIZATION = 'Bearer YXp1cmUtdG9rZW4=';
+// The token the fake Texas hands out. nav-office-search-api never checks it.
+const AUTHORIZATION = 'Bearer texas-token';
 
 const { upstreams, calls: upstreamCalls } = installUpstreams();
 
-// What nav-office-search-api was asked. The token request, before the first search, isn't among them.
+// What nav-office-search-api was asked. The token requests to Texas, one before each search, aren't among them.
 const searches = () => upstreamCalls().filter(({ url }) => url.startsWith(SEARCH));
 
 const error = (messageId: string) => ({ type: 'error', messageId });
@@ -104,12 +104,9 @@ describe('searchHandler', () => {
 	});
 
 	test('answers 502 without a token, and never asks the API', async () => {
-		// Its own modules, so the searches after this one don't go without a token too
-		vi.resetModules();
-		const { searchHandler: searchWithoutToken } = await import('./search/searchHandler.ts');
-		upstreams.post(env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT, { json: { error: 'invalid_client' }, status: 401 });
+		upstreams.post(env.NAIS_TOKEN_ENDPOINT, { json: { error: 'invalid_request' }, status: 400 });
 
-		expect(await searchWithoutToken('4737')).toEqual({ status: 502, body: error('errorServerError') });
+		expect(await searchHandler('4737')).toEqual({ status: 502, body: error('errorServerError') });
 		expect(searches()).toEqual([]);
 	});
 

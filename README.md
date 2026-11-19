@@ -71,8 +71,8 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics`, som NAIS skraper. De viktigste:
 
 - `nav_office_search_search_requests_total{route, outcome}`: søk etter utfall: `hits`, `empty` (gyldig søk uten treff), `invalid` (4xx) eller `error` (5xx). `route` er alltid `search`. Varighet i `nav_office_search_search_request_duration_seconds`.
-- `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, Azure og innloggingsstatus, per statusklasse, `timeout` eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
-- `nav_office_search_page_renders_total{locale, outcome}`: sidevisninger rendret på server (`ssr`), med fallback til klient (`csr_fallback`) eller med feil.
+- `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, Texas (tokenet til API-et) og innloggingsstatus, per statusklasse, `timeout` eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
+- `nav_office_search_page_renders_total{locale, outcome}`: sider servert per språk: `ssr`, eller `error` når dokumentet ikke kunne settes sammen.
 
 I tillegg kommer standardmetrikkene for Node.js-prosessen (`nodejs_*`, `process_*`).
 

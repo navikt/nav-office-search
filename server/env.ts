@@ -4,15 +4,11 @@ import { z } from 'zod';
 const schema = z.object({
 	// Where the page is served from, for its og: tags
 	APP_ORIGIN: z.url(),
-	// The nav.no frontend, for its 404 page
-	NAVNO_ORIGIN: z.url(),
 	// nav-office-search-api, which does the searching, and the client id its tokens are for
 	API_ORIGIN: z.url(),
 	API_CLIENT_ID: z.string().min(1),
-	// NAIS injects these for azure.application
-	AZURE_APP_CLIENT_ID: z.string().min(1),
-	AZURE_APP_CLIENT_SECRET: z.string().min(1),
-	AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: z.url(),
+	// Texas, NAIS's token service. NAIS injects it for azure.application
+	NAIS_TOKEN_ENDPOINT: z.url(),
 	LOGIN_SESSION_API_URL: z.url(),
 	PORT: z.coerce.number().int().positive().default(3005),
 });

@@ -37,12 +37,9 @@ export default defineConfig({
 					// What server/env.ts checks when it loads. test/upstream/fakes.ts fakes these origins.
 					env: {
 						APP_ORIGIN: 'https://www.nav.test',
-						NAVNO_ORIGIN: 'https://www.nav.test',
 						API_ORIGIN: 'https://nav-office-search-api.test',
 						API_CLIENT_ID: 'api-client-id',
-						AZURE_APP_CLIENT_ID: 'azure-client-id',
-						AZURE_APP_CLIENT_SECRET: 'azure-client-secret',
-						AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: 'https://login.test/oauth2/v2.0/token',
+						NAIS_TOKEN_ENDPOINT: 'http://texas.test/api/v1/token',
 						LOGIN_SESSION_API_URL: 'https://login.test/oauth2/session',
 						// The logger writes to stdout, past Vitest
 						LOG_LEVEL: 'silent',
