@@ -1,56 +1,32 @@
 import { beforeEach, describe, expect, test } from 'vitest';
-import {
-	classifySearchResponse,
-	observeSearch,
-	observeUpstream,
-	registry,
-	searchDuration,
-	searchRequests,
-	upstreamRequests,
-	upstreamDuration,
-} from './metrics.ts';
+import { observeSearch, registry, searchRequests } from './metrics.ts';
 
 beforeEach(() => {
 	registry.resetMetrics();
 });
 
-describe('classifySearchResponse', () => {
-	const office = { name: 'Nav Tromsø' };
+describe('observeSearch', () => {
+	const counts = async () => (await searchRequests.get()).values.map(({ labels, value }) => [labels.outcome, value]);
 
 	test.each([
-		['postnr with offices', 200, { type: 'postnr', officeInfo: [office] }, 'hits'],
-		['postnr without offices', 200, { type: 'postnr', officeInfo: [] }, 'empty'],
-		['name with hits', 200, { type: 'name', hits: [{ name: 'OSLO', officeHits: [office] }] }, 'hits'],
-		['name without hits', 200, { type: 'name', hits: [] }, 'empty'],
-		['address with hits', 200, { type: 'adresse', adresser: [{}], totalHits: 1 }, 'hits'],
-		['address without hits', 200, { type: 'adresse', adresser: [], totalHits: 0 }, 'empty'],
-		['unknown postnr', 404, { type: 'error', messageId: 'errorInvalidPostnr' }, 'invalid'],
-		['missing query', 400, { type: 'error', messageId: 'errorMissingQuery' }, 'invalid'],
-		['server error', 500, { type: 'error', messageId: 'errorServerError' }, 'error'],
-		['upstream 503 passed through', 503, undefined, 'error'],
-		['200 with an unexpected body', 200, 'oops', 'error'],
-	] as const)('%s → %s', (_, status, body, expected) => {
-		expect(classifySearchResponse(status, body)).toBe(expected);
-	});
-});
-
-describe('observeSearch', () => {
-	const timedCounts = async () =>
-		(await searchDuration.get()).values
-			.filter(({ metricName }) => metricName?.endsWith('_count'))
-			.map(({ labels, value }) => [labels.route, value]);
-
-	test('returns the response, and records its outcome and the duration', async () => {
-		const response = { status: 200, body: { type: 'postnr', officeInfo: [{ name: 'Nav Tromsø' }] } };
+		[200, 'ok'],
+		[400, 'invalid'],
+		[404, 'invalid'],
+		[500, 'error'],
+		[503, 'error'],
+	])('returns the response, and counts a %i as %s', async (status, outcome) => {
+		const response = { status, body: { type: 'error', messageId: 'errorServerError' } };
 
 		await expect(observeSearch(async () => response)).resolves.toBe(response);
-		await observeSearch(async () => ({ status: 400, body: { type: 'error' } }));
 
-		expect((await searchRequests.get()).values).toEqual([
-			expect.objectContaining({ labels: { route: 'search', outcome: 'hits' }, value: 1 }),
-			expect.objectContaining({ labels: { route: 'search', outcome: 'invalid' }, value: 1 }),
-		]);
-		expect(await timedCounts()).toEqual([['search', 2]]);
+		expect(await counts()).toEqual([[outcome, 1]]);
+	});
+
+	test('counts by the status alone, whatever the answer is', async () => {
+		await observeSearch(async () => ({ status: 200, body: { type: 'postnr', officeInfo: [] } }));
+		await observeSearch(async () => ({ status: 200, body: { type: 'one the API adds later' } }));
+
+		expect(await counts()).toEqual([['ok', 2]]);
 	});
 
 	test('records a failed search as an error, and rethrows it', async () => {
@@ -58,40 +34,6 @@ describe('observeSearch', () => {
 
 		await expect(observeSearch(() => Promise.reject(failure))).rejects.toBe(failure);
 
-		expect((await searchRequests.get()).values).toEqual([
-			expect.objectContaining({ labels: { route: 'search', outcome: 'error' }, value: 1 }),
-		]);
-		expect(await timedCounts()).toEqual([['search', 1]]);
-	});
-});
-
-describe('observeUpstream', () => {
-	test('records the status class and the duration', async () => {
-		await observeUpstream('login-session', async () => new Response('', { status: 200 }));
-		await observeUpstream('office-search-api/search', async () => new Response('', { status: 404 }));
-
-		expect((await upstreamRequests.get()).values).toEqual(
-			expect.arrayContaining([
-				expect.objectContaining({ labels: { upstream: 'login-session', status: '2xx' }, value: 1 }),
-				expect.objectContaining({ labels: { upstream: 'office-search-api/search', status: '4xx' }, value: 1 }),
-			]),
-		);
-		const counts = (await upstreamDuration.get()).values.filter(({ metricName }) => metricName?.endsWith('_count'));
-		expect(counts.map(({ labels, value }) => [labels.upstream, value])).toEqual(
-			expect.arrayContaining([
-				['login-session', 1],
-				['office-search-api/search', 1],
-			]),
-		);
-	});
-
-	test.each([
-		['network errors', new TypeError('fetch failed'), 'network_error'],
-		['timeouts', new DOMException('Request timed out after 5000ms', 'TimeoutError'), 'timeout'],
-	])('records %s and rethrows them', async (_, failure, status) => {
-		await expect(observeUpstream('texas', () => Promise.reject(failure))).rejects.toBe(failure);
-		expect((await upstreamRequests.get()).values).toEqual([
-			expect.objectContaining({ labels: { upstream: 'texas', status }, value: 1 }),
-		]);
+		expect(await counts()).toEqual([['error', 1]]);
 	});
 });

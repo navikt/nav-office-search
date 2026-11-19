@@ -1,7 +1,8 @@
 import { logger } from '@navikt/navno-logger';
+import { failureOf } from '@navikt/navno-server/upstream';
 import type { ApiResponse } from '#server/api/apiResponse.ts';
 import { serverUrls } from '#server/urls.ts';
-import { failureOf, REQUEST_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
+import { REQUEST_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
 
 interface LoginStatusResponse {
 	isUserLoggedIn: boolean;

@@ -1,9 +1,9 @@
 import { isTimeoutError } from '@itsy/corgi';
 import { logger } from '@navikt/navno-logger';
+import { failureOf } from '@navikt/navno-server/upstream';
 import { apiErrorResponse, type ApiResponse } from '#server/api/apiResponse.ts';
 import { officeSearchApi } from '#server/external/officeSearchApi.ts';
 import { serverUrls } from '#server/urls.ts';
-import { failureOf } from '#server/utils/upstream.ts';
 import type { SearchResultProps } from '#shared/types/results.ts';
 
 /**

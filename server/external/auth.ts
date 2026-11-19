@@ -1,10 +1,11 @@
 import { isHttpError } from '@itsy/corgi';
 import { schema } from '@itsy/corgi/schema';
 import { logger } from '@navikt/navno-logger';
+import { failureOf } from '@navikt/navno-server/upstream';
 import { z } from 'zod';
 import { env } from '#server/env.ts';
 import { serverUrls } from '#server/urls.ts';
-import { failureOf, REQUEST_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
+import { REQUEST_TIMEOUT_MS, upstreamClient } from '#server/utils/upstream.ts';
 
 // What is read of Texas' answer. Its other fields are allowed.
 const tokenSchema = z.looseObject({ access_token: z.string().min(1) });

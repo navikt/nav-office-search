@@ -10,14 +10,14 @@ spec:
   image: {{image}}
   port: 3005
   liveness:
-    path: {{basePath}}/api/internal/isAlive
+    path: /internal/alive
     initialDelay: 5
   readiness:
-    path: {{basePath}}/api/internal/isReady
+    path: /internal/ready
     initialDelay: 10
   prometheus:
     enabled: true
-    path: {{basePath}}/api/internal/metrics
+    path: /internal/metrics
   observability:
     logging:
       destinations:

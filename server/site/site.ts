@@ -10,7 +10,7 @@ import type { AppLocale } from '#shared/localization/types.ts';
 /** Serves the built client from clientDir. Without one, Vite serves it (server/dev.ts). */
 export type Site = { render: HtmlRenderer; clientDir?: string };
 
-// Not serveStatic's onFound: it runs after the response is made, and with overrideGlobalObjects: false (startServer.ts) a
+// Not serveStatic's onFound: it runs after the response is made, and with overrideGlobalObjects: false (main.ts) a
 // header set then doesn't reach it.
 const cacheControl =
 	(value: string): MiddlewareHandler =>

@@ -52,9 +52,9 @@ API_ORIGIN=http://localhost:3003 pnpm dev
 
 Bygger til `dist/` og kjører det, mot de samme mockene. Imaget inneholder `dist/`, `package.json` og `node_modules` med produksjonsavhengigheter.
 
-### Formatering
+### Formatering og linting
 
-Koden formateres med [oxfmt](https://oxc.rs/docs/guide/usage/formatter) (`pnpm format`, sjekk med `pnpm format:check`). Pre-commit-hooken formaterer stagede filer automatisk.
+Koden formateres med [oxfmt](https://oxc.rs/docs/guide/usage/formatter) (`pnpm format`, sjekk med `pnpm format:check`) og lintes med [oxlint](https://oxc.rs/docs/guide/usage/linter). `pnpm lint` sjekker formatering, lint-regler og typer. Pre-commit-hooken formaterer og linter stagede filer automatisk.
 
 Commits som kun endrer formatering ligger i `.git-blame-ignore-revs`. GitHub hopper over dem i blame automatisk; lokalt må det slås på én gang:
 
@@ -68,9 +68,9 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 ## Metrikker
 
-Appen eksponerer Prometheus-metrikker på `/finn-nav-kontor/api/internal/metrics`, som NAIS skraper. De viktigste:
+Appen eksponerer Prometheus-metrikker på `/internal/metrics`, som NAIS skraper. De viktigste:
 
-- `nav_office_search_search_requests_total{route, outcome}`: søk etter utfall: `hits`, `empty` (gyldig søk uten treff), `invalid` (4xx) eller `error` (5xx). `route` er alltid `search`. Varighet i `nav_office_search_search_request_duration_seconds`.
+- `nav_office_search_search_requests_total{outcome}`: søk etter utfall: `ok` (2xx, med eller uten treff), `invalid` (4xx) eller `error` (5xx). Om søkene finner noe, telles i nav-office-search-api (`nav_office_search_api_lookups_total{operation="search"}`).
 - `nav_office_search_upstream_requests_total{upstream, status}`: kall mot nav-office-search-api, Texas (tokenet til API-et) og innloggingsstatus, per statusklasse, `timeout` eller `network_error`. Varighet i `nav_office_search_upstream_request_duration_seconds`.
 - `nav_office_search_page_renders_total{locale, outcome}`: sider servert per språk: `ssr`, eller `error` når dokumentet ikke kunne settes sammen.
 
