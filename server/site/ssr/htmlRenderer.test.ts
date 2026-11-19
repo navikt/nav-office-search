@@ -1,4 +1,3 @@
-import { logger } from '@navikt/navno-logger';
 import { beforeEach, expect, test, vi } from 'vitest';
 import { pageRenders, registry } from '#server/metrics/metrics.ts';
 import { fetchDecorator } from './document.ts';
@@ -28,7 +27,7 @@ test('refuses to start when the app renders nothing', () => {
 	expect(() => prodRenderer(() => '', [])).toThrow('gave no markup');
 });
 
-test('renders the app and the decorator into the page, per locale', async () => {
+test('puts the app and the decorator into the page, per locale', async () => {
 	const render = prodRenderer((locale) => `<div>${locale}</div>`, []);
 
 	const page = await render('nn');
@@ -40,40 +39,38 @@ test('renders the app and the decorator into the page, per locale', async () => 
 	expect(await renderCounts()).toEqual([{ locale: 'nn', outcome: 'ssr', value: 1 }]);
 });
 
-test('keeps each locale for later requests', async () => {
-	const render = prodRenderer((locale) => `<div>${locale}</div>`, []);
+test('renders the app once per locale at the start, however many pages are asked for', async () => {
+	const renderApp = vi.fn((locale: string) => `<div>${locale}</div>`);
+	const render = prodRenderer(renderApp, []);
 
-	const first = await render('nb');
+	await render('nb');
 	await render('en');
+	await render('nb');
 
-	expect(await render('nb')).toBe(first);
-	expect(vi.mocked(fetchDecorator).mock.calls).toEqual([['nb'], ['en']]);
+	expect(renderApp.mock.calls.flat()).toEqual(['nb', 'nn', 'en']);
 	expect(await renderCounts()).toEqual([
-		{ locale: 'nb', outcome: 'ssr', value: 1 },
+		{ locale: 'nb', outcome: 'ssr', value: 2 },
 		{ locale: 'en', outcome: 'ssr', value: 1 },
 	]);
 });
 
-test('when rendering fails, leaves it to the browser and tries again next time', async () => {
-	const error = vi.spyOn(logger, 'error');
-	const renderApp = vi
-		.fn((locale: string) => `<div>${locale}</div>`)
-		// The self-check at boot
-		.mockReturnValueOnce('<div></div>')
-		.mockReturnValueOnce('<div></div>')
-		.mockReturnValueOnce('<div></div>')
-		.mockImplementationOnce(() => {
-			throw new Error('Rendering failed');
-		});
-	const render = prodRenderer(renderApp, []);
+test('takes the decorator for every request, so a new one shows on the next', async () => {
+	const render = prodRenderer((locale) => `<div>${locale}</div>`, []);
 
-	expect(await render('nb')).toContain('<main id="maincontent" tabindex="-1"></main>');
-	expect(await render('nb')).toContain('<div>nb</div>');
-	expect(error.mock.calls).toEqual([
-		['Server rendering failed, leaving it to the browser', { locale: 'nb' }, new Error('Rendering failed')],
-	]);
-	expect(await renderCounts()).toEqual([
-		{ locale: 'nb', outcome: 'csr_fallback', value: 1 },
-		{ locale: 'nb', outcome: 'ssr', value: 1 },
-	]);
+	const first = await render('nb');
+	vi.mocked(fetchDecorator).mockResolvedValue({ ...decorator, DECORATOR_HEADER: '<div id="new-header"></div>' });
+	const second = await render('nb');
+
+	expect(first).toContain('<div id="decorator-header"></div>');
+	expect(second).toContain('<div id="new-header"></div>');
+	expect(second).not.toContain('<div id="decorator-header"></div>');
+	expect(vi.mocked(fetchDecorator).mock.calls).toEqual([['nb'], ['nb']]);
+});
+
+test('counts no page when the decorator can not be had', async () => {
+	vi.mocked(fetchDecorator).mockRejectedValue(new Error('No decorator'));
+	const render = prodRenderer((locale) => `<div>${locale}</div>`, []);
+
+	await expect(render('nb')).rejects.toThrow('No decorator');
+	expect(await renderCounts()).toEqual([]);
 });

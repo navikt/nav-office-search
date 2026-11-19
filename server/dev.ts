@@ -5,7 +5,6 @@ import { BASE_PATH } from '#shared/basePath.ts';
 import { createApp } from './app.ts';
 import { devAssets, fetchDecorator, renderDocument } from './site/ssr/document.ts';
 import type { HtmlRenderer } from './site/ssr/htmlRenderer.ts';
-import { fetchNotFoundHtml } from './utils/errorHandlers.ts';
 
 // What @hono/vite-dev-server runs in `pnpm dev`, through Vite. An edit here, or in anything imported from here, runs this
 // again on the next request.
@@ -26,7 +25,7 @@ const render: HtmlRenderer = async (locale, env) => {
 	}
 };
 
-const app = createApp({ site: { render }, notFoundHtml: await fetchNotFoundHtml() });
+const app = createApp({ site: { render } });
 
 app.get('/', (c) => c.redirect(BASE_PATH));
 

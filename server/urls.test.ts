@@ -17,13 +17,7 @@ test.each([
 	['without a slash at the end', ''],
 	['with one', '/'],
 ])('joins an origin %s and its path with one slash', async (_, slash) => {
-	const urls = await urlsWith({
-		API_ORIGIN: `https://api.test${slash}`,
-		NAVNO_ORIGIN: `https://www.nav.test${slash}`,
-	});
+	const urls = await urlsWith({ API_ORIGIN: `https://api.test${slash}` });
 
-	expect(urls).toMatchObject({
-		searchApi: 'https://api.test/search',
-		notFoundPage: 'https://www.nav.test/404',
-	});
+	expect(urls).toMatchObject({ searchApi: 'https://api.test/search' });
 });

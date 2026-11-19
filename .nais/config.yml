@@ -33,8 +33,6 @@ spec:
       value: /tmp/npm-cache
     - name: APP_ORIGIN
       value: {{appOrigin}}
-    - name: NAVNO_ORIGIN
-      value: {{navnoOrigin}}
     - name: API_ORIGIN
       value: {{apiOrigin}}
     - name: LOGIN_SESSION_API_URL

@@ -6,12 +6,10 @@ const read = (file: string) => readFileSync(new URL(`../.nais/${file}`, import.m
 
 const config = read('config.yml');
 
-// What the pods get besides .nais/config.yml's env: the nav-office-search secret, and NAIS' azure.application
+// What the pods get besides .nais/config.yml's env: the nav-office-search secret, and Texas from NAIS' azure.application
 const fromPlatform = {
 	API_CLIENT_ID: 'from-the-secret',
-	AZURE_APP_CLIENT_ID: 'from-nais',
-	AZURE_APP_CLIENT_SECRET: 'from-nais',
-	AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: 'https://login.test/token',
+	NAIS_TOKEN_ENDPOINT: 'http://texas.test/api/v1/token',
 };
 
 describe.each(['vars-dev.yml', 'vars-prod.yml'])('%s', (file) => {

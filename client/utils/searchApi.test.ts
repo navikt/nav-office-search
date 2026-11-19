@@ -77,7 +77,7 @@ describe('errorMessageOf', () => {
 
 	test.each([
 		['a 500 without a body', { status: 500 }],
-		["the nav.no 404 page, for an API path that doesn't exist", { status: 404, text: '<h1>Fant ikke siden</h1>' }],
+		["a plain 404, for an API path that doesn't exist", { status: 404, text: 'Not found' }],
 		["a 200 that isn't JSON", { text: '<h1>Hei</h1>', headers: { 'content-type': 'text/html' } }],
 	] as const)('is a server error for %s', async (_, reply) => {
 		http.get('/finn-nav-kontor/api/search', reply);

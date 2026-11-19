@@ -89,9 +89,9 @@ describe('observeUpstream', () => {
 		['network errors', new TypeError('fetch failed'), 'network_error'],
 		['timeouts', new DOMException('Request timed out after 5000ms', 'TimeoutError'), 'timeout'],
 	])('records %s and rethrows them', async (_, failure, status) => {
-		await expect(observeUpstream('azure-token', () => Promise.reject(failure))).rejects.toBe(failure);
+		await expect(observeUpstream('texas', () => Promise.reject(failure))).rejects.toBe(failure);
 		expect((await upstreamRequests.get()).values).toEqual([
-			expect.objectContaining({ labels: { upstream: 'azure-token', status }, value: 1 }),
+			expect.objectContaining({ labels: { upstream: 'texas', status }, value: 1 }),
 		]);
 	});
 });

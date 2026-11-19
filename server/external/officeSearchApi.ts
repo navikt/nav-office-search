@@ -4,17 +4,12 @@ import { getAuthorizationHeader } from './auth.ts';
 
 // The token, once per call. Outside the metrics: without a token the request isn't sent, so it isn't counted.
 const withToken: Plugin = order(ORDER.retry - 1, (next) => async (url, init) => {
-	const authorization = await getAuthorizationHeader();
-	if (!authorization) {
-		throw new Error('No token for nav-office-search-api');
-	}
-
 	const headers = new Headers(init?.headers);
-	headers.set('authorization', authorization);
+	headers.set('authorization', await getAuthorizationHeader());
 	return next(url, { ...init, headers });
 });
 
-/** nav-office-search-api's search, asked with Azure AD's token */
+/** nav-office-search-api's search, asked with a token from Texas */
 export const officeSearchApi = upstreamClient('office-search-api/search', {
 	timeout: REQUEST_TIMEOUT_MS,
 	headers: { accept: 'application/json' },
