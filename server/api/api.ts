@@ -1,19 +1,16 @@
 import { type Context, type Handler, Hono } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import type { ApiResponse } from './apiResponse.ts';
-import { isReadyHandler } from './endpoints/isReady/isReadyHandler.ts';
-import { isAliveHandler } from './endpoints/isAlive/isAliveHandler.ts';
 import { searchHandler } from './endpoints/search/searchHandler.ts';
 import { loginStatusHandler } from './endpoints/loginstatus/loginStatusHandler.ts';
-import { metricsHandler, observeSearch } from '#server/metrics/metrics.ts';
+import { observeSearch } from '#server/metrics/metrics.ts';
 
 const respond =
-	(handler: (c: Context) => ApiResponse | Promise<ApiResponse>): Handler =>
+	(handler: (c: Context) => ApiResponse<object> | Promise<ApiResponse<object>>): Handler =>
 	async (c) => {
 		const { status, body } = await handler(c);
-		const contentfulStatus = status as ContentfulStatusCode;
 
-		return typeof body === 'string' ? c.html(body, contentfulStatus) : c.json(body as object, contentfulStatus);
+		return c.json(body, status as ContentfulStatusCode);
 	};
 
 // A repeated parameter counts as a missing one
@@ -23,10 +20,6 @@ const singleParam = (c: Context, name: string) => {
 };
 
 export const api = new Hono();
-
-api.get('/internal/isAlive', respond(isAliveHandler));
-api.get('/internal/isReady', respond(isReadyHandler));
-api.get('/internal/metrics', metricsHandler);
 
 // The one search. A missing or repeated query is passed on as none, for the API to answer.
 const search = respond((c) => observeSearch(() => searchHandler(singleParam(c, 'query'))));

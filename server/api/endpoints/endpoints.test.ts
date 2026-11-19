@@ -3,8 +3,6 @@ import { logger } from '@navikt/navno-logger';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import recorded from '#test/fixtures/upstream/office-search-api/search.json' with { type: 'json' };
 import { installUpstreams } from '#test/upstream/upstreams.ts';
-import { isAliveHandler } from './isAlive/isAliveHandler.ts';
-import { isReadyHandler } from './isReady/isReadyHandler.ts';
 import { loginStatusHandler } from './loginstatus/loginStatusHandler.ts';
 import { searchHandler } from './search/searchHandler.ts';
 import { env } from '#server/env.ts';
@@ -145,9 +143,4 @@ describe('loginStatusHandler', () => {
 
 		expect(await loginStatusHandler('a=b')).toEqual({ status: 200, body: { isUserLoggedIn: false } });
 	});
-});
-
-test('the probes answer', () => {
-	expect(isAliveHandler()).toEqual({ status: 200, body: 'I am alive!' });
-	expect(isReadyHandler()).toEqual({ status: 200, body: { message: 'I am ready!' } });
 });

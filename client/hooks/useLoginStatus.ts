@@ -26,7 +26,7 @@ export const useLoginStatus = (): UseLoginStatusReturn => {
 			}
 		};
 
-		checkLoginStatus();
+		void checkLoginStatus();
 	}, []);
 
 	return { isUserLoggedIn, isLoading };

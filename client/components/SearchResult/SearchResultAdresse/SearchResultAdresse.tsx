@@ -47,6 +47,7 @@ export const SearchResultAdresse = ({
 					const isActive = activeIndex === index;
 
 					return (
+						// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus -- the keys go to the search field, which points here with aria-activedescendant
 						<div
 							id={getAddressOptionId(listboxId, index)}
 							key={label}

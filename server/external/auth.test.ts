@@ -61,7 +61,7 @@ describe('without a token from Texas', () => {
 		const error = vi.spyOn(logger, 'error');
 		upstreams.post(env.NAIS_TOKEN_ENDPOINT, { json: texasError, status: 400 });
 
-		await expect(getAuthorizationHeader()).rejects.toThrow();
+		await expect(getAuthorizationHeader()).rejects.toThrow('No token for nav-office-search-api');
 
 		expect(error.mock.calls).toEqual([['Failed to get a token from Texas', { status: 400, response: texasError }]]);
 	});

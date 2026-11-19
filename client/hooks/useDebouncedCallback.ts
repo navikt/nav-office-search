@@ -22,6 +22,7 @@ export const useDebouncedCallback = <Args extends unknown[]>(
 		latestCallbackRef.current = callback;
 	});
 
+	// oxlint-disable-next-line react/refs -- the refs are read when the debounced function runs, not while rendering
 	const [debounced] = useState(() => {
 		const cancel = () => {
 			clearTimeout(timerRef.current);

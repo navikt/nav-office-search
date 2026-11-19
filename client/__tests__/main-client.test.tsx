@@ -92,7 +92,7 @@ test('laster APM én gang, før appen rendres', async () => {
 	mountedRoot = vi.mocked(createRoot).mock.results[0]?.value;
 
 	expect(apm.loadApm).toHaveBeenCalledTimes(1);
-	expect(apm.loadApm.mock.invocationCallOrder[0]).toBeLessThan(vi.mocked(createRoot).mock.invocationCallOrder[0]!);
+	expect(apm.loadApm.mock.invocationCallOrder[0]).toBeLessThan(vi.mocked(createRoot).mock.invocationCallOrder[0]);
 });
 
 test('rapporterer til APM når hydreringen ikke stemmer med serverens HTML, og rendrer på klienten', async () => {

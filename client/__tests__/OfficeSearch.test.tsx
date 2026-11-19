@@ -377,11 +377,11 @@ describe('OfficeSearch', () => {
 				}),
 				parts: ['Ole', 'B', 'Berger'],
 			},
-		])('uthever $name i adresseforslag', async ({ query, adresse, parts }) => {
-			mockAddressSuggestions(query, [adresse]);
+		])('uthever $name i adresseforslag', async ({ query, adresse: suggestion, parts }) => {
+			mockAddressSuggestions(query, [suggestion]);
 			await searchFor(query);
 
-			const label = formatAddressLabel(adresse);
+			const label = formatAddressLabel(suggestion);
 			await screen.findByRole('option', { name: label });
 			expect(getHighlightedAddressParts(label)).toEqual(parts);
 		});
@@ -414,13 +414,10 @@ describe('OfficeSearch', () => {
 
 			expect(await screen.findByRole('option', { name: `Storgata ${visible}, 0184 OSLO` })).toBeInTheDocument();
 			const available = `${visible} adresseforslag tilgjengelig. Bruk piltastene for å velge.`;
-			if (hint) {
-				expect(screen.getByRole('listbox')).not.toContainElement(screen.getByText(hint));
-				expectLiveRegion(`${available} ${hint}`);
-			} else {
-				expect(screen.queryByText(/^Viser \d+ av \d+ adresseforslag/)).not.toBeInTheDocument();
-				expectLiveRegion(available);
-			}
+			const shownHint = screen.queryByText(/^Viser \d+ av \d+ adresseforslag/);
+			expect(shownHint?.textContent ?? null).toBe(hint);
+			expect(screen.getByRole('listbox')).not.toContainElement(shownHint);
+			expectLiveRegion(hint ? `${available} ${hint}` : available);
 		});
 
 		test('fjerner gamle søkeresultater og viser lasting når et nytt søk tar tid', async () => {
@@ -736,11 +733,7 @@ describe('OfficeSearch', () => {
 				expect(input).toHaveValue('storgata 1');
 				expect(input).toHaveAttribute('aria-expanded', 'false');
 				expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-				if (keepsFocus) {
-					expect(input).toHaveFocus();
-				} else {
-					expect(input).not.toHaveFocus();
-				}
+				expect(document.activeElement === input).toBe(keepsFocus);
 
 				await refocusSearchInput();
 				expect(screen.getByRole('option', { name: optionName })).toBeInTheDocument();

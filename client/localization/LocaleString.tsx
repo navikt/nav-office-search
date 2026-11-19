@@ -8,7 +8,7 @@ type Props = {
 	args?: string[];
 };
 
-export const LocaleString = ({ id, args = [] }: Props) => {
+export const LocaleString = ({ id, args }: Props) => {
 	const locale = useLocale();
 	return <>{localeString(id, locale, args)}</>;
 };

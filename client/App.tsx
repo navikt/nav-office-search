@@ -21,7 +21,7 @@ export const App = ({ locale = 'nb' }: Props) => {
 			window.history.replaceState(window.history.state, '', clientUrls.appPath[newLocale]);
 			document.documentElement.lang = newLocale;
 			document.title = localeString('documentTitle', newLocale) as string;
-			setParams(getDecoratorParams(newLocale));
+			void setParams(getDecoratorParams(newLocale));
 		};
 
 		onLanguageSelect((language) => {

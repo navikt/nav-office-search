@@ -10,7 +10,7 @@ import { installUpstreams } from '#test/upstream/upstreams.ts';
 import { BASE_PATH } from '#shared/basePath.ts';
 import type { AppLocale } from '#shared/localization/types.ts';
 import { createApp } from './app.ts';
-import { pageRenders, registry, searchDuration, searchRequests } from './metrics/metrics.ts';
+import { pageRenders, registry, searchRequests } from './metrics/metrics.ts';
 import type { HtmlRenderer } from './site/ssr/htmlRenderer.ts';
 import { env } from '#server/env.ts';
 
@@ -68,7 +68,6 @@ describe('the API', () => {
 		['/search?query=storgata%201', { type: 'adresse', adresseQuery: 'storgata 1' }],
 		['/search?query=storgata+1', { type: 'adresse', adresseQuery: 'storgata 1' }],
 		['/loginstatus', { isUserLoggedIn: false }],
-		['/internal/isReady', { message: 'I am ready!' }],
 	])('%s answers JSON', async (path, expected) => {
 		const response = await app.request(`${API}${path}`);
 
@@ -76,10 +75,11 @@ describe('the API', () => {
 		expect(await response.json()).toMatchObject(expected);
 	});
 
-	test('isAlive answers HTML, as a string body does', async () => {
-		const response = await app.request(`${API}/internal/isAlive`);
+	test.each(['/internal/alive', '/internal/ready'])('%s answers the probe, outside the base path', async (path) => {
+		const response = await app.request(path);
 
-		expect([response.status, mediaType(response), await response.text()]).toEqual([200, 'text/html', 'I am alive!']);
+		expect([response.status, await response.text()]).toEqual([200, 'OK']);
+		await expectNotFound(await app.request(`${BASE}${path}`));
 	});
 
 	test.each(['/search', '/search?query=4737&query=0150'])(
@@ -148,16 +148,27 @@ describe('metrics', () => {
 	test('serves the registry in its own format', async () => {
 		await app.request(`${API}/search?query=4737`);
 
-		const response = await app.request(`${API}/internal/metrics`);
+		const response = await app.request('/internal/metrics');
 		const text = await response.text();
 
 		expect(response.status).toBe(200);
 		expect(response.headers.get('content-type')).toBe(registry.contentType);
-		expect(text).toContain('nav_office_search_search_requests_total{route="search",outcome="hits"} 1');
+		expect(text).toContain('nav_office_search_search_requests_total{outcome="ok"} 1');
 		expect(text).toContain('nodejs_eventloop_lag_seconds');
 	});
 
-	test('counts each search by outcome and times it, with or without a trailing slash', async () => {
+	test('counts and times the requests a search makes, under the names the alert and the dashboards read', async () => {
+		await app.request(`${API}/search?query=4737`);
+
+		const text = await (await app.request('/internal/metrics')).text();
+
+		for (const upstream of ['texas', 'office-search-api/search']) {
+			expect(text).toContain(`nav_office_search_upstream_requests_total{upstream="${upstream}",status="2xx"} 1`);
+			expect(text).toContain(`nav_office_search_upstream_request_duration_seconds_count{upstream="${upstream}"} 1`);
+		}
+	});
+
+	test('counts each search by outcome, hits or not, with or without a trailing slash', async () => {
 		await app.request(`${API}/search?query=4737`);
 		await app.request(`${API}/search/?query=oslo`);
 		await app.request(`${API}/search?query=storgata+1`);
@@ -168,25 +179,22 @@ describe('metrics', () => {
 		await app.request(`${API}/search?query=4737`);
 
 		expect(await searchCounts()).toEqual([
-			{ route: 'search', outcome: 'hits', value: 3 },
-			{ route: 'search', outcome: 'empty', value: 2 },
-			{ route: 'search', outcome: 'invalid', value: 1 },
-			{ route: 'search', outcome: 'error', value: 1 },
+			{ outcome: 'ok', value: 5 },
+			{ outcome: 'invalid', value: 1 },
+			{ outcome: 'error', value: 1 },
 		]);
-		const timed = (await searchDuration.get()).values.filter(({ metricName }) => metricName?.endsWith('_count'));
-		expect(timed.map(({ labels, value }) => [labels.route, value])).toEqual([['search', 7]]);
 	});
 
 	test('counts a search on the old name and address paths as any other', async () => {
 		await app.request(`${API}/search/name?query=oslo`);
 		await app.request(`${API}/search/address?query=storgata+1`);
 
-		expect(await searchCounts()).toEqual([{ route: 'search', outcome: 'hits', value: 2 }]);
+		expect(await searchCounts()).toEqual([{ outcome: 'ok', value: 2 }]);
 	});
 
 	test('counts only searches', async () => {
 		await app.request(`${API}/loginstatus`);
-		await app.request(`${API}/internal/isAlive`);
+		await app.request('/internal/alive');
 		await app.request(`${API}/geoid?id=030101`);
 		await app.request(`${API}/finnes-ikke`);
 		await app.request(`${BASE}/nn`);
@@ -214,11 +222,11 @@ describe('pages', () => {
 
 	test('hands the renderer what the server hands the request', async () => {
 		const render = vi.fn(async () => '');
-		const env = { vite: 'the dev server' };
+		const bindings = { vite: 'the dev server' };
 
-		await appWith(render).request(`${BASE}/nn`, {}, env);
+		await appWith(render).request(`${BASE}/nn`, {}, bindings);
 
-		expect(render.mock.calls).toEqual([['nn', env]]);
+		expect(render.mock.calls).toEqual([['nn', bindings]]);
 	});
 
 	test('a failing render answers an empty 500, and is logged and counted', async () => {
@@ -367,7 +375,7 @@ describe('everything else', () => {
 	});
 
 	test.each(['POST', 'PUT', 'DELETE', 'OPTIONS'])('%s gets a plain 404', async (method) => {
-		for (const path of [`${API}/search?query=4737`, `${API}/internal/isAlive`, `${BASE}/nn`, `${BASE}/favicon.ico`]) {
+		for (const path of [`${API}/search?query=4737`, '/internal/alive', `${BASE}/nn`, `${BASE}/favicon.ico`]) {
 			await expectNotFound(await app.request(path, { method }));
 		}
 	});
