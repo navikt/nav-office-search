@@ -16,6 +16,7 @@ export const localeModuleEn: LocaleModule = {
 	errorInvalidQuery: 'Invalid search query',
 	errorInvalidPostnr: 'The post code does not exist',
 	errorServerError: 'Unknown server error',
+	errorAddressWithoutOffice: 'No Nav office found belonging to this address',
 	errorInvalidResult: 'Server error: invalid search result',
 	errorInputValidationLength: 'Enter at least two letters or a valid post code',
 	errorInputValidationPostnr: 'Post code search must be four digits',

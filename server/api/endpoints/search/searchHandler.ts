@@ -21,6 +21,16 @@ export const searchHandler = async (query?: string): Promise<ApiResponse<SearchR
 			logger.error('Search failed', { status: response.status });
 		}
 
+		if (body.type === 'adresse') {
+			const missingOffices = body.adresser.filter((address) => address.officeInfo === null);
+			if (missingOffices.length > 0) {
+				logger.warn('Search returned addresses without an office', {
+					areas: missingOffices.map(({ kommunenummer, bydelsnummer }) => ({ kommunenummer, bydelsnummer })),
+					missingOfficeCount: missingOffices.length,
+				});
+			}
+		}
+
 		return { status: response.status, body };
 	} catch (e) {
 		// Not the query, which can be an address someone typed

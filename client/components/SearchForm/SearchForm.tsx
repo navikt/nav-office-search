@@ -7,6 +7,7 @@ import { SearchResult } from '#client/components/SearchResult/SearchResult.tsx';
 import { type OfficeInfo, PostnrKategori } from '#shared/types/data.ts';
 import type { Adresse, SearchResultAdresseProps, SearchResultPostnrProps } from '#shared/types/results.ts';
 import { createSearchApi, errorMessageOf } from '#client/utils/searchApi.ts';
+import { captureException } from '#client/utils/apm.ts';
 import { useDebouncedCallback } from '#client/hooks/useDebouncedCallback.ts';
 import type { AppLocale } from '#shared/localization/types.ts';
 import { isValidNameQuery, isValidPostnrQuery } from '#shared/validateInput.ts';
@@ -208,7 +209,11 @@ export const SearchForm = () => {
 				dispatch({ type: 'officeFound', result: officeResult(adresse.officeInfo), label });
 			} else {
 				// Its bydel or kommune has no office
-				dispatch({ type: 'failed', messageId: 'errorServerError' });
+				captureException(new Error('Selected address has no office'), {
+					fingerprint: 'search.address-without-office',
+					context: { kommunenummer: adresse.kommunenummer, bydelsnummer: adresse.bydelsnummer },
+				});
+				dispatch({ type: 'failed', messageId: 'errorAddressWithoutOffice' });
 			}
 		},
 		[cancelSearch],
