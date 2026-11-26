@@ -18,8 +18,7 @@
 		"lint": "oxfmt --check && oxlint && tsc --noEmit",
 		"test": "vitest run",
 		"format": "oxfmt",
-		"format:check": "oxfmt --check",
-		"prepare": "husky || true"
+		"format:check": "oxfmt --check"
 	},
 	"dependencies": {
 		"@hono/node-server": "2.1.8",
@@ -48,9 +47,8 @@
 		"@types/react": "19.3.0",
 		"@types/react-dom": "19.3.0",
 		"@vitejs/plugin-react": "6.3.0",
-		"husky": "9.1.7",
 		"jsdom": "30.1.3",
-		"lint-staged": "17.6.1",
+		"lefthook": "2.2.2",
 		"oxfmt": "0.78.0",
 		"oxlint": "1.93.0",
 		"oxlint-tsgolint": "7.0.2007",
@@ -58,13 +56,6 @@
 		"typescript": "6.0.3",
 		"vite": "8.3.8",
 		"vitest": "5.1.0"
-	},
-	"lint-staged": {
-		"*.{js,jsx,ts,tsx}": [
-			"oxfmt --no-error-on-unmatched-pattern",
-			"oxlint --no-error-on-unmatched-pattern"
-		],
-		"*.{json,md,yml,yaml,css,scss,html}": "oxfmt --no-error-on-unmatched-pattern"
 	},
 	"devEngines": {
 		"runtime": {

@@ -1,4 +1,4 @@
-# Søk opp NAV-kontor
+# Søk opp Nav-kontor
 
 Web-app for å søke etter Nav-kontor med postnummer, by/stedsnavn eller adresse.
 
@@ -54,7 +54,7 @@ Bygger til `dist/` og kjører det, mot de samme mockene. Imaget inneholder `dist
 
 ### Formatering og linting
 
-Koden formateres med [oxfmt](https://oxc.rs/docs/guide/usage/formatter) (`pnpm format`, sjekk med `pnpm format:check`) og lintes med [oxlint](https://oxc.rs/docs/guide/usage/linter). `pnpm lint` sjekker formatering, lint-regler og typer. Pre-commit-hooken formaterer og linter stagede filer automatisk.
+Koden formateres med [oxfmt](https://oxc.rs/docs/guide/usage/formatter) (`pnpm format`, sjekk med `pnpm format:check`) og lintes med [oxlint](https://oxc.rs/docs/guide/usage/linter). `pnpm lint` sjekker formatering, lint-regler og typer. Git-hookene settes opp av [lefthook](https://lefthook.dev) (`lefthook.yml`): pre-commit linter og formaterer stagede filer og sjekker typene, og pre-push kjører testene.
 
 Commits som kun endrer formatering ligger i `.git-blame-ignore-revs`. GitHub hopper over dem i blame automatisk; lokalt må det slås på én gang:
 

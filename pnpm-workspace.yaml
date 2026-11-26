@@ -1,3 +1,4 @@
 minimumReleaseAge: 4320
-# Packages we publish ourselves: Nav's (@navikt and @nais) on GitHub Packages, and @itsy's (corgi, html) on npm
 minimumReleaseAgeExclude: ['@navikt/*', '@nais/*', '@itsy/*']
+allowBuilds:
+  lefthook: true
