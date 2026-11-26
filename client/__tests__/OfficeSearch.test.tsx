@@ -701,7 +701,7 @@ describe('OfficeSearch', () => {
 
 			await user.click(await screen.findByRole('option', { name: 'Fergeleiet 1, 5004 BERGEN' }));
 
-			expect(screen.getByText('Ukjent server-feil')).toBeInTheDocument();
+			expect(screen.getByText('Fant ingen Nav-kontor tilknyttet denne adressen')).toBeInTheDocument();
 			expect(getSearchInput()).toHaveValue('Fergeleiet 1, 5004 BERGEN');
 			expect(screen.queryByRole('link', { name: /^Nav / })).not.toBeInTheDocument();
 			expect(getLiveRegion()).toBeEmptyDOMElement();
