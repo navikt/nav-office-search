@@ -15,6 +15,7 @@ export const localeModuleNb = {
 	errorInvalidQuery: 'Feil i søke-streng',
 	errorInvalidPostnr: 'Postnummeret finnes ikke',
 	errorServerError: 'Ukjent server-feil',
+	errorAddressWithoutOffice: 'Fant ingen Nav-kontor tilknyttet denne adressen',
 	errorInvalidResult: 'Server-feil: Feil i søke-resultatet',
 	errorInputValidationLength: 'Skriv inn minst to bokstaver eller et postnummer',
 	errorInputValidationPostnr: 'Postnummer-søk må være fire siffer',

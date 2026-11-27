@@ -208,7 +208,7 @@ export const SearchForm = () => {
 				dispatch({ type: 'officeFound', result: officeResult(adresse.officeInfo), label });
 			} else {
 				// Its bydel or kommune has no office
-				dispatch({ type: 'failed', messageId: 'errorServerError' });
+				dispatch({ type: 'failed', messageId: 'errorAddressWithoutOffice' });
 			}
 		},
 		[cancelSearch],
