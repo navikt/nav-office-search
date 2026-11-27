@@ -22,18 +22,8 @@ export const createSearchApi = () => {
 		// on its way to the caller. An error the API answers with on purpose isn't, and neither is a cancelled search.
 		search: (query: string) =>
 			api.get<SearchResult>(clientUrls.searchApi, { query: { query }, responseType: 'json' }).catch((e: unknown) => {
-				if (
-					!isAbortError(e) &&
-					(!isErrorAnswer(e) || (isHttpError(e) && e.status >= 500) || errorMessageOf(e) === 'errorServerError')
-				) {
-					const error = new Error(
-						isHttpError(e)
-							? `Search request failed (HTTP ${e.status})`
-							: 'Search request failed without a usable response',
-					);
-					captureException(error, { fingerprint: 'fetch.search' });
-					// APM also captures console.error, so use warn to avoid reporting the same failure twice.
-					console.warn(error);
+				if (!isAbortError(e) && !isErrorAnswer(e)) {
+					captureException(e, { fingerprint: 'fetch.search' });
 				}
 				throw e;
 			}),
